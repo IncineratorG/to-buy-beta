@@ -7,6 +7,7 @@ const CategoriesList = ({
   categoriesList,
   selectedCategory,
   onCategoryPress,
+  onCategoryLongPress,
 }) => {
   const renderItem = ({item}) => {
     return (
@@ -14,6 +15,7 @@ const CategoriesList = ({
         category={item}
         selectedCategory={selectedCategory}
         onCategoryPress={onCategoryPress}
+        onCategoryLongPress={onCategoryLongPress}
       />
     );
   };

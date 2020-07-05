@@ -21,6 +21,8 @@ const ProductInputAreaView = ({styles, model, controller}) => {
     confirmInputButtonPressHandler,
     changeInputTextHandler,
     categoryPressHandler,
+    categoryLongPressHandler,
+    addCategoryPressHandler,
     unitPressHandler,
   } = controller;
 
@@ -31,6 +33,8 @@ const ProductInputAreaView = ({styles, model, controller}) => {
         unitsList={unitsList}
         categoriesList={categoriesList}
         onCategoryPress={categoryPressHandler}
+        onCategoryLongPress={categoryLongPressHandler}
+        onAddCategoryPress={addCategoryPressHandler}
         onUnitPress={unitPressHandler}
       />
     </View>

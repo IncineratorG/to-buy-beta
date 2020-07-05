@@ -34,10 +34,6 @@ export const useProductInputAreaController = (model) => {
   };
 
   const changeInputTextHandler = ({text, inputType}) => {
-    SystemEventsHandler.onInfo({
-      info: 'changeInputTextHandler(): ' + text + ' - ' + inputType,
-    });
-
     switch (inputType) {
       case ProductInputType.PRODUCT_NAME: {
         model.componentDispatch(piaa_setProductName({name: text}));
@@ -68,6 +64,18 @@ export const useProductInputAreaController = (model) => {
     model.componentDispatch(piaa_setCategory({category}));
   };
 
+  const categoryLongPressHandler = ({category}) => {
+    SystemEventsHandler.onInfo({
+      info: 'categoryLongPressHandler(): ' + JSON.stringify(category),
+    });
+  };
+
+  const addCategoryPressHandler = () => {
+    model.externalHandlers.onAddCategoryPress({
+      productInputState: model.data.state,
+    });
+  };
+
   const unitPressHandler = ({unit}) => {
     model.componentDispatch(piaa_setUnit({unit}));
   };
@@ -79,6 +87,8 @@ export const useProductInputAreaController = (model) => {
     confirmInputButtonPressHandler,
     changeInputTextHandler,
     categoryPressHandler,
+    categoryLongPressHandler,
+    addCategoryPressHandler,
     unitPressHandler,
   };
 };

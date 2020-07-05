@@ -17,7 +17,8 @@ const ProductInputTypes = ({
         contentContainerStyle={styles.inputTypesContainer}
         horizontal={true}
         keyboardShouldPersistTaps={'always'}
-        keyboardDismissMode={'none'}>
+        keyboardDismissMode={'none'}
+        showsHorizontalScrollIndicator={false}>
         <View style={styles.productNameTypeContainer}>
           <IconButton
             label={t('ProductInputTypes_productNameType')}

@@ -6,6 +6,7 @@ import {piaa_hideInputArea} from '../stores/productInputAreaActions';
 
 export const useProductInputAreaModel = ({
   onInputAreaHide,
+  onAddCategoryPress,
   categoriesList,
   categoriesMap,
   unitsList,
@@ -40,6 +41,10 @@ export const useProductInputAreaModel = ({
       unitsMap,
     },
     setters: {},
+    externalHandlers: {
+      onInputAreaHide,
+      onAddCategoryPress,
+    },
     componentDispatch: dispatch,
   };
 };

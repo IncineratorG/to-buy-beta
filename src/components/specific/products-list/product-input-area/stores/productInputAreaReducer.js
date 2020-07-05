@@ -18,6 +18,10 @@ import productInputAcceptable from './helpers/productInputAcceptable';
 function productInputAreaReducer(state, action) {
   switch (action.type) {
     case HIDE_INPUT_AREA: {
+      SystemEventsHandler.onInfo({
+        info: 'productInputAreaReducer(): HIDE_INPUT_AREA',
+      });
+
       return {
         ...state,
         currentInput: {

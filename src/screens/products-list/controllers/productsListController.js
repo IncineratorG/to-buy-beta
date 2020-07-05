@@ -77,9 +77,23 @@ export const useProductsListController = (model) => {
     });
   };
 
+  const addCategoryPressHandler = ({productInputState}) => {
+    SystemEventsHandler.onInfo({
+      info: 'addCategoryPressHandler(): ' + JSON.stringify(productInputState),
+    });
+    model.setters.setAddCategoryDialogVisible(true);
+  };
+
   const shadedBackgroundPressHandler = () => {
     SystemEventsHandler.onInfo({info: 'shadedBackgroundPressHandler()'});
     model.setters.setInputAreaVisible(false);
+  };
+
+  const addCategoryDialogTouchOutsideHandler = () => {
+    SystemEventsHandler.onInfo({
+      info: 'addCategoryDialogTouchOutsideHandler()',
+    });
+    model.setters.setAddCategoryDialogVisible(false);
   };
 
   return {
@@ -91,6 +105,8 @@ export const useProductsListController = (model) => {
     productPressHandler,
     productRemoveHandler,
     categoryPressHandler,
+    addCategoryPressHandler,
     shadedBackgroundPressHandler,
+    addCategoryDialogTouchOutsideHandler,
   };
 };

@@ -14,6 +14,9 @@ export const useProductsListModel = () => {
   const [dataLoading, setDataLoading] = useState(true);
   const [usedCategoriesLoading, setUsedCategoriesLoading] = useState(false);
   const [inputAreaVisible, setInputAreaVisible] = useState(false);
+  const [addCategoryDialogVisible, setAddCategoryDialogVisible] = useState(
+    false,
+  );
 
   const shoppingListId = useSelector(
     (state) => state.productsList.productsList.id,
@@ -62,9 +65,11 @@ export const useProductsListModel = () => {
       categoriesList,
       categoriesMap,
       inputAreaVisible,
+      addCategoryDialogVisible,
     },
     setters: {
       setInputAreaVisible,
+      setAddCategoryDialogVisible,
     },
     navigation,
     dispatch,

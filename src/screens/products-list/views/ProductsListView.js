@@ -8,6 +8,8 @@ import ProductCategoriesList from '../../../components/specific/products-list/pr
 import ProductCategoriesListLoading from '../../../components/specific/products-list/product-categories-list-loading/ProductCategoriesListLoading';
 import ListOfProductsLoading from '../../../components/specific/products-list/list-of-products-loading/ListOfProductsLoading';
 import ProductInputArea from '../../../components/specific/products-list/product-input-area/ProductInputArea';
+import {Dialog} from 'react-native-simple-dialogs';
+import AddCategoryDialog from '../../../components/specific/products-list/add-category-dialog/AddCategoryDialog';
 
 const ProductsListView = ({styles, model, controller}) => {
   const {
@@ -20,6 +22,7 @@ const ProductsListView = ({styles, model, controller}) => {
     categoriesList,
     categoriesMap,
     inputAreaVisible,
+    addCategoryDialogVisible,
   } = model.data;
 
   const {
@@ -30,8 +33,19 @@ const ProductsListView = ({styles, model, controller}) => {
     productPressHandler,
     productRemoveHandler,
     categoryPressHandler,
+    addCategoryPressHandler,
     shadedBackgroundPressHandler,
+    addCategoryDialogTouchOutsideHandler,
   } = controller;
+
+  // ===
+  const addCategoryDialog = (
+    <AddCategoryDialog
+      visible={addCategoryDialogVisible}
+      onTouchOutside={addCategoryDialogTouchOutsideHandler}
+    />
+  );
+  // ===
 
   const bottomGradientComponent = (
     <LinearGradient
@@ -98,6 +112,7 @@ const ProductsListView = ({styles, model, controller}) => {
     <View style={styles.inputAreaContainer}>
       <ProductInputArea
         onInputAreaHide={inputAreaHideHandler}
+        onAddCategoryPress={addCategoryPressHandler}
         categoriesList={categoriesList}
         categoriesMap={categoriesMap}
         unitsList={unitsList}
@@ -124,6 +139,7 @@ const ProductsListView = ({styles, model, controller}) => {
       {inputAreaComponent}
       {shadedBackgroundComponent}
       {bottomGradientComponent}
+      {addCategoryDialog}
     </View>
   );
 

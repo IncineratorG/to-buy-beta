@@ -9,6 +9,8 @@ const ProductInputOptions = ({
   unitsList,
   categoriesList,
   onCategoryPress,
+  onCategoryLongPress,
+  onAddCategoryPress,
   onUnitPress,
 }) => {
   const {type} = state.currentInput;
@@ -21,6 +23,8 @@ const ProductInputOptions = ({
           state={state}
           categoriesList={categoriesList}
           onCategoryPress={onCategoryPress}
+          onCategoryLongPress={onCategoryLongPress}
+          onAddCategoryPress={onAddCategoryPress}
         />
       );
       break;

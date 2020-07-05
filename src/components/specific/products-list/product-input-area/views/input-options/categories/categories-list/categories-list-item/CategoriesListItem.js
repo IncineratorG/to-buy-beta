@@ -4,7 +4,12 @@ import {SystemEventsHandler} from '../../../../../../../../../services/service-u
 import TextColorDeterminer from '../../../../../../../../common/text-color-determiner/TextColorDeterminer';
 import {useTranslation} from '../../../../../../../../common/localization';
 
-const CategoriesListItem = ({category, selectedCategory, onCategoryPress}) => {
+const CategoriesListItem = ({
+  category,
+  selectedCategory,
+  onCategoryPress,
+  onCategoryLongPress,
+}) => {
   const {t} = useTranslation();
 
   const categoryName = category.translationMark
@@ -19,10 +24,17 @@ const CategoriesListItem = ({category, selectedCategory, onCategoryPress}) => {
     }
   };
 
+  const categoryLongPressHandler = () => {
+    if (onCategoryLongPress) {
+      onCategoryLongPress({category});
+    }
+  };
+
   return (
     <TouchableWithoutFeedback
       style={styles.touchable}
-      onPress={categoryPressHandler}>
+      onPress={categoryPressHandler}
+      onLongPress={categoryLongPressHandler}>
       <View
         style={[
           styles.mainContainer,
