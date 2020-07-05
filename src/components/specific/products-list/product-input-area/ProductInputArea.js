@@ -4,9 +4,21 @@ import {useProductInputAreaModel} from './models/productInputAreaModel';
 import {useProductInputAreaController} from './controllers/productInputAreaController';
 import ProductInputAreaView from './views/ProductInputAreaView';
 
-const ProductInputArea = () => {
+const ProductInputArea = ({
+  onInputAreaHide,
+  categoriesList,
+  categoriesMap,
+  unitsList,
+  unitsMap,
+}) => {
   const styles = productInputAreaStyles;
-  const model = useProductInputAreaModel();
+  const model = useProductInputAreaModel({
+    onInputAreaHide,
+    categoriesList,
+    categoriesMap,
+    unitsList,
+    unitsMap,
+  });
   const controller = useProductInputAreaController(model);
 
   return (

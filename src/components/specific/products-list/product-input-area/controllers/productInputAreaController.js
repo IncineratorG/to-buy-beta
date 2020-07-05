@@ -3,9 +3,12 @@ import {
   piaa_selectProductNameType,
   piaa_selectProductNoteType,
   piaa_selectProductQuantityType,
+  piaa_setCategory,
   piaa_setNote,
   piaa_setProductName,
-  piaa_setQuantity, piaa_submitValues,
+  piaa_setQuantity,
+  piaa_setUnit,
+  piaa_submitValues,
 } from '../stores/productInputAreaActions';
 import ProductInputType from '../stores/types/productInputAreaProductInputTypes';
 
@@ -61,11 +64,21 @@ export const useProductInputAreaController = (model) => {
     }
   };
 
+  const categoryPressHandler = ({category}) => {
+    model.componentDispatch(piaa_setCategory({category}));
+  };
+
+  const unitPressHandler = ({unit}) => {
+    model.componentDispatch(piaa_setUnit({unit}));
+  };
+
   return {
     productNameTypePressHandler,
     productQuantityTypePressHandler,
     productNoteTypePressHandler,
     confirmInputButtonPressHandler,
     changeInputTextHandler,
+    categoryPressHandler,
+    unitPressHandler,
   };
 };

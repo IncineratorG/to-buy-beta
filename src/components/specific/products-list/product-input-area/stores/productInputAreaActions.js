@@ -1,12 +1,22 @@
 import {
+  HIDE_INPUT_AREA,
   SELECT_PRODUCT_NAME,
   SELECT_PRODUCT_NOTE,
   SELECT_PRODUCT_QUANTITY,
+  SET_CATEGORY,
   SET_NOTE,
   SET_PRODUCT_NAME,
   SET_QUANTITY,
+  SET_UNIT,
   SUBMIT_VALUES,
 } from './types/productInputAreaActionTypes';
+
+export const piaa_hideInputArea = () => {
+  return {
+    type: HIDE_INPUT_AREA,
+    payload: undefined,
+  };
+};
 
 export const piaa_selectProductNameType = () => {
   return {
@@ -47,6 +57,20 @@ export const piaa_setNote = ({note}) => {
   return {
     type: SET_NOTE,
     payload: {note},
+  };
+};
+
+export const piaa_setCategory = ({category}) => {
+  return {
+    type: SET_CATEGORY,
+    payload: {category},
+  };
+};
+
+export const piaa_setUnit = ({unit}) => {
+  return {
+    type: SET_UNIT,
+    payload: {unit},
   };
 };
 

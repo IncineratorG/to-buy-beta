@@ -6,7 +6,13 @@ import ProductMainInput from './main-input/ProductMainInput';
 import {SystemEventsHandler} from '../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 
 const ProductInputAreaView = ({styles, model, controller}) => {
-  const {state} = model.data;
+  const {
+    state,
+    categoriesList,
+    categoriesMap,
+    unitsList,
+    unitsMap,
+  } = model.data;
 
   const {
     productNameTypePressHandler,
@@ -14,11 +20,19 @@ const ProductInputAreaView = ({styles, model, controller}) => {
     productNoteTypePressHandler,
     confirmInputButtonPressHandler,
     changeInputTextHandler,
+    categoryPressHandler,
+    unitPressHandler,
   } = controller;
 
   const inputOptionsComponent = (
     <View style={styles.topAreaContainer}>
-      <ProductInputOptions />
+      <ProductInputOptions
+        state={state}
+        unitsList={unitsList}
+        categoriesList={categoriesList}
+        onCategoryPress={categoryPressHandler}
+        onUnitPress={unitPressHandler}
+      />
     </View>
   );
 

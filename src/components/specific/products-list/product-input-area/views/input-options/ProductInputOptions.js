@@ -1,14 +1,44 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
+import ProductInputType from '../../stores/types/productInputAreaProductInputTypes';
+import CategoriesOption from './categories/CategoriesOption';
+import UnitsOption from './units/UnitsOption';
 
-const ProductInputOptions = () => {
-  return <View style={styles.mainContainer} />;
+const ProductInputOptions = ({
+  state,
+  unitsList,
+  categoriesList,
+  onCategoryPress,
+  onUnitPress,
+}) => {
+  const {type} = state.currentInput;
+
+  let optionsComponent = null;
+  switch (type) {
+    case ProductInputType.PRODUCT_NAME: {
+      optionsComponent = (
+        <CategoriesOption
+          state={state}
+          categoriesList={categoriesList}
+          onCategoryPress={onCategoryPress}
+        />
+      );
+      break;
+    }
+
+    case ProductInputType.QUANTITY: {
+      optionsComponent = <UnitsOption state={state} unitsList={unitsList} />;
+      break;
+    }
+  }
+
+  return <View style={styles.mainContainer}>{optionsComponent}</View>;
 };
 
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: 'purple',
+    backgroundColor: 'transparent',
   },
 });
 

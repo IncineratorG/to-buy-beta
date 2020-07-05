@@ -13,6 +13,8 @@ const productInputAreaState = {
       note: '',
       acceptable: false,
     },
+    selectedCategory: undefined,
+    selectedUnit: undefined,
   },
 };
 

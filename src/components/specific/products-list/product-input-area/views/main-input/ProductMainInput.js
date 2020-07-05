@@ -14,20 +14,20 @@ import ProductInputType from '../../stores/types/productInputAreaProductInputTyp
 const ProductMainInput = ({state, onConfirmPress, onChangeText}) => {
   const {keyboardType, icon, placeholder, type, values} = state.currentInput;
 
-  let currentValue = '';
+  let textInputValue = '';
   switch (type) {
     case ProductInputType.PRODUCT_NAME: {
-      currentValue = values.productName;
+      textInputValue = values.productName;
       break;
     }
 
     case ProductInputType.QUANTITY: {
-      currentValue = values.quantity;
+      textInputValue = values.quantity;
       break;
     }
 
     case ProductInputType.NOTE: {
-      currentValue = values.note;
+      textInputValue = values.note;
       break;
     }
   }
@@ -35,7 +35,7 @@ const ProductMainInput = ({state, onConfirmPress, onChangeText}) => {
   const {t} = useTranslation();
 
   const onSubmitEditing = () => {
-    if (onConfirmPress) {
+    if (values.acceptable && onConfirmPress) {
       onConfirmPress();
     }
   };
@@ -55,7 +55,7 @@ const ProductMainInput = ({state, onConfirmPress, onChangeText}) => {
       </View>
       <View style={styles.textInputContainer}>
         <TextInput
-          value={currentValue}
+          value={textInputValue}
           autoFocus={true}
           keyboardType={keyboardType}
           blurOnSubmit={false}
@@ -68,8 +68,13 @@ const ProductMainInput = ({state, onConfirmPress, onChangeText}) => {
       <View style={styles.confirmButtonContainer}>
         <TouchableHighlight
           style={styles.confirmButtonTouchable}
-          onPress={onConfirmPress}>
-          <View style={styles.confirmButton}>
+          onPress={values.acceptable ? onConfirmPress : null}>
+          <View
+            style={[
+              styles.confirmButton,
+              // eslint-disable-next-line react-native/no-inline-styles
+              {backgroundColor: values.acceptable ? '#304FFE' : '#CCCCCC'},
+            ]}>
             <Image style={styles.confirmButtonIcon} source={icons.arrow_up} />
           </View>
         </TouchableHighlight>

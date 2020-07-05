@@ -20,24 +20,12 @@ export const useProductsListController = (model) => {
 
   const addProductButtonHandler = () => {
     SystemEventsHandler.onInfo({info: 'addProductButtonHandler()'});
-
     model.setters.setInputAreaVisible(!model.data.inputAreaVisible);
-
-    // const product = {
-    //   editor: '',
-    //   shoppingListId: model.data.shoppingListId,
-    //   name: 'New Product',
-    //   quantity: 1,
-    //   note: 'Test Note',
-    //   unitId: 1,
-    //   categoryId: 1,
-    // };
-    //
-    // model.dispatch(addProductAction(product));
   };
 
-  const inputAreaHideHandler = () => {
+  const inputAreaHideHandler = ({inputAreaState}) => {
     SystemEventsHandler.onInfo({info: 'inputAreaHideHandler()'});
+    model.setters.setInputAreaVisible(false);
   };
 
   const inputAreaSubmitValuesHandler = (values) => {

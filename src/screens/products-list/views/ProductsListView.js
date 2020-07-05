@@ -96,7 +96,13 @@ const ProductsListView = ({styles, model, controller}) => {
 
   const inputAreaComponent = inputAreaVisible ? (
     <View style={styles.inputAreaContainer}>
-      <ProductInputArea />
+      <ProductInputArea
+        onInputAreaHide={inputAreaHideHandler}
+        categoriesList={categoriesList}
+        categoriesMap={categoriesMap}
+        unitsList={unitsList}
+        unitsMap={unitsMap}
+      />
     </View>
   ) : null;
 
