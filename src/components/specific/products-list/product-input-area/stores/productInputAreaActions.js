@@ -5,6 +5,7 @@ import {
   SET_NOTE,
   SET_PRODUCT_NAME,
   SET_QUANTITY,
+  SUBMIT_VALUES,
 } from './types/productInputAreaActionTypes';
 
 export const piaa_selectProductNameType = () => {
@@ -46,5 +47,12 @@ export const piaa_setNote = ({note}) => {
   return {
     type: SET_NOTE,
     payload: {note},
+  };
+};
+
+export const piaa_submitValues = () => {
+  return {
+    type: SUBMIT_VALUES,
+    payload: undefined,
   };
 };

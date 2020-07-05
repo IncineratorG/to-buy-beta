@@ -5,6 +5,7 @@ import {
   SET_NOTE,
   SET_PRODUCT_NAME,
   SET_QUANTITY,
+  SUBMIT_VALUES,
 } from './types/productInputAreaActionTypes';
 import {SystemEventsHandler} from '../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import {icons} from '../../../../../assets/icons';
@@ -87,6 +88,25 @@ function productInputAreaReducer(state, action) {
           values: {
             ...state.currentInput.values,
             note: action.payload.note,
+          },
+        },
+      };
+    }
+
+    case SUBMIT_VALUES: {
+      return {
+        ...state,
+        currentInput: {
+          ...state.currentInput,
+          type: ProductInputType.PRODUCT_NAME,
+          keyboardType: 'default',
+          icon: icons.title,
+          placeholder: 'ProductMainInput_placeholderProductName',
+          values: {
+            productName: '',
+            quantity: '',
+            note: '',
+            acceptable: false,
           },
         },
       };

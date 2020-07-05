@@ -5,7 +5,7 @@ import {
   piaa_selectProductQuantityType,
   piaa_setNote,
   piaa_setProductName,
-  piaa_setQuantity,
+  piaa_setQuantity, piaa_submitValues,
 } from '../stores/productInputAreaActions';
 import ProductInputType from '../stores/types/productInputAreaProductInputTypes';
 
@@ -27,6 +27,7 @@ export const useProductInputAreaController = (model) => {
 
   const confirmInputButtonPressHandler = () => {
     SystemEventsHandler.onInfo({info: 'confirmInputButtonPressHandler()'});
+    model.componentDispatch(piaa_submitValues());
   };
 
   const changeInputTextHandler = ({text, inputType}) => {

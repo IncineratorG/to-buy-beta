@@ -11,6 +11,7 @@ const productInputAreaState = {
       productName: '',
       quantity: '',
       note: '',
+      acceptable: false,
     },
   },
 };

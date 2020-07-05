@@ -9,9 +9,28 @@ import {
 import {icons} from '../../../../../../assets/icons';
 import {SystemEventsHandler} from '../../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import {useTranslation} from '../../../../../common/localization';
+import ProductInputType from '../../stores/types/productInputAreaProductInputTypes';
 
 const ProductMainInput = ({state, onConfirmPress, onChangeText}) => {
   const {keyboardType, icon, placeholder, type, values} = state.currentInput;
+
+  let currentValue = '';
+  switch (type) {
+    case ProductInputType.PRODUCT_NAME: {
+      currentValue = values.productName;
+      break;
+    }
+
+    case ProductInputType.QUANTITY: {
+      currentValue = values.quantity;
+      break;
+    }
+
+    case ProductInputType.NOTE: {
+      currentValue = values.note;
+      break;
+    }
+  }
 
   const {t} = useTranslation();
 
@@ -36,6 +55,7 @@ const ProductMainInput = ({state, onConfirmPress, onChangeText}) => {
       </View>
       <View style={styles.textInputContainer}>
         <TextInput
+          value={currentValue}
           autoFocus={true}
           keyboardType={keyboardType}
           blurOnSubmit={false}
