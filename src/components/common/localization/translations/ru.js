@@ -53,4 +53,8 @@ export const ru = {
   ProductInputTypes_productNameType: 'Название продукта',
   ProductInputTypes_productQuantityType: 'Количество',
   ProductInputTypes_productNoteType: 'Примечание',
+
+  ProductMainInput_placeholderProductName: 'Название продукта',
+  ProductMainInput_placeholderQuantity: 'Количество',
+  ProductMainInput_placeholderNote: 'Примечание',
 };

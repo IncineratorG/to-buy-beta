@@ -1,5 +1,5 @@
-import React, {useRef} from 'react';
-import {TextInput, View} from 'react-native';
+import React from 'react';
+import {View} from 'react-native';
 import ProductInputTypes from './input-types/ProductInputTypes';
 import ProductInputOptions from './input-options/ProductInputOptions';
 import ProductMainInput from './main-input/ProductMainInput';
@@ -13,6 +13,7 @@ const ProductInputAreaView = ({styles, model, controller}) => {
     productQuantityTypePressHandler,
     productNoteTypePressHandler,
     confirmInputButtonPressHandler,
+    changeInputTextHandler,
   } = controller;
 
   const inputOptionsComponent = (
@@ -26,6 +27,7 @@ const ProductInputAreaView = ({styles, model, controller}) => {
       <ProductMainInput
         state={state}
         onConfirmPress={confirmInputButtonPressHandler}
+        onChangeText={changeInputTextHandler}
       />
     </View>
   );

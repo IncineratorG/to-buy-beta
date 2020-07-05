@@ -8,18 +8,23 @@ import {
 } from 'react-native';
 import {icons} from '../../../../../../assets/icons';
 import {SystemEventsHandler} from '../../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {useTranslation} from '../../../../../common/localization';
 
-const ProductMainInput = ({onConfirmPress, state}) => {
-  const {keyboardType, icon} = state.currentInput;
+const ProductMainInput = ({state, onConfirmPress, onChangeText}) => {
+  const {keyboardType, icon, placeholder, type, values} = state.currentInput;
 
-  const placeholder = 'Placeholder';
+  const {t} = useTranslation();
 
   const onSubmitEditing = () => {
-    SystemEventsHandler.onInfo({info: 'onSubmitEditing'});
+    if (onConfirmPress) {
+      onConfirmPress();
+    }
   };
 
-  const onChangeText = () => {
-    SystemEventsHandler.onInfo({info: 'onChangeText'});
+  const changeTextHandler = (text) => {
+    if (onChangeText) {
+      onChangeText({text, inputType: type});
+    }
   };
 
   return (
@@ -34,10 +39,10 @@ const ProductMainInput = ({onConfirmPress, state}) => {
           autoFocus={true}
           keyboardType={keyboardType}
           blurOnSubmit={false}
-          placeholder={placeholder}
+          placeholder={t(placeholder)}
           fontSize={18}
           onSubmitEditing={onSubmitEditing}
-          onChangeText={onChangeText}
+          onChangeText={changeTextHandler}
         />
       </View>
       <View style={styles.confirmButtonContainer}>
