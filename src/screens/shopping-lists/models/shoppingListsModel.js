@@ -15,7 +15,7 @@ export const useShoppingListsModel = () => {
     removeConfirmationDialogVisible,
     setRemoveConfirmationDialogVisible,
   ] = useState(false);
-  const [removeItemName, setRemoveItemName] = useState('');
+  const [listToRemove, setListToRemove] = useState(null);
 
   const listsLoading = useSelector(
     (state) => state.shoppingLists.shoppingLists.loading,
@@ -46,15 +46,15 @@ export const useShoppingListsModel = () => {
   return {
     data: {
       removeConfirmationDialogVisible,
-      removeItemName,
       online,
       currentEmail,
       selectedShoppingLists,
       listsLoading,
+      listToRemove,
     },
     setters: {
       setRemoveConfirmationDialogVisible,
-      setRemoveItemName,
+      setListToRemove,
     },
     navigation,
     dispatch,

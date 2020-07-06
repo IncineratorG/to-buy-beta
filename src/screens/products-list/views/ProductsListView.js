@@ -23,6 +23,7 @@ const ProductsListView = ({styles, model, controller}) => {
     categoriesMap,
     inputAreaVisible,
     addCategoryDialogVisible,
+    inputAreaState,
   } = model.data;
 
   const {
@@ -36,6 +37,8 @@ const ProductsListView = ({styles, model, controller}) => {
     addCategoryPressHandler,
     shadedBackgroundPressHandler,
     addCategoryDialogTouchOutsideHandler,
+    addCategoryDialogAddButtonHandler,
+    addCategoryDialogCancelButtonHandler,
   } = controller;
 
   // ===
@@ -43,6 +46,8 @@ const ProductsListView = ({styles, model, controller}) => {
     <AddCategoryDialog
       visible={addCategoryDialogVisible}
       onTouchOutside={addCategoryDialogTouchOutsideHandler}
+      onAddPress={addCategoryDialogAddButtonHandler}
+      onCancelPress={addCategoryDialogCancelButtonHandler}
     />
   );
   // ===
@@ -113,6 +118,7 @@ const ProductsListView = ({styles, model, controller}) => {
       <ProductInputArea
         onInputAreaHide={inputAreaHideHandler}
         onAddCategoryPress={addCategoryPressHandler}
+        predefinedState={inputAreaState}
         categoriesList={categoriesList}
         categoriesMap={categoriesMap}
         unitsList={unitsList}

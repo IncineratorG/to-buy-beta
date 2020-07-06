@@ -7,6 +7,7 @@ import ProductInputAreaView from './views/ProductInputAreaView';
 const ProductInputArea = ({
   onInputAreaHide,
   onAddCategoryPress,
+  predefinedState,
   categoriesList,
   categoriesMap,
   unitsList,
@@ -16,6 +17,7 @@ const ProductInputArea = ({
   const model = useProductInputAreaModel({
     onInputAreaHide,
     onAddCategoryPress,
+    predefinedState,
     categoriesList,
     categoriesMap,
     unitsList,

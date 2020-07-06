@@ -17,6 +17,7 @@ export const useProductsListModel = () => {
   const [addCategoryDialogVisible, setAddCategoryDialogVisible] = useState(
     false,
   );
+  const [inputAreaState, setInputAreaState] = useState(null);
 
   const shoppingListId = useSelector(
     (state) => state.productsList.productsList.id,
@@ -66,10 +67,12 @@ export const useProductsListModel = () => {
       categoriesMap,
       inputAreaVisible,
       addCategoryDialogVisible,
+      inputAreaState,
     },
     setters: {
       setInputAreaVisible,
       setAddCategoryDialogVisible,
+      setInputAreaState,
     },
     navigation,
     dispatch,

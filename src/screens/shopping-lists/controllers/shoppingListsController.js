@@ -9,10 +9,6 @@ import {loadUnitsAction} from '../../../store/actions/units/unitsActions';
 
 export const useShoppingListsController = (model) => {
   const listItemPressHandler = (listItemId) => {
-    SystemEventsHandler.onInfo({
-      info: 'listItemPressHandler(): ' + JSON.stringify(listItemId),
-    });
-
     model.dispatch(loadCategoriesAction({shoppingListId: listItemId}));
     model.dispatch(loadUnitsAction({shoppingListId: listItemId}));
     model.dispatch(loadProductsListAction({shoppingListId: listItemId}));
@@ -21,7 +17,8 @@ export const useShoppingListsController = (model) => {
   };
 
   const listItemRemoveHandler = (listItem) => {
-    model.dispatch(removeShoppingListAction({id: listItem.id}));
+    model.setters.setListToRemove(listItem);
+    model.setters.setRemoveConfirmationDialogVisible(true);
   };
 
   // ===
@@ -57,18 +54,26 @@ export const useShoppingListsController = (model) => {
     SystemEventsHandler.onInfo({
       info: 'removeConfirmationDialogTouchOutsideHandler()',
     });
+    model.setters.setRemoveConfirmationDialogVisible(false);
+    model.setters.setListToRemove(null);
   };
 
   const removeConfirmationDialogRemoveHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'removeConfirmationDialogRemoveHandler()',
-    });
+    const listToRemove = model.data.listToRemove;
+    if (listToRemove) {
+      model.dispatch(removeShoppingListAction({id: listToRemove.id}));
+    } else {
+      SystemEventsHandler.onError({
+        err: 'removeConfirmationDialogRemoveHandler()->BAD_LIST_TO_REMOVE',
+      });
+    }
+    model.setters.setRemoveConfirmationDialogVisible(false);
+    model.setters.setListToRemove(null);
   };
 
   const removeConfirmationDialogCancelRemoveHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'removeConfirmationDialogCancelRemoveHandler()',
-    });
+    model.setters.setRemoveConfirmationDialogVisible(false);
+    model.setters.setListToRemove(null);
   };
 
   // const menuButtonHandler = () => {

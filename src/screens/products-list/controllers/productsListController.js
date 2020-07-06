@@ -20,6 +20,7 @@ export const useProductsListController = (model) => {
 
   const addProductButtonHandler = () => {
     SystemEventsHandler.onInfo({info: 'addProductButtonHandler()'});
+    model.setters.setInputAreaState(null);
     model.setters.setInputAreaVisible(!model.data.inputAreaVisible);
   };
 
@@ -32,44 +33,23 @@ export const useProductsListController = (model) => {
     SystemEventsHandler.onInfo({info: 'inputAreaSubmitValuesHandler()'});
   };
 
-  // ===
   const productPressHandler = useCallback((product) => {
     SystemEventsHandler.onInfo({
       info: 'productPressHandler(): ' + JSON.stringify(product),
     });
   }, []);
-  // ===
-  // const productPressHandler = (product) => {
-  //   SystemEventsHandler.onInfo({
-  //     info: 'productPressHandler(): ' + JSON.stringify(product),
-  //   });
-  // };
 
-  // ===
   const statusPressHandler = useCallback((product) => {
     SystemEventsHandler.onInfo({
       info: 'statusPressHandler(): ' + JSON.stringify(product),
     });
   }, []);
-  // ===
-  // const statusPressHandler = (product) => {
-  //   SystemEventsHandler.onInfo({
-  //     info: 'statusPressHandler(): ' + JSON.stringify(product),
-  //   });
-  // };
 
-  // ===
   const productRemoveHandler = useCallback((product) => {
     SystemEventsHandler.onInfo({
       info: 'productRemoveHandler(): ' + JSON.stringify(product),
     });
   }, []);
-  // ===
-  // const productRemoveHandler = (product) => {
-  //   SystemEventsHandler.onInfo({
-  //     info: 'productRemoveHandler(): ' + JSON.stringify(product),
-  //   });
-  // };
 
   const categoryPressHandler = (category) => {
     SystemEventsHandler.onInfo({
@@ -77,16 +57,15 @@ export const useProductsListController = (model) => {
     });
   };
 
-  const addCategoryPressHandler = ({productInputState}) => {
-    SystemEventsHandler.onInfo({
-      info: 'addCategoryPressHandler(): ' + JSON.stringify(productInputState),
-    });
-    model.setters.setAddCategoryDialogVisible(true);
-  };
-
   const shadedBackgroundPressHandler = () => {
     SystemEventsHandler.onInfo({info: 'shadedBackgroundPressHandler()'});
     model.setters.setInputAreaVisible(false);
+    model.setters.setInputAreaState(null);
+  };
+
+  const addCategoryPressHandler = ({productInputState}) => {
+    model.setters.setAddCategoryDialogVisible(true);
+    model.setters.setInputAreaState(productInputState);
   };
 
   const addCategoryDialogTouchOutsideHandler = () => {
@@ -94,6 +73,18 @@ export const useProductsListController = (model) => {
       info: 'addCategoryDialogTouchOutsideHandler()',
     });
     model.setters.setAddCategoryDialogVisible(false);
+  };
+
+  const addCategoryDialogAddButtonHandler = () => {
+    SystemEventsHandler.onInfo({info: 'addCategoryDialogAddButtonHandler()'});
+  };
+
+  const addCategoryDialogCancelButtonHandler = () => {
+    SystemEventsHandler.onInfo({
+      info: 'addCategoryDialogCancelButtonHandler()',
+    });
+    model.setters.setAddCategoryDialogVisible(false);
+    model.setters.setInputAreaVisible(true);
   };
 
   return {
@@ -108,5 +99,7 @@ export const useProductsListController = (model) => {
     addCategoryPressHandler,
     shadedBackgroundPressHandler,
     addCategoryDialogTouchOutsideHandler,
+    addCategoryDialogAddButtonHandler,
+    addCategoryDialogCancelButtonHandler,
   };
 };

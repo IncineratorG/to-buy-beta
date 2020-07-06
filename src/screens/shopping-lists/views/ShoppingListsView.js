@@ -12,11 +12,11 @@ const ShoppingListsView = ({styles, model, controller}) => {
 
   const {
     removeConfirmationDialogVisible,
-    removeItemName,
     online,
     currentEmail,
     selectedShoppingLists,
     listsLoading,
+    listToRemove,
   } = model.data;
 
   const {
@@ -36,7 +36,7 @@ const ShoppingListsView = ({styles, model, controller}) => {
       message={
         t('ShoppingLists_removeConfirmationDialogMessage') +
         ' ' +
-        removeItemName +
+        (listToRemove ? listToRemove.name : '') +
         '?'
       }
       visible={removeConfirmationDialogVisible}

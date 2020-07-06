@@ -2,11 +2,12 @@ import {useState, useEffect, useReducer} from 'react';
 import {Keyboard} from 'react-native';
 import productInputAreaReducer from '../stores/productInputAreaReducer';
 import productInputAreaState from '../stores/productInputAreaState';
-import {piaa_hideInputArea} from '../stores/productInputAreaActions';
+import {piaa_hideInputArea, piaa_setPredefinedState} from '../stores/productInputAreaActions';
 
 export const useProductInputAreaModel = ({
   onInputAreaHide,
   onAddCategoryPress,
+  predefinedState,
   categoriesList,
   categoriesMap,
   unitsList,
@@ -30,7 +31,15 @@ export const useProductInputAreaModel = ({
     return () => {
       Keyboard.removeListener('keyboardDidHide', keyboardHideHandler);
     };
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (predefinedState) {
+      dispatch(piaa_setPredefinedState({state: predefinedState}));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     data: {

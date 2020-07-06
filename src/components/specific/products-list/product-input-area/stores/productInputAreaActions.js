@@ -5,6 +5,7 @@ import {
   SELECT_PRODUCT_QUANTITY,
   SET_CATEGORY,
   SET_NOTE,
+  SET_PREDEFINED_STATE,
   SET_PRODUCT_NAME,
   SET_QUANTITY,
   SET_UNIT,
@@ -15,6 +16,13 @@ export const piaa_hideInputArea = () => {
   return {
     type: HIDE_INPUT_AREA,
     payload: undefined,
+  };
+};
+
+export const piaa_setPredefinedState = ({state}) => {
+  return {
+    type: SET_PREDEFINED_STATE,
+    payload: {state},
   };
 };
 

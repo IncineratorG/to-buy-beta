@@ -5,6 +5,7 @@ import {
   SELECT_PRODUCT_QUANTITY,
   SET_CATEGORY,
   SET_NOTE,
+  SET_PREDEFINED_STATE,
   SET_PRODUCT_NAME,
   SET_QUANTITY,
   SET_UNIT,
@@ -40,6 +41,10 @@ function productInputAreaReducer(state, action) {
           selectedUnit: undefined,
         },
       };
+    }
+
+    case SET_PREDEFINED_STATE: {
+      return {...state, ...action.payload.state};
     }
 
     case SELECT_PRODUCT_NAME: {
