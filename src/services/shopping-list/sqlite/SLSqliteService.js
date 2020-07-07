@@ -27,6 +27,12 @@ export class SLSqliteService {
     });
   }
 
+  static async addCategory({name, color}) {
+    SystemEventsHandler.onInfo({
+      info: this.#className + '->addCategory(): ' + name + ' - ' + color,
+    });
+  }
+
   static async getUnits() {
     return await UnitsTableOperations.getUnits({db: this.#db});
   }

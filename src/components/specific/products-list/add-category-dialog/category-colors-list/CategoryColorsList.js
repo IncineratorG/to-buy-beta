@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, FlatList, StyleSheet} from 'react-native';
 import CategoryColor from './category-color/CategoryColor';
-import AvailableColors from './available-colors/AvailableColors';
+import AvailableColors from '../../../../common/available-colors/AvailableColors';
 
 const CategoryColorsList = ({selectedColorItem, onColorPress}) => {
   const colors = AvailableColors.getColors();

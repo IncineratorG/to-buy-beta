@@ -19,6 +19,10 @@ export class ShoppingListService {
     return await SLSqliteService.getCategories();
   }
 
+  static async addCategory({name, color}) {
+    await SLSqliteService.addCategory({name, color});
+  }
+
   static async getUnits({shoppingListId}) {
     return await SLSqliteService.getUnits();
   }

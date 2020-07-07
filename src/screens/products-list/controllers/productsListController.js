@@ -80,8 +80,11 @@ export const useProductsListController = (model) => {
     model.localDispatch(pla_closeAddCategoryDialog());
   };
 
-  const addCategoryDialogAddButtonHandler = () => {
-    SystemEventsHandler.onInfo({info: 'addCategoryDialogAddButtonHandler()'});
+  const addCategoryDialogAddButtonHandler = ({name, color}) => {
+    SystemEventsHandler.onInfo({
+      info: 'addCategoryDialogAddButtonHandler(): ' + name + ' - ' + color,
+    });
+    model.localDispatch(pla_closeAddCategoryDialog());
   };
 
   const addCategoryDialogCancelButtonHandler = () => {

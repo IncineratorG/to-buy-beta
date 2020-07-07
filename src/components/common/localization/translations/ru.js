@@ -57,4 +57,9 @@ export const ru = {
   ProductMainInput_placeholderProductName: 'Название продукта',
   ProductMainInput_placeholderQuantity: 'Количество',
   ProductMainInput_placeholderNote: 'Примечание',
+
+  AddCategoryDialog_dialogTitle: 'Добавление новой категории',
+  AddCategoryDialog_placeholder: 'Название категории',
+  AddCategoryDialog_addButton: 'ДОБАВИТЬ',
+  AddCategoryDialog_cancelButton: 'ОТМЕНА',
 };

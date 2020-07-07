@@ -9,6 +9,8 @@ import {
 import {Dialog} from 'react-native-simple-dialogs';
 import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import CategoryColorsList from './category-colors-list/CategoryColorsList';
+import AvailableColors from '../../../common/available-colors/AvailableColors';
+import {useTranslation} from '../../../common/localization';
 
 const AddCategoryDialog = ({
   visible,
@@ -19,16 +21,19 @@ const AddCategoryDialog = ({
   const [categoryName, setCategoryName] = useState('');
   const [selectedColorItem, setSelectedColorItem] = useState(null);
 
-  const placeholder = 'Название категории';
+  const {t} = useTranslation();
 
   const addButtonHandler = () => {
-    const category = {
-      name: categoryName,
-      color: selectedColorItem.color,
-    };
+    if (!categoryName) {
+      return;
+    }
+
+    const categoryColor = selectedColorItem
+      ? selectedColorItem
+      : AvailableColors.getDefaultColor();
 
     if (onAddPress) {
-      onAddPress();
+      onAddPress({name: categoryName, color: categoryColor.color});
     }
 
     setCategoryName('');
@@ -68,7 +73,14 @@ const AddCategoryDialog = ({
         underlayColor={'lightgrey'}
         onPress={addButtonHandler}>
         <View style={styles.addButtonContainer}>
-          <Text style={styles.addButtonText}>ДОБАВИТЬ</Text>
+          <Text
+            style={[
+              styles.addButtonText,
+              // eslint-disable-next-line react-native/no-inline-styles
+              {color: categoryName ? '#4a9dec' : 'lightgrey'},
+            ]}>
+            {t('AddCategoryDialog_addButton')}
+          </Text>
         </View>
       </TouchableNativeFeedback>
       <TouchableNativeFeedback
@@ -76,7 +88,9 @@ const AddCategoryDialog = ({
         underlayColor={'lightgrey'}
         onPress={cancelButtonHandler}>
         <View style={styles.cancelButtonContainer}>
-          <Text style={styles.cancelButtonText}>ОТМЕНА</Text>
+          <Text style={styles.cancelButtonText}>
+            {t('AddCategoryDialog_cancelButton')}
+          </Text>
         </View>
       </TouchableNativeFeedback>
     </View>
@@ -85,7 +99,7 @@ const AddCategoryDialog = ({
   return (
     <Dialog
       visible={visible}
-      title="Добавление новой категории"
+      title={t('AddCategoryDialog_dialogTitle')}
       buttons={buttons}
       onTouchOutside={touchOutsideHandler}>
       <View style={styles.mainContainer}>
@@ -100,13 +114,10 @@ const AddCategoryDialog = ({
           <View style={styles.categoryNameContainer}>
             <TextInput
               value={categoryName}
-              // autoFocus={true}
-              // keyboardType={keyboardType}
-              // blurOnSubmit={false}
-              placeholder={placeholder}
+              blurOnSubmit={false}
+              placeholder={t('AddCategoryDialog_placeholder')}
               fontSize={18}
               underlineColorAndroid={'lightgrey'}
-              // onSubmitEditing={onSubmitEditing}
               onChangeText={textChangeHandler}
             />
           </View>

@@ -6,6 +6,7 @@ import {
   piaa_hideInputArea,
   piaa_setPredefinedState,
 } from '../stores/productInputAreaActions';
+import {SystemEventsHandler} from '../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 
 export const useProductInputAreaModel = ({
   onInputAreaHide,

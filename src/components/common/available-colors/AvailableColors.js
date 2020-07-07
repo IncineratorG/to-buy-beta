@@ -26,6 +26,10 @@ class AvailableColors {
   static getColors() {
     return this.#colors;
   }
+
+  static getDefaultColor() {
+    return {id: '19', color: '#E0E0E0'};
+  }
 }
 
 export default AvailableColors;
