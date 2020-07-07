@@ -15,38 +15,38 @@ import ProductInputType from '../stores/types/productInputAreaProductInputTypes'
 export const useProductInputAreaController = (model) => {
   const productNameTypePressHandler = () => {
     SystemEventsHandler.onInfo({info: 'productNameTypePressHandler()'});
-    model.componentDispatch(piaa_selectProductNameType());
+    model.localDispatch(piaa_selectProductNameType());
   };
 
   const productQuantityTypePressHandler = () => {
     SystemEventsHandler.onInfo({info: 'productQuantityTypePressHandler()'});
-    model.componentDispatch(piaa_selectProductQuantityType());
+    model.localDispatch(piaa_selectProductQuantityType());
   };
 
   const productNoteTypePressHandler = () => {
     SystemEventsHandler.onInfo({info: 'productNoteTypePressHandler()'});
-    model.componentDispatch(piaa_selectProductNoteType());
+    model.localDispatch(piaa_selectProductNoteType());
   };
 
   const confirmInputButtonPressHandler = () => {
     SystemEventsHandler.onInfo({info: 'confirmInputButtonPressHandler()'});
-    model.componentDispatch(piaa_submitValues());
+    model.localDispatch(piaa_submitValues());
   };
 
   const changeInputTextHandler = ({text, inputType}) => {
     switch (inputType) {
       case ProductInputType.PRODUCT_NAME: {
-        model.componentDispatch(piaa_setProductName({name: text}));
+        model.localDispatch(piaa_setProductName({name: text}));
         break;
       }
 
       case ProductInputType.QUANTITY: {
-        model.componentDispatch(piaa_setQuantity({quantity: text}));
+        model.localDispatch(piaa_setQuantity({quantity: text}));
         break;
       }
 
       case ProductInputType.NOTE: {
-        model.componentDispatch(piaa_setNote({note: text}));
+        model.localDispatch(piaa_setNote({note: text}));
         break;
       }
 
@@ -61,7 +61,7 @@ export const useProductInputAreaController = (model) => {
   };
 
   const categoryPressHandler = ({category}) => {
-    model.componentDispatch(piaa_setCategory({category}));
+    model.localDispatch(piaa_setCategory({category}));
   };
 
   const categoryLongPressHandler = ({category}) => {
@@ -77,7 +77,7 @@ export const useProductInputAreaController = (model) => {
   };
 
   const unitPressHandler = ({unit}) => {
-    model.componentDispatch(piaa_setUnit({unit}));
+    model.localDispatch(piaa_setUnit({unit}));
   };
 
   return {

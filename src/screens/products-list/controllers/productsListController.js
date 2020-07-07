@@ -5,6 +5,12 @@ import {
   clearProductsListCachedData,
 } from '../../../store/actions/products-list/productsListActions';
 import {updateShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
+import {
+  pla_closeAddCategoryDialog,
+  pla_hideProductInputArea,
+  pla_openAddCategoryDialog,
+  pla_openProductInputArea,
+} from '../stores/productListActions';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
@@ -20,13 +26,12 @@ export const useProductsListController = (model) => {
 
   const addProductButtonHandler = () => {
     SystemEventsHandler.onInfo({info: 'addProductButtonHandler()'});
-    model.setters.setInputAreaState(null);
-    model.setters.setInputAreaVisible(!model.data.inputAreaVisible);
+    model.localDispatch(pla_openProductInputArea());
   };
 
   const inputAreaHideHandler = ({inputAreaState}) => {
     SystemEventsHandler.onInfo({info: 'inputAreaHideHandler()'});
-    model.setters.setInputAreaVisible(false);
+    model.localDispatch(pla_hideProductInputArea());
   };
 
   const inputAreaSubmitValuesHandler = (values) => {
@@ -59,20 +64,20 @@ export const useProductsListController = (model) => {
 
   const shadedBackgroundPressHandler = () => {
     SystemEventsHandler.onInfo({info: 'shadedBackgroundPressHandler()'});
-    model.setters.setInputAreaVisible(false);
-    model.setters.setInputAreaState(null);
+    model.localDispatch(pla_hideProductInputArea());
   };
 
   const addCategoryPressHandler = ({productInputState}) => {
-    model.setters.setAddCategoryDialogVisible(true);
-    model.setters.setInputAreaState(productInputState);
+    model.localDispatch(
+      pla_openAddCategoryDialog({productInputAreaState: productInputState}),
+    );
   };
 
   const addCategoryDialogTouchOutsideHandler = () => {
     SystemEventsHandler.onInfo({
       info: 'addCategoryDialogTouchOutsideHandler()',
     });
-    model.setters.setAddCategoryDialogVisible(false);
+    model.localDispatch(pla_closeAddCategoryDialog());
   };
 
   const addCategoryDialogAddButtonHandler = () => {
@@ -83,8 +88,7 @@ export const useProductsListController = (model) => {
     SystemEventsHandler.onInfo({
       info: 'addCategoryDialogCancelButtonHandler()',
     });
-    model.setters.setAddCategoryDialogVisible(false);
-    model.setters.setInputAreaVisible(true);
+    model.localDispatch(pla_closeAddCategoryDialog());
   };
 
   return {

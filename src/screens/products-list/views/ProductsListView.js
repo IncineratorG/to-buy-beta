@@ -13,18 +13,24 @@ import AddCategoryDialog from '../../../components/specific/products-list/add-ca
 
 const ProductsListView = ({styles, model, controller}) => {
   const {
-    dataLoading,
-    usedCategoriesLoading,
+    state,
     shoppingListId,
     products,
     unitsList,
     unitsMap,
     categoriesList,
     categoriesMap,
-    inputAreaVisible,
-    addCategoryDialogVisible,
-    inputAreaState,
   } = model.data;
+
+  const {
+    dataLoading,
+    usedCategoriesLoading,
+    inputArea,
+    addCategoryDialog,
+  } = state;
+
+  const {inputAreaVisible, inputAreaState} = inputArea;
+  const {addCategoryDialogVisible} = addCategoryDialog;
 
   const {
     addProductButtonHandler,
@@ -42,7 +48,7 @@ const ProductsListView = ({styles, model, controller}) => {
   } = controller;
 
   // ===
-  const addCategoryDialog = (
+  const addCategoryDialogComponent = (
     <AddCategoryDialog
       visible={addCategoryDialogVisible}
       onTouchOutside={addCategoryDialogTouchOutsideHandler}
@@ -145,7 +151,7 @@ const ProductsListView = ({styles, model, controller}) => {
       {inputAreaComponent}
       {shadedBackgroundComponent}
       {bottomGradientComponent}
-      {addCategoryDialog}
+      {addCategoryDialogComponent}
     </View>
   );
 

@@ -2,7 +2,10 @@ import {useState, useEffect, useReducer} from 'react';
 import {Keyboard} from 'react-native';
 import productInputAreaReducer from '../stores/productInputAreaReducer';
 import productInputAreaState from '../stores/productInputAreaState';
-import {piaa_hideInputArea, piaa_setPredefinedState} from '../stores/productInputAreaActions';
+import {
+  piaa_hideInputArea,
+  piaa_setPredefinedState,
+} from '../stores/productInputAreaActions';
 
 export const useProductInputAreaModel = ({
   onInputAreaHide,
@@ -54,6 +57,6 @@ export const useProductInputAreaModel = ({
       onInputAreaHide,
       onAddCategoryPress,
     },
-    componentDispatch: dispatch,
+    localDispatch: dispatch,
   };
 };

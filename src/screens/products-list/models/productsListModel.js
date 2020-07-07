@@ -1,23 +1,31 @@
-import {useState, useEffect, useCallback} from 'react';
+import {useState, useEffect, useReducer} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from '../../../components/common/localization';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import productListReducer from '../stores/produtcListReducer';
+import productListState from '../stores/productListState';
+import {pla_setDataLoading} from '../stores/productListActions';
 
 export const useProductsListModel = () => {
+  const [state, localDispatch] = useReducer(
+    productListReducer,
+    productListState,
+  );
+
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
 
   const {t} = useTranslation();
 
-  const [dataLoading, setDataLoading] = useState(true);
-  const [usedCategoriesLoading, setUsedCategoriesLoading] = useState(false);
-  const [inputAreaVisible, setInputAreaVisible] = useState(false);
-  const [addCategoryDialogVisible, setAddCategoryDialogVisible] = useState(
-    false,
-  );
-  const [inputAreaState, setInputAreaState] = useState(null);
+  // const [dataLoading, setDataLoading] = useState(true);
+  // const [usedCategoriesLoading, setUsedCategoriesLoading] = useState(false);
+  // const [inputAreaVisible, setInputAreaVisible] = useState(false);
+  // const [addCategoryDialogVisible, setAddCategoryDialogVisible] = useState(
+  //   false,
+  // );
+  // const [inputAreaState, setInputAreaState] = useState(null);
 
   const shoppingListId = useSelector(
     (state) => state.productsList.productsList.id,
@@ -40,10 +48,6 @@ export const useProductsListModel = () => {
   );
   const categoriesMap = useSelector((state) => state.categories.categories.map);
 
-  // ===
-  // SystemEventsHandler.onInfo({info: 'PRODUCTS_LENGTH: ' + products.length});
-  // ===
-
   useEffect(() => {
     navigation.setOptions({title: listName});
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -51,31 +55,33 @@ export const useProductsListModel = () => {
 
   useEffect(() => {
     if (!listLoading && !unitsLoading && !categoriesLoading) {
-      setDataLoading(false);
+      localDispatch(pla_setDataLoading({dataLoading: false}));
     }
   }, [listLoading, unitsLoading, categoriesLoading]);
 
   return {
     data: {
-      dataLoading,
-      usedCategoriesLoading,
+      state,
+      // dataLoading,
+      // usedCategoriesLoading,
+      // inputAreaVisible,
+      // addCategoryDialogVisible,
+      // inputAreaState,
       shoppingListId,
       products,
       unitsList,
       unitsMap,
       categoriesList,
       categoriesMap,
-      inputAreaVisible,
-      addCategoryDialogVisible,
-      inputAreaState,
     },
     setters: {
-      setInputAreaVisible,
-      setAddCategoryDialogVisible,
-      setInputAreaState,
+      // setInputAreaVisible,
+      // setAddCategoryDialogVisible,
+      // setInputAreaState,
     },
     navigation,
     dispatch,
+    localDispatch,
     t,
   };
 };
