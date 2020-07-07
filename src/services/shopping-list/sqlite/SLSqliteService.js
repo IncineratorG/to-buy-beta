@@ -31,6 +31,28 @@ export class SLSqliteService {
     SystemEventsHandler.onInfo({
       info: this.#className + '->addCategory(): ' + name + ' - ' + color,
     });
+
+    const {id, hasError} = await CategoriesTableOperations.addCategory({
+      db: this.#db,
+      name,
+      color,
+    });
+    if (hasError) {
+      return {hasError};
+    }
+
+    const categories = await CategoriesTableOperations.getCategories({
+      db: this.#db,
+    });
+
+    const filteredCategories = categories.filter(
+      (category) => category.id === id,
+    );
+    if (filteredCategories.length) {
+      return filteredCategories[0];
+    } else {
+      return {hasError: true};
+    }
   }
 
   static async getUnits() {

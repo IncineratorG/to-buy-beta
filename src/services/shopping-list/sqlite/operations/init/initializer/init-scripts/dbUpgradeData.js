@@ -1,8 +1,10 @@
 import {
   CATEGORIES_TABLE,
   CATEGORIES_TABLE_COLOR,
+  CATEGORIES_TABLE_CREATE_TIMESTAMP,
   CATEGORIES_TABLE_ID,
   CATEGORIES_TABLE_NAME,
+  CATEGORIES_TABLE_UPDATE_TIMESTAMP,
 } from '../../../../tables/categoriesTable';
 import {
   UNITS_TABLE,
@@ -47,7 +49,11 @@ const dbUpgradeData = {
           CATEGORIES_TABLE_NAME +
           ' TEXT NOT NULL, ' +
           CATEGORIES_TABLE_COLOR +
-          ' TEXT NOT NULL)',
+          ' TEXT NOT NULL, ' +
+          CATEGORIES_TABLE_CREATE_TIMESTAMP +
+          ' INTEGER NOT NULL, ' +
+          CATEGORIES_TABLE_UPDATE_TIMESTAMP +
+          ' INTEGER NOT NULL)',
 
         'CREATE TABLE IF NOT EXISTS ' +
           UNITS_TABLE +

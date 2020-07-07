@@ -11,6 +11,7 @@ import {
   pla_openAddCategoryDialog,
   pla_openProductInputArea,
 } from '../stores/productListActions';
+import {addCategoryAction} from '../../../store/actions/categories/categoriesActions';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
@@ -84,6 +85,7 @@ export const useProductsListController = (model) => {
     SystemEventsHandler.onInfo({
       info: 'addCategoryDialogAddButtonHandler(): ' + name + ' - ' + color,
     });
+    model.dispatch(addCategoryAction({name, color}));
     model.localDispatch(pla_closeAddCategoryDialog());
   };
 

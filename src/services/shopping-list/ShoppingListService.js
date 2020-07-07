@@ -20,7 +20,7 @@ export class ShoppingListService {
   }
 
   static async addCategory({name, color}) {
-    await SLSqliteService.addCategory({name, color});
+    return await SLSqliteService.addCategory({name, color});
   }
 
   static async getUnits({shoppingListId}) {
@@ -28,10 +28,6 @@ export class ShoppingListService {
   }
 
   static async createShoppingList({listName, creator}) {
-    SystemEventsHandler.onInfo({
-      info: 'ShoppingListService->createShoppingList(): ' + listName,
-    });
-
     return await SLSqliteService.createShoppingList({
       listName,
       creator,
@@ -58,8 +54,6 @@ export class ShoppingListService {
     note,
     categoryId,
   }) {
-    SystemEventsHandler.onInfo({info: 'ShoppingListService->addProduct()'});
-
     const onCreated = ({product}) => {
       ShoppingListService.#notifier.notify({
         event: ShoppingListServiceEvents.PRODUCT_CREATED,

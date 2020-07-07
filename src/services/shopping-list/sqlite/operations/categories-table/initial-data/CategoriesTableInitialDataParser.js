@@ -7,9 +7,6 @@ export class CategoriesTableInitialDataParser {
         err:
           'CategoriesTableInitialDataParser->getInitialCategories(): BAD_INITIAL_DATA',
       });
-      // console.log(
-      //   'CategoriesTableInitialDataParser->getInitialCategories(): BAD_INITIAL_DATA',
-      // );
       return [];
     }
 
@@ -18,9 +15,6 @@ export class CategoriesTableInitialDataParser {
         err:
           'CategoriesTableInitialDataParser->getInitialCategories(): NO_INITIAL_CATEGORIES',
       });
-      // console.log(
-      //   'CategoriesTableInitialDataParser->getInitialCategories(): NO_INITIAL_CATEGORIES',
-      // );
       return [];
     }
 

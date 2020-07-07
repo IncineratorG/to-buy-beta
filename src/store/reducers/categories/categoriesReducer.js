@@ -1,4 +1,7 @@
 import {
+  ADD_CATEGORY_BEGIN,
+  ADD_CATEGORY_ERROR,
+  ADD_CATEGORY_FINISHED,
   LOAD_CATEGORIES_BEGIN,
   LOAD_CATEGORIES_ERROR,
   LOAD_CATEGORIES_FINISHED,
@@ -13,6 +16,12 @@ const initialState = {
     error: {
       hasError: false,
       description: '',
+    },
+    addCategory: {
+      error: {
+        hasError: false,
+        description: '',
+      },
     },
   },
 };
@@ -74,6 +83,62 @@ export const categoriesReducer = (state = initialState, action) => {
           error: {
             hasError: true,
             description: action.payload.error.description,
+          },
+        },
+      };
+    }
+
+    case ADD_CATEGORY_BEGIN: {
+      return {
+        ...state,
+        categories: {
+          ...state.categories,
+          addCategory: {
+            ...state.categories.addCategory,
+            error: {
+              hasError: false,
+              description: '',
+            },
+          },
+        },
+      };
+    }
+
+    case ADD_CATEGORY_FINISHED: {
+      const category = {...action.payload.category};
+
+      const categoriesList = [...state.categories.list, category];
+      const categoriesMap = new Map();
+      categoriesList.forEach((c) => categoriesMap.set(c.id, c));
+
+      return {
+        ...state,
+        categories: {
+          ...state.categories,
+          list: categoriesList,
+          map: categoriesMap,
+          addCategory: {
+            ...state.categories.addCategory,
+            error: {
+              hasError: false,
+              description: '',
+            },
+          },
+        },
+      };
+    }
+
+    case ADD_CATEGORY_ERROR: {
+      return {
+        ...state,
+        categories: {
+          ...state.categories,
+          addCategory: {
+            ...state.categories.addCategory,
+            error: {
+              hasError: true,
+              description: action.payload.error.description,
+            },
           },
         },
       };
