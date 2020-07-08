@@ -2,6 +2,9 @@ import {
   CATEGORIES_TABLE,
   CATEGORIES_TABLE_COLOR,
   CATEGORIES_TABLE_CREATE_TIMESTAMP,
+  CATEGORIES_TABLE_DELETED,
+  CATEGORIES_TABLE_EDITABLE,
+  CATEGORIES_TABLE_ID,
   CATEGORIES_TABLE_NAME,
   CATEGORIES_TABLE_UPDATE_TIMESTAMP,
 } from '../../tables/categoriesTable';
@@ -47,14 +50,27 @@ export class CategoriesTableOperations {
       ', ' +
       CATEGORIES_TABLE_COLOR +
       ', ' +
+      CATEGORIES_TABLE_EDITABLE +
+      ', ' +
+      CATEGORIES_TABLE_DELETED +
+      ', ' +
       CATEGORIES_TABLE_CREATE_TIMESTAMP +
       ', ' +
       CATEGORIES_TABLE_UPDATE_TIMESTAMP +
-      ') VALUES (?, ?, ?, ?)';
+      ') VALUES (?, ?, ?, ?, ?, ?)';
 
     const timestamp = Date.now();
+    const editable = 1;
+    const deleted = 0;
 
-    const statementParams = [name, color, timestamp, timestamp];
+    const statementParams = [
+      name,
+      color,
+      editable,
+      deleted,
+      timestamp,
+      timestamp,
+    ];
 
     const result = {id: undefined, hasError: false};
     try {
@@ -67,6 +83,77 @@ export class CategoriesTableOperations {
     } catch (e) {
       SystemEventsHandler.onError({
         err: this.#className + '->addCategory()->ERROR: ' + e,
+      });
+      result.hasError = true;
+    }
+
+    return result;
+  }
+
+  static async updateCategory({db, id, name, color}) {
+    const updateCategoryStatement =
+      'UPDATE ' +
+      CATEGORIES_TABLE +
+      ' SET ' +
+      CATEGORIES_TABLE_NAME +
+      ' = ?, ' +
+      CATEGORIES_TABLE_COLOR +
+      ' = ?, ' +
+      CATEGORIES_TABLE_UPDATE_TIMESTAMP +
+      ' = ? WHERE ' +
+      CATEGORIES_TABLE_ID +
+      ' = ?';
+
+    const timestamp = Date.now();
+
+    const statementParams = [name, color, timestamp, id];
+
+    const result = {updatedCategoriesCount: 0, hasError: false};
+    try {
+      const executionResult = await SqlStatementExecutor.execute({
+        db,
+        statement: updateCategoryStatement,
+        params: statementParams,
+      });
+      result.updatedCategoriesCount = executionResult.rowsAffected;
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err: this.#className + '->updateCategory()->ERROR: ' + e,
+      });
+      result.hasError = true;
+    }
+
+    return result;
+  }
+
+  static async removeCategory({db, id}) {
+    const removeCategoryStatement =
+      'UPDATE ' +
+      CATEGORIES_TABLE +
+      ' SET ' +
+      CATEGORIES_TABLE_DELETED +
+      ' = ?, ' +
+      CATEGORIES_TABLE_UPDATE_TIMESTAMP +
+      ' = ? WHERE ' +
+      CATEGORIES_TABLE_ID +
+      ' = ?';
+
+    const timestamp = Date.now();
+    const deleted = 1;
+
+    const statementParams = [deleted, timestamp, id];
+
+    const result = {updatedCategoriesCount: 0, hasError: false};
+    try {
+      const executionResult = await SqlStatementExecutor.execute({
+        db,
+        statement: removeCategoryStatement,
+        params: statementParams,
+      });
+      result.updatedCategoriesCount = executionResult.rowsAffected;
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err: this.#className + '->removeCategory()->ERROR: ' + e,
       });
       result.hasError = true;
     }

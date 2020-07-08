@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Image, TouchableWithoutFeedback, StyleSheet} from 'react-native';
-import {SystemEventsHandler} from '../../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
-import {icons} from '../../../../../../assets/icons';
+import {SystemEventsHandler} from '../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {icons} from '../../../../../assets/icons';
 
 const CategoryColor = ({colorItem, selectedColorItem, onColorPress}) => {
   const currentColor = colorItem ? colorItem.color : '#FAFAFA';

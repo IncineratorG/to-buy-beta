@@ -65,8 +65,9 @@ export const useProductInputAreaController = (model) => {
   };
 
   const categoryLongPressHandler = ({category}) => {
-    SystemEventsHandler.onInfo({
-      info: 'categoryLongPressHandler(): ' + JSON.stringify(category),
+    model.externalHandlers.onCategoryLongPress({
+      category,
+      productInputState: model.data.state,
     });
   };
 

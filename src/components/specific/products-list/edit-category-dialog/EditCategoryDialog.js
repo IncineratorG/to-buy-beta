@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -12,10 +12,12 @@ import CategoryColorsList from '../category-colors-list/CategoryColorsList';
 import AvailableColors from '../../../common/available-colors/AvailableColors';
 import {useTranslation} from '../../../common/localization';
 
-const AddCategoryDialog = ({
+const EditCategoryDialog = ({
   visible,
+  category,
   onTouchOutside,
-  onAddPress,
+  onSavePress,
+  onRemovePress,
   onCancelPress,
 }) => {
   const [categoryName, setCategoryName] = useState('');
@@ -23,7 +25,13 @@ const AddCategoryDialog = ({
 
   const {t} = useTranslation();
 
-  const addButtonHandler = () => {
+  const touchOutsideHandler = () => {
+    if (onTouchOutside) {
+      onTouchOutside();
+    }
+  };
+
+  const saveButtonHandler = () => {
     if (!categoryName) {
       return;
     }
@@ -32,30 +40,25 @@ const AddCategoryDialog = ({
       ? selectedColorItem
       : AvailableColors.getDefaultColor();
 
-    if (onAddPress) {
-      onAddPress({name: categoryName, color: categoryColor.color});
+    if (onSavePress) {
+      onSavePress({
+        id: category.id,
+        name: categoryName,
+        color: categoryColor.color,
+      });
     }
-
-    setCategoryName('');
-    setSelectedColorItem(null);
   };
 
   const cancelButtonHandler = () => {
     if (onCancelPress) {
       onCancelPress();
     }
-
-    setCategoryName('');
-    setSelectedColorItem(null);
   };
 
-  const touchOutsideHandler = () => {
-    if (onTouchOutside) {
-      onTouchOutside();
+  const removeButtonHandler = () => {
+    if (onRemovePress) {
+      onRemovePress({});
     }
-
-    setCategoryName('');
-    setSelectedColorItem(null);
   };
 
   const colorPressHandler = ({colorItem}) => {
@@ -66,20 +69,30 @@ const AddCategoryDialog = ({
     setCategoryName(text);
   };
 
+  useEffect(() => {
+    const initialCategoryName = category ? category.name : '';
+    const initialCategoryColorItem = category
+      ? AvailableColors.getColorItem({colorHex: category.color})
+      : null;
+
+    setCategoryName(initialCategoryName);
+    setSelectedColorItem(initialCategoryColorItem);
+  }, [category]);
+
   const buttons = (
     <View style={styles.buttonsContainer}>
       <TouchableNativeFeedback
-        style={styles.addButtonTouchable}
+        style={styles.saveButtonTouchable}
         underlayColor={'lightgrey'}
-        onPress={addButtonHandler}>
-        <View style={styles.addButtonContainer}>
+        onPress={saveButtonHandler}>
+        <View style={styles.saveButtonContainer}>
           <Text
             style={[
-              styles.addButtonText,
+              styles.saveButtonText,
               // eslint-disable-next-line react-native/no-inline-styles
               {color: categoryName ? '#4a9dec' : 'lightgrey'},
             ]}>
-            {t('AddCategoryDialog_addButton')}
+            {t('EditCategoryDialog_saveButton')}
           </Text>
         </View>
       </TouchableNativeFeedback>
@@ -89,17 +102,29 @@ const AddCategoryDialog = ({
         onPress={cancelButtonHandler}>
         <View style={styles.cancelButtonContainer}>
           <Text style={styles.cancelButtonText}>
-            {t('AddCategoryDialog_cancelButton')}
+            {t('EditCategoryDialog_cancelButton')}
           </Text>
         </View>
       </TouchableNativeFeedback>
+      <View style={styles.removeButtonWrapper}>
+        <TouchableNativeFeedback
+          style={styles.removeButtonTouchable}
+          underlayColor={'lightgrey'}
+          onPress={removeButtonHandler}>
+          <View style={styles.removeButtonContainer}>
+            <Text style={styles.removeButtonText}>
+              {t('EditCategoryDialog_removeButton')}
+            </Text>
+          </View>
+        </TouchableNativeFeedback>
+      </View>
     </View>
   );
 
   return (
     <Dialog
       visible={visible}
-      title={t('AddCategoryDialog_dialogTitle')}
+      title={t('EditCategoryDialog_dialogTitle')}
       buttons={buttons}
       onTouchOutside={touchOutsideHandler}>
       <View style={styles.mainContainer}>
@@ -115,7 +140,7 @@ const AddCategoryDialog = ({
             <TextInput
               value={categoryName}
               blurOnSubmit={false}
-              placeholder={t('AddCategoryDialog_placeholder')}
+              placeholder={t('EditCategoryDialog_placeholder')}
               fontSize={18}
               underlineColorAndroid={'lightgrey'}
               onChangeText={textChangeHandler}
@@ -147,7 +172,6 @@ const styles = StyleSheet.create({
     height: 20,
   },
   categoryNameContainer: {
-    // flex: 1,
     backgroundColor: 'transparent',
   },
   buttonsContainer: {
@@ -155,13 +179,13 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     backgroundColor: 'transparent',
   },
-  addButtonTouchable: {
+  saveButtonTouchable: {
     alignSelf: 'flex-end',
   },
-  addButtonContainer: {
+  saveButtonContainer: {
     alignSelf: 'flex-end',
   },
-  addButtonText: {
+  saveButtonText: {
     fontSize: 14,
     fontWeight: 'bold',
     color: '#4a9dec',
@@ -180,50 +204,21 @@ const styles = StyleSheet.create({
     color: 'grey',
     margin: 4,
   },
+  removeButtonWrapper: {
+    flex: 1,
+  },
+  removeButtonTouchable: {
+    alignSelf: 'flex-start',
+  },
+  removeButtonContainer: {
+    alignSelf: 'flex-start',
+  },
+  removeButtonText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'red',
+    margin: 4,
+  },
 });
 
-export default AddCategoryDialog;
-
-/*
-<View style={styles.categoryNameTitleContainer}>
-  <Text style={styles.categoryNameTitle}>Название</Text>
-  <View style={styles.categoryNameUnderline} />
-</View>
- */
-
-/*
-<View style={styles.categoryColorTitleContainer}>
-  <Text style={styles.categoryColorTitle}>Цвет</Text>
-  <View style={styles.categoryColorUnderline} />
-</View>
- */
-
-// categoryColorTitleContainer: {
-//   height: 20,
-//   alignSelf: 'stretch',
-//   backgroundColor: 'transparent',
-// },
-// categoryColorTitle: {
-//   color: 'grey',
-// },
-// categoryColorUnderline: {
-//   height: 1,
-//   alignSelf: 'stretch',
-//   backgroundColor: 'lightgrey',
-//   marginRight: 250,
-// },
-
-// categoryNameTitleContainer: {
-//   height: 20,
-//   alignSelf: 'stretch',
-//   backgroundColor: 'transparent',
-// },
-// categoryNameTitle: {
-//   color: 'grey',
-// },
-// categoryNameUnderline: {
-//   height: 1,
-//   alignSelf: 'stretch',
-//   backgroundColor: 'lightgrey',
-//   marginRight: 250,
-// },
+export default EditCategoryDialog;

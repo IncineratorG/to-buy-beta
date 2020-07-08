@@ -19,14 +19,6 @@ export const useProductsListModel = () => {
 
   const {t} = useTranslation();
 
-  // const [dataLoading, setDataLoading] = useState(true);
-  // const [usedCategoriesLoading, setUsedCategoriesLoading] = useState(false);
-  // const [inputAreaVisible, setInputAreaVisible] = useState(false);
-  // const [addCategoryDialogVisible, setAddCategoryDialogVisible] = useState(
-  //   false,
-  // );
-  // const [inputAreaState, setInputAreaState] = useState(null);
-
   const shoppingListId = useSelector(
     (state) => state.productsList.productsList.id,
   );
@@ -62,11 +54,6 @@ export const useProductsListModel = () => {
   return {
     data: {
       state,
-      // dataLoading,
-      // usedCategoriesLoading,
-      // inputAreaVisible,
-      // addCategoryDialogVisible,
-      // inputAreaState,
       shoppingListId,
       products,
       unitsList,
@@ -74,11 +61,7 @@ export const useProductsListModel = () => {
       categoriesList,
       categoriesMap,
     },
-    setters: {
-      // setInputAreaVisible,
-      // setAddCategoryDialogVisible,
-      // setInputAreaState,
-    },
+    setters: {},
     navigation,
     dispatch,
     localDispatch,

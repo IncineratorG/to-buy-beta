@@ -62,4 +62,10 @@ export const ru = {
   AddCategoryDialog_placeholder: 'Название категории',
   AddCategoryDialog_addButton: 'ДОБАВИТЬ',
   AddCategoryDialog_cancelButton: 'ОТМЕНА',
+
+  EditCategoryDialog_dialogTitle: 'Редактирование категории',
+  EditCategoryDialog_placeholder: 'Название категории',
+  EditCategoryDialog_saveButton: 'СОХРАНИТЬ',
+  EditCategoryDialog_removeButton: 'УДАЛИТЬ',
+  EditCategoryDialog_cancelButton: 'ОТМЕНА',
 };

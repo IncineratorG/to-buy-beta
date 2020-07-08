@@ -8,8 +8,8 @@ import ProductCategoriesList from '../../../components/specific/products-list/pr
 import ProductCategoriesListLoading from '../../../components/specific/products-list/product-categories-list-loading/ProductCategoriesListLoading';
 import ListOfProductsLoading from '../../../components/specific/products-list/list-of-products-loading/ListOfProductsLoading';
 import ProductInputArea from '../../../components/specific/products-list/product-input-area/ProductInputArea';
-import {Dialog} from 'react-native-simple-dialogs';
 import AddCategoryDialog from '../../../components/specific/products-list/add-category-dialog/AddCategoryDialog';
+import EditCategoryDialog from '../../../components/specific/products-list/edit-category-dialog/EditCategoryDialog';
 
 const ProductsListView = ({styles, model, controller}) => {
   const {
@@ -27,10 +27,12 @@ const ProductsListView = ({styles, model, controller}) => {
     usedCategoriesLoading,
     inputArea,
     addCategoryDialog,
+    editCategoryDialog,
   } = state;
 
   const {inputAreaVisible, inputAreaState} = inputArea;
   const {addCategoryDialogVisible} = addCategoryDialog;
+  const {editCategoryDialogVisible, editCategory} = editCategoryDialog;
 
   const {
     addProductButtonHandler,
@@ -40,11 +42,16 @@ const ProductsListView = ({styles, model, controller}) => {
     productPressHandler,
     productRemoveHandler,
     categoryPressHandler,
-    addCategoryPressHandler,
+    inputAreaAddCategoryPressHandler,
     shadedBackgroundPressHandler,
     addCategoryDialogTouchOutsideHandler,
     addCategoryDialogAddButtonHandler,
     addCategoryDialogCancelButtonHandler,
+    inputAreaCategoryLongPressHandler,
+    editCategoryDialogTouchOutsideHandler,
+    editCategoryDialogSaveButtonHandler,
+    editCategoryDialogRemoveButtonHandler,
+    editCategoryDialogCancelButtonHandler,
   } = controller;
 
   // ===
@@ -54,6 +61,17 @@ const ProductsListView = ({styles, model, controller}) => {
       onTouchOutside={addCategoryDialogTouchOutsideHandler}
       onAddPress={addCategoryDialogAddButtonHandler}
       onCancelPress={addCategoryDialogCancelButtonHandler}
+    />
+  );
+
+  const editCategoryDialogComponent = (
+    <EditCategoryDialog
+      visible={editCategoryDialogVisible}
+      category={editCategory}
+      onTouchOutside={editCategoryDialogTouchOutsideHandler}
+      onSavePress={editCategoryDialogSaveButtonHandler}
+      onRemovePress={editCategoryDialogRemoveButtonHandler}
+      onCancelPress={editCategoryDialogCancelButtonHandler}
     />
   );
   // ===
@@ -123,7 +141,8 @@ const ProductsListView = ({styles, model, controller}) => {
     <View style={styles.inputAreaContainer}>
       <ProductInputArea
         onInputAreaHide={inputAreaHideHandler}
-        onAddCategoryPress={addCategoryPressHandler}
+        onAddCategoryPress={inputAreaAddCategoryPressHandler}
+        onCategoryLongPress={inputAreaCategoryLongPressHandler}
         predefinedState={inputAreaState}
         categoriesList={categoriesList}
         categoriesMap={categoriesMap}
@@ -152,6 +171,7 @@ const ProductsListView = ({styles, model, controller}) => {
       {shadedBackgroundComponent}
       {bottomGradientComponent}
       {addCategoryDialogComponent}
+      {editCategoryDialogComponent}
     </View>
   );
 

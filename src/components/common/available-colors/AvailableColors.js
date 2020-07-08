@@ -30,6 +30,15 @@ class AvailableColors {
   static getDefaultColor() {
     return {id: '19', color: '#E0E0E0'};
   }
+
+  static getColorItem({colorHex}) {
+    for (let i = 0; i < this.#colors.length; ++i) {
+      if (this.#colors[i].color === colorHex) {
+        return this.#colors[i];
+      }
+    }
+    return null;
+  }
 }
 
 export default AvailableColors;

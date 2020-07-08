@@ -7,11 +7,16 @@ import {
 import {updateShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
 import {
   pla_closeAddCategoryDialog,
+  pla_closeEditCategoryDialog,
   pla_hideProductInputArea,
   pla_openAddCategoryDialog,
+  pla_openEditCategoryDialog,
   pla_openProductInputArea,
 } from '../stores/productListActions';
-import {addCategoryAction} from '../../../store/actions/categories/categoriesActions';
+import {
+  addCategoryAction,
+  updateCategoryAction,
+} from '../../../store/actions/categories/categoriesActions';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
@@ -64,36 +69,59 @@ export const useProductsListController = (model) => {
   };
 
   const shadedBackgroundPressHandler = () => {
-    SystemEventsHandler.onInfo({info: 'shadedBackgroundPressHandler()'});
     model.localDispatch(pla_hideProductInputArea());
   };
 
-  const addCategoryPressHandler = ({productInputState}) => {
+  const inputAreaAddCategoryPressHandler = ({productInputState}) => {
     model.localDispatch(
       pla_openAddCategoryDialog({productInputAreaState: productInputState}),
     );
   };
 
   const addCategoryDialogTouchOutsideHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'addCategoryDialogTouchOutsideHandler()',
-    });
     model.localDispatch(pla_closeAddCategoryDialog());
   };
 
   const addCategoryDialogAddButtonHandler = ({name, color}) => {
-    SystemEventsHandler.onInfo({
-      info: 'addCategoryDialogAddButtonHandler(): ' + name + ' - ' + color,
-    });
     model.dispatch(addCategoryAction({name, color}));
     model.localDispatch(pla_closeAddCategoryDialog());
   };
 
   const addCategoryDialogCancelButtonHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'addCategoryDialogCancelButtonHandler()',
-    });
     model.localDispatch(pla_closeAddCategoryDialog());
+  };
+
+  const inputAreaCategoryLongPressHandler = ({category, productInputState}) => {
+    if (!category.editable) {
+      return;
+    }
+
+    model.localDispatch(
+      pla_openEditCategoryDialog({
+        productInputAreaState: productInputState,
+        category,
+      }),
+    );
+  };
+
+  const editCategoryDialogTouchOutsideHandler = () => {
+    model.localDispatch(pla_closeEditCategoryDialog());
+  };
+
+  const editCategoryDialogSaveButtonHandler = ({id, name, color}) => {
+    model.dispatch(updateCategoryAction({id, name, color}));
+    model.localDispatch(pla_closeEditCategoryDialog());
+  };
+
+  const editCategoryDialogRemoveButtonHandler = ({category}) => {
+    SystemEventsHandler.onInfo({
+      info:
+        'editCategoryDialogRemoveButtonHandler(): ' + JSON.stringify(category),
+    });
+  };
+
+  const editCategoryDialogCancelButtonHandler = () => {
+    model.localDispatch(pla_closeEditCategoryDialog());
   };
 
   return {
@@ -105,10 +133,15 @@ export const useProductsListController = (model) => {
     productPressHandler,
     productRemoveHandler,
     categoryPressHandler,
-    addCategoryPressHandler,
+    inputAreaAddCategoryPressHandler,
     shadedBackgroundPressHandler,
     addCategoryDialogTouchOutsideHandler,
     addCategoryDialogAddButtonHandler,
     addCategoryDialogCancelButtonHandler,
+    inputAreaCategoryLongPressHandler,
+    editCategoryDialogTouchOutsideHandler,
+    editCategoryDialogSaveButtonHandler,
+    editCategoryDialogRemoveButtonHandler,
+    editCategoryDialogCancelButtonHandler,
   };
 };

@@ -1,7 +1,9 @@
 import {
   CLOSE_ADD_CATEGORY_DIALOG,
+  CLOSE_EDIT_CATEGORY_DIALOG,
   HIDE_PRODUCT_INPUT_AREA,
   OPEN_ADD_CATEGORY_DIALOG,
+  OPEN_EDIT_CATEGORY_DIALOG,
   OPEN_PRODUCT_INPUT_AREA,
   SET_DATA_LOADING,
 } from './types/productListActionTypes';
@@ -37,6 +39,26 @@ export const pla_openAddCategoryDialog = ({productInputAreaState}) => {
 export const pla_closeAddCategoryDialog = () => {
   return {
     type: CLOSE_ADD_CATEGORY_DIALOG,
+    payload: undefined,
+  };
+};
+
+export const pla_openEditCategoryDialog = ({
+  productInputAreaState,
+  category,
+}) => {
+  return {
+    type: OPEN_EDIT_CATEGORY_DIALOG,
+    payload: {
+      productInputAreaState,
+      category,
+    },
+  };
+};
+
+export const pla_closeEditCategoryDialog = () => {
+  return {
+    type: CLOSE_EDIT_CATEGORY_DIALOG,
     payload: undefined,
   };
 };

@@ -28,9 +28,9 @@ export class SLSqliteService {
   }
 
   static async addCategory({name, color}) {
-    SystemEventsHandler.onInfo({
-      info: this.#className + '->addCategory(): ' + name + ' - ' + color,
-    });
+    if (!name || !color) {
+      return {hasError: true};
+    }
 
     const {id, hasError} = await CategoriesTableOperations.addCategory({
       db: this.#db,
@@ -53,6 +53,39 @@ export class SLSqliteService {
     } else {
       return {hasError: true};
     }
+  }
+
+  static async updateCategory({id, name, color}) {
+    const {hasError} = await CategoriesTableOperations.updateCategory({
+      db: this.#db,
+      id,
+      name,
+      color,
+    });
+    if (hasError) {
+      return {hasError};
+    }
+
+    const categories = await CategoriesTableOperations.getCategories({
+      db: this.#db,
+    });
+
+    const filteredCategories = categories.filter(
+      (category) => category.id === id,
+    );
+    if (filteredCategories.length) {
+      return filteredCategories[0];
+    } else {
+      return {hasError: true};
+    }
+  }
+
+  static async removeCategory({id}) {
+    const {hasError} = await CategoriesTableOperations.removeCategory({
+      db: this.#db,
+      id,
+    });
+    return !hasError;
   }
 
   static async getUnits() {

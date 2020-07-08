@@ -21,7 +21,14 @@ function* cs_addCategoryHandler(action) {
       name,
       color,
     });
-    yield put(addCategoryFinishedAction({category: newCategory}));
+
+    if (newCategory.id) {
+      yield put(addCategoryFinishedAction({category: newCategory}));
+    } else {
+      yield put(
+        addCategoryErrorAction({description: 'ERROR_CREATING_CATEGORY'}),
+      );
+    }
   } catch (e) {
     SystemEventsHandler.onError({
       err: 'cs_addCategoryHandler()->ERROR: ' + e,

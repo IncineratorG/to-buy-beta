@@ -8,6 +8,10 @@ const productListState = {
   addCategoryDialog: {
     addCategoryDialogVisible: false,
   },
+  editCategoryDialog: {
+    editCategoryDialogVisible: false,
+    editCategory: null,
+  },
 };
 
 export default productListState;
