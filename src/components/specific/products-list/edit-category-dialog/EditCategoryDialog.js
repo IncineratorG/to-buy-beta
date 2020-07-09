@@ -57,7 +57,7 @@ const EditCategoryDialog = ({
 
   const removeButtonHandler = () => {
     if (onRemovePress) {
-      onRemovePress({});
+      onRemovePress({id: category.id});
     }
   };
 

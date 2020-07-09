@@ -30,6 +30,10 @@ const CategoriesListItem = ({
     }
   };
 
+  // if (category.deleted) {
+  //   return null;
+  // }
+
   return (
     <TouchableWithoutFeedback
       style={styles.touchable}

@@ -139,10 +139,10 @@ export const removeCategoryBeginAction = ({id}) => {
   };
 };
 
-export const removeCategoryFinishedAction = ({id}) => {
+export const removeCategoryFinishedAction = ({category}) => {
   return {
     type: REMOVE_CATEGORY_FINISHED,
-    payload: {id},
+    payload: {category},
   };
 };
 

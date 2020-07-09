@@ -20,25 +20,37 @@ export const useProductsListModel = () => {
   const {t} = useTranslation();
 
   const shoppingListId = useSelector(
-    (state) => state.productsList.productsList.id,
+    (storeState) => storeState.productsList.productsList.id,
   );
   const listLoading = useSelector(
-    (state) => state.productsList.productsList.loading,
+    (storeState) => storeState.productsList.productsList.loading,
   );
-  const unitsLoading = useSelector((state) => state.units.units.loading);
+  const unitsLoading = useSelector(
+    (storeState) => storeState.units.units.loading,
+  );
   const categoriesLoading = useSelector(
-    (state) => state.categories.categories.loading,
+    (storeState) => storeState.categories.categories.loading,
   );
-  const listName = useSelector((state) => state.productsList.productsList.name);
+  const listName = useSelector(
+    (storeState) => storeState.productsList.productsList.name,
+  );
   const products = useSelector(
-    (state) => state.productsList.productsList.products,
+    (storeState) => storeState.productsList.productsList.products,
   );
-  const unitsList = useSelector((state) => state.units.units.list);
-  const unitsMap = useSelector((state) => state.units.units.map);
+  const unitsList = useSelector((storeState) => storeState.units.units.list);
+  const unitsMap = useSelector((storeState) => storeState.units.units.map);
   const categoriesList = useSelector(
-    (state) => state.categories.categories.list,
+    (storeState) => storeState.categories.categories.active.list,
   );
-  const categoriesMap = useSelector((state) => state.categories.categories.map);
+  const categoriesMap = useSelector(
+    (storeState) => storeState.categories.categories.active.map,
+  );
+  const allCategoriesList = useSelector(
+    (storeState) => storeState.categories.categories.all.list,
+  );
+  const allCategoriesMap = useSelector(
+    (storeState) => storeState.categories.categories.all.map,
+  );
 
   useEffect(() => {
     navigation.setOptions({title: listName});

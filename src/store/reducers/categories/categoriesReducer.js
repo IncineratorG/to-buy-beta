@@ -5,6 +5,9 @@ import {
   LOAD_CATEGORIES_BEGIN,
   LOAD_CATEGORIES_ERROR,
   LOAD_CATEGORIES_FINISHED,
+  REMOVE_CATEGORY_BEGIN,
+  REMOVE_CATEGORY_ERROR,
+  REMOVE_CATEGORY_FINISHED,
   UPDATE_CATEGORY_BEGIN,
   UPDATE_CATEGORY_ERROR,
   UPDATE_CATEGORY_FINISHED,
@@ -14,8 +17,14 @@ import categoriesComparator from './helpers/categoriesComparator';
 
 const initialState = {
   categories: {
-    list: [],
-    map: new Map(),
+    all: {
+      list: [],
+      map: new Map(),
+    },
+    active: {
+      list: [],
+      map: new Map(),
+    },
     loading: false,
     error: {
       hasError: false,
@@ -28,6 +37,12 @@ const initialState = {
       },
     },
     updateCategory: {
+      error: {
+        hasError: false,
+        description: '',
+      },
+    },
+    removeCategory: {
       error: {
         hasError: false,
         description: '',
@@ -61,17 +76,34 @@ export const categoriesReducer = (state = initialState, action) => {
         info: 'categoriesReducer()->LOAD_CATEGORIES_FINISHED',
       });
 
-      const categoriesList = [...action.payload.categories];
-      categoriesList.sort(categoriesComparator);
-      const categoriesMap = new Map();
-      categoriesList.forEach((c) => categoriesMap.set(c.id, c));
+      const allCategoriesList = [...action.payload.categories];
+      const activeCategoriesList = allCategoriesList.filter((c) => !c.deleted);
+      activeCategoriesList.sort(categoriesComparator);
+
+      const allCategoriesMap = new Map();
+      const activeCategoriesMap = new Map();
+
+      allCategoriesList.forEach((c) => {
+        allCategoriesMap.set(c.id, c);
+        if (!c.deleted) {
+          activeCategoriesMap.set(c.id, c);
+        }
+      });
 
       return {
         ...state,
         categories: {
           ...state.categories,
-          list: categoriesList,
-          map: categoriesMap,
+          all: {
+            ...state.categories.all,
+            list: allCategoriesList,
+            map: allCategoriesMap,
+          },
+          active: {
+            ...state.categories.active,
+            list: activeCategoriesList,
+            map: activeCategoriesMap,
+          },
           loading: false,
           error: {
             hasError: false,
@@ -118,17 +150,34 @@ export const categoriesReducer = (state = initialState, action) => {
     case ADD_CATEGORY_FINISHED: {
       const category = {...action.payload.category};
 
-      const categoriesList = [...state.categories.list, category];
-      categoriesList.sort(categoriesComparator);
-      const categoriesMap = new Map();
-      categoriesList.forEach((c) => categoriesMap.set(c.id, c));
+      const allCategoriesList = [...state.categories.all.list, category];
+      const activeCategoriesList = allCategoriesList.filter((c) => !c.deleted);
+      activeCategoriesList.sort(categoriesComparator);
+
+      const allCategoriesMap = new Map();
+      const activeCategoriesMap = new Map();
+
+      allCategoriesList.forEach((c) => {
+        allCategoriesMap.set(c.id, c);
+        if (!c.deleted) {
+          activeCategoriesMap.set(c.id, c);
+        }
+      });
 
       return {
         ...state,
         categories: {
           ...state.categories,
-          list: categoriesList,
-          map: categoriesMap,
+          all: {
+            ...state.categories.all,
+            list: allCategoriesList,
+            map: allCategoriesMap,
+          },
+          active: {
+            ...state.categories.active,
+            list: activeCategoriesList,
+            map: activeCategoriesMap,
+          },
           addCategory: {
             ...state.categories.addCategory,
             error: {
@@ -175,21 +224,37 @@ export const categoriesReducer = (state = initialState, action) => {
     case UPDATE_CATEGORY_FINISHED: {
       const updatedCategory = {...action.payload.category};
 
-      const categoriesList = state.categories.list.filter(
+      const allCategoriesList = state.categories.all.list.filter(
         (c) => c.id !== updatedCategory.id,
       );
-      categoriesList.push(updatedCategory);
-      categoriesList.sort(categoriesComparator);
+      allCategoriesList.push(updatedCategory);
+      const activeCategoriesList = allCategoriesList.filter((c) => !c.deleted);
+      activeCategoriesList.sort(categoriesComparator);
 
-      const categoriesMap = new Map();
-      categoriesList.forEach((c) => categoriesMap.set(c.id, c));
+      const allCategoriesMap = new Map();
+      const activeCategoriesMap = new Map();
+
+      allCategoriesList.forEach((c) => {
+        allCategoriesMap.set(c.id, c);
+        if (!c.deleted) {
+          activeCategoriesMap.set(c.id, c);
+        }
+      });
 
       return {
         ...state,
         categories: {
           ...state.categories,
-          list: categoriesList,
-          map: categoriesMap,
+          all: {
+            ...state.categories.all,
+            list: allCategoriesList,
+            map: allCategoriesMap,
+          },
+          active: {
+            ...state.categories.active,
+            list: activeCategoriesList,
+            map: activeCategoriesMap,
+          },
           updateCategory: {
             ...state.categories.updateCategory,
             error: {
@@ -208,6 +273,84 @@ export const categoriesReducer = (state = initialState, action) => {
           ...state.categories,
           updateCategory: {
             ...state.categories.updateCategory,
+            error: {
+              hasError: true,
+              description: action.payload.error.description,
+            },
+          },
+        },
+      };
+    }
+
+    case REMOVE_CATEGORY_BEGIN: {
+      return {
+        ...state,
+        categories: {
+          ...state.categories,
+          removeCategory: {
+            ...state.categories.removeCategory,
+            error: {
+              hasError: false,
+              description: '',
+            },
+          },
+        },
+      };
+    }
+
+    case REMOVE_CATEGORY_FINISHED: {
+      const removedCategory = {...action.payload.category};
+
+      const allCategoriesList = state.categories.all.list.filter(
+        (c) => c.id !== removedCategory.id,
+      );
+      allCategoriesList.push(removedCategory);
+
+      const activeCategoriesList = allCategoriesList.filter((c) => !c.deleted);
+      activeCategoriesList.sort(categoriesComparator);
+
+      const allCategoriesMap = new Map();
+      const activeCategoriesMap = new Map();
+
+      allCategoriesList.forEach((c) => {
+        allCategoriesMap.set(c.id, c);
+        if (!c.deleted) {
+          activeCategoriesMap.set(c.id, c);
+        }
+      });
+
+      return {
+        ...state,
+        categories: {
+          ...state.categories,
+          all: {
+            ...state.categories.all,
+            list: allCategoriesList,
+            map: allCategoriesMap,
+          },
+          active: {
+            ...state.categories.active,
+            list: activeCategoriesList,
+            map: activeCategoriesMap,
+          },
+          removeCategory: {
+            ...state.categories.removeCategory,
+            error: {
+              hasError: false,
+              description: '',
+            },
+          },
+        },
+      };
+    }
+
+    case REMOVE_CATEGORY_ERROR: {
+      return {
+        ...state,
+        categories: {
+          ...state.categories,
+          removeCategory: {
+            ...state.categories.removeCategory,
             error: {
               hasError: true,
               description: action.payload.error.description,

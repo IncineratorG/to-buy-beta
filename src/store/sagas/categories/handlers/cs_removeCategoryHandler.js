@@ -2,9 +2,8 @@ import {call, put} from '@redux-saga/core/effects';
 import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import {
   removeCategoryBeginAction,
-  updateCategoryBeginAction,
-  updateCategoryErrorAction,
-  updateCategoryFinishedAction,
+  removeCategoryErrorAction,
+  removeCategoryFinishedAction,
 } from '../../../actions/categories/categoriesActions';
 import Services from '../../../../services/Services';
 
@@ -13,31 +12,31 @@ function* cs_removeCategoryHandler(action) {
 
   yield put(removeCategoryBeginAction({id}));
 
-  // try {
-  //   const shoppingListService = Services.get(
-  //     Services.serviceTypes.SHOPPING_LIST,
-  //   );
-  //
-  //   const updatedCategory = yield call(shoppingListService.updateCategory, {
-  //     id,
-  //     name,
-  //     color,
-  //   });
-  //
-  //   if (updatedCategory.id) {
-  //     yield put(updateCategoryFinishedAction({category: updatedCategory}));
-  //   } else {
-  //     yield put(
-  //       updateCategoryErrorAction({id, description: 'ERROR_UPDATING_CATEGORY'}),
-  //     );
-  //   }
-  // } catch (e) {
-  //   SystemEventsHandler.onError({
-  //     err: 'cs_removeCategoryHandler()->ERROR: ' + e,
-  //   });
-  //
-  //   yield put(updateCategoryErrorAction({id, description: e.toString()}));
-  // }
+  try {
+    const shoppingListService = Services.get(
+      Services.serviceTypes.SHOPPING_LIST,
+    );
+
+    const removedCategory = yield call(shoppingListService.removeCategory, {
+      id,
+    });
+    if (removedCategory.id) {
+      yield put(removeCategoryFinishedAction({category: removedCategory}));
+    } else {
+      yield put(
+        removeCategoryErrorAction({
+          id,
+          description: 'ERROR_REMOVING_CATEGORY_WITH_ID: ' + id,
+        }),
+      );
+    }
+  } catch (e) {
+    SystemEventsHandler.onError({
+      err: 'cs_removeCategoryHandler()->ERROR: ' + e,
+    });
+
+    yield put(removeCategoryErrorAction({id, description: e.toString()}));
+  }
 }
 
 export default cs_removeCategoryHandler;

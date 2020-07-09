@@ -15,6 +15,7 @@ import {
 } from '../stores/productListActions';
 import {
   addCategoryAction,
+  removeCategoryAction,
   updateCategoryAction,
 } from '../../../store/actions/categories/categoriesActions';
 
@@ -113,11 +114,9 @@ export const useProductsListController = (model) => {
     model.localDispatch(pla_closeEditCategoryDialog());
   };
 
-  const editCategoryDialogRemoveButtonHandler = ({category}) => {
-    SystemEventsHandler.onInfo({
-      info:
-        'editCategoryDialogRemoveButtonHandler(): ' + JSON.stringify(category),
-    });
+  const editCategoryDialogRemoveButtonHandler = ({id}) => {
+    model.dispatch(removeCategoryAction({id}));
+    model.localDispatch(pla_closeEditCategoryDialog());
   };
 
   const editCategoryDialogCancelButtonHandler = () => {

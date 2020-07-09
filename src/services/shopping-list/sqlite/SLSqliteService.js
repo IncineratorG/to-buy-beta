@@ -85,7 +85,22 @@ export class SLSqliteService {
       db: this.#db,
       id,
     });
-    return !hasError;
+    if (hasError) {
+      return {hasError};
+    }
+
+    const categories = await CategoriesTableOperations.getCategories({
+      db: this.#db,
+    });
+
+    const filteredCategories = categories.filter(
+      (category) => category.id === id,
+    );
+    if (filteredCategories.length) {
+      return filteredCategories[0];
+    } else {
+      return {hasError: true};
+    }
   }
 
   static async getUnits() {
