@@ -10,8 +10,12 @@ import {
 } from '../../../../tables/categoriesTable';
 import {
   UNITS_TABLE,
+  UNITS_TABLE_CREATE_TIMESTAMP,
+  UNITS_TABLE_DELETED,
+  UNITS_TABLE_EDITABLE,
   UNITS_TABLE_ID,
   UNITS_TABLE_UNIT_NAME,
+  UNITS_TABLE_UPDATE_TIMESTAMP,
 } from '../../../../tables/unitsTable';
 import {
   SHOPPING_LISTS_TABLE,
@@ -68,7 +72,15 @@ const dbUpgradeData = {
           UNITS_TABLE_ID +
           ' INTEGER PRIMARY KEY NOT NULL, ' +
           UNITS_TABLE_UNIT_NAME +
-          ' TEXT NOT NULL)',
+          ' TEXT NOT NULL, ' +
+          UNITS_TABLE_EDITABLE +
+          ' INTEGER NOT NULL, ' +
+          UNITS_TABLE_DELETED +
+          ' INTEGER NOT NULL, ' +
+          UNITS_TABLE_CREATE_TIMESTAMP +
+          ' INTEGER NOT NULL, ' +
+          UNITS_TABLE_UPDATE_TIMESTAMP +
+          ' INTEGER NOT NULL)',
 
         'CREATE TABLE IF NOT EXISTS ' +
           SHOPPING_LISTS_TABLE +

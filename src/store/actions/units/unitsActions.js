@@ -3,6 +3,10 @@ import {
   LOAD_UNITS_BEGIN,
   LOAD_UNITS_FINISHED,
   LOAD_UNITS_ERROR,
+  ADD_UNIT,
+  ADD_UNIT_BEGIN,
+  ADD_UNIT_FINISHED,
+  ADD_UNIT_ERROR,
 } from '../../types/units/unitsTypes';
 
 export const loadUnitsAction = ({shoppingListId}) => {
@@ -38,6 +42,38 @@ export const loadUnitsErrorAction = ({shoppingListId, description}) => {
     type: LOAD_UNITS_ERROR,
     payload: {
       shoppingListId,
+      error: {
+        description,
+      },
+    },
+  };
+};
+
+export const addUnitAction = ({name}) => {
+  return {
+    type: ADD_UNIT,
+    payload: {name},
+  };
+};
+
+export const addUnitBeginAction = () => {
+  return {
+    type: ADD_UNIT_BEGIN,
+    payload: undefined,
+  };
+};
+
+export const addUnitFinishedAction = ({unit}) => {
+  return {
+    type: ADD_UNIT_FINISHED,
+    payload: {unit},
+  };
+};
+
+export const addUnitErrorAction = ({description}) => {
+  return {
+    type: ADD_UNIT_ERROR,
+    payload: {
       error: {
         description,
       },

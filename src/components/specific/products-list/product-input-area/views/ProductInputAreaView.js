@@ -24,6 +24,8 @@ const ProductInputAreaView = ({styles, model, controller}) => {
     categoryLongPressHandler,
     addCategoryPressHandler,
     unitPressHandler,
+    unitLongPressHandler,
+    addUnitPressHandler,
   } = controller;
 
   const inputOptionsComponent = (
@@ -36,6 +38,8 @@ const ProductInputAreaView = ({styles, model, controller}) => {
         onCategoryLongPress={categoryLongPressHandler}
         onAddCategoryPress={addCategoryPressHandler}
         onUnitPress={unitPressHandler}
+        onUnitLongPress={unitLongPressHandler}
+        onAddUnitPress={addUnitPressHandler}
       />
     </View>
   );

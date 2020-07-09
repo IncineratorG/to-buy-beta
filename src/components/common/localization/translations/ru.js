@@ -68,4 +68,9 @@ export const ru = {
   EditCategoryDialog_saveButton: 'СОХРАНИТЬ',
   EditCategoryDialog_removeButton: 'УДАЛИТЬ',
   EditCategoryDialog_cancelButton: 'ОТМЕНА',
+
+  AddUnitDialog_dialogTitle: 'Добавление единицы измерения',
+  AddUnitDialog_placeholder: 'Единица измерения',
+  AddUnitDialog_addButton: 'ДОБАВИТЬ',
+  AddUnitDialog_cancelButton: 'ОТМЕНА',
 };

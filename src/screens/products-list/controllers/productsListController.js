@@ -7,9 +7,11 @@ import {
 import {updateShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
 import {
   pla_closeAddCategoryDialog,
+  pla_closeAddUnitDialog,
   pla_closeEditCategoryDialog,
   pla_hideProductInputArea,
   pla_openAddCategoryDialog,
+  pla_openAddUnitDialog,
   pla_openEditCategoryDialog,
   pla_openProductInputArea,
 } from '../stores/productListActions';
@@ -18,6 +20,7 @@ import {
   removeCategoryAction,
   updateCategoryAction,
 } from '../../../store/actions/categories/categoriesActions';
+import {addUnitAction} from '../../../store/actions/units/unitsActions';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
@@ -123,6 +126,25 @@ export const useProductsListController = (model) => {
     model.localDispatch(pla_closeEditCategoryDialog());
   };
 
+  const inputAreaAddUnitPressHandler = ({productInputState}) => {
+    model.localDispatch(
+      pla_openAddUnitDialog({productInputAreaState: productInputState}),
+    );
+  };
+
+  const addUnitDialogTouchOutsideHandler = () => {
+    model.localDispatch(pla_closeAddUnitDialog());
+  };
+
+  const addUnitDialogCancelButtonHandler = () => {
+    model.localDispatch(pla_closeAddUnitDialog());
+  };
+
+  const addUnitDialogAddButtonHandler = ({name}) => {
+    model.dispatch(addUnitAction({name}));
+    model.localDispatch(pla_closeAddUnitDialog());
+  };
+
   return {
     backButtonPressHandler,
     addProductButtonHandler,
@@ -142,5 +164,9 @@ export const useProductsListController = (model) => {
     editCategoryDialogSaveButtonHandler,
     editCategoryDialogRemoveButtonHandler,
     editCategoryDialogCancelButtonHandler,
+    inputAreaAddUnitPressHandler,
+    addUnitDialogTouchOutsideHandler,
+    addUnitDialogCancelButtonHandler,
+    addUnitDialogAddButtonHandler,
   };
 };

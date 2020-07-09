@@ -34,6 +34,10 @@ export class ShoppingListService {
     return await SLSqliteService.getUnits();
   }
 
+  static async addUnit({name}) {
+    return await SLSqliteService.addUnit({name});
+  }
+
   static async createShoppingList({listName, creator}) {
     return await SLSqliteService.createShoppingList({
       listName,

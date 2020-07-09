@@ -10,6 +10,7 @@ import ListOfProductsLoading from '../../../components/specific/products-list/li
 import ProductInputArea from '../../../components/specific/products-list/product-input-area/ProductInputArea';
 import AddCategoryDialog from '../../../components/specific/products-list/add-category-dialog/AddCategoryDialog';
 import EditCategoryDialog from '../../../components/specific/products-list/edit-category-dialog/EditCategoryDialog';
+import AddUnitDialog from '../../../components/specific/products-list/add-unit-dialog/AddUnitDialog';
 
 const ProductsListView = ({styles, model, controller}) => {
   const {
@@ -28,11 +29,13 @@ const ProductsListView = ({styles, model, controller}) => {
     inputArea,
     addCategoryDialog,
     editCategoryDialog,
+    addUnitDialog,
   } = state;
 
   const {inputAreaVisible, inputAreaState} = inputArea;
   const {addCategoryDialogVisible} = addCategoryDialog;
   const {editCategoryDialogVisible, editCategory} = editCategoryDialog;
+  const {addUnitDialogVisible} = addUnitDialog;
 
   const {
     addProductButtonHandler,
@@ -52,9 +55,22 @@ const ProductsListView = ({styles, model, controller}) => {
     editCategoryDialogSaveButtonHandler,
     editCategoryDialogRemoveButtonHandler,
     editCategoryDialogCancelButtonHandler,
+    inputAreaAddUnitPressHandler,
+    addUnitDialogTouchOutsideHandler,
+    addUnitDialogCancelButtonHandler,
+    addUnitDialogAddButtonHandler,
   } = controller;
 
   // ===
+  const addUnitDialogComponent = (
+    <AddUnitDialog
+      visible={addUnitDialogVisible}
+      onTouchOutside={addUnitDialogTouchOutsideHandler}
+      onAddPress={addUnitDialogAddButtonHandler}
+      onCancelPress={addUnitDialogCancelButtonHandler}
+    />
+  );
+
   const addCategoryDialogComponent = (
     <AddCategoryDialog
       visible={addCategoryDialogVisible}
@@ -143,6 +159,7 @@ const ProductsListView = ({styles, model, controller}) => {
         onInputAreaHide={inputAreaHideHandler}
         onAddCategoryPress={inputAreaAddCategoryPressHandler}
         onCategoryLongPress={inputAreaCategoryLongPressHandler}
+        onAddUnitPress={inputAreaAddUnitPressHandler}
         predefinedState={inputAreaState}
         categoriesList={categoriesList}
         categoriesMap={categoriesMap}
@@ -172,6 +189,7 @@ const ProductsListView = ({styles, model, controller}) => {
       {bottomGradientComponent}
       {addCategoryDialogComponent}
       {editCategoryDialogComponent}
+      {addUnitDialogComponent}
     </View>
   );
 

@@ -2,3 +2,7 @@ export const LOAD_UNITS = 'U_LOAD_UNITS';
 export const LOAD_UNITS_BEGIN = 'U_LOAD_UNITS_BEGIN';
 export const LOAD_UNITS_FINISHED = 'U_LOAD_UNITS_FINISHED';
 export const LOAD_UNITS_ERROR = 'U_LOAD_UNITS_ERROR';
+export const ADD_UNIT = 'U_ADD_UNIT';
+export const ADD_UNIT_BEGIN = 'U_ADD_UNIT_BEGIN';
+export const ADD_UNIT_FINISHED = 'U_ADD_UNIT_FINISHED';
+export const ADD_UNIT_ERROR = 'U_ADD_UNIT_ERROR';

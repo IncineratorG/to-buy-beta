@@ -12,10 +12,6 @@ function* us_loadUnitsHandler(action) {
 
   yield put(loadUnitsBeginAction({shoppingListId}));
 
-  // SystemEventsHandler.onInfo({
-  //   info: 'us_loadUnitsHandler(): ' + shoppingListId,
-  // });
-
   try {
     const shoppingListService = Services.get(
       Services.serviceTypes.SHOPPING_LIST,

@@ -30,10 +30,6 @@ const CategoriesListItem = ({
     }
   };
 
-  // if (category.deleted) {
-  //   return null;
-  // }
-
   return (
     <TouchableWithoutFeedback
       style={styles.touchable}
@@ -45,7 +41,6 @@ const CategoriesListItem = ({
           // eslint-disable-next-line react-native/no-inline-styles
           {
             borderColor: category.color,
-            opacity: category.completed ? 0.2 : 1.0,
             backgroundColor:
               category.id === selectedCategoryId ? category.color : 'white',
           },
@@ -75,6 +70,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 30,
+    minWidth: 50,
   },
   mainContainer: {
     backgroundColor: 'lightgrey',
@@ -84,6 +80,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     margin: 4,
+    minWidth: 50,
   },
   typeTitle: {
     margin: 5,

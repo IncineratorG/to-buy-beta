@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
     height: 20,
   },
   categoryNameContainer: {
-    // flex: 1,
     backgroundColor: 'transparent',
   },
   buttonsContainer: {

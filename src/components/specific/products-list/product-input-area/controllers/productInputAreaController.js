@@ -81,6 +81,18 @@ export const useProductInputAreaController = (model) => {
     model.localDispatch(piaa_setUnit({unit}));
   };
 
+  const unitLongPressHandler = ({unit}) => {
+    SystemEventsHandler.onInfo({
+      info: 'unitLongPressHandler(): ' + JSON.stringify(unit),
+    });
+  };
+
+  const addUnitPressHandler = () => {
+    model.externalHandlers.onAddUnitPress({
+      productInputState: model.data.state,
+    });
+  };
+
   return {
     productNameTypePressHandler,
     productQuantityTypePressHandler,
@@ -91,5 +103,7 @@ export const useProductInputAreaController = (model) => {
     categoryLongPressHandler,
     addCategoryPressHandler,
     unitPressHandler,
+    unitLongPressHandler,
+    addUnitPressHandler,
   };
 };

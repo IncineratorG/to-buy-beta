@@ -10,9 +10,11 @@ import {SystemEventsHandler} from '../../../../../services/service-utils/system-
 
 export const useProductInputAreaModel = ({
   onInputAreaHide,
+  predefinedState,
   onAddCategoryPress,
   onCategoryLongPress,
-  predefinedState,
+  onAddUnitPress,
+  onUnitLongPress,
   categoriesList,
   categoriesMap,
   unitsList,
@@ -59,6 +61,8 @@ export const useProductInputAreaModel = ({
       onInputAreaHide,
       onAddCategoryPress,
       onCategoryLongPress,
+      onAddUnitPress,
+      onUnitLongPress,
     },
     localDispatch: dispatch,
   };

@@ -12,6 +12,8 @@ const ProductInputOptions = ({
   onCategoryLongPress,
   onAddCategoryPress,
   onUnitPress,
+  onUnitLongPress,
+  onAddUnitPress,
 }) => {
   const {type} = state.currentInput;
 
@@ -31,7 +33,15 @@ const ProductInputOptions = ({
     }
 
     case ProductInputType.QUANTITY: {
-      optionsComponent = <UnitsOption state={state} unitsList={unitsList} />;
+      optionsComponent = (
+        <UnitsOption
+          state={state}
+          unitsList={unitsList}
+          onUnitPress={onUnitPress}
+          onUnitLongPress={onUnitLongPress}
+          onAddUnitPress={onAddUnitPress}
+        />
+      );
       break;
     }
   }

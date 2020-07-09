@@ -37,8 +37,18 @@ export const useProductsListModel = () => {
   const products = useSelector(
     (storeState) => storeState.productsList.productsList.products,
   );
-  const unitsList = useSelector((storeState) => storeState.units.units.list);
-  const unitsMap = useSelector((storeState) => storeState.units.units.map);
+  const unitsList = useSelector(
+    (storeState) => storeState.units.units.active.list,
+  );
+  const unitsMap = useSelector(
+    (storeState) => storeState.units.units.active.map,
+  );
+  const allUnitsList = useSelector(
+    (storeState) => storeState.units.units.all.list,
+  );
+  const allUnitsMap = useSelector(
+    (storeState) => storeState.units.units.all.map,
+  );
   const categoriesList = useSelector(
     (storeState) => storeState.categories.categories.active.list,
   );

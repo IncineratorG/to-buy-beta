@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   addCategoryButton: {
     flex: 1,
     alignSelf: 'stretch',
-    backgroundColor: 'green',
+    backgroundColor: '#4a9dec',
     borderRadius: 15,
   },
   addCategoryButtonIcon: {

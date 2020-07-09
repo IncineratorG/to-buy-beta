@@ -73,9 +73,9 @@ const ProductMainInput = ({state, onConfirmPress, onChangeText}) => {
             style={[
               styles.confirmButton,
               // eslint-disable-next-line react-native/no-inline-styles
-              {backgroundColor: values.acceptable ? '#304FFE' : '#CCCCCC'},
+              {backgroundColor: values.acceptable ? '#17cf73' : '#CCCCCC'},
             ]}>
-            <Image style={styles.confirmButtonIcon} source={icons.arrow_up} />
+            <Image style={styles.confirmButtonIcon} source={icons.checkmark} />
           </View>
         </TouchableHighlight>
       </View>
@@ -127,9 +127,9 @@ const styles = StyleSheet.create({
   confirmButton: {
     flex: 1,
     alignSelf: 'stretch',
-    backgroundColor: '#304FFE',
+    backgroundColor: '#19e680',
     borderRadius: 4,
-    padding: 4,
+    padding: 6,
   },
   confirmButtonIcon: {
     flex: 1,
