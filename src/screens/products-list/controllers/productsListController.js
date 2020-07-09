@@ -9,10 +9,12 @@ import {
   pla_closeAddCategoryDialog,
   pla_closeAddUnitDialog,
   pla_closeEditCategoryDialog,
+  pla_closeEditUnitDialog,
   pla_hideProductInputArea,
   pla_openAddCategoryDialog,
   pla_openAddUnitDialog,
   pla_openEditCategoryDialog,
+  pla_openEditUnitDialog,
   pla_openProductInputArea,
 } from '../stores/productListActions';
 import {
@@ -145,6 +147,32 @@ export const useProductsListController = (model) => {
     model.localDispatch(pla_closeAddUnitDialog());
   };
 
+  const inputAreaUnitLongPressHandler = ({unit, productInputState}) => {
+    if (!unit.editable) {
+      return;
+    }
+
+    model.localDispatch(
+      pla_openEditUnitDialog({productInputAreaState: productInputState, unit}),
+    );
+  };
+
+  const editUnitDialogTouchOutsideHandler = () => {
+    model.localDispatch(pla_closeEditUnitDialog());
+  };
+
+  const editUnitDialogCancelButtonHandler = () => {
+    model.localDispatch(pla_closeEditUnitDialog());
+  };
+
+  const editUnitDialogSaveButtonHandler = ({id, name}) => {
+    model.localDispatch(pla_closeEditUnitDialog());
+  };
+
+  const editUnitDialogRemoveButtonHandler = ({id}) => {
+    model.localDispatch(pla_closeEditUnitDialog());
+  };
+
   return {
     backButtonPressHandler,
     addProductButtonHandler,
@@ -168,5 +196,10 @@ export const useProductsListController = (model) => {
     addUnitDialogTouchOutsideHandler,
     addUnitDialogCancelButtonHandler,
     addUnitDialogAddButtonHandler,
+    inputAreaUnitLongPressHandler,
+    editUnitDialogTouchOutsideHandler,
+    editUnitDialogCancelButtonHandler,
+    editUnitDialogSaveButtonHandler,
+    editUnitDialogRemoveButtonHandler,
   };
 };

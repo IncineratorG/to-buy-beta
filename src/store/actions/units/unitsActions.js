@@ -7,6 +7,10 @@ import {
   ADD_UNIT_BEGIN,
   ADD_UNIT_FINISHED,
   ADD_UNIT_ERROR,
+  UPDATE_UNIT,
+  UPDATE_UNIT_BEGIN,
+  UPDATE_UNIT_FINISHED,
+  UPDATE_UNIT_ERROR,
 } from '../../types/units/unitsTypes';
 
 export const loadUnitsAction = ({shoppingListId}) => {
@@ -74,6 +78,39 @@ export const addUnitErrorAction = ({description}) => {
   return {
     type: ADD_UNIT_ERROR,
     payload: {
+      error: {
+        description,
+      },
+    },
+  };
+};
+
+export const updateUnitAction = ({id, name}) => {
+  return {
+    type: UPDATE_UNIT,
+    payload: {id, name},
+  };
+};
+
+export const updateUnitBeginAction = ({id}) => {
+  return {
+    type: UPDATE_UNIT_BEGIN,
+    payload: {id},
+  };
+};
+
+export const updateUnitFinishedAction = ({unit}) => {
+  return {
+    type: UPDATE_UNIT_FINISHED,
+    payload: {unit},
+  };
+};
+
+export const updateUnitErrorAction = ({id, description}) => {
+  return {
+    type: UPDATE_UNIT_ERROR,
+    payload: {
+      id,
       error: {
         description,
       },

@@ -2,10 +2,12 @@ import {
   CLOSE_ADD_CATEGORY_DIALOG,
   CLOSE_ADD_UNIT_DIALOG,
   CLOSE_EDIT_CATEGORY_DIALOG,
+  CLOSE_EDIT_UNIT_DIALOG,
   HIDE_PRODUCT_INPUT_AREA,
   OPEN_ADD_CATEGORY_DIALOG,
   OPEN_ADD_UNIT_DIALOG,
   OPEN_EDIT_CATEGORY_DIALOG,
+  OPEN_EDIT_UNIT_DIALOG,
   OPEN_PRODUCT_INPUT_AREA,
   SET_DATA_LOADING,
 } from './types/productListActionTypes';
@@ -75,6 +77,20 @@ export const pla_openAddUnitDialog = ({productInputAreaState}) => {
 export const pla_closeAddUnitDialog = () => {
   return {
     type: CLOSE_ADD_UNIT_DIALOG,
+    payload: undefined,
+  };
+};
+
+export const pla_openEditUnitDialog = ({productInputAreaState, unit}) => {
+  return {
+    type: OPEN_EDIT_UNIT_DIALOG,
+    payload: {productInputAreaState, unit},
+  };
+};
+
+export const pla_closeEditUnitDialog = () => {
+  return {
+    type: CLOSE_EDIT_UNIT_DIALOG,
     payload: undefined,
   };
 };

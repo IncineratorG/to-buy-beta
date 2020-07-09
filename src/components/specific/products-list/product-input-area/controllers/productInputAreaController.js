@@ -82,8 +82,9 @@ export const useProductInputAreaController = (model) => {
   };
 
   const unitLongPressHandler = ({unit}) => {
-    SystemEventsHandler.onInfo({
-      info: 'unitLongPressHandler(): ' + JSON.stringify(unit),
+    model.externalHandlers.onUnitLongPress({
+      productInputState: model.data.state,
+      unit,
     });
   };
 

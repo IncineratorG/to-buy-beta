@@ -15,6 +15,10 @@ const productListState = {
   addUnitDialog: {
     addUnitDialogVisible: false,
   },
+  editUnitDialog: {
+    editUnitDialogVisible: false,
+    editUnit: null,
+  },
 };
 
 export default productListState;

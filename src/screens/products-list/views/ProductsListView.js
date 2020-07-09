@@ -11,6 +11,7 @@ import ProductInputArea from '../../../components/specific/products-list/product
 import AddCategoryDialog from '../../../components/specific/products-list/add-category-dialog/AddCategoryDialog';
 import EditCategoryDialog from '../../../components/specific/products-list/edit-category-dialog/EditCategoryDialog';
 import AddUnitDialog from '../../../components/specific/products-list/add-unit-dialog/AddUnitDialog';
+import EditUnitDialog from '../../../components/specific/products-list/edit-unit-dialog/EditUnitDialog';
 
 const ProductsListView = ({styles, model, controller}) => {
   const {
@@ -30,12 +31,14 @@ const ProductsListView = ({styles, model, controller}) => {
     addCategoryDialog,
     editCategoryDialog,
     addUnitDialog,
+    editUnitDialog,
   } = state;
 
   const {inputAreaVisible, inputAreaState} = inputArea;
   const {addCategoryDialogVisible} = addCategoryDialog;
   const {editCategoryDialogVisible, editCategory} = editCategoryDialog;
   const {addUnitDialogVisible} = addUnitDialog;
+  const {editUnitDialogVisible, editUnit} = editUnitDialog;
 
   const {
     addProductButtonHandler,
@@ -59,6 +62,11 @@ const ProductsListView = ({styles, model, controller}) => {
     addUnitDialogTouchOutsideHandler,
     addUnitDialogCancelButtonHandler,
     addUnitDialogAddButtonHandler,
+    inputAreaUnitLongPressHandler,
+    editUnitDialogTouchOutsideHandler,
+    editUnitDialogCancelButtonHandler,
+    editUnitDialogSaveButtonHandler,
+    editUnitDialogRemoveButtonHandler,
   } = controller;
 
   // ===
@@ -68,6 +76,17 @@ const ProductsListView = ({styles, model, controller}) => {
       onTouchOutside={addUnitDialogTouchOutsideHandler}
       onAddPress={addUnitDialogAddButtonHandler}
       onCancelPress={addUnitDialogCancelButtonHandler}
+    />
+  );
+
+  const editUnitDialogComponent = (
+    <EditUnitDialog
+      visible={editUnitDialogVisible}
+      unit={editUnit}
+      onTouchOutside={editUnitDialogTouchOutsideHandler}
+      onSavePress={editUnitDialogSaveButtonHandler}
+      onRemovePress={editUnitDialogRemoveButtonHandler}
+      onCancelPress={editUnitDialogCancelButtonHandler}
     />
   );
 
@@ -160,6 +179,7 @@ const ProductsListView = ({styles, model, controller}) => {
         onAddCategoryPress={inputAreaAddCategoryPressHandler}
         onCategoryLongPress={inputAreaCategoryLongPressHandler}
         onAddUnitPress={inputAreaAddUnitPressHandler}
+        onUnitLongPress={inputAreaUnitLongPressHandler}
         predefinedState={inputAreaState}
         categoriesList={categoriesList}
         categoriesMap={categoriesMap}
@@ -190,6 +210,7 @@ const ProductsListView = ({styles, model, controller}) => {
       {addCategoryDialogComponent}
       {editCategoryDialogComponent}
       {addUnitDialogComponent}
+      {editUnitDialogComponent}
     </View>
   );
 

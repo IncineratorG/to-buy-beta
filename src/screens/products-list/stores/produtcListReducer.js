@@ -2,10 +2,12 @@ import {
   CLOSE_ADD_CATEGORY_DIALOG,
   CLOSE_ADD_UNIT_DIALOG,
   CLOSE_EDIT_CATEGORY_DIALOG,
+  CLOSE_EDIT_UNIT_DIALOG,
   HIDE_PRODUCT_INPUT_AREA,
   OPEN_ADD_CATEGORY_DIALOG,
   OPEN_ADD_UNIT_DIALOG,
   OPEN_EDIT_CATEGORY_DIALOG,
+  OPEN_EDIT_UNIT_DIALOG,
   OPEN_PRODUCT_INPUT_AREA,
   SET_DATA_LOADING,
 } from './types/productListActionTypes';
@@ -118,6 +120,34 @@ function productListReducer(state, action) {
         },
         addUnitDialog: {
           addUnitDialogVisible: false,
+        },
+      };
+    }
+
+    case OPEN_EDIT_UNIT_DIALOG: {
+      return {
+        ...state,
+        inputArea: {
+          ...state.inputArea,
+          inputAreaState: action.payload.productInputAreaState,
+          inputAreaVisible: false,
+        },
+        editUnitDialog: {
+          editUnitDialogVisible: true,
+          editUnit: action.payload.unit,
+        },
+      };
+    }
+
+    case CLOSE_EDIT_UNIT_DIALOG: {
+      return {
+        ...state,
+        inputArea: {
+          ...state.inputArea,
+          inputAreaVisible: true,
+        },
+        editUnitDialog: {
+          editUnitDialogVisible: false,
         },
       };
     }
