@@ -28,8 +28,37 @@ export const useProductInputAreaController = (model) => {
     model.localDispatch(piaa_selectProductNoteType());
   };
 
-  const confirmInputButtonPressHandler = () => {
-    SystemEventsHandler.onInfo({info: 'confirmInputButtonPressHandler()'});
+  const confirmInputButtonPressHandler = ({
+    productName,
+    quantity,
+    note,
+    unitId,
+    categoryId,
+  }) => {
+    if (!productName || !quantity || !unitId || !categoryId) {
+      const input = {
+        productName,
+        quantity,
+        note,
+        unitId,
+        categoryId,
+      };
+      SystemEventsHandler.onError({
+        err:
+          'confirmInputButtonPressHandler()->BAD_INPUT: ' +
+          JSON.stringify(input),
+      });
+
+      return;
+    }
+
+    model.externalHandlers.onSubmit({
+      productName,
+      quantity,
+      note,
+      unitId,
+      categoryId,
+    });
     model.localDispatch(piaa_submitValues());
   };
 

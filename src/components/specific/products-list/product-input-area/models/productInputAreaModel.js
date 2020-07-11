@@ -4,7 +4,9 @@ import productInputAreaReducer from '../stores/productInputAreaReducer';
 import productInputAreaState from '../stores/productInputAreaState';
 import {
   piaa_hideInputArea,
+  piaa_setCategory,
   piaa_setPredefinedState,
+  piaa_setUnit,
 } from '../stores/productInputAreaActions';
 import {SystemEventsHandler} from '../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 
@@ -15,6 +17,7 @@ export const useProductInputAreaModel = ({
   onCategoryLongPress,
   onAddUnitPress,
   onUnitLongPress,
+  onSubmit,
   categoriesList,
   categoriesMap,
   unitsList,
@@ -45,8 +48,27 @@ export const useProductInputAreaModel = ({
     if (predefinedState) {
       dispatch(piaa_setPredefinedState({state: predefinedState}));
     }
+  }, [predefinedState]);
+
+  useEffect(() => {
+    if (!predefinedState) {
+      let defaultUnit;
+      const defaultUnitsList = unitsList.filter((u) => u.default);
+      if (defaultUnitsList.length) {
+        defaultUnit = defaultUnitsList[0];
+      }
+
+      let defaultCategory;
+      const defaultCategoriesList = categoriesList.filter((c) => c.default);
+      if (defaultCategoriesList.length) {
+        defaultCategory = defaultCategoriesList[0];
+      }
+
+      dispatch(piaa_setUnit({unit: defaultUnit}));
+      dispatch(piaa_setCategory({category: defaultCategory}));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [predefinedState]);
 
   return {
     data: {
@@ -63,6 +85,7 @@ export const useProductInputAreaModel = ({
       onCategoryLongPress,
       onAddUnitPress,
       onUnitLongPress,
+      onSubmit,
     },
     localDispatch: dispatch,
   };

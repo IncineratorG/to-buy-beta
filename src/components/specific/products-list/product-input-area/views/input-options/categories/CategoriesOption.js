@@ -20,7 +20,7 @@ const CategoriesOption = ({
   return (
     <View style={styles.mainContainer}>
       <CategoriesList
-        selectedCategory={state.selectedCategory}
+        selectedCategory={state.currentInput.selectedCategory}
         categoriesList={categoriesList}
         onCategoryPress={onCategoryPress}
         onCategoryLongPress={onCategoryLongPress}

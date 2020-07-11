@@ -145,14 +145,20 @@ function productInputAreaReducer(state, action) {
     case SET_CATEGORY: {
       return {
         ...state,
-        selectedCategory: action.payload.category,
+        currentInput: {
+          ...state.currentInput,
+          selectedCategory: {...action.payload.category},
+        },
       };
     }
 
     case SET_UNIT: {
       return {
         ...state,
-        selectedUnit: action.payload.unit,
+        currentInput: {
+          ...state.currentInput,
+          selectedUnit: {...action.payload.unit},
+        },
       };
     }
 
@@ -172,8 +178,8 @@ function productInputAreaReducer(state, action) {
             acceptable: false,
           },
         },
-        selectedCategory: undefined,
-        selectedUnit: undefined,
+        // selectedCategory: undefined,
+        // selectedUnit: undefined,
       };
     }
 

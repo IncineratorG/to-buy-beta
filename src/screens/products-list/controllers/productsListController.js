@@ -50,8 +50,23 @@ export const useProductsListController = (model) => {
     model.localDispatch(pla_hideProductInputArea());
   };
 
-  const inputAreaSubmitValuesHandler = (values) => {
-    SystemEventsHandler.onInfo({info: 'inputAreaSubmitValuesHandler()'});
+  const inputAreaSubmitValuesHandler = ({
+    productName,
+    quantity,
+    note,
+    unitId,
+    categoryId,
+  }) => {
+    model.dispatch(
+      addProductAction({
+        shoppingListId: model.data.shoppingListId,
+        name: productName,
+        quantity,
+        note,
+        unitId,
+        categoryId,
+      }),
+    );
   };
 
   const productPressHandler = useCallback((product) => {

@@ -9,6 +9,7 @@ import {
   LOAD_PRODUCTS_LIST_FINISHED,
 } from '../../types/products-list/productsListTypes';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import productsComparator from './helpers/productsComparator';
 
 const initialState = {
   productsList: {
@@ -75,10 +76,9 @@ export const productsListReducer = (state = initialState, action) => {
         info: 'productsListReducer()->LOAD_PRODUCTS_LIST_FINISHED',
       });
 
-      const products = [...action.payload.productsList.products];
-      // if (products.length) {
-      //   products.push({id: 'extra', extra: true});
-      // }
+      const products = [...action.payload.productsList.products].sort(
+        productsComparator,
+      );
 
       return {
         ...state,
@@ -143,7 +143,9 @@ export const productsListReducer = (state = initialState, action) => {
         confirmed: false,
       };
 
-      const products = [...state.productsList.products, product];
+      const products = [...state.productsList.products, product].sort(
+        productsComparator,
+      );
 
       return {
         ...state,

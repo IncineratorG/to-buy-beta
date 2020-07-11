@@ -11,8 +11,22 @@ import {SystemEventsHandler} from '../../../../../../services/service-utils/syst
 import {useTranslation} from '../../../../../common/localization';
 import ProductInputType from '../../stores/types/productInputAreaProductInputTypes';
 
-const ProductMainInput = ({state, onConfirmPress, onChangeText}) => {
-  const {keyboardType, icon, placeholder, type, values} = state.currentInput;
+const ProductMainInput = ({
+  state,
+  unitsList,
+  categoriesList,
+  onConfirmPress,
+  onChangeText,
+}) => {
+  const {
+    keyboardType,
+    icon,
+    placeholder,
+    type,
+    values,
+    selectedCategory,
+    selectedUnit,
+  } = state.currentInput;
 
   let textInputValue = '';
   switch (type) {
@@ -36,7 +50,27 @@ const ProductMainInput = ({state, onConfirmPress, onChangeText}) => {
 
   const onSubmitEditing = () => {
     if (values.acceptable && onConfirmPress) {
-      onConfirmPress();
+      const {productName, quantity: productQuantity, note} = values;
+
+      const quantity = productQuantity ? productQuantity : '1';
+
+      let unitId = selectedUnit ? selectedUnit.id : -1;
+      if (unitId === -1) {
+        const defaultUnitsList = unitsList.filter((u) => u.default);
+        if (defaultUnitsList.length) {
+          unitId = defaultUnitsList[0].id;
+        }
+      }
+
+      let categoryId = selectedCategory ? selectedCategory.id : -1;
+      if (categoryId === -1) {
+        const defaultCategoriesList = categoriesList.filter((c) => c.default);
+        if (defaultCategoriesList.length) {
+          categoryId = defaultCategoriesList[0].id;
+        }
+      }
+
+      onConfirmPress({productName, quantity, note, unitId, categoryId});
     }
   };
 
@@ -68,7 +102,7 @@ const ProductMainInput = ({state, onConfirmPress, onChangeText}) => {
       <View style={styles.confirmButtonContainer}>
         <TouchableHighlight
           style={styles.confirmButtonTouchable}
-          onPress={values.acceptable ? onConfirmPress : null}>
+          onPress={values.acceptable ? onSubmitEditing : null}>
           <View
             style={[
               styles.confirmButton,

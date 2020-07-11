@@ -21,7 +21,7 @@ const UnitsOption = ({
     <View style={styles.mainContainer}>
       <UnitsList
         unitsList={unitsList}
-        selectedUnit={state.selectedUnit}
+        selectedUnit={state.currentInput.selectedUnit}
         onUnitPress={onUnitPress}
         onUnitLongPress={onUnitLongPress}
       />

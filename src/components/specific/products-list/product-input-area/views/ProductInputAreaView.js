@@ -48,6 +48,8 @@ const ProductInputAreaView = ({styles, model, controller}) => {
     <View style={styles.middleAreaContainer}>
       <ProductMainInput
         state={state}
+        unitsList={unitsList}
+        categoriesList={categoriesList}
         onConfirmPress={confirmInputButtonPressHandler}
         onChangeText={changeInputTextHandler}
       />

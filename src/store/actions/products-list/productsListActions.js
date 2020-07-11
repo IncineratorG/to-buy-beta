@@ -66,8 +66,8 @@ export const addProductAction = ({
   shoppingListId,
   name,
   quantity,
-  unitId,
   note,
+  unitId,
   categoryId,
 }) => {
   return {

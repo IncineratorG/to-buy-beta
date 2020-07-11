@@ -180,6 +180,7 @@ const ProductsListView = ({styles, model, controller}) => {
         onCategoryLongPress={inputAreaCategoryLongPressHandler}
         onAddUnitPress={inputAreaAddUnitPressHandler}
         onUnitLongPress={inputAreaUnitLongPressHandler}
+        onSubmit={inputAreaSubmitValuesHandler}
         predefinedState={inputAreaState}
         categoriesList={categoriesList}
         categoriesMap={categoriesMap}

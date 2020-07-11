@@ -9,6 +9,7 @@ const unitsTableInitialData = {
       editable: 0,
       deleted: 0,
       translationMark: 'units_piece',
+      default: true,
     },
     {
       id: Number.MAX_SAFE_INTEGER - 2,

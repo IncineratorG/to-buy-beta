@@ -10,6 +10,7 @@ const categoriesTableInitialData = {
       editable: 0,
       deleted: 0,
       translationMark: 'categories_other',
+      default: true,
     },
     {
       id: Number.MAX_SAFE_INTEGER - 2,
