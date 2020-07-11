@@ -130,6 +130,45 @@ export class SLSqliteService {
     }
   }
 
+  static async updateUnit({id, name}) {
+    const {hasError} = await UnitsTableOperations.updateUnit({
+      db: this.#db,
+      id,
+      name,
+    });
+    if (hasError) {
+      return {hasError};
+    }
+
+    const units = await UnitsTableOperations.getUnits({db: this.#db});
+
+    const filteredUnits = units.filter((unit) => unit.id === id);
+    if (filteredUnits.length) {
+      return filteredUnits[0];
+    } else {
+      return {hasError: true};
+    }
+  }
+
+  static async removeUnit({id}) {
+    const {hasError} = await UnitsTableOperations.removeUnit({
+      db: this.#db,
+      id,
+    });
+    if (hasError) {
+      return {hasError};
+    }
+
+    const units = await UnitsTableOperations.getUnits({db: this.#db});
+
+    const filteredUnits = units.filter((unit) => unit.id === id);
+    if (filteredUnits.length) {
+      return filteredUnits[0];
+    } else {
+      return {hasError: true};
+    }
+  }
+
   static async createShoppingList({listName, creator}) {
     const {id} = await ShoppingListsTableOperations.createShoppingList({
       db: this.#db,

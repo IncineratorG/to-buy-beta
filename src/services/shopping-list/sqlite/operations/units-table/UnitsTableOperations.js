@@ -3,6 +3,7 @@ import {
   UNITS_TABLE_CREATE_TIMESTAMP,
   UNITS_TABLE_DELETED,
   UNITS_TABLE_EDITABLE,
+  UNITS_TABLE_ID,
   UNITS_TABLE_UNIT_NAME,
   UNITS_TABLE_UPDATE_TIMESTAMP,
 } from '../../tables/unitsTable';
@@ -72,6 +73,75 @@ export class UnitsTableOperations {
     } catch (e) {
       SystemEventsHandler.onError({
         err: this.#className + '->addUnit()->ERROR: ' + e,
+      });
+      result.hasError = true;
+    }
+
+    return result;
+  }
+
+  static async updateUnit({db, id, name}) {
+    const updateUnitStatement =
+      'UPDATE ' +
+      UNITS_TABLE +
+      ' SET ' +
+      UNITS_TABLE_UNIT_NAME +
+      ' = ?, ' +
+      UNITS_TABLE_UPDATE_TIMESTAMP +
+      ' = ? WHERE ' +
+      UNITS_TABLE_ID +
+      ' = ?';
+
+    const timestamp = Date.now();
+
+    const statementParams = [name, timestamp, id];
+
+    const result = {updatedUnitsCount: 0, hasError: false};
+    try {
+      const executionResult = await SqlStatementExecutor.execute({
+        db,
+        statement: updateUnitStatement,
+        params: statementParams,
+      });
+      result.updatedUnitsCount = executionResult.rowsAffected;
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err: this.#className + '->updateUnit()->ERROR: ' + e,
+      });
+      result.hasError = true;
+    }
+
+    return result;
+  }
+
+  static async removeUnit({db, id}) {
+    const removeUnitStatement =
+      'UPDATE ' +
+      UNITS_TABLE +
+      ' SET ' +
+      UNITS_TABLE_DELETED +
+      ' = ?, ' +
+      UNITS_TABLE_UPDATE_TIMESTAMP +
+      ' = ? WHERE ' +
+      UNITS_TABLE_ID +
+      ' = ?';
+
+    const timestamp = Date.now();
+    const deleted = 1;
+
+    const statementParams = [deleted, timestamp, id];
+
+    const result = {updatedUnitsCount: 0, hasError: false};
+    try {
+      const executionResult = await SqlStatementExecutor.execute({
+        db,
+        statement: removeUnitStatement,
+        params: statementParams,
+      });
+      result.updatedUnitsCount = executionResult.rowsAffected;
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err: this.#className + '->removeUnit()->ERROR: ' + e,
       });
       result.hasError = true;
     }

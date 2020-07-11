@@ -22,7 +22,11 @@ import {
   removeCategoryAction,
   updateCategoryAction,
 } from '../../../store/actions/categories/categoriesActions';
-import {addUnitAction} from '../../../store/actions/units/unitsActions';
+import {
+  addUnitAction,
+  removeUnitAction,
+  updateUnitAction,
+} from '../../../store/actions/units/unitsActions';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
@@ -166,10 +170,12 @@ export const useProductsListController = (model) => {
   };
 
   const editUnitDialogSaveButtonHandler = ({id, name}) => {
+    model.dispatch(updateUnitAction({id, name}));
     model.localDispatch(pla_closeEditUnitDialog());
   };
 
   const editUnitDialogRemoveButtonHandler = ({id}) => {
+    model.dispatch(removeUnitAction({id}));
     model.localDispatch(pla_closeEditUnitDialog());
   };
 

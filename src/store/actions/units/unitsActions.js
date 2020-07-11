@@ -11,6 +11,10 @@ import {
   UPDATE_UNIT_BEGIN,
   UPDATE_UNIT_FINISHED,
   UPDATE_UNIT_ERROR,
+  REMOVE_UNIT,
+  REMOVE_UNIT_FINISHED,
+  REMOVE_UNIT_ERROR,
+  REMOVE_UNIT_BEGIN,
 } from '../../types/units/unitsTypes';
 
 export const loadUnitsAction = ({shoppingListId}) => {
@@ -109,6 +113,39 @@ export const updateUnitFinishedAction = ({unit}) => {
 export const updateUnitErrorAction = ({id, description}) => {
   return {
     type: UPDATE_UNIT_ERROR,
+    payload: {
+      id,
+      error: {
+        description,
+      },
+    },
+  };
+};
+
+export const removeUnitAction = ({id}) => {
+  return {
+    type: REMOVE_UNIT,
+    payload: {id},
+  };
+};
+
+export const removeUnitBeginAction = ({id}) => {
+  return {
+    type: REMOVE_UNIT_BEGIN,
+    payload: {id},
+  };
+};
+
+export const removeUnitFinishedAction = ({unit}) => {
+  return {
+    type: REMOVE_UNIT_FINISHED,
+    payload: {unit},
+  };
+};
+
+export const removeUnitErrorAction = ({id, description}) => {
+  return {
+    type: REMOVE_UNIT_ERROR,
     payload: {
       id,
       error: {
