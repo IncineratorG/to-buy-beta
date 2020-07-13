@@ -5,6 +5,7 @@ import productInputAreaState from '../stores/productInputAreaState';
 import {
   piaa_hideInputArea,
   piaa_setCategory,
+  piaa_setPredefinedData,
   piaa_setPredefinedState,
   piaa_setUnit,
 } from '../stores/productInputAreaActions';
@@ -12,12 +13,13 @@ import {SystemEventsHandler} from '../../../../../services/service-utils/system-
 
 export const useProductInputAreaModel = ({
   onInputAreaHide,
-  predefinedState,
   onAddCategoryPress,
   onCategoryLongPress,
   onAddUnitPress,
   onUnitLongPress,
   onSubmit,
+  predefinedData,
+  predefinedState,
   categoriesList,
   categoriesMap,
   unitsList,
@@ -47,11 +49,13 @@ export const useProductInputAreaModel = ({
   useEffect(() => {
     if (predefinedState) {
       dispatch(piaa_setPredefinedState({state: predefinedState}));
-    }
-  }, [predefinedState]);
+    } else if (predefinedData) {
+      const {name, quantity, note, unitId, categoryId} = predefinedData;
+      const unit = unitsMap.get(unitId);
+      const category = categoriesMap.get(categoryId);
 
-  useEffect(() => {
-    if (!predefinedState) {
+      dispatch(piaa_setPredefinedData({name, quantity, note, unit, category}));
+    } else {
       let defaultUnit;
       const defaultUnitsList = unitsList.filter((u) => u.default);
       if (defaultUnitsList.length) {
@@ -68,7 +72,7 @@ export const useProductInputAreaModel = ({
       dispatch(piaa_setCategory({category: defaultCategory}));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [predefinedState]);
+  }, [predefinedState, predefinedData]);
 
   return {
     data: {

@@ -5,6 +5,7 @@ import {SystemEventsHandler} from '../../service-utils/system-events-handler/Sys
 import {ShoppingListsTableOperations} from './operations/shopping-lists-table/ShoppingListsTableOperations';
 import {ProductsTableOperations} from './operations/products-table/ProductsTableOperations';
 import ProductStatus from '../data/product-status/ProductStatus';
+import wait from '../../service-utils/wait/wait';
 
 const DB_NAME = 'tobuy.db';
 
@@ -305,7 +306,53 @@ export class SLSqliteService {
     }
 
     if (onConfirmed) {
-      onConfirmed({product});
+      onConfirmed({product, confirmed: true});
+    }
+
+    return true;
+  }
+
+  static async updateProduct({
+    shoppingListId,
+    productId,
+    name,
+    quantity,
+    note,
+    unitId,
+    categoryId,
+    onUpdated,
+    onConfirmed,
+    onError,
+  }) {
+    const {hasError} = await ProductsTableOperations.updateProduct({
+      db: this.#db,
+      productId,
+      name,
+      quantity,
+      note,
+      unitId,
+      categoryId,
+    });
+    if (hasError) {
+      if (onError) {
+        onError({
+          error: 'SLSqliteService->updateProduct()->UPDATE_PRODUCT_ERROR',
+        });
+      }
+      return false;
+    }
+
+    const {product} = await ProductsTableOperations.getProduct({
+      db: this.#db,
+      id: productId,
+    });
+
+    if (onUpdated) {
+      onUpdated({product});
+    }
+
+    if (onConfirmed) {
+      onConfirmed({product, confirmed: true});
     }
 
     return true;

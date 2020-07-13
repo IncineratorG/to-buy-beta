@@ -3,6 +3,7 @@ import {SystemEventsHandler} from '../../../services/service-utils/system-events
 import {
   addProductAction,
   clearProductsListCachedData,
+  updateProductAction,
 } from '../../../store/actions/products-list/productsListActions';
 import {updateShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
 import {
@@ -15,7 +16,8 @@ import {
   pla_openAddUnitDialog,
   pla_openEditCategoryDialog,
   pla_openEditUnitDialog,
-  pla_openProductInputArea,
+  pla_openProductInputAreaInCreateMode,
+  pla_openProductInputAreaInEditMode,
 } from '../stores/productListActions';
 import {
   addCategoryAction,
@@ -42,7 +44,7 @@ export const useProductsListController = (model) => {
 
   const addProductButtonHandler = () => {
     SystemEventsHandler.onInfo({info: 'addProductButtonHandler()'});
-    model.localDispatch(pla_openProductInputArea());
+    model.localDispatch(pla_openProductInputAreaInCreateMode());
   };
 
   const inputAreaHideHandler = ({inputAreaState}) => {
@@ -57,22 +59,63 @@ export const useProductsListController = (model) => {
     unitId,
     categoryId,
   }) => {
-    model.dispatch(
-      addProductAction({
-        shoppingListId: model.data.shoppingListId,
-        name: productName,
+    let editMode = false;
+    if (model.data.state.inputArea.editData) {
+      editMode = true;
+    }
+
+    if (editMode) {
+      const {shoppingListId, productId} = model.data.state.inputArea.editData;
+
+      model.dispatch(
+        updateProductAction({
+          shoppingListId,
+          productId,
+          name: productName,
+          quantity,
+          note,
+          unitId,
+          categoryId,
+        }),
+      );
+      model.localDispatch(pla_hideProductInputArea());
+    } else {
+      model.dispatch(
+        addProductAction({
+          shoppingListId: model.data.shoppingListId,
+          name: productName,
+          quantity,
+          note,
+          unitId,
+          categoryId,
+        }),
+      );
+    }
+  };
+
+  const productPressHandler = useCallback((product) => {
+    const {
+      parentListId: shoppingListId,
+      id: productId,
+      name,
+      quantity,
+      note,
+      unitId,
+      categoryId,
+    } = product;
+
+    model.localDispatch(
+      pla_openProductInputAreaInEditMode({
+        shoppingListId,
+        productId,
+        name,
         quantity,
         note,
         unitId,
         categoryId,
       }),
     );
-  };
-
-  const productPressHandler = useCallback((product) => {
-    SystemEventsHandler.onInfo({
-      info: 'productPressHandler(): ' + JSON.stringify(product),
-    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const statusPressHandler = useCallback((product) => {

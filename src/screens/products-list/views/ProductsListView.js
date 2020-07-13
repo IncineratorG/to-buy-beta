@@ -34,7 +34,7 @@ const ProductsListView = ({styles, model, controller}) => {
     editUnitDialog,
   } = state;
 
-  const {inputAreaVisible, inputAreaState} = inputArea;
+  const {inputAreaVisible, inputAreaState, editData} = inputArea;
   const {addCategoryDialogVisible} = addCategoryDialog;
   const {editCategoryDialogVisible, editCategory} = editCategoryDialog;
   const {addUnitDialogVisible} = addUnitDialog;
@@ -181,6 +181,7 @@ const ProductsListView = ({styles, model, controller}) => {
         onAddUnitPress={inputAreaAddUnitPressHandler}
         onUnitLongPress={inputAreaUnitLongPressHandler}
         onSubmit={inputAreaSubmitValuesHandler}
+        predefinedData={editData}
         predefinedState={inputAreaState}
         categoriesList={categoriesList}
         categoriesMap={categoriesMap}

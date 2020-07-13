@@ -69,8 +69,8 @@ export class ShoppingListService {
     shoppingListId,
     name,
     quantity,
-    unitId,
     note,
+    unitId,
     categoryId,
   }) {
     const onCreated = ({product}) => {
@@ -79,10 +79,10 @@ export class ShoppingListService {
         data: {shoppingListId, product},
       });
     };
-    const onConfirmed = ({product}) => {
+    const onConfirmed = ({product, confirmed}) => {
       ShoppingListService.#notifier.notify({
         event: ShoppingListServiceEvents.PRODUCT_CONFIRMED,
-        data: {shoppingListId, product, confirmed: true},
+        data: {shoppingListId, product, confirmed},
       });
     };
     const onError = ({error}) => {
@@ -99,6 +99,47 @@ export class ShoppingListService {
       note,
       categoryId,
       onCreated,
+      onConfirmed,
+      onError,
+    });
+  }
+
+  static async updateProduct({
+    shoppingListId,
+    productId,
+    name,
+    quantity,
+    note,
+    unitId,
+    categoryId,
+  }) {
+    const onUpdated = ({product}) => {
+      ShoppingListService.#notifier.notify({
+        event: ShoppingListServiceEvents.PRODUCT_UPDATED,
+        data: {shoppingListId, product},
+      });
+    };
+    const onConfirmed = ({product, confirmed}) => {
+      ShoppingListService.#notifier.notify({
+        event: ShoppingListServiceEvents.PRODUCT_UPDATE_CONFIRMED,
+        data: {shoppingListId, product, confirmed},
+      });
+    };
+    const onError = ({error}) => {
+      SystemEventsHandler.onError({
+        err: 'ShoppingListService->updateProduct()->ERROR: ' + error,
+      });
+    };
+
+    await SLSqliteService.updateProduct({
+      shoppingListId,
+      productId,
+      name,
+      quantity,
+      note,
+      unitId,
+      categoryId,
+      onUpdated,
       onConfirmed,
       onError,
     });

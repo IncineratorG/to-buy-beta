@@ -7,6 +7,10 @@ import {
   LOAD_PRODUCTS_LIST_BEGIN,
   LOAD_PRODUCTS_LIST_ERROR,
   LOAD_PRODUCTS_LIST_FINISHED,
+  UPDATE_PRODUCT_BEGIN,
+  UPDATE_PRODUCT_UPDATED,
+  UPDATE_PRODUCT_CONFIRMED,
+  UPDATE_PRODUCT_ERROR,
 } from '../../types/products-list/productsListTypes';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import productsComparator from './helpers/productsComparator';
@@ -199,6 +203,114 @@ export const productsListReducer = (state = initialState, action) => {
     case ADD_PRODUCT_ERROR: {
       SystemEventsHandler.onInfo({
         info: 'productsListReducer->ADD_PRODUCT_ERROR',
+      });
+
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      return {
+        ...state,
+        productsList: {
+          updating: false,
+          updatingError: {
+            hasError: false,
+            description: action.payload.error.description,
+          },
+        },
+      };
+    }
+
+    case UPDATE_PRODUCT_BEGIN: {
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          updating: true,
+          updatingError: {
+            hasError: false,
+            description: '',
+          },
+        },
+      };
+    }
+
+    case UPDATE_PRODUCT_UPDATED: {
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      const updatedProduct = action.payload.product;
+
+      const products = state.productsList.products.map((product) => {
+        if (product.id === updatedProduct.id) {
+          return {
+            ...updatedProduct,
+            confirmationStatus: {
+              awaitConfirmation: true,
+              confirmed: false,
+            },
+          };
+        }
+        return product;
+      });
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          updating: false,
+          updatingError: {
+            hasError: false,
+            description: '',
+          },
+          products,
+        },
+      };
+    }
+
+    case UPDATE_PRODUCT_CONFIRMED: {
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      const productId = action.payload.product.id;
+      const confirmed = action.payload.confirmed;
+
+      const products = state.productsList.products.map((product) => {
+        if (product.id === productId) {
+          return {
+            ...product,
+            confirmationStatus: {
+              awaitConfirmation: false,
+              confirmed,
+            },
+          };
+        }
+        return product;
+      });
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          updating: false,
+          updatingError: {
+            hasError: false,
+            description: '',
+          },
+          products,
+        },
+      };
+    }
+
+    case UPDATE_PRODUCT_ERROR: {
+      SystemEventsHandler.onInfo({
+        info: 'productsListReducer->UPDATE_PRODUCT_ERROR',
       });
 
       if (action.payload.shoppingListId !== state.productsList.id) {

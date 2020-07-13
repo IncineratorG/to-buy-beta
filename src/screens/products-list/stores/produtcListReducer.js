@@ -8,7 +8,8 @@ import {
   OPEN_ADD_UNIT_DIALOG,
   OPEN_EDIT_CATEGORY_DIALOG,
   OPEN_EDIT_UNIT_DIALOG,
-  OPEN_PRODUCT_INPUT_AREA,
+  OPEN_PRODUCT_INPUT_AREA_IN_CREATE_MODE,
+  OPEN_PRODUCT_INPUT_AREA_IN_EDIT_MODE,
   SET_DATA_LOADING,
 } from './types/productListActionTypes';
 
@@ -21,13 +22,28 @@ function productListReducer(state, action) {
       };
     }
 
-    case OPEN_PRODUCT_INPUT_AREA: {
+    case OPEN_PRODUCT_INPUT_AREA_IN_CREATE_MODE: {
       return {
         ...state,
         inputArea: {
           ...state.inputArea,
           inputAreaVisible: true,
           inputAreaState: null,
+          editData: null,
+        },
+      };
+    }
+
+    case OPEN_PRODUCT_INPUT_AREA_IN_EDIT_MODE: {
+      return {
+        ...state,
+        inputArea: {
+          ...state.inputArea,
+          inputAreaState: null,
+          inputAreaVisible: true,
+          editData: {
+            ...action.payload,
+          },
         },
       };
     }

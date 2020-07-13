@@ -8,7 +8,8 @@ import {
   OPEN_ADD_UNIT_DIALOG,
   OPEN_EDIT_CATEGORY_DIALOG,
   OPEN_EDIT_UNIT_DIALOG,
-  OPEN_PRODUCT_INPUT_AREA,
+  OPEN_PRODUCT_INPUT_AREA_IN_CREATE_MODE,
+  OPEN_PRODUCT_INPUT_AREA_IN_EDIT_MODE,
   SET_DATA_LOADING,
 } from './types/productListActionTypes';
 
@@ -19,10 +20,33 @@ export const pla_setDataLoading = ({dataLoading}) => {
   };
 };
 
-export const pla_openProductInputArea = () => {
+export const pla_openProductInputAreaInCreateMode = () => {
   return {
-    type: OPEN_PRODUCT_INPUT_AREA,
+    type: OPEN_PRODUCT_INPUT_AREA_IN_CREATE_MODE,
     payload: undefined,
+  };
+};
+
+export const pla_openProductInputAreaInEditMode = ({
+  shoppingListId,
+  productId,
+  name,
+  quantity,
+  note,
+  unitId,
+  categoryId,
+}) => {
+  return {
+    type: OPEN_PRODUCT_INPUT_AREA_IN_EDIT_MODE,
+    payload: {
+      shoppingListId,
+      productId,
+      name,
+      quantity,
+      note,
+      unitId,
+      categoryId,
+    },
   };
 };
 

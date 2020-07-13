@@ -5,6 +5,7 @@ import {
   SELECT_PRODUCT_QUANTITY,
   SET_CATEGORY,
   SET_NOTE,
+  SET_PREDEFINED_DATA,
   SET_PREDEFINED_STATE,
   SET_PRODUCT_NAME,
   SET_QUANTITY,
@@ -45,6 +46,30 @@ function productInputAreaReducer(state, action) {
 
     case SET_PREDEFINED_STATE: {
       return {...state, ...action.payload.state};
+    }
+
+    case SET_PREDEFINED_DATA: {
+      const {name, quantity, note, unit, category} = action.payload;
+
+      return {
+        ...state,
+        currentInput: {
+          ...state.currentInput,
+          values: {
+            ...state.currentInput.values,
+            productName: name.toString(),
+            quantity: quantity.toString(),
+            note: note.toString(),
+            acceptable: productInputAcceptable({
+              productName: name,
+              quantity,
+              note,
+            }),
+          },
+          selectedCategory: {...category},
+          selectedUnit: {...unit},
+        },
+      };
     }
 
     case SELECT_PRODUCT_NAME: {

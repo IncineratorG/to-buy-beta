@@ -119,8 +119,8 @@ export class ProductsTableOperations {
     shoppingListId,
     name,
     quantity,
-    unitId,
     note,
+    unitId,
     categoryId,
   }) {
     const addProductStatement =
@@ -172,6 +172,64 @@ export class ProductsTableOperations {
     } catch (e) {
       SystemEventsHandler.onError({
         err: this.#className + '->addProduct()->ERROR: ' + e,
+      });
+      result.hasError = true;
+    }
+
+    return result;
+  }
+
+  static async updateProduct({
+    db,
+    productId,
+    name,
+    quantity,
+    note,
+    unitId,
+    categoryId,
+  }) {
+    const updateProductStatement =
+      'UPDATE ' +
+      PRODUCTS_TABLE +
+      ' SET ' +
+      PRODUCTS_TABLE_PRODUCT_NAME +
+      ' = ?, ' +
+      PRODUCTS_TABLE_UNIT_ID +
+      ' = ?, ' +
+      PRODUCTS_TABLE_PRODUCT_COUNT +
+      ' = ?, ' +
+      PRODUCTS_TABLE_CATEGORY_ID +
+      ' = ?, ' +
+      PRODUCTS_TABLE_NOTE +
+      ' = ?, ' +
+      PRODUCTS_TABLE_UPDATE_TIMESTAMP +
+      ' = ? WHERE ' +
+      PRODUCTS_TABLE_ID +
+      ' = ?';
+
+    const timestamp = Date.now();
+
+    const statementParams = [
+      name,
+      unitId,
+      quantity,
+      categoryId,
+      note,
+      timestamp,
+      productId,
+    ];
+
+    const result = {updatedProductsCount: 0, hasError: false};
+    try {
+      const executionResult = await SqlStatementExecutor.execute({
+        db,
+        statement: updateProductStatement,
+        params: statementParams,
+      });
+      result.updatedProductsCount = executionResult.rowsAffected;
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err: this.#className + '->updateProduct()->ERROR: ' + e,
       });
       result.hasError = true;
     }

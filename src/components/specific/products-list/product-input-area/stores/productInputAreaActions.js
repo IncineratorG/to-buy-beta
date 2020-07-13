@@ -5,6 +5,7 @@ import {
   SELECT_PRODUCT_QUANTITY,
   SET_CATEGORY,
   SET_NOTE,
+  SET_PREDEFINED_DATA,
   SET_PREDEFINED_STATE,
   SET_PRODUCT_NAME,
   SET_QUANTITY,
@@ -23,6 +24,19 @@ export const piaa_setPredefinedState = ({state}) => {
   return {
     type: SET_PREDEFINED_STATE,
     payload: {state},
+  };
+};
+
+export const piaa_setPredefinedData = ({
+  name,
+  quantity,
+  note,
+  unit,
+  category,
+}) => {
+  return {
+    type: SET_PREDEFINED_DATA,
+    payload: {name, quantity, note, unit, category},
   };
 };
 

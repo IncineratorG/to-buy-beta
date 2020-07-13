@@ -4,6 +4,7 @@ const productListState = {
   inputArea: {
     inputAreaVisible: false,
     inputAreaState: null,
+    editData: null,
   },
   addCategoryDialog: {
     addCategoryDialogVisible: false,

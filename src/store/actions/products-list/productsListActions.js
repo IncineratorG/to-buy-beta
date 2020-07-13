@@ -9,6 +9,11 @@ import {
   LOAD_PRODUCTS_LIST_BEGIN,
   LOAD_PRODUCTS_LIST_ERROR,
   LOAD_PRODUCTS_LIST_FINISHED,
+  UPDATE_PRODUCT,
+  UPDATE_PRODUCT_BEGIN,
+  UPDATE_PRODUCT_UPDATED,
+  UPDATE_PRODUCT_CONFIRMED,
+  UPDATE_PRODUCT_ERROR,
 } from '../../types/products-list/productsListTypes';
 
 export const loadProductsListAction = ({shoppingListId}) => {
@@ -121,6 +126,73 @@ export const addProductErrorAction = ({shoppingListId, description}) => {
     type: ADD_PRODUCT_ERROR,
     payload: {
       shoppingListId,
+      error: {
+        description,
+      },
+    },
+  };
+};
+
+export const updateProductAction = ({
+  editor,
+  shoppingListId,
+  productId,
+  name,
+  quantity,
+  note,
+  unitId,
+  categoryId,
+}) => {
+  return {
+    type: UPDATE_PRODUCT,
+    payload: {
+      editor,
+      shoppingListId,
+      productId,
+      name,
+      quantity,
+      note,
+      unitId,
+      categoryId,
+    },
+  };
+};
+
+export const updateProductBeginAction = ({shoppingListId, productId}) => {
+  return {
+    type: UPDATE_PRODUCT_BEGIN,
+    payload: {shoppingListId, productId},
+  };
+};
+
+export const updateProductUpdatedAction = ({shoppingListId, product}) => {
+  return {
+    type: UPDATE_PRODUCT_UPDATED,
+    payload: {shoppingListId, product},
+  };
+};
+
+export const updateProductConfirmedAction = ({
+  shoppingListId,
+  product,
+  confirmed,
+}) => {
+  return {
+    type: UPDATE_PRODUCT_CONFIRMED,
+    payload: {shoppingListId, product, confirmed},
+  };
+};
+
+export const updateProductErrorAction = ({
+  shoppingListId,
+  productId,
+  description,
+}) => {
+  return {
+    type: UPDATE_PRODUCT_ERROR,
+    payload: {
+      shoppingListId,
+      productId,
       error: {
         description,
       },
