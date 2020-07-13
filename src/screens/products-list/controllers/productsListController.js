@@ -2,6 +2,7 @@ import {useCallback} from 'react';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import {
   addProductAction,
+  changeProductStatusAction,
   clearProductsListCachedData,
   updateProductAction,
 } from '../../../store/actions/products-list/productsListActions';
@@ -29,6 +30,7 @@ import {
   removeUnitAction,
   updateUnitAction,
 } from '../../../store/actions/units/unitsActions';
+import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
@@ -119,9 +121,19 @@ export const useProductsListController = (model) => {
   }, []);
 
   const statusPressHandler = useCallback((product) => {
-    SystemEventsHandler.onInfo({
-      info: 'statusPressHandler(): ' + JSON.stringify(product),
-    });
+    const newStatus =
+      product.completionStatus === ProductStatus.COMPLETED
+        ? ProductStatus.NOT_COMPLETED
+        : ProductStatus.COMPLETED;
+
+    model.dispatch(
+      changeProductStatusAction({
+        shoppingListId: product.parentListId,
+        productId: product.id,
+        status: newStatus,
+      }),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const productRemoveHandler = useCallback((product) => {

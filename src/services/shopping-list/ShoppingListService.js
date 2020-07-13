@@ -144,4 +144,33 @@ export class ShoppingListService {
       onError,
     });
   }
+
+  static async changeProductStatus({shoppingListId, productId, status}) {
+    const onChanged = ({product}) => {
+      ShoppingListService.#notifier.notify({
+        event: ShoppingListServiceEvents.PRODUCT_STATUS_CHANGED,
+        data: {shoppingListId, product},
+      });
+    };
+    const onConfirmed = ({product, confirmed}) => {
+      ShoppingListService.#notifier.notify({
+        event: ShoppingListServiceEvents.PRODUCT_STATUS_CHANGE_CONFIRMED,
+        data: {shoppingListId, product, confirmed},
+      });
+    };
+    const onError = ({error}) => {
+      SystemEventsHandler.onError({
+        err: 'ShoppingListService->changeProductStatus()->ERROR: ' + error,
+      });
+    };
+
+    await SLSqliteService.changeProductStatus({
+      shoppingListId,
+      productId,
+      status,
+      onChanged,
+      onConfirmed,
+      onError,
+    });
+  }
 }

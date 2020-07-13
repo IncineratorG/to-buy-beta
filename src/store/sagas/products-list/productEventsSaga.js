@@ -5,6 +5,8 @@ import Services from '../../../services/Services';
 import {
   addProductConfirmedAction,
   addProductCreatedAction,
+  changeProductStatusChangedAction,
+  changeProductStatusConfirmedAction,
   updateProductConfirmedAction,
   updateProductUpdatedAction,
 } from '../../actions/products-list/productsListActions';
@@ -26,8 +28,29 @@ function createProductEventsChannel() {
     const updateProductHandler = ({shoppingListId, product}) => {
       emit(updateProductUpdatedAction({shoppingListId, product}));
     };
-    const confirmUpdatedProduct = ({shoppingListId, product, confirmed}) => {
+    const confirmUpdatedProductHandler = ({
+      shoppingListId,
+      product,
+      confirmed,
+    }) => {
       emit(updateProductConfirmedAction({shoppingListId, product, confirmed}));
+    };
+
+    const changeProductStatusHandler = ({shoppingListId, product}) => {
+      emit(changeProductStatusChangedAction({shoppingListId, product}));
+    };
+    const confirmChangeProductStatusHandler = ({
+      shoppingListId,
+      product,
+      confirmed,
+    }) => {
+      emit(
+        changeProductStatusConfirmedAction({
+          shoppingListId,
+          product,
+          confirmed,
+        }),
+      );
     };
 
     const shoppingListService = Services.get(
@@ -49,7 +72,16 @@ function createProductEventsChannel() {
     });
     const updateConfirmUnsubscribe = shoppingListService.subscribe({
       event: ShoppingListServiceEvents.PRODUCT_UPDATE_CONFIRMED,
-      handler: confirmUpdatedProduct,
+      handler: confirmUpdatedProductHandler,
+    });
+
+    const changeStatusUnsubscribe = shoppingListService.subscribe({
+      event: ShoppingListServiceEvents.PRODUCT_STATUS_CHANGED,
+      handler: changeProductStatusHandler,
+    });
+    const changeStatusConfirmUnsubscribe = shoppingListService.subscribe({
+      event: ShoppingListServiceEvents.PRODUCT_STATUS_CHANGE_CONFIRMED,
+      handler: confirmChangeProductStatusHandler,
     });
 
     return () => {
@@ -57,6 +89,8 @@ function createProductEventsChannel() {
       createConfirmUnsubscribe();
       updateUnsubscribe();
       updateConfirmUnsubscribe();
+      changeStatusUnsubscribe();
+      changeStatusConfirmUnsubscribe();
     };
   });
 }

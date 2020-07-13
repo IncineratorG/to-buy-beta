@@ -237,6 +237,40 @@ export class ProductsTableOperations {
     return result;
   }
 
+  static async changeProductStatus({db, productId, status}) {
+    const changeProductStatusStatement =
+      'UPDATE ' +
+      PRODUCTS_TABLE +
+      ' SET ' +
+      PRODUCTS_TABLE_COMPLETION_STATUS +
+      ' = ?, ' +
+      PRODUCTS_TABLE_UPDATE_TIMESTAMP +
+      ' = ? WHERE ' +
+      PRODUCTS_TABLE_ID +
+      ' = ?';
+
+    const timestamp = Date.now();
+
+    const statementParams = [status, timestamp, productId];
+
+    const result = {updatedProductsCount: 0, hasError: false};
+    try {
+      const executionResult = await SqlStatementExecutor.execute({
+        db,
+        statement: changeProductStatusStatement,
+        params: statementParams,
+      });
+      result.updatedProductsCount = executionResult.rowsAffected;
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err: this.#className + '->changeProductStatus()->ERROR: ' + e,
+      });
+      result.hasError = true;
+    }
+
+    return result;
+  }
+
   static async removeProductsWithShoppingListId({db, id}) {
     const removeProductsStatement =
       'DELETE FROM ' +

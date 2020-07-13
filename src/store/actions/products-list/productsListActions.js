@@ -14,6 +14,11 @@ import {
   UPDATE_PRODUCT_UPDATED,
   UPDATE_PRODUCT_CONFIRMED,
   UPDATE_PRODUCT_ERROR,
+  CHANGE_PRODUCT_STATUS,
+  CHANGE_PRODUCT_STATUS_BEGIN,
+  CHANGE_PRODUCT_STATUS_CHANGED,
+  CHANGE_PRODUCT_STATUS_CONFIRMED,
+  CHANGE_PRODUCT_STATUS_ERROR,
 } from '../../types/products-list/productsListTypes';
 
 export const loadProductsListAction = ({shoppingListId}) => {
@@ -197,5 +202,56 @@ export const updateProductErrorAction = ({
         description,
       },
     },
+  };
+};
+
+export const changeProductStatusAction = ({
+  shoppingListId,
+  productId,
+  status,
+}) => {
+  return {
+    type: CHANGE_PRODUCT_STATUS,
+    payload: {
+      shoppingListId,
+      productId,
+      status,
+    },
+  };
+};
+
+export const changeProductStatusBeginAction = ({shoppingListId, productId}) => {
+  return {
+    type: CHANGE_PRODUCT_STATUS_BEGIN,
+    payload: {shoppingListId, productId},
+  };
+};
+
+export const changeProductStatusChangedAction = ({shoppingListId, product}) => {
+  return {
+    type: CHANGE_PRODUCT_STATUS_CHANGED,
+    payload: {shoppingListId, product},
+  };
+};
+
+export const changeProductStatusConfirmedAction = ({
+  shoppingListId,
+  product,
+  confirmed,
+}) => {
+  return {
+    type: CHANGE_PRODUCT_STATUS_CONFIRMED,
+    payload: {shoppingListId, product, confirmed},
+  };
+};
+
+export const changeProductStatusErrorAction = ({
+  shoppingListId,
+  productId,
+  description,
+}) => {
+  return {
+    type: CHANGE_PRODUCT_STATUS_ERROR,
+    payload: {shoppingListId, productId, error: {description}},
   };
 };

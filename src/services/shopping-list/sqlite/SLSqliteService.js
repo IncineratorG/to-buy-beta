@@ -357,4 +357,57 @@ export class SLSqliteService {
 
     return true;
   }
+
+  static async changeProductStatus({
+    shoppingListId,
+    productId,
+    status,
+    onChanged,
+    onConfirmed,
+    onError,
+  }) {
+    if (
+      status !== ProductStatus.COMPLETED &&
+      status !== ProductStatus.NOT_COMPLETED
+    ) {
+      if (onError) {
+        onError({
+          error:
+            'SLSqliteService->changeProductStatus()->BAD_PRODUCT_STATUS: ' +
+            status,
+        });
+      }
+      return false;
+    }
+
+    const {hasError} = await ProductsTableOperations.changeProductStatus({
+      db: this.#db,
+      productId,
+      status,
+    });
+    if (hasError) {
+      if (onError) {
+        onError({
+          error:
+            'SLSqliteService->changeProductStatus()->CHANGE_PRODUCT_STATUS_ERROR: ',
+        });
+      }
+      return false;
+    }
+
+    const {product} = await ProductsTableOperations.getProduct({
+      db: this.#db,
+      id: productId,
+    });
+
+    if (onChanged) {
+      onChanged({product});
+    }
+
+    if (onConfirmed) {
+      onConfirmed({product, confirmed: true});
+    }
+
+    return true;
+  }
 }
