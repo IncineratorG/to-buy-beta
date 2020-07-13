@@ -3,6 +3,7 @@ import {
   CLOSE_ADD_UNIT_DIALOG,
   CLOSE_EDIT_CATEGORY_DIALOG,
   CLOSE_EDIT_UNIT_DIALOG,
+  CLOSE_REMOVE_PRODUCT_DIALOG,
   HIDE_PRODUCT_INPUT_AREA,
   OPEN_ADD_CATEGORY_DIALOG,
   OPEN_ADD_UNIT_DIALOG,
@@ -10,6 +11,7 @@ import {
   OPEN_EDIT_UNIT_DIALOG,
   OPEN_PRODUCT_INPUT_AREA_IN_CREATE_MODE,
   OPEN_PRODUCT_INPUT_AREA_IN_EDIT_MODE,
+  OPEN_REMOVE_PRODUCT_DIALOG,
   SET_DATA_LOADING,
 } from './types/productListActionTypes';
 
@@ -164,6 +166,38 @@ function productListReducer(state, action) {
         },
         editUnitDialog: {
           editUnitDialogVisible: false,
+        },
+      };
+    }
+
+    case OPEN_REMOVE_PRODUCT_DIALOG: {
+      return {
+        ...state,
+        removeProductDialog: {
+          ...state.removeProductDialog,
+          removeProductDialogVisible: true,
+          removeProduct: {
+            ...state.removeProductDialog.removeProduct,
+            shoppingListId: action.payload.shoppingListId,
+            productId: action.payload.productId,
+            productName: action.payload.productName,
+          },
+        },
+      };
+    }
+
+    case CLOSE_REMOVE_PRODUCT_DIALOG: {
+      return {
+        ...state,
+        removeProductDialog: {
+          ...state.removeProductDialog,
+          removeProductDialogVisible: false,
+          removeProduct: {
+            ...state.removeProductDialog.removeProduct,
+            shoppingListId: '',
+            productId: '',
+            productName: '',
+          },
         },
       };
     }

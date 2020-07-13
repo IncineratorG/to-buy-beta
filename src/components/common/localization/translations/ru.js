@@ -79,4 +79,9 @@ export const ru = {
   EditUnitDialog_saveButton: 'СОХРАНИТЬ',
   EditUnitDialog_removeButton: 'УДАЛИТЬ',
   EditUnitDialog_cancelButton: 'ОТМЕНА',
+
+  ProductsList_removeProductConfirmationDialogTitle: 'Удаление продукта',
+  ProductsList_removeProductConfirmationDialogMessage: 'Удалить',
+  ProductsList_removeProductConfirmationDialogPositiveButton: 'Удалить',
+  ProductsList_removeProductConfirmationDialogNegativeButton: 'Нет',
 };

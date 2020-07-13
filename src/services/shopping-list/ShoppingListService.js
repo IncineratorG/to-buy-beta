@@ -173,4 +173,32 @@ export class ShoppingListService {
       onError,
     });
   }
+
+  static async removeProduct({shoppingListId, productId}) {
+    const onRemoved = ({productId}) => {
+      ShoppingListService.#notifier.notify({
+        event: ShoppingListServiceEvents.PRODUCT_REMOVED,
+        data: {shoppingListId, productId},
+      });
+    };
+    const onConfirmed = ({productId, confirmed}) => {
+      ShoppingListService.#notifier.notify({
+        event: ShoppingListServiceEvents.PRODUCT_REMOVE_CONFIRMED,
+        data: {shoppingListId, productId, confirmed},
+      });
+    };
+    const onError = ({error}) => {
+      SystemEventsHandler.onError({
+        err: 'ShoppingListService->removeProduct()->ERROR: ' + error,
+      });
+    };
+
+    await SLSqliteService.removeProduct({
+      shoppingListId,
+      productId,
+      onRemoved,
+      onConfirmed,
+      onError,
+    });
+  }
 }

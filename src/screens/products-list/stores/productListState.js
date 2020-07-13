@@ -1,6 +1,14 @@
 const productListState = {
   dataLoading: true,
   usedCategoriesLoading: false,
+  removeProductDialog: {
+    removeProductDialogVisible: false,
+    removeProduct: {
+      shoppingListId: '',
+      productId: '',
+      productName: '',
+    },
+  },
   inputArea: {
     inputAreaVisible: false,
     inputAreaState: null,

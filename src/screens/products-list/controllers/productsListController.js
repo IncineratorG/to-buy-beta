@@ -4,6 +4,7 @@ import {
   addProductAction,
   changeProductStatusAction,
   clearProductsListCachedData,
+  removeProductAction,
   updateProductAction,
 } from '../../../store/actions/products-list/productsListActions';
 import {updateShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
@@ -12,6 +13,7 @@ import {
   pla_closeAddUnitDialog,
   pla_closeEditCategoryDialog,
   pla_closeEditUnitDialog,
+  pla_closeRemoveProductDialog,
   pla_hideProductInputArea,
   pla_openAddCategoryDialog,
   pla_openAddUnitDialog,
@@ -19,6 +21,7 @@ import {
   pla_openEditUnitDialog,
   pla_openProductInputAreaInCreateMode,
   pla_openProductInputAreaInEditMode,
+  pla_openRemoveProductDialog,
 } from '../stores/productListActions';
 import {
   addCategoryAction,
@@ -137,9 +140,14 @@ export const useProductsListController = (model) => {
   }, []);
 
   const productRemoveHandler = useCallback((product) => {
-    SystemEventsHandler.onInfo({
-      info: 'productRemoveHandler(): ' + JSON.stringify(product),
-    });
+    model.localDispatch(
+      pla_openRemoveProductDialog({
+        shoppingListId: product.parentListId,
+        productId: product.id,
+        productName: product.name,
+      }),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const categoryPressHandler = (category) => {
@@ -249,6 +257,24 @@ export const useProductsListController = (model) => {
     model.localDispatch(pla_closeEditUnitDialog());
   };
 
+  const removeProductDialogTouchOutsideHandler = () => {
+    model.localDispatch(pla_closeRemoveProductDialog());
+  };
+
+  const removeProductDialogCancelButtonHandler = () => {
+    model.localDispatch(pla_closeRemoveProductDialog());
+  };
+
+  const removeProductDialogRemoveButtonHandler = () => {
+    const shoppingListId =
+      model.data.state.removeProductDialog.removeProduct.shoppingListId;
+    const productId =
+      model.data.state.removeProductDialog.removeProduct.productId;
+
+    model.dispatch(removeProductAction({shoppingListId, productId}));
+    model.localDispatch(pla_closeRemoveProductDialog());
+  };
+
   return {
     backButtonPressHandler,
     addProductButtonHandler,
@@ -277,5 +303,8 @@ export const useProductsListController = (model) => {
     editUnitDialogCancelButtonHandler,
     editUnitDialogSaveButtonHandler,
     editUnitDialogRemoveButtonHandler,
+    removeProductDialogTouchOutsideHandler,
+    removeProductDialogCancelButtonHandler,
+    removeProductDialogRemoveButtonHandler,
   };
 };

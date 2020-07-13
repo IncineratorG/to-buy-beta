@@ -299,4 +299,28 @@ export class ProductsTableOperations {
 
     return result;
   }
+
+  static async removeProduct({db, id}) {
+    const removeProductStatement =
+      'DELETE FROM ' + PRODUCTS_TABLE + ' WHERE ' + PRODUCTS_TABLE_ID + ' = ?';
+
+    const statementParams = [id];
+
+    const result = {removedProductsCount: 0, hasError: false};
+    try {
+      const executionResult = await SqlStatementExecutor.execute({
+        db,
+        statement: removeProductStatement,
+        params: statementParams,
+      });
+      result.removedProductsCount = executionResult.rowsAffected;
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err: this.#className + '->removeProduct()->ERROR: ' + e,
+      });
+      result.hasError = true;
+    }
+
+    return result;
+  }
 }

@@ -12,8 +12,11 @@ import AddCategoryDialog from '../../../components/specific/products-list/add-ca
 import EditCategoryDialog from '../../../components/specific/products-list/edit-category-dialog/EditCategoryDialog';
 import AddUnitDialog from '../../../components/specific/products-list/add-unit-dialog/AddUnitDialog';
 import EditUnitDialog from '../../../components/specific/products-list/edit-unit-dialog/EditUnitDialog';
+import {ConfirmDialog} from 'react-native-simple-dialogs';
 
 const ProductsListView = ({styles, model, controller}) => {
+  const {t} = model;
+
   const {
     state,
     shoppingListId,
@@ -32,6 +35,7 @@ const ProductsListView = ({styles, model, controller}) => {
     editCategoryDialog,
     addUnitDialog,
     editUnitDialog,
+    removeProductDialog,
   } = state;
 
   const {inputAreaVisible, inputAreaState, editData} = inputArea;
@@ -39,6 +43,7 @@ const ProductsListView = ({styles, model, controller}) => {
   const {editCategoryDialogVisible, editCategory} = editCategoryDialog;
   const {addUnitDialogVisible} = addUnitDialog;
   const {editUnitDialogVisible, editUnit} = editUnitDialog;
+  const {removeProductDialogVisible, removeProduct} = removeProductDialog;
 
   const {
     addProductButtonHandler,
@@ -67,9 +72,36 @@ const ProductsListView = ({styles, model, controller}) => {
     editUnitDialogCancelButtonHandler,
     editUnitDialogSaveButtonHandler,
     editUnitDialogRemoveButtonHandler,
+    removeProductDialogTouchOutsideHandler,
+    removeProductDialogCancelButtonHandler,
+    removeProductDialogRemoveButtonHandler,
   } = controller;
 
   // ===
+  const removeProductConfirmationDialogComponent = (
+    <ConfirmDialog
+      title={t('ProductsList_removeProductConfirmationDialogTitle')}
+      message={
+        t('ProductsList_removeProductConfirmationDialogMessage') +
+        ' ' +
+        removeProduct.productName +
+        '?'
+      }
+      visible={removeProductDialogVisible}
+      onTouchOutside={removeProductDialogTouchOutsideHandler}
+      positiveButton={{
+        title: t('ProductsList_removeProductConfirmationDialogPositiveButton'),
+        titleStyle: {color: 'red'},
+        onPress: removeProductDialogRemoveButtonHandler,
+      }}
+      negativeButton={{
+        title: t('ProductsList_removeProductConfirmationDialogNegativeButton'),
+        titleStyle: {color: 'grey'},
+        onPress: removeProductDialogCancelButtonHandler,
+      }}
+    />
+  );
+
   const addUnitDialogComponent = (
     <AddUnitDialog
       visible={addUnitDialogVisible}
@@ -213,6 +245,7 @@ const ProductsListView = ({styles, model, controller}) => {
       {editCategoryDialogComponent}
       {addUnitDialogComponent}
       {editUnitDialogComponent}
+      {removeProductConfirmationDialogComponent}
     </View>
   );
 

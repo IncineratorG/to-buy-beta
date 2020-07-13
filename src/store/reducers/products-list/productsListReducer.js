@@ -15,6 +15,10 @@ import {
   CHANGE_PRODUCT_STATUS_CHANGED,
   CHANGE_PRODUCT_STATUS_CONFIRMED,
   CHANGE_PRODUCT_STATUS_ERROR,
+  REMOVE_PRODUCT_BEGIN,
+  REMOVE_PRODUCT_REMOVED,
+  REMOVE_PRODUCT_CONFIRMED,
+  REMOVE_PRODUCT_ERROR,
 } from '../../types/products-list/productsListTypes';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import productsComparator from './helpers/productsComparator';
@@ -159,7 +163,7 @@ export const productsListReducer = (state = initialState, action) => {
         ...state,
         productsList: {
           ...state.productsList,
-          updating: false,
+          updating: true,
           updatingError: {
             hasError: false,
             description: '',
@@ -267,7 +271,7 @@ export const productsListReducer = (state = initialState, action) => {
         ...state,
         productsList: {
           ...state.productsList,
-          updating: false,
+          updating: true,
           updatingError: {
             hasError: false,
             description: '',
@@ -375,7 +379,7 @@ export const productsListReducer = (state = initialState, action) => {
         ...state,
         productsList: {
           ...state.productsList,
-          updating: false,
+          updating: true,
           updatingError: {
             hasError: false,
             description: '',
@@ -393,18 +397,20 @@ export const productsListReducer = (state = initialState, action) => {
       const productId = action.payload.product.id;
       const confirmed = action.payload.confirmed;
 
-      const products = state.productsList.products.map((product) => {
-        if (product.id === productId) {
-          return {
-            ...product,
-            confirmationStatus: {
-              awaitConfirmation: false,
-              confirmed,
-            },
-          };
-        }
-        return product;
-      });
+      const products = state.productsList.products
+        .map((product) => {
+          if (product.id === productId) {
+            return {
+              ...product,
+              confirmationStatus: {
+                awaitConfirmation: false,
+                confirmed,
+              },
+            };
+          }
+          return product;
+        })
+        .sort(productsComparator);
 
       return {
         ...state,
@@ -423,6 +429,121 @@ export const productsListReducer = (state = initialState, action) => {
     case CHANGE_PRODUCT_STATUS_ERROR: {
       SystemEventsHandler.onInfo({
         info: 'productsListReducer->CHANGE_PRODUCT_STATUS_ERROR',
+      });
+
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      return {
+        ...state,
+        productsList: {
+          updating: false,
+          updatingError: {
+            hasError: true,
+            description: action.payload.error.description,
+          },
+        },
+      };
+    }
+
+    case REMOVE_PRODUCT_BEGIN: {
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          updating: true,
+          updatingError: {
+            hasError: false,
+            description: '',
+          },
+        },
+      };
+    }
+
+    case REMOVE_PRODUCT_REMOVED: {
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      const removedProductId = action.payload.productId;
+
+      const products = state.productsList.products.map((product) => {
+        if (product.id === removedProductId) {
+          return {
+            ...product,
+            confirmationStatus: {
+              awaitConfirmation: true,
+              confirmed: false,
+            },
+          };
+        }
+        return product;
+      });
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          updating: true,
+          updatingError: {
+            hasError: false,
+            description: '',
+          },
+          products,
+        },
+      };
+    }
+
+    case REMOVE_PRODUCT_CONFIRMED: {
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      const removedProductId = action.payload.productId;
+      const confirmed = action.payload.confirmed;
+
+      let products = [];
+      if (confirmed) {
+        products = state.productsList.products.filter(
+          (product) => product.id !== removedProductId,
+        );
+      } else {
+        products = state.productsList.products.map((product) => {
+          if (product.id === removedProductId) {
+            return {
+              ...product,
+              confirmationStatus: {
+                awaitConfirmation: false,
+                confirmed: false,
+              },
+            };
+          }
+          return product;
+        });
+      }
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          updating: false,
+          updatingError: {
+            hasError: false,
+            description: '',
+          },
+          products,
+        },
+      };
+    }
+
+    case REMOVE_PRODUCT_ERROR: {
+      SystemEventsHandler.onInfo({
+        info: 'productsListReducer->REMOVE_PRODUCT_ERROR',
       });
 
       if (action.payload.shoppingListId !== state.productsList.id) {

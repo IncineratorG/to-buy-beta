@@ -410,4 +410,73 @@ export class SLSqliteService {
 
     return true;
   }
+
+  static async removeProduct({
+    shoppingListId,
+    productId,
+    onRemoved,
+    onConfirmed,
+    onError,
+  }) {
+    const {hasError} = await ProductsTableOperations.removeProduct({
+      db: this.#db,
+      id: productId,
+    });
+    if (hasError) {
+      if (onError) {
+        onError({
+          error: 'SLSqliteService->removeProduct()->REMOVE_PRODUCT_ERROR: ',
+        });
+      }
+      return false;
+    }
+
+    if (onRemoved) {
+      onRemoved({productId});
+    }
+
+    const {
+      products: completedProducts,
+    } = await ProductsTableOperations.getListProductsWithStatus({
+      db: this.#db,
+      shoppingListId,
+      status: ProductStatus.COMPLETED,
+    });
+
+    const {
+      products: notCompletedProducts,
+    } = await ProductsTableOperations.getListProductsWithStatus({
+      db: this.#db,
+      shoppingListId,
+      status: ProductStatus.NOT_COMPLETED,
+    });
+
+    const completedProductsCount = completedProducts.length;
+    const totalProductsCount =
+      completedProducts.length + notCompletedProducts.length;
+
+    const {
+      hasError: updateShoppingListError,
+    } = await ShoppingListsTableOperations.updateShoppingListProductsCount({
+      db: this.#db,
+      id: shoppingListId,
+      totalProductsCount,
+      completedProductsCount,
+    });
+
+    if (updateShoppingListError) {
+      if (onError) {
+        onError({
+          error: 'SLSqliteService->removeProduct()->UPDATE_SHOPPING_LIST_ERROR',
+        });
+      }
+      return false;
+    }
+
+    if (onConfirmed) {
+      onConfirmed({productId, confirmed: true});
+    }
+
+    return true;
+  }
 }
