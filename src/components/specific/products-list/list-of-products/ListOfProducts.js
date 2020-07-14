@@ -7,10 +7,9 @@ const ListOfProducts = ({
   onProductPress,
   onStatusPress,
   onRemovePress,
-  editable,
   unitsMap,
   categoriesMap,
-  selectedCategory,
+  selectedCategoriesIds,
 }) => {
   const innerList = [...list];
   if (innerList.length) {
@@ -26,6 +25,7 @@ const ListOfProducts = ({
         onStatusPress={onStatusPress}
         unitsMap={unitsMap}
         categoriesMap={categoriesMap}
+        selectedCategoriesIds={selectedCategoriesIds}
       />
     );
   };

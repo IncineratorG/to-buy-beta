@@ -9,6 +9,7 @@ import {
 } from '../../../store/actions/products-list/productsListActions';
 import {updateShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
 import {
+  pla_addSelectedCategoryId,
   pla_closeAddCategoryDialog,
   pla_closeAddUnitDialog,
   pla_closeEditCategoryDialog,
@@ -22,6 +23,7 @@ import {
   pla_openProductInputAreaInCreateMode,
   pla_openProductInputAreaInEditMode,
   pla_openRemoveProductDialog,
+  pla_removeSelectedCategoryId,
 } from '../stores/productListActions';
 import {
   addCategoryAction,
@@ -150,10 +152,20 @@ export const useProductsListController = (model) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const categoryPressHandler = (category) => {
+  const categoryPressHandler = ({category, selected}) => {
     SystemEventsHandler.onInfo({
-      info: 'categoryPressHandler(): ' + JSON.stringify(category),
+      info:
+        'categoryPressHandler(): ' +
+        selected +
+        ' - ' +
+        JSON.stringify(category),
     });
+
+    if (selected) {
+      model.localDispatch(pla_removeSelectedCategoryId({id: category.id}));
+    } else {
+      model.localDispatch(pla_addSelectedCategoryId({id: category.id}));
+    }
   };
 
   const shadedBackgroundPressHandler = () => {

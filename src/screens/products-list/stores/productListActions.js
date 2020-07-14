@@ -1,4 +1,5 @@
 import {
+  ADD_SELECTED_CATEGORY_ID,
   CLOSE_ADD_CATEGORY_DIALOG,
   CLOSE_ADD_UNIT_DIALOG,
   CLOSE_EDIT_CATEGORY_DIALOG,
@@ -12,7 +13,9 @@ import {
   OPEN_PRODUCT_INPUT_AREA_IN_CREATE_MODE,
   OPEN_PRODUCT_INPUT_AREA_IN_EDIT_MODE,
   OPEN_REMOVE_PRODUCT_DIALOG,
+  REMOVE_SELECTED_CATEGORY_ID,
   SET_DATA_LOADING,
+  SET_USED_CATEGORIES,
 } from './types/productListActionTypes';
 
 export const pla_setDataLoading = ({dataLoading}) => {
@@ -136,5 +139,26 @@ export const pla_closeRemoveProductDialog = () => {
   return {
     type: CLOSE_REMOVE_PRODUCT_DIALOG,
     payload: undefined,
+  };
+};
+
+export const pla_addSelectedCategoryId = ({id}) => {
+  return {
+    type: ADD_SELECTED_CATEGORY_ID,
+    payload: {id},
+  };
+};
+
+export const pla_removeSelectedCategoryId = ({id}) => {
+  return {
+    type: REMOVE_SELECTED_CATEGORY_ID,
+    payload: {id},
+  };
+};
+
+export const pla_setUsedCategories = ({categories}) => {
+  return {
+    type: SET_USED_CATEGORIES,
+    payload: {categories},
   };
 };

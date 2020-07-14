@@ -5,7 +5,12 @@ import {useTranslation} from '../../../components/common/localization';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import productListReducer from '../stores/produtcListReducer';
 import productListState from '../stores/productListState';
-import {pla_setDataLoading} from '../stores/productListActions';
+import {
+  pla_setDataLoading,
+  pla_setUsedCategories,
+} from '../stores/productListActions';
+import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
+import ProductInitialCategories from '../../../components/specific/products-list/product-initial-categories/ProductInitialCategories';
 
 export const useProductsListModel = () => {
   const [state, localDispatch] = useReducer(
@@ -73,6 +78,79 @@ export const useProductsListModel = () => {
     }
   }, [listLoading, unitsLoading, categoriesLoading]);
 
+  // ===
+  useEffect(() => {
+    if (categoriesLoading || listLoading) {
+      return;
+    }
+
+    const usedCategoriesList = [];
+    const usedCategoriesStatisticMap = new Map();
+
+    products.forEach((product) => {
+      let productCompleted = false;
+      if (product.completionStatus === ProductStatus.COMPLETED) {
+        productCompleted = true;
+      }
+
+      if (usedCategoriesStatisticMap.has(product.categoryId)) {
+        const statObject = usedCategoriesStatisticMap.get(product.categoryId);
+        if (productCompleted) {
+          statObject.completedProductsCount =
+            statObject.completedProductsCount + 1;
+        } else {
+          statObject.notCompletedProductsCount =
+            statObject.notCompletedProductsCount + 1;
+        }
+      } else {
+        const statObject = {
+          categoryId: product.categoryId,
+          completedProductsCount: productCompleted ? 1 : 0,
+          notCompletedProductsCount: productCompleted ? 0 : 1,
+        };
+        usedCategoriesStatisticMap.set(product.categoryId, statObject);
+      }
+    });
+
+    usedCategoriesStatisticMap.forEach((statObject) => {
+      const {categoryId, notCompletedProductsCount} = statObject;
+
+      let category = {...allCategoriesMap.get(categoryId)};
+      if (notCompletedProductsCount === 0) {
+        category.completed = true;
+      }
+
+      usedCategoriesList.push(category);
+    });
+
+    const allCategory = {
+      id: ProductInitialCategories.ALL,
+      name: 'Все',
+      color: '#D3D3D3',
+    };
+    const completedCategory = {
+      id: ProductInitialCategories.COMPLETED,
+      name: 'Купленные',
+      color: '#D3D3D3',
+    };
+    const notCompletedCategory = {
+      id: ProductInitialCategories.NOT_COMPLETED,
+      name: 'Не купленные',
+      color: '#D3D3D3',
+    };
+
+    usedCategoriesList.sort((c1, c2) => {
+      return c1.createTimestamp < c2.createTimestamp;
+    });
+
+    usedCategoriesList.unshift(completedCategory);
+    usedCategoriesList.unshift(notCompletedCategory);
+    usedCategoriesList.unshift(allCategory);
+
+    localDispatch(pla_setUsedCategories({categories: usedCategoriesList}));
+  }, [categoriesLoading, listLoading, products, allCategoriesMap]);
+  // ===
+
   return {
     data: {
       state,
@@ -82,6 +160,8 @@ export const useProductsListModel = () => {
       unitsMap,
       categoriesList,
       categoriesMap,
+      allCategoriesList,
+      allCategoriesMap,
     },
     setters: {},
     navigation,

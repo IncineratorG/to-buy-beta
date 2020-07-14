@@ -404,6 +404,37 @@ export class SLSqliteService {
       onChanged({product});
     }
 
+    // ===
+    const {
+      products: completedProducts,
+    } = await ProductsTableOperations.getListProductsWithStatus({
+      db: this.#db,
+      shoppingListId,
+      status: ProductStatus.COMPLETED,
+    });
+
+    const {
+      products: notCompletedProducts,
+    } = await ProductsTableOperations.getListProductsWithStatus({
+      db: this.#db,
+      shoppingListId,
+      status: ProductStatus.NOT_COMPLETED,
+    });
+
+    const completedProductsCount = completedProducts.length;
+    const totalProductsCount =
+      completedProducts.length + notCompletedProducts.length;
+
+    const {
+      hasError: updateShoppingListError,
+    } = await ShoppingListsTableOperations.updateShoppingListProductsCount({
+      db: this.#db,
+      id: shoppingListId,
+      totalProductsCount,
+      completedProductsCount,
+    });
+    // ===
+
     if (onConfirmed) {
       onConfirmed({product, confirmed: true});
     }

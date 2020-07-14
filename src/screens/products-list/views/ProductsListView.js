@@ -25,11 +25,13 @@ const ProductsListView = ({styles, model, controller}) => {
     unitsMap,
     categoriesList,
     categoriesMap,
+    allCategoriesList,
+    allCategoriesMap,
   } = model.data;
 
   const {
     dataLoading,
-    usedCategoriesLoading,
+    usedCategories,
     inputArea,
     addCategoryDialog,
     editCategoryDialog,
@@ -37,6 +39,12 @@ const ProductsListView = ({styles, model, controller}) => {
     editUnitDialog,
     removeProductDialog,
   } = state;
+
+  const {
+    usedCategoriesLoading,
+    usedCategoriesList,
+    selectedCategoriesIds,
+  } = usedCategories;
 
   const {inputAreaVisible, inputAreaState, editData} = inputArea;
   const {addCategoryDialogVisible} = addCategoryDialog;
@@ -167,9 +175,9 @@ const ProductsListView = ({styles, model, controller}) => {
   ) : (
     <View style={styles.productCategoriesContainer}>
       <ProductCategoriesList
-        categories={categoriesList}
+        categories={usedCategoriesList}
         onCategoryPress={categoryPressHandler}
-        selectedCategory={categoriesList[0]}
+        selectedCategoriesIds={selectedCategoriesIds}
       />
     </View>
   );
@@ -183,6 +191,7 @@ const ProductsListView = ({styles, model, controller}) => {
         onRemovePress={productRemoveHandler}
         unitsMap={unitsMap}
         categoriesMap={categoriesMap}
+        selectedCategoriesIds={selectedCategoriesIds}
       />
     </View>
   );
