@@ -24,6 +24,7 @@ import {
   pla_openProductInputAreaInEditMode,
   pla_openRemoveProductDialog,
   pla_removeSelectedCategoryId,
+  pla_setSelectedCategoryId,
 } from '../stores/productListActions';
 import {
   addCategoryAction,
@@ -153,19 +154,15 @@ export const useProductsListController = (model) => {
   }, []);
 
   const categoryPressHandler = ({category, selected}) => {
-    SystemEventsHandler.onInfo({
-      info:
-        'categoryPressHandler(): ' +
-        selected +
-        ' - ' +
-        JSON.stringify(category),
-    });
-
-    if (selected) {
-      model.localDispatch(pla_removeSelectedCategoryId({id: category.id}));
-    } else {
-      model.localDispatch(pla_addSelectedCategoryId({id: category.id}));
+    if (!selected) {
+      model.localDispatch(pla_setSelectedCategoryId({id: category.id}));
     }
+
+    // if (selected) {
+    //   model.localDispatch(pla_removeSelectedCategoryId({id: category.id}));
+    // } else {
+    //   model.localDispatch(pla_addSelectedCategoryId({id: category.id}));
+    // }
   };
 
   const shadedBackgroundPressHandler = () => {

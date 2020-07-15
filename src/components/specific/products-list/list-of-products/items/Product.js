@@ -7,7 +7,6 @@ import ProductExtra from './extra/ProductExtra';
 import {productExtraStyles} from './extra/styles/productExtraStyles';
 import ProductStatus from '../../../../../services/shopping-list/data/product-status/ProductStatus';
 import {SystemEventsHandler} from '../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
-import ProductInitialCategories from '../../product-initial-categories/ProductInitialCategories';
 
 const Product = ({
   product,
@@ -16,14 +15,12 @@ const Product = ({
   onStatusPress,
   unitsMap,
   categoriesMap,
-  selectedCategoriesIds,
 }) => {
   const productNotCompleted = (
     <ProductNotCompleted
       styles={productNotCompletedStyles}
       product={product}
       categoriesMap={categoriesMap}
-      selectedCategoriesIds={selectedCategoriesIds}
       unitsMap={unitsMap}
       onProductPress={onProductPress}
       onProductLongPress={onProductLongPress}
@@ -36,7 +33,6 @@ const Product = ({
       styles={productCompletedStyles}
       product={product}
       unitsMap={unitsMap}
-      selectedCategoriesIds={selectedCategoriesIds}
       onProductLongPress={onProductLongPress}
       onStatusPress={onStatusPress}
     />
@@ -44,31 +40,16 @@ const Product = ({
 
   const productExtra = <ProductExtra styles={productExtraStyles} />;
 
-  // const productIsExtra = product.extra;
-  // const productIsCompleted =
-  //   product.completionStatus === ProductStatus.COMPLETED;
-  // const productIsNotCompleted =
-  //   product.completionStatus === ProductStatus.NOT_COMPLETED;
-  //
-  // if (productIsExtra) {
-  //   return productExtra;
-  // }
-  //
-  // if (selectedCategoriesIds.has(ProductInitialCategories.ALL)) {
-  //   if (productIsCompleted) {
-  //     return productCompleted;
-  //   } else if (productIsNotCompleted) {
-  //     return productNotCompleted;
-  //   } else {
-  //     return null;
-  //   }
-  // } else if (selec)
-
   if (product.extra) {
     return productExtra;
-  } else if (product.completionStatus === ProductStatus.COMPLETED) {
+  }
+
+  const productIsCompleted =
+    product.completionStatus === ProductStatus.COMPLETED;
+
+  if (productIsCompleted) {
     return productCompleted;
-  } else if (product.completionStatus === ProductStatus.NOT_COMPLETED) {
+  } else if (!productIsCompleted) {
     return productNotCompleted;
   } else {
     return null;

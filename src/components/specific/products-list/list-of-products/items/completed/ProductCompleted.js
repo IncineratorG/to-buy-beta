@@ -7,24 +7,14 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import {icons} from '../../../../../../assets/icons';
-import ProductInitialCategories from '../../../product-initial-categories/ProductInitialCategories';
 
 const ProductCompleted = ({
   styles,
   unitsMap,
   product,
-  selectedCategoriesIds,
   onStatusPress,
   onProductLongPress,
 }) => {
-  if (
-    !selectedCategoriesIds.has(ProductInitialCategories.ALL) &&
-    !selectedCategoriesIds.has(ProductInitialCategories.COMPLETED) &&
-    !selectedCategoriesIds.has(product.categoryId)
-  ) {
-    return null;
-  }
-
   const productUnit = unitsMap.get(product.unitId)
     ? unitsMap.get(product.unitId).name
     : '';

@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, FlatList, StyleSheet} from 'react-native';
 import Product from './items/Product';
+import ProductRenderManager from './items/ProductRenderManager';
 
 const ListOfProducts = ({
   list,
@@ -17,6 +18,12 @@ const ListOfProducts = ({
   }
 
   const renderItem = ({item}) => {
+    if (
+      !ProductRenderManager.canRender({product: item, selectedCategoriesIds})
+    ) {
+      return null;
+    }
+
     return (
       <Product
         product={item}
@@ -25,7 +32,6 @@ const ListOfProducts = ({
         onStatusPress={onStatusPress}
         unitsMap={unitsMap}
         categoriesMap={categoriesMap}
-        selectedCategoriesIds={selectedCategoriesIds}
       />
     );
   };

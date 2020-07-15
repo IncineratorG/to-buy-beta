@@ -15,6 +15,7 @@ import {
   OPEN_REMOVE_PRODUCT_DIALOG,
   REMOVE_SELECTED_CATEGORY_ID,
   SET_DATA_LOADING,
+  SET_SELECTED_CATEGORY_ID,
   SET_USED_CATEGORIES,
 } from './types/productListActionTypes';
 import ProductInitialCategories from '../../../components/specific/products-list/product-initial-categories/ProductInitialCategories';
@@ -206,6 +207,19 @@ function productListReducer(state, action) {
       };
     }
 
+    case SET_SELECTED_CATEGORY_ID: {
+      const selectedCategoriesIds = new Set();
+      selectedCategoriesIds.add(action.payload.id);
+
+      return {
+        ...state,
+        usedCategories: {
+          ...state.usedCategories,
+          selectedCategoriesIds,
+        },
+      };
+    }
+
     case ADD_SELECTED_CATEGORY_ID: {
       const selectedCategoriesIds = new Set(
         state.usedCategories.selectedCategoriesIds,
@@ -225,7 +239,7 @@ function productListReducer(state, action) {
         ...state,
         usedCategories: {
           ...state.usedCategories,
-          selectedCategoriesIds: selectedCategoriesIds,
+          selectedCategoriesIds,
         },
       };
     }
@@ -244,7 +258,7 @@ function productListReducer(state, action) {
         ...state,
         usedCategories: {
           ...state.usedCategories,
-          selectedCategoriesIds: selectedCategoriesIds,
+          selectedCategoriesIds,
         },
       };
     }

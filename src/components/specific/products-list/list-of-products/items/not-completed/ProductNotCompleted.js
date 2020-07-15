@@ -6,26 +6,16 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import {SystemEventsHandler} from '../../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
-import ProductInitialCategories from '../../../product-initial-categories/ProductInitialCategories';
 
 const ProductNotCompleted = ({
   styles,
   product,
   categoriesMap,
   unitsMap,
-  selectedCategoriesIds,
   onStatusPress,
   onProductPress,
   onProductLongPress,
 }) => {
-  if (
-    !selectedCategoriesIds.has(ProductInitialCategories.ALL) &&
-    !selectedCategoriesIds.has(ProductInitialCategories.NOT_COMPLETED) &&
-    !selectedCategoriesIds.has(product.categoryId)
-  ) {
-    return null;
-  }
-
   const categoryDescription = categoriesMap.get(product.categoryId);
   const categoryColor = categoryDescription
     ? categoryDescription.color
