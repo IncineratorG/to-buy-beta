@@ -9,8 +9,8 @@ import {
 import {Dialog} from 'react-native-simple-dialogs';
 import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import CategoryColorsList from '../category-colors-list/CategoryColorsList';
-import AvailableColors from '../../../common/available-colors/AvailableColors';
-import {useTranslation} from '../../../common/localization';
+import AvailableColors from '../../../../utils/common/available-colors/AvailableColors';
+import {useTranslation} from '../../../../utils/common/localization';
 
 const AddCategoryDialog = ({
   visible,

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, TouchableWithoutFeedback, Text} from 'react-native';
 import {SystemEventsHandler} from '../../../../../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
-import {useTranslation} from '../../../../../../../../common/localization';
+import {useTranslation} from '../../../../../../../../../utils/common/localization';
 
 const UnitsListItem = ({unit, selectedUnit, onUnitPress, onUnitLongPress}) => {
   const {t} = useTranslation();

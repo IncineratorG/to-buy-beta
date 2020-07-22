@@ -7,7 +7,7 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
-import {useTranslation} from '../../../../../common/localization';
+import {useTranslation} from '../../../../../../utils/common/localization';
 
 const ListOfShoppingListsItemGeneral = ({
   styles,

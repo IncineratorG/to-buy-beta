@@ -84,4 +84,8 @@ export const ru = {
   ProductsList_removeProductConfirmationDialogMessage: 'Удалить',
   ProductsList_removeProductConfirmationDialogPositiveButton: 'Удалить',
   ProductsList_removeProductConfirmationDialogNegativeButton: 'Нет',
+
+  ProductsListModel_allCategory: 'Все',
+  ProductsListModel_completedCategory: 'Купленные',
+  ProductsListModel_notCompletedCategory: 'Не купленные',
 };

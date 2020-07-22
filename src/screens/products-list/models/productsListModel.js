@@ -1,7 +1,7 @@
 import {useState, useEffect, useReducer} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from '../../../components/common/localization';
+import {useTranslation} from '../../../utils/common/localization';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import productListReducer from '../stores/produtcListReducer';
 import productListState from '../stores/productListState';
@@ -125,17 +125,17 @@ export const useProductsListModel = () => {
 
     const allCategory = {
       id: ProductInitialCategories.ALL,
-      name: 'Все',
+      name: t('ProductsListModel_allCategory'),
       color: '#D3D3D3',
     };
     const completedCategory = {
       id: ProductInitialCategories.COMPLETED,
-      name: 'Купленные',
+      name: t('ProductsListModel_completedCategory'),
       color: '#D3D3D3',
     };
     const notCompletedCategory = {
       id: ProductInitialCategories.NOT_COMPLETED,
-      name: 'Не купленные',
+      name: t('ProductsListModel_notCompletedCategory'),
       color: '#D3D3D3',
     };
 

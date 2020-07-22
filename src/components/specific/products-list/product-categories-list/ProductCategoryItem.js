@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableWithoutFeedback} from 'react-native';
 import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
-import TextColorDeterminer from '../../../common/text-color-determiner/TextColorDeterminer';
+import TextColorDeterminer from '../../../../utils/common/text-color-determiner/TextColorDeterminer';
 
 const ProductCategoryItem = ({
   category,

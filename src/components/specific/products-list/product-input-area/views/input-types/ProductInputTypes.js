@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, ScrollView, StyleSheet} from 'react-native';
 import IconButton from '../../../../../common/icon-button/IconButton';
-import {useTranslation} from '../../../../../common/localization';
+import {useTranslation} from '../../../../../../utils/common/localization';
 import {icons} from '../../../../../../assets/icons';
 
 const ProductInputTypes = ({

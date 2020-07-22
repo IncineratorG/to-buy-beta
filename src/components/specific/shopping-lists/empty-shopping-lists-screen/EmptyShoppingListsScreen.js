@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, StyleSheet, Image} from 'react-native';
 import {icons} from '../../../../assets/icons';
-import {useTranslation} from '../../../common/localization';
+import {useTranslation} from '../../../../utils/common/localization';
 
 const EmptyShoppingListsScreen = () => {
   const {t} = useTranslation();

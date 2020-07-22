@@ -1,7 +1,7 @@
 import {useState, useEffect, useCallback} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from '../../../components/common/localization';
+import {useTranslation} from '../../../utils/common/localization';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 
 export const useShoppingListsModel = () => {
