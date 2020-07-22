@@ -27,6 +27,14 @@ export const productsListViewStyles = StyleSheet.create({
     zIndex: 10,
   },
   addShoppingListItemButton: {},
+  shareButtonContainer: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    marginBottom: 20,
+    marginRight: 15,
+    zIndex: 10,
+  },
   emptyShoppingListScreenContent: {
     flex: 1,
     alignItems: 'center',
@@ -70,7 +78,15 @@ export const productsListViewStyles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 90,
+    height: 110,
     position: 'absolute',
+  },
+  sharePanel: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    marginBottom: 90,
+    marginRight: 15,
+    zIndex: 10,
   },
 });

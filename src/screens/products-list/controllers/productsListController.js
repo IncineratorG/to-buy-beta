@@ -284,6 +284,11 @@ export const useProductsListController = (model) => {
     model.localDispatch(pla_closeRemoveProductDialog());
   };
 
+  const shareButtonPressHandler = () => {
+    SystemEventsHandler.onInfo({info: 'shareButtonPressHandler()'});
+    model.setters.setSharePanelVisible(!model.data.sharePanelVisible);
+  };
+
   return {
     backButtonPressHandler,
     addProductButtonHandler,
@@ -315,5 +320,6 @@ export const useProductsListController = (model) => {
     removeProductDialogTouchOutsideHandler,
     removeProductDialogCancelButtonHandler,
     removeProductDialogRemoveButtonHandler,
+    shareButtonPressHandler,
   };
 };

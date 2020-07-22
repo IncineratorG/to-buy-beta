@@ -13,6 +13,8 @@ import EditCategoryDialog from '../../../components/specific/products-list/edit-
 import AddUnitDialog from '../../../components/specific/products-list/add-unit-dialog/AddUnitDialog';
 import EditUnitDialog from '../../../components/specific/products-list/edit-unit-dialog/EditUnitDialog';
 import {ConfirmDialog} from 'react-native-simple-dialogs';
+import ShareButton from '../../../components/specific/products-list/share-button/ShareButton';
+import SharePanel from '../../../components/specific/products-list/share-panel/SharePanel';
 
 const ProductsListView = ({styles, model, controller}) => {
   const {t} = model;
@@ -27,6 +29,8 @@ const ProductsListView = ({styles, model, controller}) => {
     categoriesMap,
     allCategoriesList,
     allCategoriesMap,
+    shareButtonVisible,
+    sharePanelVisible,
   } = model.data;
 
   const {
@@ -83,6 +87,7 @@ const ProductsListView = ({styles, model, controller}) => {
     removeProductDialogTouchOutsideHandler,
     removeProductDialogCancelButtonHandler,
     removeProductDialogRemoveButtonHandler,
+    shareButtonPressHandler,
   } = controller;
 
   // ===
@@ -205,6 +210,21 @@ const ProductsListView = ({styles, model, controller}) => {
     </View>
   );
 
+  const shareButtonComponent = (
+    <View style={styles.shareButtonContainer}>
+      <ShareButton
+        visible={shareButtonVisible}
+        onClick={shareButtonPressHandler}
+      />
+    </View>
+  );
+
+  const sharePanelComponent = (
+    <View style={styles.sharePanel}>
+      <SharePanel visible={sharePanelVisible} />
+    </View>
+  );
+
   const shadedBackgroundComponent = inputAreaVisible ? (
     <TouchableWithoutFeedback
       onPress={shadedBackgroundPressHandler}
@@ -247,6 +267,8 @@ const ProductsListView = ({styles, model, controller}) => {
     <View style={styles.mainContainer}>
       {screenContent}
       {addButtonComponent}
+      {shareButtonComponent}
+      {sharePanelComponent}
       {inputAreaComponent}
       {shadedBackgroundComponent}
       {bottomGradientComponent}

@@ -11,12 +11,16 @@ import {
 } from '../stores/productListActions';
 import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
 import ProductInitialCategories from '../../../components/specific/products-list/product-initial-categories/ProductInitialCategories';
+import {checkShareAvailabilityAction} from '../../../store/actions/share/shareActions';
 
 export const useProductsListModel = () => {
   const [state, localDispatch] = useReducer(
     productListReducer,
     productListState,
   );
+
+  const [shareButtonVisible, setShareButtonVisible] = useState(false);
+  const [sharePanelVisible, setSharePanelVisible] = useState(false);
 
   const navigation = useNavigation();
 
@@ -66,6 +70,11 @@ export const useProductsListModel = () => {
   const allCategoriesMap = useSelector(
     (storeState) => storeState.categories.categories.all.map,
   );
+
+  useEffect(() => {
+    dispatch(checkShareAvailabilityAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     navigation.setOptions({title: listName});
@@ -148,7 +157,16 @@ export const useProductsListModel = () => {
     usedCategoriesList.unshift(allCategory);
 
     localDispatch(pla_setUsedCategories({categories: usedCategoriesList}));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoriesLoading, listLoading, products, allCategoriesMap]);
+
+  useEffect(() => {
+    if (products && products.length) {
+      setShareButtonVisible(true);
+    } else {
+      setShareButtonVisible(false);
+    }
+  }, [products]);
   // ===
 
   return {
@@ -162,8 +180,13 @@ export const useProductsListModel = () => {
       categoriesMap,
       allCategoriesList,
       allCategoriesMap,
+      shareButtonVisible,
+      sharePanelVisible,
     },
-    setters: {},
+    setters: {
+      setShareButtonVisible,
+      setSharePanelVisible,
+    },
     navigation,
     dispatch,
     localDispatch,
