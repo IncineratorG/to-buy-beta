@@ -2,81 +2,74 @@ import {Linking} from 'react-native';
 import {Notifier} from '../service-utils/notifier/Notifier';
 import {SystemEventsHandler} from '../service-utils/system-events-handler/SystemEventsHandler';
 import ShareServiceEvents from './data/event-types/ShareServiceEvents';
-import {PhoneShareService} from './phone/PhoneShareService';
 
 export class ShareService {
-  // static #className = 'ShareService';
+  static #className = 'ShareService';
   static #notifier = new Notifier();
-  // static #defaultSmsUrl = 'sms:?body=t';
-  // static #defaultWhatsAppUrl = 'whatsapp://send?text=t';
-  // static #smsSharingSupported = false;
-  // static #whatsAppSharingSupported = false;
+  static #defaultSmsUrl = 'sms:?body=t';
+  static #defaultWhatsAppUrl = 'whatsapp://send?text=t';
+  static #smsSharingSupported = false;
+  static #whatsAppSharingSupported = false;
 
   static subscribe({event, handler}) {
-    SystemEventsHandler.onInfo({info: 'HERE_HERE'});
-    return ShareService.notifier.subscribe({event, handler});
+    return ShareService.#notifier.subscribe({event, handler});
   }
 
   static async init() {
-    await PhoneShareService.init();
-    // await this.checkAvailability();
+    await this.checkAvailability();
+
+    this.#notifier.notify({
+      event: ShareServiceEvents.AVAILABILITY_STATUS_CHANGED,
+      data: {
+        smsSharingSupported: ShareService.#smsSharingSupported,
+        whatsAppSharingSupported: ShareService.#whatsAppSharingSupported,
+      },
+    });
   }
 
   static async checkAvailability() {
-    SystemEventsHandler.onInfo({info: ShareService.STR});
+    try {
+      ShareService.#smsSharingSupported = await Linking.canOpenURL(
+        ShareService.#defaultSmsUrl,
+      );
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err:
+          ShareService.#className + '->checkAvailability(): SMS_NOT_SUPPORTED',
+      });
+    }
 
-    const smsSharingSupported = await PhoneShareService.checkSmsAvailability();
-    const whatsAppSharingSupported = await PhoneShareService.checkWhatsAppAvailability();
-
-    ShareService.notifier.notify({
-      event: ShareServiceEvents.AVAILABILITY_STATUS_CHANGED,
-      data: {
-        smsSharingSupported,
-        whatsAppSharingSupported,
-      },
-    });
-
-    // try {
-    //   this.#smsSharingSupported = await Linking.canOpenURL(this.#defaultSmsUrl);
-    // } catch (e) {
-    //   // SystemEventsHandler.onError({
-    //   //   err: this.#className + '->checkAvailability(): SMS_NOT_SUPPORTED',
-    //   // });
-    // }
-    //
-    // try {
-    //   this.#whatsAppSharingSupported = await Linking.canOpenURL(
-    //     this.#defaultWhatsAppUrl,
-    //   );
-    // } catch (e) {
-    //   // SystemEventsHandler.onError({
-    //   //   err: this.#className + '->checkAvailability(): WHATSAPP_NOT_SUPPORTED',
-    //   // });
-    // }
-    //
-    // this.#notifier.notify({
-    //   event: ShareServiceEvents.AVAILABILITY_STATUS_CHANGED,
-    //   data: {
-    //     smsSharingSupported: this.#smsSharingSupported,
-    //     whatsAppSharingSupported: this.#whatsAppSharingSupported,
-    //   },
-    // });
+    try {
+      ShareService.#whatsAppSharingSupported = await Linking.canOpenURL(
+        ShareService.#defaultWhatsAppUrl,
+      );
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err:
+          ShareService.#className +
+          '->checkAvailability(): WHATSAPP_NOT_SUPPORTED',
+      });
+    }
   }
 
   static async getAvailabilityStatus() {
-    const smsSharingSupported = await PhoneShareService.checkSmsAvailability();
-    const whatsAppSharingSupported = await PhoneShareService.checkWhatsAppAvailability();
+    await this.checkAvailability();
 
     return {
-      smsSharingSupported,
-      whatsAppSharingSupported,
+      smsSharingSupported: ShareService.#smsSharingSupported,
+      whatsAppSharingSupported: ShareService.#whatsAppSharingSupported,
     };
   }
 
-  static async share() {
-    // SystemEventsHandler.onInfo({info: this.#className + '->share()'});
+  static async shareViaSms(text) {
+    SystemEventsHandler.onInfo({
+      info: ShareService.#className + '->shareViaSms(): ' + text,
+    });
+  }
+
+  static async shareViaWhatsApp(text) {
+    SystemEventsHandler.onInfo({
+      info: ShareService.#className + '->shareViaWhatsApp(): ' + text,
+    });
   }
 }
-
-ShareService.notifier = new Notifier();
-ShareService.STR = 'STR';

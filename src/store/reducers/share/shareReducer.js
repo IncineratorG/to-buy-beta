@@ -22,8 +22,6 @@ const initialState = {
 export const shareReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_SHARE_AVAILABILITY: {
-      SystemEventsHandler.onInfo({info: 'HERE'});
-
       return {
         ...state,
         share: {
@@ -60,6 +58,10 @@ export const shareReducer = (state = initialState, action) => {
     }
 
     case CHECK_SHARE_AVAILABILITY_ERROR: {
+      SystemEventsHandler.onError({
+        err: 'shareReducer->CHECK_SHARE_AVAILABILITY_ERROR',
+      });
+
       return {
         ...state,
         share: {

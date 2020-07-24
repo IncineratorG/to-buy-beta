@@ -2,7 +2,6 @@ import {useState, useEffect, useReducer} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from '../../../utils/common/localization';
-import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import productListReducer from '../stores/produtcListReducer';
 import productListState from '../stores/productListState';
 import {
@@ -69,6 +68,13 @@ export const useProductsListModel = () => {
   );
   const allCategoriesMap = useSelector(
     (storeState) => storeState.categories.categories.all.map,
+  );
+  const smsShareSupported = useSelector(
+    (storeState) => storeState.share.share.availability.smsSharingSupported,
+  );
+  const whatsAppShareSupported = useSelector(
+    (storeState) =>
+      storeState.share.share.availability.whatsAppSharingSupported,
   );
 
   useEffect(() => {
@@ -182,6 +188,8 @@ export const useProductsListModel = () => {
       allCategoriesMap,
       shareButtonVisible,
       sharePanelVisible,
+      smsShareSupported,
+      whatsAppShareSupported,
     },
     setters: {
       setShareButtonVisible,

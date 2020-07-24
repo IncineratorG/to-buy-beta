@@ -3,6 +3,10 @@ import {
   CHECK_SHARE_AVAILABILITY_BEGIN,
   CHECK_SHARE_AVAILABILITY_ERROR,
   SET_SHARE_AVAILABILITY,
+  SHARE_PRODUCTS_LIST_VIA_SMS,
+  SHARE_PRODUCTS_LIST_VIA_SMS_BEGIN,
+  SHARE_PRODUCTS_LIST_VIA_SMS_ERROR,
+  SHARE_PRODUCTS_LIST_VIA_SMS_FINISHED,
 } from '../../types/share/shareTypes';
 
 export const setShareAvailabilityAction = ({
@@ -32,6 +36,34 @@ export const checkShareAvailabilityBeginAction = () => {
 export const checkShareAvailabilityErrorAction = ({description}) => {
   return {
     type: CHECK_SHARE_AVAILABILITY_ERROR,
+    payload: {error: {description}},
+  };
+};
+
+export const shareProductsListViaSmsAction = ({productsListTextForm}) => {
+  return {
+    type: SHARE_PRODUCTS_LIST_VIA_SMS,
+    payload: {productsListTextForm},
+  };
+};
+
+export const shareProductsListViaSmsBeginAction = () => {
+  return {
+    type: SHARE_PRODUCTS_LIST_VIA_SMS_BEGIN,
+    payload: undefined,
+  };
+};
+
+export const shareProductsListViaSmsFinishedAction = () => {
+  return {
+    type: SHARE_PRODUCTS_LIST_VIA_SMS_FINISHED,
+    payload: undefined,
+  };
+};
+
+export const shareProductsListViaSmsErrorAction = ({description}) => {
+  return {
+    type: SHARE_PRODUCTS_LIST_VIA_SMS_ERROR,
     payload: {error: {description}},
   };
 };

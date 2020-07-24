@@ -37,6 +37,7 @@ import {
   updateUnitAction,
 } from '../../../store/actions/units/unitsActions';
 import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
+import ListToTextConverter from '../../../utils/specific/products-list/list-to-text-converter/ListToTextConverter';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
@@ -289,6 +290,18 @@ export const useProductsListController = (model) => {
     model.setters.setSharePanelVisible(!model.data.sharePanelVisible);
   };
 
+  const smsSharePressHandler = async () => {
+    SystemEventsHandler.onInfo({info: 'smsSharePressHandler()'});
+
+    SystemEventsHandler.onInfo({info: 'START'});
+    await ListToTextConverter.convert({});
+    SystemEventsHandler.onInfo({info: 'END'});
+  };
+
+  const whatsAppSharePressHandler = () => {
+    SystemEventsHandler.onInfo({info: 'whatsAppSharePressHandler()'});
+  };
+
   return {
     backButtonPressHandler,
     addProductButtonHandler,
@@ -321,5 +334,7 @@ export const useProductsListController = (model) => {
     removeProductDialogCancelButtonHandler,
     removeProductDialogRemoveButtonHandler,
     shareButtonPressHandler,
+    smsSharePressHandler,
+    whatsAppSharePressHandler,
   };
 };

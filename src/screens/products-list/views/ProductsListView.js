@@ -31,6 +31,8 @@ const ProductsListView = ({styles, model, controller}) => {
     allCategoriesMap,
     shareButtonVisible,
     sharePanelVisible,
+    smsShareSupported,
+    whatsAppShareSupported,
   } = model.data;
 
   const {
@@ -88,6 +90,8 @@ const ProductsListView = ({styles, model, controller}) => {
     removeProductDialogCancelButtonHandler,
     removeProductDialogRemoveButtonHandler,
     shareButtonPressHandler,
+    smsSharePressHandler,
+    whatsAppSharePressHandler,
   } = controller;
 
   // ===
@@ -221,7 +225,13 @@ const ProductsListView = ({styles, model, controller}) => {
 
   const sharePanelComponent = (
     <View style={styles.sharePanel}>
-      <SharePanel visible={sharePanelVisible} />
+      <SharePanel
+        visible={sharePanelVisible}
+        smsShareSupported={smsShareSupported}
+        whatsAppShareSupported={whatsAppShareSupported}
+        onSmsPress={smsSharePressHandler}
+        onWhatsAppPress={whatsAppSharePressHandler}
+      />
     </View>
   );
 

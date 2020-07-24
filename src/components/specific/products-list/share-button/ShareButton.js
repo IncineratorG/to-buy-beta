@@ -24,7 +24,7 @@ const ShareButton = ({visible, onClick}) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: '#7E57C2',
+    backgroundColor: '#19e680',
     height: 60,
     width: 60,
     borderRadius: 30,

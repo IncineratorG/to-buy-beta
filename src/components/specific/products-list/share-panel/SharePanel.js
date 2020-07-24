@@ -1,65 +1,40 @@
-import React, {useState, useEffect} from 'react';
-import {
-  View,
-  StyleSheet,
-  Image,
-  TouchableHighlight,
-  Linking,
-} from 'react-native';
-import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import React from 'react';
+import {View, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import {icons} from '../../../../assets/icons';
 
-const SharePanel = ({visible, onWhatsAppPress, onSmsPress}) => {
-  const defaultSmsUrl = 'sms:?body=t';
-  const defaultWhatsAppUrl = 'whatsapp://send?text=t';
-
-  const [whatsAppAvailable, setWhatsAppAvailable] = useState(false);
-  const [smsAvailable, setSmsAvailable] = useState(false);
-
+const SharePanel = ({
+  visible,
+  smsShareSupported,
+  whatsAppShareSupported,
+  onWhatsAppPress,
+  onSmsPress,
+}) => {
   const whatsAppPressHandler = () => {
-    SystemEventsHandler.onInfo({info: 'whatsAppPressHandler()'});
+    if (onWhatsAppPress) {
+      onWhatsAppPress();
+    }
   };
 
   const smsPressHandler = () => {
-    SystemEventsHandler.onInfo({info: 'smsPressHandler()'});
+    if (onSmsPress) {
+      onSmsPress();
+    }
   };
-
-  useEffect(() => {
-    const checkWhatsAppAndSms = async () => {
-      try {
-        const supported = await Linking.canOpenURL(defaultSmsUrl);
-        setSmsAvailable(supported);
-      } catch (e) {
-        SystemEventsHandler.onInfo({info: 'SharePanel->SMS_NOT_SUPPORTED'});
-      }
-
-      try {
-        const supported = await Linking.canOpenURL(defaultWhatsAppUrl);
-        setWhatsAppAvailable(supported);
-      } catch (e) {
-        SystemEventsHandler.onInfo({
-          info: 'SharePanel->WHATSAPP_NOT_SUPPORTED',
-        });
-      }
-    };
-
-    checkWhatsAppAndSms();
-  }, []);
 
   if (!visible) {
     return null;
   }
 
   let optionsCount = 0;
-  if (whatsAppAvailable && smsAvailable) {
+  if (whatsAppShareSupported && smsShareSupported) {
     optionsCount = 2;
-  } else if (whatsAppAvailable || smsAvailable) {
+  } else if (whatsAppShareSupported || smsShareSupported) {
     optionsCount = 1;
   } else {
     optionsCount = 0;
   }
 
-  const whatsAppComponent = whatsAppAvailable ? (
+  const whatsAppComponent = whatsAppShareSupported ? (
     <View style={styles.whatsAppShareOptionsContainer}>
       <TouchableHighlight
         style={styles.whatsAppShareButtonTouchable}
@@ -72,7 +47,7 @@ const SharePanel = ({visible, onWhatsAppPress, onSmsPress}) => {
     </View>
   ) : null;
 
-  const smsComponent = smsAvailable ? (
+  const smsComponent = smsShareSupported ? (
     <View style={styles.smsShareOptionContainer}>
       <TouchableHighlight
         style={styles.smsShareButtonTouchable}
@@ -126,7 +101,6 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    // backgroundColor: 'blue',
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 10,
