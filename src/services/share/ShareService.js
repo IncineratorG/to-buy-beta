@@ -1,16 +1,11 @@
-import {Linking} from 'react-native';
 import {Notifier} from '../service-utils/notifier/Notifier';
 import {SystemEventsHandler} from '../service-utils/system-events-handler/SystemEventsHandler';
 import ShareServiceEvents from './data/event-types/ShareServiceEvents';
-import HeadlessJsTaskError from 'react-native/Libraries/ReactNative/HeadlessJsTaskError';
+import PhoneMessaging from './libs/phone-messaging/PhoneMessaging';
 
 export class ShareService {
   static #className = 'ShareService';
   static #notifier = new Notifier();
-  static #defaultSmsUrl = 'sms:?body=t';
-  static #validSmsUrl = 'sms:?body=';
-  static #defaultWhatsAppUrl = 'whatsapp://send?text=t';
-  static #validWhatsAppUrl = 'whatsapp://send?text=';
   static #smsSharingSupported = false;
   static #whatsAppSharingSupported = false;
 
@@ -31,28 +26,10 @@ export class ShareService {
   }
 
   static async checkAvailability() {
-    try {
-      ShareService.#smsSharingSupported = await Linking.canOpenURL(
-        ShareService.#defaultSmsUrl,
-      );
-    } catch (e) {
-      SystemEventsHandler.onError({
-        err:
-          ShareService.#className + '->checkAvailability(): SMS_NOT_SUPPORTED',
-      });
-    }
+    const {sms, whatsApp} = await PhoneMessaging.checkServicesAvailability();
 
-    try {
-      ShareService.#whatsAppSharingSupported = await Linking.canOpenURL(
-        ShareService.#defaultWhatsAppUrl,
-      );
-    } catch (e) {
-      SystemEventsHandler.onError({
-        err:
-          ShareService.#className +
-          '->checkAvailability(): WHATSAPP_NOT_SUPPORTED',
-      });
-    }
+    ShareService.#smsSharingSupported = sms;
+    ShareService.#whatsAppSharingSupported = whatsApp;
   }
 
   static async getAvailabilityStatus() {
@@ -69,31 +46,30 @@ export class ShareService {
       info: ShareService.#className + '->shareViaSms(): ' + text,
     });
 
-    const validSmsUrl = 'sms:?body=Hello%20World';
-
-    // const smsUrl = ShareService.#defaultSmsUrl;
-
-    // Linking.sendIntent('SENDTO', [{key: 'sms_body', value: 'message'}])
-    //   .then((data) => {})
-    //   .catch((error) => {
-    //     console.log('ERORR: ' + JSON.stringify(error));
-    //   });
-
-    Linking.openURL(validSmsUrl)
-      .then((data) => {})
-      .catch((error) => {
-        console.log(
-          ShareService.#className +
-            '->shareViaSms()' +
-            ' SMS_SENDER_ERROR: ' +
-            error,
-        );
+    try {
+      await PhoneMessaging.sendSmsMessage(text);
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err:
+          ShareService.#className + '->shareViaSms()->ERROR: ' + e.toString(),
       });
+    }
   }
 
   static async shareViaWhatsApp({text}) {
     SystemEventsHandler.onInfo({
       info: ShareService.#className + '->shareViaWhatsApp(): ' + text,
     });
+
+    try {
+      await PhoneMessaging.sendWhatsAppMessage(text);
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err:
+          ShareService.#className +
+          '->shareViaWhatsApp()->ERROR: ' +
+          e.toString(),
+      });
+    }
   }
 }
