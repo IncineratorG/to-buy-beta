@@ -6,7 +6,7 @@ import {
   checkShareAvailabilityErrorAction,
 } from '../../../actions/share/shareActions';
 
-function* ss_checkShareAvailability(action) {
+function* ss_checkShareAvailabilityHandler(action) {
   yield put(checkShareAvailabilityBeginAction());
 
   try {
@@ -14,10 +14,10 @@ function* ss_checkShareAvailability(action) {
     yield call(shareService.checkAvailability);
   } catch (e) {
     SystemEventsHandler.onError({
-      err: 'ss_checkShareAvailability()->ERROR: ' + e,
+      err: 'ss_checkShareAvailabilityHandler()->ERROR: ' + e,
     });
     yield put(checkShareAvailabilityErrorAction({description: e.toString()}));
   }
 }
 
-export default ss_checkShareAvailability;
+export default ss_checkShareAvailabilityHandler;

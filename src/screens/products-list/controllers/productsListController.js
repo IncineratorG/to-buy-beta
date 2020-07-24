@@ -38,6 +38,7 @@ import {
 } from '../../../store/actions/units/unitsActions';
 import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
 import ListToTextConverter from '../../../utils/specific/products-list/list-to-text-converter/ListToTextConverter';
+import {shareProductsListViaSmsAction} from '../../../store/actions/share/shareActions';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
@@ -296,6 +297,10 @@ export const useProductsListController = (model) => {
     SystemEventsHandler.onInfo({info: 'START'});
     await ListToTextConverter.convert({});
     SystemEventsHandler.onInfo({info: 'END'});
+
+    model.dispatch(
+      shareProductsListViaSmsAction({productsListTextForm: 'TEXT_FORM'}),
+    );
   };
 
   const whatsAppSharePressHandler = () => {
