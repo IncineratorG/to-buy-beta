@@ -48,6 +48,7 @@ export const ru = {
     'Добавьте сюда то, что вы планируете купить',
 
   ListOfShoppingListsItemGeneral_menuShareOption: 'Поделиться',
+  ListOfShoppingListsItemGeneral_menuRenameOption: 'Переименовать',
   ListOfShoppingListsItemGeneral_menuRemoveOption: 'Удалить',
 
   ProductInputTypes_productNameType: 'Название продукта',

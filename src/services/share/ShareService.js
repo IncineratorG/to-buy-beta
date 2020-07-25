@@ -42,10 +42,6 @@ export class ShareService {
   }
 
   static async shareViaSms({text}) {
-    SystemEventsHandler.onInfo({
-      info: ShareService.#className + '->shareViaSms(): ' + text,
-    });
-
     try {
       await PhoneMessaging.sendSmsMessage(text);
     } catch (e) {
@@ -57,10 +53,6 @@ export class ShareService {
   }
 
   static async shareViaWhatsApp({text}) {
-    SystemEventsHandler.onInfo({
-      info: ShareService.#className + '->shareViaWhatsApp(): ' + text,
-    });
-
     try {
       await PhoneMessaging.sendWhatsAppMessage(text);
     } catch (e) {

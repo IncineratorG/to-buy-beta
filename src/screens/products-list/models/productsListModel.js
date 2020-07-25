@@ -102,10 +102,16 @@ export const useProductsListModel = () => {
     const usedCategoriesList = [];
     const usedCategoriesStatisticMap = new Map();
 
+    let hasCompletedProducts = false;
+    let hasNotCompletedProducts = false;
+
     products.forEach((product) => {
       let productCompleted = false;
       if (product.completionStatus === ProductStatus.COMPLETED) {
         productCompleted = true;
+        hasCompletedProducts = true;
+      } else {
+        hasNotCompletedProducts = true;
       }
 
       if (usedCategoriesStatisticMap.has(product.categoryId)) {
@@ -158,21 +164,23 @@ export const useProductsListModel = () => {
       return c1.createTimestamp < c2.createTimestamp;
     });
 
-    usedCategoriesList.unshift(completedCategory);
-    usedCategoriesList.unshift(notCompletedCategory);
+    if (hasCompletedProducts) {
+      usedCategoriesList.unshift(completedCategory);
+    }
+    if (hasNotCompletedProducts) {
+      usedCategoriesList.unshift(notCompletedCategory);
+    }
     usedCategoriesList.unshift(allCategory);
 
     localDispatch(pla_setUsedCategories({categories: usedCategoriesList}));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoriesLoading, listLoading, products, allCategoriesMap]);
 
-  useEffect(() => {
-    if (products && products.length) {
+    if (hasNotCompletedProducts) {
       setShareButtonVisible(true);
     } else {
       setShareButtonVisible(false);
     }
-  }, [products]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoriesLoading, listLoading, products, allCategoriesMap]);
   // ===
 
   return {

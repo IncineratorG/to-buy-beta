@@ -38,27 +38,29 @@ import {
 } from '../../../store/actions/units/unitsActions';
 import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
 import ListToTextConverter from '../../../utils/specific/products-list/list-to-text-converter/ListToTextConverter';
-import {shareProductsListViaSmsAction} from '../../../store/actions/share/shareActions';
+import {
+  shareProductsListViaSmsAction,
+  shareProductsListViaWhatsAppAction,
+} from '../../../store/actions/share/shareActions';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
-    SystemEventsHandler.onInfo({info: 'backButtonPressHandler()'});
-
     model.navigation.goBack();
 
     model.dispatch(updateShoppingListsAction());
-    model.dispatch(clearProductsListCachedData());
+    // model.dispatch(clearProductsListCachedData());
 
     return true;
   };
 
   const addProductButtonHandler = () => {
-    SystemEventsHandler.onInfo({info: 'addProductButtonHandler()'});
+    model.setters.setSharePanelVisible(false);
     model.localDispatch(pla_openProductInputAreaInCreateMode());
   };
 
   const inputAreaHideHandler = ({inputAreaState}) => {
     SystemEventsHandler.onInfo({info: 'inputAreaHideHandler()'});
+    model.setters.setSharePanelVisible(false);
     model.localDispatch(pla_hideProductInputArea());
   };
 
@@ -104,6 +106,8 @@ export const useProductsListController = (model) => {
   };
 
   const productPressHandler = useCallback((product) => {
+    model.setters.setSharePanelVisible(false);
+
     const {
       parentListId: shoppingListId,
       id: productId,
@@ -129,6 +133,8 @@ export const useProductsListController = (model) => {
   }, []);
 
   const statusPressHandler = useCallback((product) => {
+    model.setters.setSharePanelVisible(false);
+
     const newStatus =
       product.completionStatus === ProductStatus.COMPLETED
         ? ProductStatus.NOT_COMPLETED
@@ -156,15 +162,11 @@ export const useProductsListController = (model) => {
   }, []);
 
   const categoryPressHandler = ({category, selected}) => {
+    model.setters.setSharePanelVisible(false);
+
     if (!selected) {
       model.localDispatch(pla_setSelectedCategoryId({id: category.id}));
     }
-
-    // if (selected) {
-    //   model.localDispatch(pla_removeSelectedCategoryId({id: category.id}));
-    // } else {
-    //   model.localDispatch(pla_addSelectedCategoryId({id: category.id}));
-    // }
   };
 
   const shadedBackgroundPressHandler = () => {
@@ -292,26 +294,39 @@ export const useProductsListController = (model) => {
   };
 
   const smsSharePressHandler = async () => {
-    SystemEventsHandler.onInfo({info: 'smsSharePressHandler()'});
-
-    // SystemEventsHandler.onInfo({info: 'START'});
     const productsListText = await ListToTextConverter.convert({
       productsList: model.data.products,
       listName: model.data.listName,
       categoriesMap: model.data.allCategoriesMap,
       unitsMap: model.data.allUnitsMap,
     });
-    // SystemEventsHandler.onInfo({info: 'END'});
 
     if (productsListText) {
       model.dispatch(
         shareProductsListViaSmsAction({productsListTextForm: productsListText}),
       );
     }
+
+    model.setters.setSharePanelVisible(false);
   };
 
-  const whatsAppSharePressHandler = () => {
-    SystemEventsHandler.onInfo({info: 'whatsAppSharePressHandler()'});
+  const whatsAppSharePressHandler = async () => {
+    const productsListText = await ListToTextConverter.convert({
+      productsList: model.data.products,
+      listName: model.data.listName,
+      categoriesMap: model.data.allCategoriesMap,
+      unitsMap: model.data.allUnitsMap,
+    });
+
+    if (productsListText) {
+      model.dispatch(
+        shareProductsListViaWhatsAppAction({
+          productsListTextForm: productsListText,
+        }),
+      );
+    }
+
+    model.setters.setSharePanelVisible(false);
   };
 
   return {

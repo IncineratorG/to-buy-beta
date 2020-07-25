@@ -21,6 +21,12 @@ export const useShoppingListsController = (model) => {
     model.setters.setRemoveConfirmationDialogVisible(true);
   };
 
+  const listItemRenameHandler = (listItem) => {
+    SystemEventsHandler.onInfo({
+      info: 'listItemRenameHandler(): ' + JSON.stringify(listItem),
+    });
+  };
+
   // ===
   // function* genFuncWithReturn() {
   //   yield 'a';
@@ -95,6 +101,7 @@ export const useShoppingListsController = (model) => {
   return {
     listItemPressHandler,
     listItemRemoveHandler,
+    listItemRenameHandler,
     addButtonHandler,
     removeConfirmationDialogTouchOutsideHandler,
     removeConfirmationDialogRemoveHandler,

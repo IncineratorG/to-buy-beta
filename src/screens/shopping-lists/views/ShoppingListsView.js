@@ -22,6 +22,7 @@ const ShoppingListsView = ({styles, model, controller}) => {
   const {
     listItemPressHandler,
     listItemRemoveHandler,
+    listItemRenameHandler,
     addButtonHandler,
     removeConfirmationDialogTouchOutsideHandler,
     removeConfirmationDialogRemoveHandler,
@@ -80,6 +81,7 @@ const ShoppingListsView = ({styles, model, controller}) => {
         onItemPress={listItemPressHandler}
         onRemovePress={listItemRemoveHandler}
         onSharePress={shareListHandler}
+        onRenamePress={listItemRenameHandler}
       />
     </View>
   );

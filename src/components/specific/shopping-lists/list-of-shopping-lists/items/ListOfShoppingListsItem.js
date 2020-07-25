@@ -7,10 +7,11 @@ import ListOfShoppingListsItemExtra from './extra/ListOfShoppingListsItemExtra';
 const ListOfShoppingListsItem = ({
   online,
   listItem,
+  currentEmail,
   onItemPress,
   onRemovePress,
   onSharePress,
-  currentEmail,
+  onRenamePress,
 }) => {
   const generalItemStyles = listOfShoppingListsItemStylesGeneral;
   const extraItemStyles = listOfShoppingListsItemStylesExtra;
@@ -20,10 +21,11 @@ const ListOfShoppingListsItem = ({
       styles={generalItemStyles}
       listItem={listItem}
       online={online}
+      currentEmail={currentEmail}
       onItemPress={onItemPress}
       onRemovePress={onRemovePress}
       onSharedPress={onSharePress}
-      currentEmail={currentEmail}
+      onRenamePress={onRenamePress}
     />
   );
 

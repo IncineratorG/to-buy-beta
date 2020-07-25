@@ -57,7 +57,7 @@ const AppNavigation = () => {
         <MainStack.Screen
           name={'ProductsList'}
           component={ProductsList}
-          options={{title: 'PRODUCTS_LIST_TITLE', headerShown: true}}
+          options={{title: '', headerShown: true}}
         />
       </MainStack.Navigator>
     );
