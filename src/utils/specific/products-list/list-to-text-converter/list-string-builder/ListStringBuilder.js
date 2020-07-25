@@ -33,7 +33,7 @@ class ListStringBuilder {
         ' ' +
         noteString;
 
-      productsStringsArr.push(productDescription + '\n');
+      productsStringsArr.push(productDescription);
 
       ++counter;
     });
@@ -88,7 +88,7 @@ class ListStringBuilder {
 
       previousCategoryId = p.categoryId;
 
-      productsStringsArr.push(productDescription + '\n');
+      productsStringsArr.push(productDescription);
     });
 
     return productsStringsArr.join('');
