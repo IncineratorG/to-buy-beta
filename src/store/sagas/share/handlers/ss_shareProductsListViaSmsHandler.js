@@ -10,10 +10,6 @@ import {
 function* ss_shareProductsListViaSmsHandler(action) {
   const {productsListTextForm} = action.payload;
 
-  SystemEventsHandler.onInfo({
-    info: 'ss_shareProductsListViaSmsHandler(): ' + productsListTextForm,
-  });
-
   yield put(shareProductsListViaSmsBeginAction());
 
   try {

@@ -294,13 +294,20 @@ export const useProductsListController = (model) => {
   const smsSharePressHandler = async () => {
     SystemEventsHandler.onInfo({info: 'smsSharePressHandler()'});
 
-    SystemEventsHandler.onInfo({info: 'START'});
-    await ListToTextConverter.convert({});
-    SystemEventsHandler.onInfo({info: 'END'});
+    // SystemEventsHandler.onInfo({info: 'START'});
+    const productsListText = await ListToTextConverter.convert({
+      productsList: model.data.products,
+      listName: model.data.listName,
+      categoriesMap: model.data.allCategoriesMap,
+      unitsMap: model.data.allUnitsMap,
+    });
+    // SystemEventsHandler.onInfo({info: 'END'});
 
-    model.dispatch(
-      shareProductsListViaSmsAction({productsListTextForm: 'TEXT_FORM'}),
-    );
+    if (productsListText) {
+      model.dispatch(
+        shareProductsListViaSmsAction({productsListTextForm: productsListText}),
+      );
+    }
   };
 
   const whatsAppSharePressHandler = () => {

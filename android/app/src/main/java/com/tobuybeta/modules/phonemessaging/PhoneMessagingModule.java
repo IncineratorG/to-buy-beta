@@ -68,7 +68,7 @@ public class PhoneMessagingModule extends ReactContextBaseJavaModule {
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("smsto:"));
-        intent.putExtra("sms_body", "TEST_MESSAGE");
+        intent.putExtra("sms_body", text);
         if (intent.resolveActivity(packageManager) == null) {
             result.reject("ERROR", "UNABLE_TO_RESOLVE_ACTIVITY");
             return;

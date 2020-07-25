@@ -179,9 +179,12 @@ export const useProductsListModel = () => {
     data: {
       state,
       shoppingListId,
+      listName,
       products,
       unitsList,
       unitsMap,
+      allUnitsList,
+      allUnitsMap,
       categoriesList,
       categoriesMap,
       allCategoriesList,
