@@ -44,10 +44,10 @@ export const checkShareAvailabilityErrorAction = ({description}) => {
   };
 };
 
-export const shareProductsListViaSmsAction = ({productsListTextForm}) => {
+export const shareProductsListViaSmsAction = ({id}) => {
   return {
     type: SHARE_PRODUCTS_LIST_VIA_SMS,
-    payload: {productsListTextForm},
+    payload: {id},
   };
 };
 
@@ -72,10 +72,13 @@ export const shareProductsListViaSmsErrorAction = ({description}) => {
   };
 };
 
-export const shareProductsListViaWhatsAppAction = ({productsListTextForm}) => {
+export const shareProductsListViaWhatsAppAction = ({
+  id,
+  productsListTextForm,
+}) => {
   return {
     type: SHARE_PRODUCTS_LIST_VIA_WHATS_APP,
-    payload: {productsListTextForm},
+    payload: {id, productsListTextForm},
   };
 };
 

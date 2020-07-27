@@ -27,33 +27,13 @@ export const useShoppingListsController = (model) => {
     });
   };
 
-  // ===
-  // function* genFuncWithReturn() {
-  //   yield 'a';
-  //   yield 'b';
-  //   return 'The result';
-  // }
-  // function* logReturned(genObj) {
-  //   const result = yield* genObj;
-  //   console.log(result); // (A)
-  // }
-  // ===
-
   const addButtonHandler = () => {
     SystemEventsHandler.onInfo({
       info: 'addButtonHandler()',
     });
 
-    // model.navigation.navigate('ProductsList');
-
     model.dispatch(resetCreateShoppingListStatusAction());
     model.navigation.navigate('CreateShoppingList');
-
-    // const a = logReturned(genFuncWithReturn());
-    // console.log(a.next().value);
-
-    // const a = [...logReturned(genFuncWithReturn())];
-    // console.log(a);
   };
 
   const removeConfirmationDialogTouchOutsideHandler = () => {
@@ -82,10 +62,6 @@ export const useShoppingListsController = (model) => {
     model.setters.setListToRemove(null);
   };
 
-  // const menuButtonHandler = () => {
-  //   model.navigation.toggleDrawer();
-  // };
-
   const selectListTypeHandler = (selectedType) => {
     SystemEventsHandler.onInfo({
       info: 'selectListTypeHandler(): ' + JSON.stringify(selectedType),
@@ -93,9 +69,30 @@ export const useShoppingListsController = (model) => {
   };
 
   const shareListHandler = (listId) => {
+    // SystemEventsHandler.onInfo({
+    //   info: 'shareListHandler(): ' + JSON.stringify(listId),
+    // });
+    model.setters.setShareDialogVisible(true);
+  };
+
+  const shareDialogTouchOutsidePressHandler = () => {
+    model.setters.setShareDialogVisible(false);
+  };
+
+  const shareDialogSmsOptionPressHandler = () => {
     SystemEventsHandler.onInfo({
-      info: 'shareListHandler(): ' + JSON.stringify(listId),
+      info: 'shareDialogSmsOptionPressHandler()',
     });
+  };
+
+  const shareDialogWhatsAppOptionPressHandler = () => {
+    SystemEventsHandler.onInfo({
+      info: 'shareDialogWhatsAppOptionPressHandler()',
+    });
+  };
+
+  const shareDialogCancelPressHandler = () => {
+    model.setters.setShareDialogVisible(false);
   };
 
   return {
@@ -109,5 +106,27 @@ export const useShoppingListsController = (model) => {
     // menuButtonHandler,
     selectListTypeHandler,
     shareListHandler,
+    shareDialogTouchOutsidePressHandler,
+    shareDialogSmsOptionPressHandler,
+    shareDialogWhatsAppOptionPressHandler,
+    shareDialogCancelPressHandler,
   };
 };
+
+// ===
+// function* genFuncWithReturn() {
+//   yield 'a';
+//   yield 'b';
+//   return 'The result';
+// }
+// function* logReturned(genObj) {
+//   const result = yield* genObj;
+//   console.log(result); // (A)
+// }
+
+// const a = logReturned(genFuncWithReturn());
+// console.log(a.next().value);
+
+// const a = [...logReturned(genFuncWithReturn())];
+// console.log(a);
+// ===

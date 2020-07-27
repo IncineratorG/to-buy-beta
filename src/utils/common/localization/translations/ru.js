@@ -89,4 +89,7 @@ export const ru = {
   ProductsListModel_allCategory: 'Все',
   ProductsListModel_completedCategory: 'Купленные',
   ProductsListModel_notCompletedCategory: 'Не купленные',
+
+  ShareDialog_dialogTitle: 'Отправка списка',
+  ShareDialog_cancelButton: 'ОТМЕНА',
 };

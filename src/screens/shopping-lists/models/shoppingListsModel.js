@@ -16,6 +16,7 @@ export const useShoppingListsModel = () => {
     removeConfirmationDialogVisible,
     setRemoveConfirmationDialogVisible,
   ] = useState(false);
+  const [shareDialogVisible, setShareDialogVisible] = useState(false);
   const [listToRemove, setListToRemove] = useState(null);
 
   const listsLoading = useSelector(
@@ -37,6 +38,7 @@ export const useShoppingListsModel = () => {
 
   return {
     data: {
+      shareDialogVisible,
       removeConfirmationDialogVisible,
       online,
       currentEmail,
@@ -45,6 +47,7 @@ export const useShoppingListsModel = () => {
       listToRemove,
     },
     setters: {
+      setShareDialogVisible,
       setRemoveConfirmationDialogVisible,
       setListToRemove,
     },

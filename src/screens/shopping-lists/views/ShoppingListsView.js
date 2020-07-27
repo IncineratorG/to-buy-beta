@@ -6,11 +6,13 @@ import EmptyShoppingListsScreen from '../../../components/specific/shopping-list
 import AddButton from '../../../components/common/add-button/AddButton';
 import {LoadingShoppingListsScreen} from '../../../components/specific/shopping-lists/loading-shopping-lists-screen/LoadingShoppingListsScreen';
 import ListOfShoppingLists from '../../../components/specific/shopping-lists/list-of-shopping-lists/ListOfShoppingLists';
+import ShareDialog from '../../../components/specific/shopping-lists/share-dialog/ShareDialog';
 
 const ShoppingListsView = ({styles, model, controller}) => {
   const {t} = model;
 
   const {
+    shareDialogVisible,
     removeConfirmationDialogVisible,
     online,
     currentEmail,
@@ -29,9 +31,23 @@ const ShoppingListsView = ({styles, model, controller}) => {
     removeConfirmationDialogCancelRemoveHandler,
     selectListTypeHandler,
     shareListHandler,
+    shareDialogTouchOutsidePressHandler,
+    shareDialogSmsOptionPressHandler,
+    shareDialogWhatsAppOptionPressHandler,
+    shareDialogCancelPressHandler,
   } = controller;
 
-  const removeConfirmationDialog = (
+  const shareDialogComponent = (
+    <ShareDialog
+      visible={shareDialogVisible}
+      onTouchOutside={shareDialogTouchOutsidePressHandler}
+      onCancelPress={shareDialogCancelPressHandler}
+      onSmsOptionPress={shareDialogSmsOptionPressHandler}
+      onWhatsAppOptionPress={shareDialogWhatsAppOptionPressHandler}
+    />
+  );
+
+  const removeConfirmationDialogComponent = (
     <ConfirmDialog
       title={t('ShoppingLists_removeConfirmationDialogTitle')}
       message={
@@ -116,7 +132,8 @@ const ShoppingListsView = ({styles, model, controller}) => {
       {loadingIndicatorComponent}
       {listTypesComponent}
       {screenContent}
-      {removeConfirmationDialog}
+      {shareDialogComponent}
+      {removeConfirmationDialogComponent}
       {addButtonComponent}
       {bottomGradientComponent}
     </View>

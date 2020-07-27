@@ -294,18 +294,22 @@ export const useProductsListController = (model) => {
   };
 
   const smsSharePressHandler = async () => {
-    const productsListText = await ListToTextConverter.convert({
-      productsList: model.data.products,
-      listName: model.data.listName,
-      categoriesMap: model.data.allCategoriesMap,
-      unitsMap: model.data.allUnitsMap,
-    });
+    // const productsListText = await ListToTextConverter.convert({
+    //   productsList: model.data.products,
+    //   listName: model.data.listName,
+    //   categoriesMap: model.data.allCategoriesMap,
+    //   unitsMap: model.data.allUnitsMap,
+    // });
 
-    if (productsListText) {
-      model.dispatch(
-        shareProductsListViaSmsAction({productsListTextForm: productsListText}),
-      );
-    }
+    // if (productsListText) {
+    //   model.dispatch(
+    //     shareProductsListViaSmsAction({productsListTextForm: productsListText}),
+    //   );
+    // }
+
+    model.dispatch(
+      shareProductsListViaSmsAction({id: model.data.shoppingListId}),
+    );
 
     model.setters.setSharePanelVisible(false);
   };
