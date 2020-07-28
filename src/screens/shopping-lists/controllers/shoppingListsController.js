@@ -6,6 +6,10 @@ import {
 import {loadProductsListAction} from '../../../store/actions/products-list/productsListActions';
 import {loadCategoriesAction} from '../../../store/actions/categories/categoriesActions';
 import {loadUnitsAction} from '../../../store/actions/units/unitsActions';
+import {
+  shareProductsListViaSmsAction,
+  shareProductsListViaWhatsAppAction,
+} from '../../../store/actions/share/shareActions';
 
 export const useShoppingListsController = (model) => {
   const listItemPressHandler = (listItemId) => {
@@ -69,30 +73,40 @@ export const useShoppingListsController = (model) => {
   };
 
   const shareListHandler = (listId) => {
-    // SystemEventsHandler.onInfo({
-    //   info: 'shareListHandler(): ' + JSON.stringify(listId),
-    // });
-    model.setters.setShareDialogVisible(true);
+    if (model.data.smsShareSupported && model.data.whatsAppShareSupported) {
+      model.setters.setListIdToShare(listId);
+      model.setters.setShareDialogVisible(true);
+    } else if (model.data.whatsAppShareSupported) {
+      model.dispatch(shareProductsListViaWhatsAppAction({id: listId}));
+    } else if (model.data.smsShareSupported) {
+      model.dispatch(shareProductsListViaSmsAction({id: listId}));
+    }
   };
 
   const shareDialogTouchOutsidePressHandler = () => {
     model.setters.setShareDialogVisible(false);
+    model.setters.setListIdToShare(-1);
   };
 
   const shareDialogSmsOptionPressHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'shareDialogSmsOptionPressHandler()',
-    });
+    model.dispatch(
+      shareProductsListViaSmsAction({id: model.data.listIdToShare}),
+    );
+    model.setters.setShareDialogVisible(false);
+    model.setters.setListIdToShare(-1);
   };
 
   const shareDialogWhatsAppOptionPressHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'shareDialogWhatsAppOptionPressHandler()',
-    });
+    model.dispatch(
+      shareProductsListViaWhatsAppAction({id: model.data.listIdToShare}),
+    );
+    model.setters.setShareDialogVisible(false);
+    model.setters.setListIdToShare(-1);
   };
 
   const shareDialogCancelPressHandler = () => {
     model.setters.setShareDialogVisible(false);
+    model.setters.setListIdToShare(-1);
   };
 
   return {
@@ -103,7 +117,6 @@ export const useShoppingListsController = (model) => {
     removeConfirmationDialogTouchOutsideHandler,
     removeConfirmationDialogRemoveHandler,
     removeConfirmationDialogCancelRemoveHandler,
-    // menuButtonHandler,
     selectListTypeHandler,
     shareListHandler,
     shareDialogTouchOutsidePressHandler,

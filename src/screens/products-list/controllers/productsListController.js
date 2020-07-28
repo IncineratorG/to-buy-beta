@@ -37,7 +37,6 @@ import {
   updateUnitAction,
 } from '../../../store/actions/units/unitsActions';
 import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
-import ListToTextConverter from '../../../utils/specific/products-list/list-to-text-converter/ListToTextConverter';
 import {
   shareProductsListViaSmsAction,
   shareProductsListViaWhatsAppAction,

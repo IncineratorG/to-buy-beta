@@ -19,6 +19,8 @@ const ShoppingListsView = ({styles, model, controller}) => {
     selectedShoppingLists,
     listsLoading,
     listToRemove,
+    smsShareSupported,
+    whatsAppShareSupported,
   } = model.data;
 
   const {
@@ -40,6 +42,8 @@ const ShoppingListsView = ({styles, model, controller}) => {
   const shareDialogComponent = (
     <ShareDialog
       visible={shareDialogVisible}
+      smsShareSupported={smsShareSupported}
+      whatsAppShareSupported={whatsAppShareSupported}
       onTouchOutside={shareDialogTouchOutsidePressHandler}
       onCancelPress={shareDialogCancelPressHandler}
       onSmsOptionPress={shareDialogSmsOptionPressHandler}

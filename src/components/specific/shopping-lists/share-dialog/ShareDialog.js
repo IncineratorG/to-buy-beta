@@ -13,6 +13,8 @@ import {icons} from '../../../../assets/icons';
 
 const ShareDialog = ({
   visible,
+  smsShareSupported,
+  whatsAppShareSupported,
   onTouchOutside,
   onCancelPress,
   onSmsOptionPress,
@@ -59,6 +61,31 @@ const ShareDialog = ({
     </View>
   );
 
+  const smsOptionComponent = smsShareSupported ? (
+    <TouchableHighlight
+      style={styles.smsIconContainerTouchable}
+      onPress={smsOptionPressHandler}>
+      <View style={styles.smsIconContainer}>
+        <Image style={styles.smsIcon} source={icons.sms} />
+      </View>
+    </TouchableHighlight>
+  ) : null;
+
+  const whatsAppOptionComponent = whatsAppShareSupported ? (
+    <TouchableHighlight
+      style={styles.whatsAppIconContainerTouchable}
+      onPress={whatsAppOptionPressHandler}>
+      <View style={styles.whatsAppIconContainer}>
+        <Image style={styles.whatsAppIcon} source={icons.whatsapp} />
+      </View>
+    </TouchableHighlight>
+  ) : null;
+
+  const spacerComponent =
+    smsShareSupported && whatsAppShareSupported ? (
+      <View style={styles.spacer} />
+    ) : null;
+
   return (
     <Dialog
       visible={visible}
@@ -66,21 +93,9 @@ const ShareDialog = ({
       onTouchOutside={touchOutsideHandler}
       buttons={buttons}>
       <View style={styles.mainContainer}>
-        <TouchableHighlight
-          style={styles.smsIconContainerTouchable}
-          onPress={smsOptionPressHandler}>
-          <View style={styles.smsIconContainer}>
-            <Image style={styles.smsIcon} source={icons.sms} />
-          </View>
-        </TouchableHighlight>
-        <View style={styles.spacer} />
-        <TouchableHighlight
-          style={styles.whatsAppIconContainerTouchable}
-          onPress={whatsAppOptionPressHandler}>
-          <View style={styles.whatsAppIconContainer}>
-            <Image style={styles.whatsAppIcon} source={icons.whatsapp} />
-          </View>
-        </TouchableHighlight>
+        {smsOptionComponent}
+        {spacerComponent}
+        {whatsAppOptionComponent}
       </View>
     </Dialog>
   );
@@ -92,6 +107,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   smsIconContainerTouchable: {
     width: 60,

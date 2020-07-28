@@ -6,7 +6,7 @@ import {
   shareProductsListViaSmsErrorAction,
   shareProductsListViaSmsFinishedAction,
 } from '../../../actions/share/shareActions';
-import ListToTextConverter from '../../../../utils/specific/products-list/list-to-text-converter/ListToTextConverter';
+import ListToTextConverter from '../../../../services/service-utils/list-to-text-converter/ListToTextConverter';
 
 function* ss_shareProductsListViaSmsHandler(action) {
   const {id} = action.payload;

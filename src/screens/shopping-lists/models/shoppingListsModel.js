@@ -18,12 +18,20 @@ export const useShoppingListsModel = () => {
   ] = useState(false);
   const [shareDialogVisible, setShareDialogVisible] = useState(false);
   const [listToRemove, setListToRemove] = useState(null);
+  const [listIdToShare, setListIdToShare] = useState(-1);
 
   const listsLoading = useSelector(
     (state) => state.shoppingLists.shoppingLists.loading,
   );
   const allShoppingLists = useSelector(
     (state) => state.shoppingLists.shoppingLists.allLists.lists,
+  );
+  const smsShareSupported = useSelector(
+    (storeState) => storeState.share.share.availability.smsSharingSupported,
+  );
+  const whatsAppShareSupported = useSelector(
+    (storeState) =>
+      storeState.share.share.availability.whatsAppSharingSupported,
   );
 
   // ===
@@ -45,11 +53,15 @@ export const useShoppingListsModel = () => {
       selectedShoppingLists,
       listsLoading,
       listToRemove,
+      listIdToShare,
+      smsShareSupported,
+      whatsAppShareSupported,
     },
     setters: {
       setShareDialogVisible,
       setRemoveConfirmationDialogVisible,
       setListToRemove,
+      setListIdToShare,
     },
     navigation,
     dispatch,

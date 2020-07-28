@@ -6,7 +6,7 @@ import {
   shareProductsListViaWhatsAppErrorAction,
   shareProductsListViaWhatsAppFinishedAction,
 } from '../../../actions/share/shareActions';
-import ListToTextConverter from '../../../../utils/specific/products-list/list-to-text-converter/ListToTextConverter';
+import ListToTextConverter from '../../../../services/service-utils/list-to-text-converter/ListToTextConverter';
 
 function* ss_shareProductsListViaWhatsAppHandler(action) {
   const {id} = action.payload;

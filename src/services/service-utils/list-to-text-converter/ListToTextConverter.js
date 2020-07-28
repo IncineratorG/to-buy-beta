@@ -1,6 +1,6 @@
-import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../system-events-handler/SystemEventsHandler';
 import Grouping from './grouping/Grouping';
-import ProductStatus from '../../../../services/shopping-list/data/product-status/ProductStatus';
+import ProductStatus from '../../shopping-list/data/product-status/ProductStatus';
 import ListStringBuilder from './list-string-builder/ListStringBuilder';
 
 class ListToTextConverter {
