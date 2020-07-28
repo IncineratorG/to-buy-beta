@@ -6,7 +6,8 @@ import EmptyShoppingListsScreen from '../../../components/specific/shopping-list
 import AddButton from '../../../components/common/add-button/AddButton';
 import {LoadingShoppingListsScreen} from '../../../components/specific/shopping-lists/loading-shopping-lists-screen/LoadingShoppingListsScreen';
 import ListOfShoppingLists from '../../../components/specific/shopping-lists/list-of-shopping-lists/ListOfShoppingLists';
-import ShareDialog from '../../../components/specific/shopping-lists/share-dialog/ShareDialog';
+import ShareShoppingListDialog from '../../../components/specific/shopping-lists/share-shopping-list-dialog/ShareShoppingListDialog';
+import RenameShoppingListDialog from '../../../components/specific/shopping-lists/rename-shopping-list-dialog/RenameShoppingListDialog';
 
 const ShoppingListsView = ({styles, model, controller}) => {
   const {t} = model;
@@ -14,11 +15,13 @@ const ShoppingListsView = ({styles, model, controller}) => {
   const {
     shareDialogVisible,
     removeConfirmationDialogVisible,
+    renameDialogVisible,
     online,
     currentEmail,
     selectedShoppingLists,
     listsLoading,
     listToRemove,
+    listToRename,
     smsShareSupported,
     whatsAppShareSupported,
   } = model.data;
@@ -37,10 +40,23 @@ const ShoppingListsView = ({styles, model, controller}) => {
     shareDialogSmsOptionPressHandler,
     shareDialogWhatsAppOptionPressHandler,
     shareDialogCancelPressHandler,
+    renameDialogTouchOutsideHandler,
+    renameDialogCancelPressHandler,
+    renameDialogRenamePressHandler,
   } = controller;
 
+  const renameDialogComponent = (
+    <RenameShoppingListDialog
+      visible={renameDialogVisible}
+      shoppingList={listToRename}
+      onTouchOutside={renameDialogTouchOutsideHandler}
+      onCancelButton={renameDialogCancelPressHandler}
+      onRenameButton={renameDialogRenamePressHandler}
+    />
+  );
+
   const shareDialogComponent = (
-    <ShareDialog
+    <ShareShoppingListDialog
       visible={shareDialogVisible}
       smsShareSupported={smsShareSupported}
       whatsAppShareSupported={whatsAppShareSupported}
@@ -137,6 +153,7 @@ const ShoppingListsView = ({styles, model, controller}) => {
       {listTypesComponent}
       {screenContent}
       {shareDialogComponent}
+      {renameDialogComponent}
       {removeConfirmationDialogComponent}
       {addButtonComponent}
       {bottomGradientComponent}

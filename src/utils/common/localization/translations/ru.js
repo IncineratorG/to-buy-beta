@@ -90,6 +90,11 @@ export const ru = {
   ProductsListModel_completedCategory: 'Купленные',
   ProductsListModel_notCompletedCategory: 'Не купленные',
 
-  ShareDialog_dialogTitle: 'Отправка списка',
-  ShareDialog_cancelButton: 'ОТМЕНА',
+  ShareShoppingListDialog_dialogTitle: 'Отправка списка',
+  ShareShoppingListDialog_cancelButton: 'ОТМЕНА',
+
+  RenameShoppingListDialog_dialogTitle: 'Переименование списка',
+  RenameShoppingListDialog_placeholder: 'Название списка',
+  RenameShoppingListDialog_renameButton: 'ПЕРЕИМЕНОВАТЬ',
+  RenameShoppingListDialog_cancelButton: 'ОТМЕНА',
 };

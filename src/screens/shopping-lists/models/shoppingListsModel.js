@@ -19,6 +19,8 @@ export const useShoppingListsModel = () => {
   const [shareDialogVisible, setShareDialogVisible] = useState(false);
   const [listToRemove, setListToRemove] = useState(null);
   const [listIdToShare, setListIdToShare] = useState(-1);
+  const [renameDialogVisible, setRenameDialogVisible] = useState(false);
+  const [listToRename, setListToRename] = useState(null);
 
   const listsLoading = useSelector(
     (state) => state.shoppingLists.shoppingLists.loading,
@@ -47,20 +49,24 @@ export const useShoppingListsModel = () => {
   return {
     data: {
       shareDialogVisible,
+      renameDialogVisible,
       removeConfirmationDialogVisible,
       online,
       currentEmail,
       selectedShoppingLists,
       listsLoading,
       listToRemove,
+      listToRename,
       listIdToShare,
       smsShareSupported,
       whatsAppShareSupported,
     },
     setters: {
       setShareDialogVisible,
+      setRenameDialogVisible,
       setRemoveConfirmationDialogVisible,
       setListToRemove,
+      setListToRename,
       setListIdToShare,
     },
     navigation,

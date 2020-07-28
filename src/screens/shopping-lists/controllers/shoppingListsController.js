@@ -1,6 +1,7 @@
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import {
   removeShoppingListAction,
+  renameShoppingListAction,
   resetCreateShoppingListStatusAction,
 } from '../../../store/actions/shopping-lists/shoppingListsActions';
 import {loadProductsListAction} from '../../../store/actions/products-list/productsListActions';
@@ -26,24 +27,16 @@ export const useShoppingListsController = (model) => {
   };
 
   const listItemRenameHandler = (listItem) => {
-    SystemEventsHandler.onInfo({
-      info: 'listItemRenameHandler(): ' + JSON.stringify(listItem),
-    });
+    model.setters.setListToRename(listItem);
+    model.setters.setRenameDialogVisible(true);
   };
 
   const addButtonHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'addButtonHandler()',
-    });
-
     model.dispatch(resetCreateShoppingListStatusAction());
     model.navigation.navigate('CreateShoppingList');
   };
 
   const removeConfirmationDialogTouchOutsideHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'removeConfirmationDialogTouchOutsideHandler()',
-    });
     model.setters.setRemoveConfirmationDialogVisible(false);
     model.setters.setListToRemove(null);
   };
@@ -109,6 +102,29 @@ export const useShoppingListsController = (model) => {
     model.setters.setListIdToShare(-1);
   };
 
+  const renameDialogTouchOutsideHandler = () => {
+    model.setters.setRenameDialogVisible(false);
+    model.setters.setListToRename(null);
+  };
+
+  const renameDialogCancelPressHandler = () => {
+    model.setters.setRenameDialogVisible(false);
+    model.setters.setListToRename(null);
+  };
+
+  const renameDialogRenamePressHandler = ({shoppingList, newName}) => {
+    if (shoppingList.name === newName) {
+      model.setters.setRenameDialogVisible(false);
+      model.setters.setListToRename(null);
+      return;
+    }
+
+    model.dispatch(renameShoppingListAction({id: shoppingList.id, newName}));
+
+    model.setters.setRenameDialogVisible(false);
+    model.setters.setListToRename(null);
+  };
+
   return {
     listItemPressHandler,
     listItemRemoveHandler,
@@ -123,6 +139,9 @@ export const useShoppingListsController = (model) => {
     shareDialogSmsOptionPressHandler,
     shareDialogWhatsAppOptionPressHandler,
     shareDialogCancelPressHandler,
+    renameDialogTouchOutsideHandler,
+    renameDialogCancelPressHandler,
+    renameDialogRenamePressHandler,
   };
 };
 

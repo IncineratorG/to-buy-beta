@@ -11,7 +11,7 @@ import {Dialog} from 'react-native-simple-dialogs';
 import {useTranslation} from '../../../../utils/common/localization';
 import {icons} from '../../../../assets/icons';
 
-const ShareDialog = ({
+const ShareShoppingListDialog = ({
   visible,
   smsShareSupported,
   whatsAppShareSupported,
@@ -54,7 +54,7 @@ const ShareDialog = ({
         onPress={cancelButtonHandler}>
         <View style={styles.cancelButtonContainer}>
           <Text style={styles.cancelButtonText}>
-            {t('ShareDialog_cancelButton')}
+            {t('ShareShoppingListDialog_cancelButton')}
           </Text>
         </View>
       </TouchableNativeFeedback>
@@ -89,7 +89,7 @@ const ShareDialog = ({
   return (
     <Dialog
       visible={visible}
-      title={t('ShareDialog_dialogTitle')}
+      title={t('ShareShoppingListDialog_dialogTitle')}
       onTouchOutside={touchOutsideHandler}
       buttons={buttons}>
       <View style={styles.mainContainer}>
@@ -169,4 +169,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ShareDialog;
+export default ShareShoppingListDialog;

@@ -8,6 +8,9 @@ import {
   REMOVE_SHOPPING_LIST_BEGIN,
   REMOVE_SHOPPING_LIST_ERROR,
   REMOVE_SHOPPING_LIST_FINISHED,
+  RENAME_SHOPPING_LIST_BEGIN,
+  RENAME_SHOPPING_LIST_ERROR,
+  RENAME_SHOPPING_LIST_FINISHED,
   RESET_CREATE_SHOPPING_LIST_STATUS,
   UPDATE_SHOPPING_LISTS_BEGIN,
   UPDATE_SHOPPING_LISTS_ERROR,
@@ -47,23 +50,6 @@ const initialState = {
     success: false,
     createdListId: undefined,
   },
-
-  // allShoppingLists: {
-  //   unsubscribeHandler: undefined,
-  //   sharedListsLoadingStatusUnsubscribeHandlers: [],
-  //   sendListsLoading: false,
-  //   receivedListsLoading: false,
-  //   sharedListsLoading: false,
-  //   // sendListsLoading: true,
-  //   // receivedListsLoading: true,
-  //   // sharedListsLoading: true,
-  //   localListsLoading: true,
-  //   removing: false,
-  //   error: '',
-  //   allLists: [],
-  //   sharedLists: [],
-  //   localLists: [],
-  // },
 };
 
 export const shoppingListsReducer = (state = initialState, action) => {
@@ -363,6 +349,57 @@ export const shoppingListsReducer = (state = initialState, action) => {
           },
         },
       };
+    }
+
+    case RENAME_SHOPPING_LIST_BEGIN: {
+      return state;
+    }
+
+    case RENAME_SHOPPING_LIST_FINISHED: {
+      const {shoppingList} = action.payload;
+
+      const allLists = [...state.shoppingLists.allLists.lists];
+      for (let i = 0; i < allLists.length; ++i) {
+        if (allLists[i].id === shoppingList.id) {
+          allLists[i] = shoppingList;
+          break;
+        }
+      }
+      allLists.sort(shoppingListsComparator);
+
+      const localLists = [];
+      const sharedLists = [];
+      allLists.forEach((list) => {
+        if (list.shared) {
+          sharedLists.push(list);
+        } else {
+          localLists.push(list);
+        }
+      });
+
+      return {
+        ...state,
+        shoppingLists: {
+          ...state.shoppingLists,
+          allLists: {
+            lists: allLists,
+          },
+          localLists: {
+            lists: localLists,
+          },
+          sharedLists: {
+            lists: sharedLists,
+          },
+        },
+      };
+    }
+
+    case RENAME_SHOPPING_LIST_ERROR: {
+      SystemEventsHandler.onError({
+        err: 'RENAME_SHOPPING_LIST_ERROR->' + action.payload.error.description,
+      });
+
+      return state;
     }
 
     default: {

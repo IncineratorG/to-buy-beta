@@ -206,6 +206,24 @@ export class SLSqliteService {
     return !productsRemoveError;
   }
 
+  static async renameShoppingList({id, newName}) {
+    const {hasError} = await ShoppingListsTableOperations.renameShoppingList({
+      db: this.#db,
+      id,
+      newName,
+    });
+    if (hasError) {
+      return undefined;
+    }
+
+    const {shoppingList} = await ShoppingListsTableOperations.getShoppingList({
+      db: this.#db,
+      id,
+    });
+
+    return shoppingList;
+  }
+
   static async getShoppingLists() {
     const {
       shoppingLists,
