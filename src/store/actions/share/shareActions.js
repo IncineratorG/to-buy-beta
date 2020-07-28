@@ -72,13 +72,10 @@ export const shareProductsListViaSmsErrorAction = ({description}) => {
   };
 };
 
-export const shareProductsListViaWhatsAppAction = ({
-  id,
-  productsListTextForm,
-}) => {
+export const shareProductsListViaWhatsAppAction = ({id}) => {
   return {
     type: SHARE_PRODUCTS_LIST_VIA_WHATS_APP,
-    payload: {id, productsListTextForm},
+    payload: {id},
   };
 };
 

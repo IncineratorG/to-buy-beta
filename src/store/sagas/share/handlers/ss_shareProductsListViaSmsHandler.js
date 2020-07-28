@@ -44,6 +44,7 @@ function* ss_shareProductsListViaSmsHandler(action) {
     });
 
     const shareService = Services.get(Services.serviceTypes.SHARE);
+
     yield call(shareService.shareViaSms, {text: productsListTextForm});
     yield put(shareProductsListViaSmsFinishedAction());
   } catch (e) {

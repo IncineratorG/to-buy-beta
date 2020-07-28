@@ -2,10 +2,15 @@ import {SystemEventsHandler} from '../../../../../services/service-utils/system-
 
 class ListStringBuilder {
   static strategy = {
+    TEST: 'TEST',
     SIMPLE: 'SIMPLE',
     GROUP_CATEGORIES: 'GROUP_CATEGORIES',
   };
   static #className = 'ListStringBuilder';
+
+  static #testListBuilder = ({productsList, categories, units}) => {
+    return 'S1' + '\n' + 'S2' + '\n\n' + 'S3';
+  };
 
   static #simpleListBuilder = ({productsList, categories, units}) => {
     let productsStringsArr = [];
@@ -58,6 +63,7 @@ class ListStringBuilder {
 
       if (previousCategoryId === p.categoryId) {
         productDescription =
+          '\n' +
           ' - ' +
           productName +
           ' ' +
@@ -69,7 +75,7 @@ class ListStringBuilder {
       } else {
         let newLineSymbol = '';
         if (previousCategoryId !== -1) {
-          newLineSymbol = '\n';
+          newLineSymbol = '\n\n';
         }
 
         productDescription =
@@ -96,6 +102,10 @@ class ListStringBuilder {
 
   static build({productsList, categories, units, strategyType}) {
     switch (strategyType) {
+      case this.strategy.TEST: {
+        return this.#testListBuilder({productsList, categories, units});
+      }
+
       case this.strategy.SIMPLE: {
         return this.#simpleListBuilder({productsList, categories, units});
       }

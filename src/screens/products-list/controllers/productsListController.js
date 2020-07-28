@@ -289,24 +289,20 @@ export const useProductsListController = (model) => {
   };
 
   const shareButtonPressHandler = () => {
-    SystemEventsHandler.onInfo({info: 'shareButtonPressHandler()'});
-    model.setters.setSharePanelVisible(!model.data.sharePanelVisible);
+    if (model.data.smsShareSupported && model.data.whatsAppShareSupported) {
+      model.setters.setSharePanelVisible(!model.data.sharePanelVisible);
+    } else if (model.data.whatsAppShareSupported) {
+      model.dispatch(
+        shareProductsListViaWhatsAppAction({id: model.data.shoppingListId}),
+      );
+    } else if (model.data.smsShareSupported) {
+      model.dispatch(
+        shareProductsListViaSmsAction({id: model.data.shoppingListId}),
+      );
+    }
   };
 
   const smsSharePressHandler = async () => {
-    // const productsListText = await ListToTextConverter.convert({
-    //   productsList: model.data.products,
-    //   listName: model.data.listName,
-    //   categoriesMap: model.data.allCategoriesMap,
-    //   unitsMap: model.data.allUnitsMap,
-    // });
-
-    // if (productsListText) {
-    //   model.dispatch(
-    //     shareProductsListViaSmsAction({productsListTextForm: productsListText}),
-    //   );
-    // }
-
     model.dispatch(
       shareProductsListViaSmsAction({id: model.data.shoppingListId}),
     );
@@ -315,20 +311,9 @@ export const useProductsListController = (model) => {
   };
 
   const whatsAppSharePressHandler = async () => {
-    const productsListText = await ListToTextConverter.convert({
-      productsList: model.data.products,
-      listName: model.data.listName,
-      categoriesMap: model.data.allCategoriesMap,
-      unitsMap: model.data.allUnitsMap,
-    });
-
-    if (productsListText) {
-      model.dispatch(
-        shareProductsListViaWhatsAppAction({
-          productsListTextForm: productsListText,
-        }),
-      );
-    }
+    model.dispatch(
+      shareProductsListViaWhatsAppAction({id: model.data.shoppingListId}),
+    );
 
     model.setters.setSharePanelVisible(false);
   };
