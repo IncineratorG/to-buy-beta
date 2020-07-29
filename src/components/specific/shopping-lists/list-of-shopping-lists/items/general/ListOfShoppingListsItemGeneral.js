@@ -144,7 +144,7 @@ const ListOfShoppingListsItemGeneral = ({
               underlayColor="#e7e7e7"
               onPress={onMenuPressHandler}>
               <View style={styles.menuContainer}>
-                <Image style={styles.menuIcon} source={icons.list_menu} />
+                <Image style={styles.menuIcon} source={icons.menu_dotted} />
                 {menuComponent}
               </View>
             </TouchableHighlight>

@@ -101,4 +101,8 @@ export const ru = {
   ProductNotCompleted_menuMarkAsBoughtOption: 'Отметить как купленное',
   ProductNotCompleted_menuEditOption: 'Редактировать',
   ProductNotCompleted_menuRemoveOption: 'Удалить',
+
+  ProductsListScreenMenuButton_menuRemoveAllOption: 'Удалить всё',
+  ProductsListScreenMenuButton_markAllAsBoughtOption: 'Всё куплено',
+  ProductsListScreenMenuButton_markAllAsNotOption: 'Всё не куплено',
 };

@@ -317,6 +317,12 @@ export const useProductsListController = (model) => {
     model.setters.setSharePanelVisible(false);
   };
 
+  const screenMenuRemoveAllPressHandler = () => {};
+
+  const screenMenuMarkAllAsBoughtPressHandler = () => {};
+
+  const screenMenuMarkAllAsNotBoughtPressHandler = () => {};
+
   return {
     backButtonPressHandler,
     addProductButtonHandler,
@@ -351,5 +357,8 @@ export const useProductsListController = (model) => {
     shareButtonPressHandler,
     smsSharePressHandler,
     whatsAppSharePressHandler,
+    screenMenuRemoveAllPressHandler,
+    screenMenuMarkAllAsBoughtPressHandler,
+    screenMenuMarkAllAsNotBoughtPressHandler,
   };
 };

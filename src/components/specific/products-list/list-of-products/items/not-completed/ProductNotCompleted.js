@@ -152,7 +152,7 @@ const ProductNotCompleted = ({
           underlayColor="#e7e7e7"
           onPress={menuPressHandler}>
           <View style={styles.menuContainer}>
-            <Image source={icons.list_menu} />
+            <Image source={icons.menu_dotted} />
             {menuComponent}
           </View>
         </TouchableHighlight>

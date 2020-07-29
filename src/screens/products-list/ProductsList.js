@@ -7,18 +7,31 @@ import {productsListViewStyles} from './styles/productsListStyles';
 import {useProductsListModel} from './models/productsListModel';
 import {useProductsListController} from './controllers/productsListController';
 import {SystemEventsHandler} from '../../services/service-utils/system-events-handler/SystemEventsHandler';
+import ProductsListScreenMenuButton from '../../components/specific/products-list/screen-menu-button/ProductsListScreenMenuButton';
 
 const ProductsList = () => {
   const styles = productsListViewStyles;
   const model = useProductsListModel();
   const controller = useProductsListController(model);
 
-  const {backButtonPressHandler} = controller;
+  const {
+    backButtonPressHandler,
+    screenMenuRemoveAllPressHandler,
+    screenMenuMarkAllAsBoughtPressHandler,
+    screenMenuMarkAllAsNotBoughtPressHandler,
+  } = controller;
 
   useFocusEffect(() => {
     model.navigation.setOptions({
       headerLeft: (props) => (
         <HeaderBackButton {...props} onPress={backButtonPressHandler} />
+      ),
+      headerRight: (props) => (
+        <ProductsListScreenMenuButton
+          onRemoveAll={screenMenuRemoveAllPressHandler}
+          onAllBought={screenMenuMarkAllAsBoughtPressHandler}
+          onAllNotBought={screenMenuMarkAllAsNotBoughtPressHandler}
+        />
       ),
     });
 
