@@ -80,6 +80,17 @@ export const productNotCompletedStyles = StyleSheet.create({
     marginRight: 2,
     fontSize: 18,
   },
+  menuTouchable: {
+    width: 30,
+    height: 50,
+  },
+  menuContainer: {
+    width: 30,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 2,
+  },
   statusContainer: {
     width: 60,
     alignItems: 'center',

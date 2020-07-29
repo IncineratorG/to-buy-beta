@@ -51,7 +51,6 @@ export const listOfShoppingListsItemStylesGeneral = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 2,
-    // backgroundColor: 'red',
   },
   menuIcon: {},
   footerContainer: {
