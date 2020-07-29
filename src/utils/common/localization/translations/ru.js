@@ -97,4 +97,8 @@ export const ru = {
   RenameShoppingListDialog_placeholder: 'Название списка',
   RenameShoppingListDialog_renameButton: 'ПЕРЕИМЕНОВАТЬ',
   RenameShoppingListDialog_cancelButton: 'ОТМЕНА',
+
+  ProductNotCompleted_menuMarkAsBoughtOption: 'Отметить как купленное',
+  ProductNotCompleted_menuEditOption: 'Редактировать',
+  ProductNotCompleted_menuRemoveOption: 'Удалить',
 };
