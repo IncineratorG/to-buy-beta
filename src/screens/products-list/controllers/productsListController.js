@@ -317,11 +317,21 @@ export const useProductsListController = (model) => {
     model.setters.setSharePanelVisible(false);
   };
 
-  const screenMenuRemoveAllPressHandler = () => {};
+  const screenMenuRemoveAllPressHandler = () => {
+    SystemEventsHandler.onInfo({info: 'screenMenuRemoveAllPressHandler()'});
+  };
 
-  const screenMenuMarkAllAsBoughtPressHandler = () => {};
+  const screenMenuMarkAllAsBoughtPressHandler = () => {
+    SystemEventsHandler.onInfo({
+      info: 'screenMenuMarkAllAsBoughtPressHandler()',
+    });
+  };
 
-  const screenMenuMarkAllAsNotBoughtPressHandler = () => {};
+  const screenMenuMarkAllAsNotBoughtPressHandler = () => {
+    SystemEventsHandler.onInfo({
+      info: 'screenMenuMarkAllAsNotBoughtPressHandler()',
+    });
+  };
 
   return {
     backButtonPressHandler,
