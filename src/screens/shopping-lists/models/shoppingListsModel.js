@@ -1,8 +1,9 @@
 import {useState, useEffect, useCallback} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from '../../../components/common/localization';
+import {useTranslation} from '../../../utils/common/localization';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {clearProductsListCachedData} from '../../../store/actions/products-list/productsListActions';
 
 export const useShoppingListsModel = () => {
   const navigation = useNavigation();
@@ -15,7 +16,11 @@ export const useShoppingListsModel = () => {
     removeConfirmationDialogVisible,
     setRemoveConfirmationDialogVisible,
   ] = useState(false);
+  const [shareDialogVisible, setShareDialogVisible] = useState(false);
   const [listToRemove, setListToRemove] = useState(null);
+  const [listIdToShare, setListIdToShare] = useState(-1);
+  const [renameDialogVisible, setRenameDialogVisible] = useState(false);
+  const [listToRename, setListToRename] = useState(null);
 
   const listsLoading = useSelector(
     (state) => state.shoppingLists.shoppingLists.loading,
@@ -23,15 +28,13 @@ export const useShoppingListsModel = () => {
   const allShoppingLists = useSelector(
     (state) => state.shoppingLists.shoppingLists.allLists.lists,
   );
-
-  // SystemEventsHandler.onInfo({
-  //   info:
-  //     'useShoppingListsModel()->ALL_SHOPPING_LISTS_LENGTH: ' +
-  //     allShoppingLists.length,
-  // });
-  // SystemEventsHandler.onInfo({
-  //   info: 'useShoppingListsModel()->LOADING: ' + listsLoading,
-  // });
+  const smsShareSupported = useSelector(
+    (storeState) => storeState.share.share.availability.smsSharingSupported,
+  );
+  const whatsAppShareSupported = useSelector(
+    (storeState) =>
+      storeState.share.share.availability.whatsAppSharingSupported,
+  );
 
   // ===
   const online = false;
@@ -39,22 +42,32 @@ export const useShoppingListsModel = () => {
   const selectedShoppingLists = allShoppingLists;
   // ===
 
-  // useFocusEffect(() => {
-  //   dispatch(loadShoppingListsAction());
-  // }, []);
+  useFocusEffect(() => {
+    dispatch(clearProductsListCachedData());
+  }, []);
 
   return {
     data: {
+      shareDialogVisible,
+      renameDialogVisible,
       removeConfirmationDialogVisible,
       online,
       currentEmail,
       selectedShoppingLists,
       listsLoading,
       listToRemove,
+      listToRename,
+      listIdToShare,
+      smsShareSupported,
+      whatsAppShareSupported,
     },
     setters: {
+      setShareDialogVisible,
+      setRenameDialogVisible,
       setRemoveConfirmationDialogVisible,
       setListToRemove,
+      setListToRename,
+      setListIdToShare,
     },
     navigation,
     dispatch,

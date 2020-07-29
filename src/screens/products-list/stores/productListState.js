@@ -1,6 +1,12 @@
+import ProductInitialCategories from '../../../components/specific/products-list/product-initial-categories/ProductInitialCategories';
+
 const productListState = {
   dataLoading: true,
-  usedCategoriesLoading: false,
+  usedCategories: {
+    usedCategoriesLoading: false,
+    usedCategoriesList: [],
+    selectedCategoriesIds: new Set([ProductInitialCategories.ALL]),
+  },
   removeProductDialog: {
     removeProductDialogVisible: false,
     removeProduct: {

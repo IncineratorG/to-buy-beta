@@ -13,6 +13,8 @@ import EditCategoryDialog from '../../../components/specific/products-list/edit-
 import AddUnitDialog from '../../../components/specific/products-list/add-unit-dialog/AddUnitDialog';
 import EditUnitDialog from '../../../components/specific/products-list/edit-unit-dialog/EditUnitDialog';
 import {ConfirmDialog} from 'react-native-simple-dialogs';
+import ShareButton from '../../../components/specific/products-list/share-button/ShareButton';
+import SharePanel from '../../../components/specific/products-list/share-panel/SharePanel';
 
 const ProductsListView = ({styles, model, controller}) => {
   const {t} = model;
@@ -25,11 +27,17 @@ const ProductsListView = ({styles, model, controller}) => {
     unitsMap,
     categoriesList,
     categoriesMap,
+    allCategoriesList,
+    allCategoriesMap,
+    shareButtonVisible,
+    sharePanelVisible,
+    smsShareSupported,
+    whatsAppShareSupported,
   } = model.data;
 
   const {
     dataLoading,
-    usedCategoriesLoading,
+    usedCategories,
     inputArea,
     addCategoryDialog,
     editCategoryDialog,
@@ -37,6 +45,12 @@ const ProductsListView = ({styles, model, controller}) => {
     editUnitDialog,
     removeProductDialog,
   } = state;
+
+  const {
+    usedCategoriesLoading,
+    usedCategoriesList,
+    selectedCategoriesIds,
+  } = usedCategories;
 
   const {inputAreaVisible, inputAreaState, editData} = inputArea;
   const {addCategoryDialogVisible} = addCategoryDialog;
@@ -75,6 +89,9 @@ const ProductsListView = ({styles, model, controller}) => {
     removeProductDialogTouchOutsideHandler,
     removeProductDialogCancelButtonHandler,
     removeProductDialogRemoveButtonHandler,
+    shareButtonPressHandler,
+    smsSharePressHandler,
+    whatsAppSharePressHandler,
   } = controller;
 
   // ===
@@ -167,9 +184,9 @@ const ProductsListView = ({styles, model, controller}) => {
   ) : (
     <View style={styles.productCategoriesContainer}>
       <ProductCategoriesList
-        categories={categoriesList}
+        categories={usedCategoriesList}
         onCategoryPress={categoryPressHandler}
-        selectedCategory={categoriesList[0]}
+        selectedCategoriesIds={selectedCategoriesIds}
       />
     </View>
   );
@@ -183,6 +200,7 @@ const ProductsListView = ({styles, model, controller}) => {
         onRemovePress={productRemoveHandler}
         unitsMap={unitsMap}
         categoriesMap={categoriesMap}
+        selectedCategoriesIds={selectedCategoriesIds}
       />
     </View>
   );
@@ -192,6 +210,27 @@ const ProductsListView = ({styles, model, controller}) => {
       <AddButton
         style={[styles.addShoppingListItemButton, {zIndex: 20}]}
         onClick={addProductButtonHandler}
+      />
+    </View>
+  );
+
+  const shareButtonComponent = (
+    <View style={styles.shareButtonContainer}>
+      <ShareButton
+        visible={shareButtonVisible}
+        onClick={shareButtonPressHandler}
+      />
+    </View>
+  );
+
+  const sharePanelComponent = (
+    <View style={styles.sharePanel}>
+      <SharePanel
+        visible={sharePanelVisible}
+        smsShareSupported={smsShareSupported}
+        whatsAppShareSupported={whatsAppShareSupported}
+        onSmsPress={smsSharePressHandler}
+        onWhatsAppPress={whatsAppSharePressHandler}
       />
     </View>
   );
@@ -238,6 +277,8 @@ const ProductsListView = ({styles, model, controller}) => {
     <View style={styles.mainContainer}>
       {screenContent}
       {addButtonComponent}
+      {shareButtonComponent}
+      {sharePanelComponent}
       {inputAreaComponent}
       {shadedBackgroundComponent}
       {bottomGradientComponent}

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {Dialog} from 'react-native-simple-dialogs';
 import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
-import {useTranslation} from '../../../common/localization';
+import {useTranslation} from '../../../../utils/common/localization';
 
 const AddUnitDialog = ({
   visible,

@@ -43,14 +43,14 @@ export const listOfShoppingListsItemStylesGeneral = StyleSheet.create({
   menuTouchable: {
     width: 50,
     height: 50,
-    borderRadius: 25,
+    borderRadius: 2,
   },
   menuContainer: {
     width: 50,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 25,
+    borderRadius: 2,
     // backgroundColor: 'red',
   },
   menuIcon: {},

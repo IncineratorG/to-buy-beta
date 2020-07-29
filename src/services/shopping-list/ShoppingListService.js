@@ -57,6 +57,10 @@ export class ShoppingListService {
     return await SLSqliteService.removeShoppingList({id});
   }
 
+  static async renameShoppingList({id, newName}) {
+    return await SLSqliteService.renameShoppingList({id, newName});
+  }
+
   static async getShoppingLists() {
     return await SLSqliteService.getShoppingLists();
   }

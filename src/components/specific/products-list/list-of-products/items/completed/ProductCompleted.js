@@ -14,7 +14,6 @@ const ProductCompleted = ({
   product,
   onStatusPress,
   onProductLongPress,
-  selectedCategory,
 }) => {
   const productUnit = unitsMap.get(product.unitId)
     ? unitsMap.get(product.unitId).name

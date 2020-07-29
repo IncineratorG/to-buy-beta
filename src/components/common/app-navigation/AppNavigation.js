@@ -2,7 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import ShoppingLists from '../../../screens/shopping-lists/ShoppingLists';
-import {useTranslation} from '../localization';
+import {useTranslation} from '../../../utils/common/localization';
 import CreateShoppingList from '../../../screens/create-shopping-list/CreateShoppingList';
 import ProductsList from '../../../screens/products-list/ProductsList';
 
@@ -57,7 +57,7 @@ const AppNavigation = () => {
         <MainStack.Screen
           name={'ProductsList'}
           component={ProductsList}
-          options={{title: 'PRODUCTS_LIST_TITLE', headerShown: true}}
+          options={{title: '', headerShown: true}}
         />
       </MainStack.Navigator>
     );

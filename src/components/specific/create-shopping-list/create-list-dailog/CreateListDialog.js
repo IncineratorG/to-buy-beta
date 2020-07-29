@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 import {ConfirmDialog} from 'react-native-simple-dialogs';
-import {useTranslation} from '../../../common/localization';
+import {useTranslation} from '../../../../utils/common/localization';
 
 const CreateListDialog = ({
   listName,

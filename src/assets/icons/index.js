@@ -10,6 +10,9 @@ const icons = {
   weight: require('./images/weight.png'),
   note: require('./images/note.png'),
   arrow_up: require('./images/arrow_up.png'),
+  share: require('./images/share.png'),
+  whatsapp: require('./images/whatsapp.png'),
+  sms: require('./images/sms.png'),
 };
 
 export {icons};

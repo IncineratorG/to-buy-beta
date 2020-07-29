@@ -48,6 +48,7 @@ export const ru = {
     'Добавьте сюда то, что вы планируете купить',
 
   ListOfShoppingListsItemGeneral_menuShareOption: 'Поделиться',
+  ListOfShoppingListsItemGeneral_menuRenameOption: 'Переименовать',
   ListOfShoppingListsItemGeneral_menuRemoveOption: 'Удалить',
 
   ProductInputTypes_productNameType: 'Название продукта',
@@ -84,4 +85,16 @@ export const ru = {
   ProductsList_removeProductConfirmationDialogMessage: 'Удалить',
   ProductsList_removeProductConfirmationDialogPositiveButton: 'Удалить',
   ProductsList_removeProductConfirmationDialogNegativeButton: 'Нет',
+
+  ProductsListModel_allCategory: 'Все',
+  ProductsListModel_completedCategory: 'Купленные',
+  ProductsListModel_notCompletedCategory: 'Не купленные',
+
+  ShareShoppingListDialog_dialogTitle: 'Отправка списка',
+  ShareShoppingListDialog_cancelButton: 'ОТМЕНА',
+
+  RenameShoppingListDialog_dialogTitle: 'Переименование списка',
+  RenameShoppingListDialog_placeholder: 'Название списка',
+  RenameShoppingListDialog_renameButton: 'ПЕРЕИМЕНОВАТЬ',
+  RenameShoppingListDialog_cancelButton: 'ОТМЕНА',
 };

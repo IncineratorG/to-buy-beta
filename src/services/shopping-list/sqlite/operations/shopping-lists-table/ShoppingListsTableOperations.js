@@ -190,4 +190,38 @@ export class ShoppingListsTableOperations {
 
     return result;
   }
+
+  static async renameShoppingList({db, id, newName}) {
+    const renameStatement =
+      'UPDATE ' +
+      SHOPPING_LISTS_TABLE +
+      ' SET ' +
+      SHOPPING_LISTS_TABLE_LIST_NAME +
+      ' = ?, ' +
+      SHOPPING_LISTS_TABLE_UPDATE_TIMESTAMP +
+      ' = ? WHERE ' +
+      SHOPPING_LISTS_TABLE_ID +
+      ' = ?';
+
+    const timestamp = Date.now();
+
+    const statementParams = [newName, timestamp, id];
+
+    const result = {updatedListsCount: 0, hasError: false};
+    try {
+      const executionResult = await SqlStatementExecutor.execute({
+        db,
+        statement: renameStatement,
+        params: statementParams,
+      });
+      result.updatedListsCount = executionResult.rowsAffected;
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err: this.#className + '->renameShoppingList()->ERROR: ' + e,
+      });
+      result.hasError = true;
+    }
+
+    return result;
+  }
 }

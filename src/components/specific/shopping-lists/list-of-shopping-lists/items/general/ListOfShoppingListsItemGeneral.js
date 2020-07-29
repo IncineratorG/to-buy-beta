@@ -7,16 +7,17 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
-import {useTranslation} from '../../../../../common/localization';
+import {useTranslation} from '../../../../../../utils/common/localization';
 
 const ListOfShoppingListsItemGeneral = ({
   styles,
   listItem,
   online,
+  currentEmail,
   onItemPress,
   onRemovePress,
   onSharedPress,
-  currentEmail,
+  onRenamePress,
 }) => {
   const {t} = useTranslation();
 
@@ -52,8 +53,13 @@ const ListOfShoppingListsItemGeneral = ({
     });
   }
 
+  let hasUncompletedProducts = false;
+  if (totalItemsCount > 0 && totalItemsCount > completedItemsCount) {
+    hasUncompletedProducts = true;
+  }
+
   const [menuVisible, setMenuVisible] = useState(false);
-  const currentUserIsListAuthor = !creator || creator === currentEmail;
+  // const currentUserIsListAuthor = !creator || creator === currentEmail;
 
   const onItemPressHandler = () => {
     if (onItemPress) {
@@ -69,9 +75,15 @@ const ListOfShoppingListsItemGeneral = ({
   };
 
   const onSharePressHandler = () => {
-    // console.log('onSharePressHandler');
     if (onSharedPress) {
       onSharedPress(id);
+    }
+    setMenuVisible(false);
+  };
+
+  const onRenamePressHandler = () => {
+    if (onRenamePress) {
+      onRenamePress(listItem);
     }
     setMenuVisible(false);
   };
@@ -86,34 +98,23 @@ const ListOfShoppingListsItemGeneral = ({
     ) : null;
 
   const collaboratorsIconComponent = null;
-  // const collaboratorsIconComponent =
-  //   collaborators.length > 0 ? (
-  //     <View
-  //       style={{
-  //         width: 30,
-  //         alignSelf: 'stretch',
-  //         marginTop: 4,
-  //         marginBottom: 4,
-  //       }}>
-  //       <Image
-  //         style={{transform: [{scale: 0.8}]}}
-  //         source={currentUserIsListAuthor ? icons.outgoing : icons.incoming}
-  //       />
-  //     </View>
-  //   ) : null;
 
-  const shareListMenuOption =
-    currentUserIsListAuthor && online ? (
-      <MenuOption
-        onSelect={onSharePressHandler}
-        text={t('ListOfShoppingListsItemGeneral_menuShareOption')}
-      />
-    ) : null;
+  const shareMenuOption = hasUncompletedProducts ? (
+    <MenuOption
+      onSelect={onSharePressHandler}
+      text={t('ListOfShoppingListsItemGeneral_menuShareOption')}
+    />
+  ) : null;
+
   const menuComponent = (
     <Menu opened={menuVisible} onBackdropPress={onMenuPressHandler}>
       <MenuTrigger text="" />
       <MenuOptions>
-        {shareListMenuOption}
+        {shareMenuOption}
+        <MenuOption
+          onSelect={onRenamePressHandler}
+          text={t('ListOfShoppingListsItemGeneral_menuRenameOption')}
+        />
         <MenuOption
           onSelect={onRemovePressHandler}
           text={t('ListOfShoppingListsItemGeneral_menuRemoveOption')}
@@ -181,63 +182,6 @@ const ListOfShoppingListsItemGeneral = ({
       </View>
     </View>
   );
-  // return (
-  //   <View style={styles.mainContainer}>
-  //     <TouchableHighlight
-  //       underlayColor="#e7e7e7"
-  //       style={styles.bodyContainerTouchable}
-  //       onPress={onItemPressHandler}>
-  //       <View style={styles.bodyContainer}>
-  //         <View style={styles.listNameContainer}>
-  //           <Text style={styles.listName}>{name}</Text>
-  //         </View>
-  //         <View style={styles.completionContainer}>
-  //           <Text style={styles.completionValue}>
-  //             {completedItemsCount} / {totalItemsCount}
-  //           </Text>
-  //         </View>
-  //         <TouchableHighlight
-  //           style={styles.menuTouchable}
-  //           underlayColor="#e7e7e7"
-  //           onPress={onMenuPressHandler}>
-  //           <View style={styles.menuContainer}>
-  //             <Image style={styles.menuIcon} source={icons.list_menu} />
-  //             {menuComponent}
-  //           </View>
-  //         </TouchableHighlight>
-  //       </View>
-  //     </TouchableHighlight>
-  //     <View style={styles.footerContainer}>
-  //       {footerSeparatorLineComponent}
-  //       <View style={styles.collaboratorsContainer}>
-  //         {collaboratorsIconComponent}
-  //         <FlatList
-  //           data={collaborators}
-  //           horizontal={true}
-  //           activeOpacity={1}
-  //           showsHorizontalScrollIndicator={false}
-  //           renderItem={({item}) => {
-  //             return (
-  //               <View
-  //                 style={{
-  //                   backgroundColor: 'lightgrey',
-  //                   marginTop: 4,
-  //                   marginBottom: 4,
-  //                   marginRight: 4,
-  //                   borderRadius: 5,
-  //                   alignItems: 'center',
-  //                   justifyContent: 'center',
-  //                 }}>
-  //                 <Text style={{marginLeft: 4, marginRight: 4}}>{item}</Text>
-  //               </View>
-  //             );
-  //           }}
-  //           keyExtractor={(item) => item.toString()}
-  //         />
-  //       </View>
-  //     </View>
-  //   </View>
-  // );
 };
 
 export default ListOfShoppingListsItemGeneral;

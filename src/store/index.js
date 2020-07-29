@@ -6,6 +6,7 @@ import {shoppingListsReducer} from './reducers/shopping-lists/shoppingListsReduc
 import {productsListReducer} from './reducers/products-list/productsListReducer';
 import {categoriesReducer} from './reducers/categories/categoriesReducer';
 import {unitsReducer} from './reducers/units/unitsReducer';
+import {shareReducer} from './reducers/share/shareReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -15,6 +16,7 @@ const reducers = combineReducers({
   productsList: productsListReducer,
   categories: categoriesReducer,
   units: unitsReducer,
+  share: shareReducer,
 });
 
 const store = createStore(reducers, applyMiddleware(sagaMiddleware));

@@ -9,6 +9,7 @@ import {
 } from '../../../store/actions/products-list/productsListActions';
 import {updateShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
 import {
+  pla_addSelectedCategoryId,
   pla_closeAddCategoryDialog,
   pla_closeAddUnitDialog,
   pla_closeEditCategoryDialog,
@@ -22,6 +23,8 @@ import {
   pla_openProductInputAreaInCreateMode,
   pla_openProductInputAreaInEditMode,
   pla_openRemoveProductDialog,
+  pla_removeSelectedCategoryId,
+  pla_setSelectedCategoryId,
 } from '../stores/productListActions';
 import {
   addCategoryAction,
@@ -34,26 +37,29 @@ import {
   updateUnitAction,
 } from '../../../store/actions/units/unitsActions';
 import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
+import {
+  shareProductsListViaSmsAction,
+  shareProductsListViaWhatsAppAction,
+} from '../../../store/actions/share/shareActions';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
-    SystemEventsHandler.onInfo({info: 'backButtonPressHandler()'});
-
     model.navigation.goBack();
 
     model.dispatch(updateShoppingListsAction());
-    model.dispatch(clearProductsListCachedData());
+    // model.dispatch(clearProductsListCachedData());
 
     return true;
   };
 
   const addProductButtonHandler = () => {
-    SystemEventsHandler.onInfo({info: 'addProductButtonHandler()'});
+    model.setters.setSharePanelVisible(false);
     model.localDispatch(pla_openProductInputAreaInCreateMode());
   };
 
   const inputAreaHideHandler = ({inputAreaState}) => {
     SystemEventsHandler.onInfo({info: 'inputAreaHideHandler()'});
+    model.setters.setSharePanelVisible(false);
     model.localDispatch(pla_hideProductInputArea());
   };
 
@@ -99,6 +105,8 @@ export const useProductsListController = (model) => {
   };
 
   const productPressHandler = useCallback((product) => {
+    model.setters.setSharePanelVisible(false);
+
     const {
       parentListId: shoppingListId,
       id: productId,
@@ -124,6 +132,8 @@ export const useProductsListController = (model) => {
   }, []);
 
   const statusPressHandler = useCallback((product) => {
+    model.setters.setSharePanelVisible(false);
+
     const newStatus =
       product.completionStatus === ProductStatus.COMPLETED
         ? ProductStatus.NOT_COMPLETED
@@ -150,10 +160,12 @@ export const useProductsListController = (model) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const categoryPressHandler = (category) => {
-    SystemEventsHandler.onInfo({
-      info: 'categoryPressHandler(): ' + JSON.stringify(category),
-    });
+  const categoryPressHandler = ({category, selected}) => {
+    model.setters.setSharePanelVisible(false);
+
+    if (!selected) {
+      model.localDispatch(pla_setSelectedCategoryId({id: category.id}));
+    }
   };
 
   const shadedBackgroundPressHandler = () => {
@@ -275,6 +287,36 @@ export const useProductsListController = (model) => {
     model.localDispatch(pla_closeRemoveProductDialog());
   };
 
+  const shareButtonPressHandler = () => {
+    if (model.data.smsShareSupported && model.data.whatsAppShareSupported) {
+      model.setters.setSharePanelVisible(!model.data.sharePanelVisible);
+    } else if (model.data.whatsAppShareSupported) {
+      model.dispatch(
+        shareProductsListViaWhatsAppAction({id: model.data.shoppingListId}),
+      );
+    } else if (model.data.smsShareSupported) {
+      model.dispatch(
+        shareProductsListViaSmsAction({id: model.data.shoppingListId}),
+      );
+    }
+  };
+
+  const smsSharePressHandler = async () => {
+    model.dispatch(
+      shareProductsListViaSmsAction({id: model.data.shoppingListId}),
+    );
+
+    model.setters.setSharePanelVisible(false);
+  };
+
+  const whatsAppSharePressHandler = async () => {
+    model.dispatch(
+      shareProductsListViaWhatsAppAction({id: model.data.shoppingListId}),
+    );
+
+    model.setters.setSharePanelVisible(false);
+  };
+
   return {
     backButtonPressHandler,
     addProductButtonHandler,
@@ -306,5 +348,8 @@ export const useProductsListController = (model) => {
     removeProductDialogTouchOutsideHandler,
     removeProductDialogCancelButtonHandler,
     removeProductDialogRemoveButtonHandler,
+    shareButtonPressHandler,
+    smsSharePressHandler,
+    whatsAppSharePressHandler,
   };
 };

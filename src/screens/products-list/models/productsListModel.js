@@ -1,17 +1,25 @@
 import {useState, useEffect, useReducer} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from '../../../components/common/localization';
-import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {useTranslation} from '../../../utils/common/localization';
 import productListReducer from '../stores/produtcListReducer';
 import productListState from '../stores/productListState';
-import {pla_setDataLoading} from '../stores/productListActions';
+import {
+  pla_setDataLoading,
+  pla_setUsedCategories,
+} from '../stores/productListActions';
+import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
+import ProductInitialCategories from '../../../components/specific/products-list/product-initial-categories/ProductInitialCategories';
+import {checkShareAvailabilityAction} from '../../../store/actions/share/shareActions';
 
 export const useProductsListModel = () => {
   const [state, localDispatch] = useReducer(
     productListReducer,
     productListState,
   );
+
+  const [shareButtonVisible, setShareButtonVisible] = useState(false);
+  const [sharePanelVisible, setSharePanelVisible] = useState(false);
 
   const navigation = useNavigation();
 
@@ -61,6 +69,18 @@ export const useProductsListModel = () => {
   const allCategoriesMap = useSelector(
     (storeState) => storeState.categories.categories.all.map,
   );
+  const smsShareSupported = useSelector(
+    (storeState) => storeState.share.share.availability.smsSharingSupported,
+  );
+  const whatsAppShareSupported = useSelector(
+    (storeState) =>
+      storeState.share.share.availability.whatsAppSharingSupported,
+  );
+
+  useEffect(() => {
+    dispatch(checkShareAvailabilityAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     navigation.setOptions({title: listName});
@@ -73,17 +93,119 @@ export const useProductsListModel = () => {
     }
   }, [listLoading, unitsLoading, categoriesLoading]);
 
+  // ===
+  useEffect(() => {
+    if (categoriesLoading || listLoading) {
+      return;
+    }
+
+    const usedCategoriesList = [];
+    const usedCategoriesStatisticMap = new Map();
+
+    let hasCompletedProducts = false;
+    let hasNotCompletedProducts = false;
+
+    products.forEach((product) => {
+      let productCompleted = false;
+      if (product.completionStatus === ProductStatus.COMPLETED) {
+        productCompleted = true;
+        hasCompletedProducts = true;
+      } else {
+        hasNotCompletedProducts = true;
+      }
+
+      if (usedCategoriesStatisticMap.has(product.categoryId)) {
+        const statObject = usedCategoriesStatisticMap.get(product.categoryId);
+        if (productCompleted) {
+          statObject.completedProductsCount =
+            statObject.completedProductsCount + 1;
+        } else {
+          statObject.notCompletedProductsCount =
+            statObject.notCompletedProductsCount + 1;
+        }
+      } else {
+        const statObject = {
+          categoryId: product.categoryId,
+          completedProductsCount: productCompleted ? 1 : 0,
+          notCompletedProductsCount: productCompleted ? 0 : 1,
+        };
+        usedCategoriesStatisticMap.set(product.categoryId, statObject);
+      }
+    });
+
+    usedCategoriesStatisticMap.forEach((statObject) => {
+      const {categoryId, notCompletedProductsCount} = statObject;
+
+      let category = {...allCategoriesMap.get(categoryId)};
+      if (notCompletedProductsCount === 0) {
+        category.completed = true;
+      }
+
+      usedCategoriesList.push(category);
+    });
+
+    const allCategory = {
+      id: ProductInitialCategories.ALL,
+      name: t('ProductsListModel_allCategory'),
+      color: '#D3D3D3',
+    };
+    const completedCategory = {
+      id: ProductInitialCategories.COMPLETED,
+      name: t('ProductsListModel_completedCategory'),
+      color: '#D3D3D3',
+    };
+    const notCompletedCategory = {
+      id: ProductInitialCategories.NOT_COMPLETED,
+      name: t('ProductsListModel_notCompletedCategory'),
+      color: '#D3D3D3',
+    };
+
+    usedCategoriesList.sort((c1, c2) => {
+      return c1.createTimestamp < c2.createTimestamp;
+    });
+
+    if (hasCompletedProducts) {
+      usedCategoriesList.unshift(completedCategory);
+    }
+    if (hasNotCompletedProducts) {
+      usedCategoriesList.unshift(notCompletedCategory);
+    }
+    usedCategoriesList.unshift(allCategory);
+
+    localDispatch(pla_setUsedCategories({categories: usedCategoriesList}));
+
+    if (hasNotCompletedProducts) {
+      setShareButtonVisible(true);
+    } else {
+      setShareButtonVisible(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoriesLoading, listLoading, products, allCategoriesMap]);
+  // ===
+
   return {
     data: {
       state,
       shoppingListId,
+      listName,
       products,
       unitsList,
       unitsMap,
+      allUnitsList,
+      allUnitsMap,
       categoriesList,
       categoriesMap,
+      allCategoriesList,
+      allCategoriesMap,
+      shareButtonVisible,
+      sharePanelVisible,
+      smsShareSupported,
+      whatsAppShareSupported,
     },
-    setters: {},
+    setters: {
+      setShareButtonVisible,
+      setSharePanelVisible,
+    },
     navigation,
     dispatch,
     localDispatch,

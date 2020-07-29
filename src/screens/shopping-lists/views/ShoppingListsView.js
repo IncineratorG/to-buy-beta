@@ -6,31 +6,68 @@ import EmptyShoppingListsScreen from '../../../components/specific/shopping-list
 import AddButton from '../../../components/common/add-button/AddButton';
 import {LoadingShoppingListsScreen} from '../../../components/specific/shopping-lists/loading-shopping-lists-screen/LoadingShoppingListsScreen';
 import ListOfShoppingLists from '../../../components/specific/shopping-lists/list-of-shopping-lists/ListOfShoppingLists';
+import ShareShoppingListDialog from '../../../components/specific/shopping-lists/share-shopping-list-dialog/ShareShoppingListDialog';
+import RenameShoppingListDialog from '../../../components/specific/shopping-lists/rename-shopping-list-dialog/RenameShoppingListDialog';
 
 const ShoppingListsView = ({styles, model, controller}) => {
   const {t} = model;
 
   const {
+    shareDialogVisible,
     removeConfirmationDialogVisible,
+    renameDialogVisible,
     online,
     currentEmail,
     selectedShoppingLists,
     listsLoading,
     listToRemove,
+    listToRename,
+    smsShareSupported,
+    whatsAppShareSupported,
   } = model.data;
 
   const {
     listItemPressHandler,
     listItemRemoveHandler,
+    listItemRenameHandler,
     addButtonHandler,
     removeConfirmationDialogTouchOutsideHandler,
     removeConfirmationDialogRemoveHandler,
     removeConfirmationDialogCancelRemoveHandler,
     selectListTypeHandler,
     shareListHandler,
+    shareDialogTouchOutsidePressHandler,
+    shareDialogSmsOptionPressHandler,
+    shareDialogWhatsAppOptionPressHandler,
+    shareDialogCancelPressHandler,
+    renameDialogTouchOutsideHandler,
+    renameDialogCancelPressHandler,
+    renameDialogRenamePressHandler,
   } = controller;
 
-  const removeConfirmationDialog = (
+  const renameDialogComponent = (
+    <RenameShoppingListDialog
+      visible={renameDialogVisible}
+      shoppingList={listToRename}
+      onTouchOutside={renameDialogTouchOutsideHandler}
+      onCancelButton={renameDialogCancelPressHandler}
+      onRenameButton={renameDialogRenamePressHandler}
+    />
+  );
+
+  const shareDialogComponent = (
+    <ShareShoppingListDialog
+      visible={shareDialogVisible}
+      smsShareSupported={smsShareSupported}
+      whatsAppShareSupported={whatsAppShareSupported}
+      onTouchOutside={shareDialogTouchOutsidePressHandler}
+      onCancelPress={shareDialogCancelPressHandler}
+      onSmsOptionPress={shareDialogSmsOptionPressHandler}
+      onWhatsAppOptionPress={shareDialogWhatsAppOptionPressHandler}
+    />
+  );
+
+  const removeConfirmationDialogComponent = (
     <ConfirmDialog
       title={t('ShoppingLists_removeConfirmationDialogTitle')}
       message={
@@ -80,6 +117,7 @@ const ShoppingListsView = ({styles, model, controller}) => {
         onItemPress={listItemPressHandler}
         onRemovePress={listItemRemoveHandler}
         onSharePress={shareListHandler}
+        onRenamePress={listItemRenameHandler}
       />
     </View>
   );
@@ -114,7 +152,9 @@ const ShoppingListsView = ({styles, model, controller}) => {
       {loadingIndicatorComponent}
       {listTypesComponent}
       {screenContent}
-      {removeConfirmationDialog}
+      {shareDialogComponent}
+      {renameDialogComponent}
+      {removeConfirmationDialogComponent}
       {addButtonComponent}
       {bottomGradientComponent}
     </View>

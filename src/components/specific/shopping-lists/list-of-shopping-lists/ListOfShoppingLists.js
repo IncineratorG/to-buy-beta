@@ -9,6 +9,7 @@ const ListOfShoppingLists = ({
   onItemPress,
   onRemovePress,
   onSharePress,
+  onRenamePress,
 }) => {
   const innerList = [...list];
   if (innerList.length) {
@@ -24,6 +25,7 @@ const ListOfShoppingLists = ({
         onItemPress={onItemPress}
         onRemovePress={onRemovePress}
         onSharePress={onSharePress}
+        onRenamePress={onRenamePress}
       />
     );
   };

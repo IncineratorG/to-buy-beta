@@ -4,14 +4,14 @@ import ProductCategoryItem from './ProductCategoryItem';
 
 const ProductCategoriesList = ({
   categories,
-  selectedCategory,
+  selectedCategoriesIds,
   onCategoryPress,
 }) => {
   const renderItem = ({item}) => {
     return (
       <ProductCategoryItem
         category={item}
-        selectedCategory={selectedCategory}
+        selectedCategoriesIds={selectedCategoriesIds}
         onCategoryPress={onCategoryPress}
       />
     );

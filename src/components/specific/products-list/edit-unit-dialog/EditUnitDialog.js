@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {Dialog} from 'react-native-simple-dialogs';
-import {useTranslation} from '../../../common/localization';
+import {useTranslation} from '../../../../utils/common/localization';
 
 const EditUnitDialog = ({
   visible,

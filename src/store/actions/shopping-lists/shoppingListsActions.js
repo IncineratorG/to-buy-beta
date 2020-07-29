@@ -11,6 +11,10 @@ import {
   REMOVE_SHOPPING_LIST_BEGIN,
   REMOVE_SHOPPING_LIST_ERROR,
   REMOVE_SHOPPING_LIST_FINISHED,
+  RENAME_SHOPPING_LIST,
+  RENAME_SHOPPING_LIST_BEGIN,
+  RENAME_SHOPPING_LIST_ERROR,
+  RENAME_SHOPPING_LIST_FINISHED,
   RESET_CREATE_SHOPPING_LIST_STATUS,
   UPDATE_SHOPPING_LISTS,
   UPDATE_SHOPPING_LISTS_BEGIN,
@@ -163,5 +167,33 @@ export const removeShoppingListErrorAction = ({id, description}) => {
         description,
       },
     },
+  };
+};
+
+export const renameShoppingListAction = ({id, newName}) => {
+  return {
+    type: RENAME_SHOPPING_LIST,
+    payload: {id, newName},
+  };
+};
+
+export const renameShoppingListBeginAction = ({id}) => {
+  return {
+    type: RENAME_SHOPPING_LIST_BEGIN,
+    payload: {id},
+  };
+};
+
+export const renameShoppingListFinishedAction = ({shoppingList}) => {
+  return {
+    type: RENAME_SHOPPING_LIST_FINISHED,
+    payload: {shoppingList},
+  };
+};
+
+export const renameShoppingListErrorAction = ({id, description}) => {
+  return {
+    type: RENAME_SHOPPING_LIST_ERROR,
+    payload: {id, error: {description}},
   };
 };

@@ -15,7 +15,6 @@ const ProductNotCompleted = ({
   onStatusPress,
   onProductPress,
   onProductLongPress,
-  selectedCategory,
 }) => {
   const categoryDescription = categoriesMap.get(product.categoryId);
   const categoryColor = categoryDescription
