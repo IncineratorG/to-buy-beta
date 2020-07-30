@@ -112,14 +112,14 @@ export const useShoppingListsController = (model) => {
     model.setters.setListToRename(null);
   };
 
-  const renameDialogRenamePressHandler = ({shoppingList, newName}) => {
-    if (shoppingList.name === newName) {
+  const renameDialogRenamePressHandler = ({listId, oldName, newName}) => {
+    if (!newName || oldName === newName) {
       model.setters.setRenameDialogVisible(false);
       model.setters.setListToRename(null);
       return;
     }
 
-    model.dispatch(renameShoppingListAction({id: shoppingList.id, newName}));
+    model.dispatch(renameShoppingListAction({id: listId, newName}));
 
     model.setters.setRenameDialogVisible(false);
     model.setters.setListToRename(null);

@@ -2,25 +2,34 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 import {ConfirmDialog} from 'react-native-simple-dialogs';
 import {useTranslation} from '../../../../utils/common/localization';
+import {useFocusEffect} from '@react-navigation/native';
+import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 
 const RenameShoppingListDialog = ({
   visible,
-  shoppingList,
+  listId,
+  listName,
   onRenameButton,
   onCancelButton,
   onTouchOutside,
 }) => {
+  SystemEventsHandler.onInfo({info: listName});
+
   const {t} = useTranslation();
 
-  const [listName, setListName] = useState('');
+  const [newListName, setNewListName] = useState('');
 
   const renameButtonHandler = () => {
-    if (!listName) {
+    if (!newListName) {
       return;
     }
 
     if (onRenameButton) {
-      onRenameButton({shoppingList, newName: listName});
+      onRenameButton({
+        listId: listId,
+        oldName: listName,
+        newName: newListName,
+      });
     }
   };
 
@@ -36,11 +45,17 @@ const RenameShoppingListDialog = ({
     }
   };
 
+  // useFocusEffect(() => {
+  //   setNewListName(listName);
+  // }, [listName]);
+
   useEffect(() => {
-    if (shoppingList) {
-      setListName(shoppingList.name);
+    SystemEventsHandler.onInfo({info: 'IN_EFFECT'});
+
+    if (listName) {
+      setNewListName(listName);
     }
-  }, [shoppingList]);
+  }, [listName]);
 
   return (
     <ConfirmDialog
@@ -50,7 +65,7 @@ const RenameShoppingListDialog = ({
       onTouchOutside={onTouchOutsideHandler}
       positiveButton={{
         title: t('RenameShoppingListDialog_renameButton'),
-        titleStyle: listName
+        titleStyle: newListName
           ? styles.positiveButtonEnabled
           : styles.positiveButtonDisabled,
         onPress: renameButtonHandler,
@@ -66,8 +81,8 @@ const RenameShoppingListDialog = ({
         selectionColor={'#4a9dec'}
         underlineColorAndroid={'#4a9dec'}
         autoFocus={true}
-        onChangeText={(text) => setListName(text)}
-        value={listName}
+        onChangeText={(text) => setNewListName(text)}
+        value={newListName}
       />
     </ConfirmDialog>
   );

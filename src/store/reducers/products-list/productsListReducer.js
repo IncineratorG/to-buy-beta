@@ -22,6 +22,7 @@ import {
 } from '../../types/products-list/productsListTypes';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import productsComparator from './helpers/productsComparator';
+import {RENAME_SHOPPING_LIST_FINISHED} from '../../types/shopping-lists/shoppingListsTypes';
 
 const initialState = {
   productsList: {
@@ -558,6 +559,21 @@ export const productsListReducer = (state = initialState, action) => {
             hasError: true,
             description: action.payload.error.description,
           },
+        },
+      };
+    }
+
+    case RENAME_SHOPPING_LIST_FINISHED: {
+      const {shoppingList} = action.payload;
+      if (state.productsList.id !== shoppingList.id) {
+        return state;
+      }
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          name: shoppingList.name,
         },
       };
     }

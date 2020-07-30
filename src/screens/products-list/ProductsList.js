@@ -16,9 +16,10 @@ const ProductsList = () => {
 
   const {
     backButtonPressHandler,
-    screenMenuRemoveAllPressHandler,
+    screenMenuRenameListPressHandler,
     screenMenuMarkAllAsBoughtPressHandler,
     screenMenuMarkAllAsNotBoughtPressHandler,
+    screenMenuRemoveAllPressHandler,
   } = controller;
 
   useFocusEffect(() => {
@@ -28,6 +29,7 @@ const ProductsList = () => {
       ),
       headerRight: (props) => (
         <ProductsListScreenMenuButton
+          onRenameList={screenMenuRenameListPressHandler}
           onRemoveAll={screenMenuRemoveAllPressHandler}
           onAllBought={screenMenuMarkAllAsBoughtPressHandler}
           onAllNotBought={screenMenuMarkAllAsNotBoughtPressHandler}

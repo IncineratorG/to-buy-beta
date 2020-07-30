@@ -10,6 +10,7 @@ import {
 import {useTranslation} from '../../../../utils/common/localization';
 
 const ProductsListScreenMenuButton = ({
+  onRenameList,
   onRemoveAll,
   onAllBought,
   onAllNotBought,
@@ -20,6 +21,13 @@ const ProductsListScreenMenuButton = ({
 
   const menuPressHandler = () => {
     setMenuVisible(!menuVisible);
+  };
+
+  const renameListHandler = () => {
+    if (onRenameList) {
+      onRenameList();
+    }
+    setMenuVisible(false);
   };
 
   const removeAllHandler = () => {
@@ -48,8 +56,8 @@ const ProductsListScreenMenuButton = ({
       <MenuTrigger text="" />
       <MenuOptions>
         <MenuOption
-          onSelect={removeAllHandler}
-          text={t('ProductsListScreenMenuButton_menuRemoveAllOption')}
+          onSelect={renameListHandler}
+          text={t('ProductsListScreenMenuButton_menuRenameList')}
         />
         <MenuOption
           onSelect={markAllAsBoughtHandler}
@@ -58,6 +66,10 @@ const ProductsListScreenMenuButton = ({
         <MenuOption
           onSelect={markAllAsNotBoughtHandler}
           text={t('ProductsListScreenMenuButton_markAllAsNotOption')}
+        />
+        <MenuOption
+          onSelect={removeAllHandler}
+          text={t('ProductsListScreenMenuButton_menuRemoveAllOption')}
         />
       </MenuOptions>
     </Menu>
