@@ -79,6 +79,7 @@ public class PhoneMessagingModule extends ReactContextBaseJavaModule {
         result.resolve(null);
     }
 
+    @ReactMethod
     public void sendWhatsAppMessage(String text, Promise result) {
         Activity currentActivity = getCurrentActivity();
         if (currentActivity == null) {
@@ -86,7 +87,7 @@ public class PhoneMessagingModule extends ReactContextBaseJavaModule {
             return;
         }
 
-        PackageManager packageManager = currentActivity.getPackageManager();
+        PackageManager packageManager = getReactApplicationContext().getPackageManager();
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
@@ -107,13 +108,15 @@ public class PhoneMessagingModule extends ReactContextBaseJavaModule {
         resultMap.put(RESULT_FIELD, false);
         resultMap.put(ERROR_FIELD, false);
 
-        Activity currentActivity = getCurrentActivity();
-        if (currentActivity == null) {
-            resultMap.put(ERROR_FIELD, true);
-            return resultMap;
-        }
+//        Activity currentActivity = getCurrentActivity();
+//        if (currentActivity == null) {
+//            resultMap.put(ERROR_FIELD, true);
+//            return resultMap;
+//        }
 
-        PackageManager packageManager = currentActivity.getPackageManager();
+//        PackageManager packageManager = currentActivity.getPackageManager();
+
+        PackageManager packageManager = getReactApplicationContext().getPackageManager();
 
         try {
             packageManager.getPackageInfo(appUri, PackageManager.GET_ACTIVITIES);

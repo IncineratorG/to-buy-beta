@@ -4,6 +4,7 @@ import ProductInputTypes from './input-types/ProductInputTypes';
 import ProductInputOptions from './input-options/ProductInputOptions';
 import ProductMainInput from './main-input/ProductMainInput';
 import {SystemEventsHandler} from '../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import ProductInputType from '../stores/types/productInputAreaProductInputTypes';
 
 const ProductInputAreaView = ({styles, model, controller}) => {
   const {
@@ -13,6 +14,8 @@ const ProductInputAreaView = ({styles, model, controller}) => {
     unitsList,
     unitsMap,
   } = model.data;
+
+  const {type} = state.currentInput;
 
   const {
     productNameTypePressHandler,
@@ -29,7 +32,11 @@ const ProductInputAreaView = ({styles, model, controller}) => {
   } = controller;
 
   const inputOptionsComponent = (
-    <View style={styles.topAreaContainer}>
+    <View
+      style={[
+        styles.topAreaContainer,
+        {height: type === ProductInputType.NOTE ? 0 : 50},
+      ]}>
       <ProductInputOptions
         state={state}
         unitsList={unitsList}
@@ -67,7 +74,11 @@ const ProductInputAreaView = ({styles, model, controller}) => {
   );
 
   return (
-    <View style={styles.mainContainer}>
+    <View
+      style={[
+        styles.mainContainer,
+        {height: type === ProductInputType.NOTE ? 100 : 150},
+      ]}>
       {inputOptionsComponent}
       {mainInputComponent}
       {inputTypesComponent}

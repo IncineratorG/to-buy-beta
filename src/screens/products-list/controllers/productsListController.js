@@ -288,6 +288,8 @@ export const useProductsListController = (model) => {
   };
 
   const shareButtonPressHandler = () => {
+    // model.setters.setSharePanelVisible(!model.data.sharePanelVisible);
+
     if (model.data.smsShareSupported && model.data.whatsAppShareSupported) {
       model.setters.setSharePanelVisible(!model.data.sharePanelVisible);
     } else if (model.data.whatsAppShareSupported) {
@@ -315,6 +317,22 @@ export const useProductsListController = (model) => {
     );
 
     model.setters.setSharePanelVisible(false);
+  };
+
+  const screenMenuRemoveAllPressHandler = () => {
+    SystemEventsHandler.onInfo({info: 'screenMenuRemoveAllPressHandler()'});
+  };
+
+  const screenMenuMarkAllAsBoughtPressHandler = () => {
+    SystemEventsHandler.onInfo({
+      info: 'screenMenuMarkAllAsBoughtPressHandler()',
+    });
+  };
+
+  const screenMenuMarkAllAsNotBoughtPressHandler = () => {
+    SystemEventsHandler.onInfo({
+      info: 'screenMenuMarkAllAsNotBoughtPressHandler()',
+    });
   };
 
   return {
@@ -351,5 +369,8 @@ export const useProductsListController = (model) => {
     shareButtonPressHandler,
     smsSharePressHandler,
     whatsAppSharePressHandler,
+    screenMenuRemoveAllPressHandler,
+    screenMenuMarkAllAsBoughtPressHandler,
+    screenMenuMarkAllAsNotBoughtPressHandler,
   };
 };
