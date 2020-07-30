@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   whatsAppIcon: {
-    transform: [{scale: 1.0}],
+    transform: [{scale: 0.5}],
   },
   buttonsContainer: {
     flexDirection: 'row-reverse',

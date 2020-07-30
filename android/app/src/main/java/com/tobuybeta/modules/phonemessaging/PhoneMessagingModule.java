@@ -79,6 +79,7 @@ public class PhoneMessagingModule extends ReactContextBaseJavaModule {
         result.resolve(null);
     }
 
+    @ReactMethod
     public void sendWhatsAppMessage(String text, Promise result) {
         Activity currentActivity = getCurrentActivity();
         if (currentActivity == null) {

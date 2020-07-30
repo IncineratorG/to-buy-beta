@@ -25,7 +25,7 @@ const SharePanel = ({
     return null;
   }
 
-  let optionsCount = 0;
+  let optionsCount = 2;
   if (whatsAppShareSupported && smsShareSupported) {
     optionsCount = 2;
   } else if (whatsAppShareSupported || smsShareSupported) {
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   whatsAppIcon: {
-    transform: [{scale: 1.0}],
+    transform: [{scale: 0.5}],
   },
   spacer: {
     flex: 1,
