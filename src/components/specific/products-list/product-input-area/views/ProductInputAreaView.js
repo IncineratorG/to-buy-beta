@@ -5,6 +5,7 @@ import ProductInputOptions from './input-options/ProductInputOptions';
 import ProductMainInput from './main-input/ProductMainInput';
 import {SystemEventsHandler} from '../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import ProductInputType from '../stores/types/productInputAreaProductInputTypes';
+import ProductSuggestion from './suggestion/ProductSuggestion';
 
 const ProductInputAreaView = ({styles, model, controller}) => {
   const {
@@ -73,6 +74,12 @@ const ProductInputAreaView = ({styles, model, controller}) => {
     </View>
   );
 
+  const inputSuggestionComponent = (
+    <View style={styles.suggestionContainer}>
+      <ProductSuggestion state={state} />
+    </View>
+  );
+
   return (
     <View
       style={[
@@ -82,6 +89,7 @@ const ProductInputAreaView = ({styles, model, controller}) => {
       {inputOptionsComponent}
       {mainInputComponent}
       {inputTypesComponent}
+      {inputSuggestionComponent}
     </View>
   );
 };

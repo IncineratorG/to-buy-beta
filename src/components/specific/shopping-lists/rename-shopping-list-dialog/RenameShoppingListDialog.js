@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 import {ConfirmDialog} from 'react-native-simple-dialogs';
 import {useTranslation} from '../../../../utils/common/localization';
-import {useFocusEffect} from '@react-navigation/native';
 import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 
 const RenameShoppingListDialog = ({
@@ -13,8 +12,6 @@ const RenameShoppingListDialog = ({
   onCancelButton,
   onTouchOutside,
 }) => {
-  SystemEventsHandler.onInfo({info: listName});
-
   const {t} = useTranslation();
 
   const [newListName, setNewListName] = useState('');
@@ -45,13 +42,7 @@ const RenameShoppingListDialog = ({
     }
   };
 
-  // useFocusEffect(() => {
-  //   setNewListName(listName);
-  // }, [listName]);
-
   useEffect(() => {
-    SystemEventsHandler.onInfo({info: 'IN_EFFECT'});
-
     if (listName) {
       setNewListName(listName);
     }

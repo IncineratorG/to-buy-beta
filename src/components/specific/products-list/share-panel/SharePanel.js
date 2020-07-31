@@ -130,6 +130,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 10,
+    paddingTop: 7,
+    // backgroundColor: 'red',
   },
   smsIcon: {
     transform: [{scale: 0.9}],

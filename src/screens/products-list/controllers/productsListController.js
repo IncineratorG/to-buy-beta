@@ -338,6 +338,10 @@ export const useProductsListController = (model) => {
     });
   };
 
+  const screenMenuRemoveBoughtPressHandler = () => {
+    SystemEventsHandler.onInfo({info: 'screenMenuRemoveBoughtPressHandler()'});
+  };
+
   const screenMenuRemoveAllPressHandler = () => {
     SystemEventsHandler.onInfo({info: 'screenMenuRemoveAllPressHandler()'});
   };
@@ -398,6 +402,7 @@ export const useProductsListController = (model) => {
     screenMenuRenameListPressHandler,
     screenMenuMarkAllAsBoughtPressHandler,
     screenMenuMarkAllAsNotBoughtPressHandler,
+    screenMenuRemoveBoughtPressHandler,
     screenMenuRemoveAllPressHandler,
     renameListDialogTouchOutsideHandler,
     renameListDialogCancelPressHandler,

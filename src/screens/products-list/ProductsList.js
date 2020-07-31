@@ -19,6 +19,7 @@ const ProductsList = () => {
     screenMenuRenameListPressHandler,
     screenMenuMarkAllAsBoughtPressHandler,
     screenMenuMarkAllAsNotBoughtPressHandler,
+    screenMenuRemoveBoughtPressHandler,
     screenMenuRemoveAllPressHandler,
   } = controller;
 
@@ -31,6 +32,7 @@ const ProductsList = () => {
         <ProductsListScreenMenuButton
           onRenameList={screenMenuRenameListPressHandler}
           onRemoveAll={screenMenuRemoveAllPressHandler}
+          onRemoveBought={screenMenuRemoveBoughtPressHandler}
           onAllBought={screenMenuMarkAllAsBoughtPressHandler}
           onAllNotBought={screenMenuMarkAllAsNotBoughtPressHandler}
         />

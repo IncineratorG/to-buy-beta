@@ -9,6 +9,7 @@ export const productInputAreaStyles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    alignItems: 'center',
   },
   topAreaContainer: {
     height: 50,
@@ -24,5 +25,12 @@ export const productInputAreaStyles = StyleSheet.create({
     height: 50,
     alignSelf: 'stretch',
     backgroundColor: 'transparent',
+  },
+  suggestionContainer: {
+    position: 'absolute',
+    bottom: 0,
+    // left: 0,
+    // right: 0,
+    marginBottom: 30,
   },
 });

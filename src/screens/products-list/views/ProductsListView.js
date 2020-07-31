@@ -103,7 +103,7 @@ const ProductsListView = ({styles, model, controller}) => {
   } = controller;
 
   // ===
-  const renameListDialogComponent = (
+  const renameListDialogComponent = renameListDialogVisible ? (
     <RenameShoppingListDialog
       visible={renameListDialogVisible}
       listId={shoppingListId}
@@ -112,7 +112,7 @@ const ProductsListView = ({styles, model, controller}) => {
       onCancelButton={renameListDialogCancelPressHandler}
       onRenameButton={renameListDialogRenamePressHandler}
     />
-  );
+  ) : null;
 
   const removeProductConfirmationDialogComponent = (
     <ConfirmDialog
