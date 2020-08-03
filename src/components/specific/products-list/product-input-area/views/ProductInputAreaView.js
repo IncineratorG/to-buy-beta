@@ -32,6 +32,7 @@ const ProductInputAreaView = ({styles, model, controller}) => {
     addUnitPressHandler,
     makeProductsSuggestion,
     clearProductSuggestions,
+    suggestionPressHandler,
   } = controller;
 
   const inputOptionsComponent = (
@@ -79,7 +80,10 @@ const ProductInputAreaView = ({styles, model, controller}) => {
 
   const inputSuggestionComponent = (
     <View style={styles.suggestionContainer}>
-      <ProductSuggestion state={state} />
+      <ProductSuggestion
+        state={state}
+        onSuggestionPress={suggestionPressHandler}
+      />
     </View>
   );
 

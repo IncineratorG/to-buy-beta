@@ -8,6 +8,7 @@ import {
   SET_PREDEFINED_DATA,
   SET_PREDEFINED_STATE,
   SET_PRODUCT_NAME,
+  SET_PRODUCT_SUGGESTIONS,
   SET_QUANTITY,
   SET_UNIT,
   SUBMIT_VALUES,
@@ -100,5 +101,12 @@ export const piaa_submitValues = () => {
   return {
     type: SUBMIT_VALUES,
     payload: undefined,
+  };
+};
+
+export const piaa_setProductSuggestions = ({suggestions}) => {
+  return {
+    type: SET_PRODUCT_SUGGESTIONS,
+    payload: {suggestions},
   };
 };

@@ -4,34 +4,29 @@ import ProductInputType from '../../stores/types/productInputAreaProductInputTyp
 import {SystemEventsHandler} from '../../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 
 const ProductSuggestion = ({state, onSuggestionPress}) => {
-  const {type} = state.currentInput;
-
-  const suggestions = [
-    {id: 1, word: 'First'},
-    {id: 2, word: 'Dorokhov'},
-    {id: 3, word: 'PrePrePrestidigitator'},
-  ];
+  const {type, productSuggestions} = state.currentInput;
+  const {suggestions} = productSuggestions;
 
   if (type !== ProductInputType.PRODUCT_NAME || suggestions.length <= 0) {
     return null;
   }
 
   const firstSuggestionPressHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'firstSuggestionPressHandler(): ' + JSON.stringify(suggestions[0]),
-    });
+    if (onSuggestionPress) {
+      onSuggestionPress({suggestion: suggestions[0]});
+    }
   };
 
   const secondSuggestionPressHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'secondSuggestionPressHandler(): ' + JSON.stringify(suggestions[1]),
-    });
+    if (onSuggestionPress) {
+      onSuggestionPress({suggestion: suggestions[1]});
+    }
   };
 
   const thirdSuggestionPressHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'thirdSuggestionPressHandler(): ' + JSON.stringify(suggestions[2]),
-    });
+    if (onSuggestionPress) {
+      onSuggestionPress({suggestion: suggestions[2]});
+    }
   };
 
   const firstSuggestionComponent = (
@@ -43,7 +38,7 @@ const ProductSuggestion = ({state, onSuggestionPress}) => {
           style={styles.suggestionText}
           numberOfLines={1}
           ellipsizeMode={'middle'}>
-          {suggestions[0].word}
+          {suggestions[0].productName}
         </Text>
       </View>
     </TouchableHighlight>
@@ -59,7 +54,7 @@ const ProductSuggestion = ({state, onSuggestionPress}) => {
             style={styles.suggestionText}
             numberOfLines={1}
             ellipsizeMode={'middle'}>
-            {suggestions[1].word}
+            {suggestions[1].productName}
           </Text>
         </View>
       </TouchableHighlight>
@@ -75,7 +70,7 @@ const ProductSuggestion = ({state, onSuggestionPress}) => {
             style={styles.suggestionText}
             numberOfLines={1}
             ellipsizeMode={'middle'}>
-            {suggestions[2].word}
+            {suggestions[2].productName}
           </Text>
         </View>
       </TouchableHighlight>

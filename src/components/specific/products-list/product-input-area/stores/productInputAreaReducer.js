@@ -8,6 +8,7 @@ import {
   SET_PREDEFINED_DATA,
   SET_PREDEFINED_STATE,
   SET_PRODUCT_NAME,
+  SET_PRODUCT_SUGGESTIONS,
   SET_QUANTITY,
   SET_UNIT,
   SUBMIT_VALUES,
@@ -40,6 +41,9 @@ function productInputAreaReducer(state, action) {
           },
           selectedCategory: undefined,
           selectedUnit: undefined,
+          // productSuggestions: {
+          //   suggestions: [],
+          // },
         },
       };
     }
@@ -202,9 +206,26 @@ function productInputAreaReducer(state, action) {
             note: '',
             acceptable: false,
           },
+          // productSuggestions: {
+          //   ...state.currentInput.productSuggestions,
+          //   suggestions: [],
+          // },
         },
         // selectedCategory: undefined,
         // selectedUnit: undefined,
+      };
+    }
+
+    case SET_PRODUCT_SUGGESTIONS: {
+      return {
+        ...state,
+        currentInput: {
+          ...state.currentInput,
+          productSuggestions: {
+            ...state.currentInput.productSuggestions,
+            suggestions: [...action.payload.suggestions],
+          },
+        },
       };
     }
 

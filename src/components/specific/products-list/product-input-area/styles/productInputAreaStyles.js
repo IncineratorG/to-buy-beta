@@ -31,6 +31,6 @@ export const productInputAreaStyles = StyleSheet.create({
     bottom: 0,
     // left: 0,
     // right: 0,
-    marginBottom: 30,
+    marginBottom: 35,
   },
 });

@@ -8,9 +8,11 @@ import {
   piaa_setCategory,
   piaa_setPredefinedData,
   piaa_setPredefinedState,
+  piaa_setProductSuggestions,
   piaa_setUnit,
 } from '../stores/productInputAreaActions';
 import {SystemEventsHandler} from '../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {clearProductSuggestionsAction} from '../../../../../store/actions/product-suggestion/productSuggestionActions';
 
 export const useProductInputAreaModel = ({
   onInputAreaHide,
@@ -36,6 +38,11 @@ export const useProductInputAreaModel = ({
   const productSuggestions = useSelector(
     (appState) => appState.productSuggestion.productSuggestions.suggestions,
   );
+
+  useEffect(() => {
+    dispatch(clearProductSuggestionsAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const keyboardHideHandler = () => {
@@ -84,7 +91,9 @@ export const useProductInputAreaModel = ({
   }, [predefinedState, predefinedData]);
 
   useEffect(() => {
-    SystemEventsHandler.onInfo({info: JSON.stringify(productSuggestions)});
+    localDispatch(
+      piaa_setProductSuggestions({suggestions: productSuggestions}),
+    );
   }, [productSuggestions]);
 
   return {

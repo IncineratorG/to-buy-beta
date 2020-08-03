@@ -56,6 +56,8 @@ export const useProductInputAreaController = (model) => {
       return;
     }
 
+    model.dispatch(clearProductSuggestionsAction());
+
     model.externalHandlers.onSubmit({
       productName,
       quantity,
@@ -135,6 +137,12 @@ export const useProductInputAreaController = (model) => {
     model.dispatch(clearProductSuggestionsAction());
   };
 
+  const suggestionPressHandler = ({suggestion}) => {
+    SystemEventsHandler.onInfo({
+      info: 'suggestionPressHandler(): ' + JSON.stringify(suggestion),
+    });
+  };
+
   return {
     productNameTypePressHandler,
     productQuantityTypePressHandler,
@@ -149,5 +157,6 @@ export const useProductInputAreaController = (model) => {
     addUnitPressHandler,
     makeProductsSuggestion,
     clearProductSuggestions,
+    suggestionPressHandler,
   };
 };
