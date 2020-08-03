@@ -7,7 +7,6 @@ export class SLManager {
       SystemEventsHandler.onError({
         err: 'SLManager->runUpdateScripts(): BAD_DB',
       });
-      // console.log('SLManager->runUpdateScripts(): BAD_DB');
       return;
     }
 
@@ -15,7 +14,6 @@ export class SLManager {
       SystemEventsHandler.onError({
         err: 'SLManager->runUpdateScripts(): NOTHING_TO_UPDATE',
       });
-      // console.log('SLManager->runUpdateScripts(): NOTHING_TO_UPDATE');
       return;
     }
 
@@ -29,10 +27,6 @@ export class SLManager {
             'SLManager->runUpdateScripts(): ERROR_EXECUTING_SCRIPT: ' +
             scripts[i],
         });
-        // console.log(
-        //   'SLManager->runUpdateScripts(): ERROR_EXECUTING_SCRIPT: ' +
-        //     scripts[i],
-        // );
         success = false;
       }
     }

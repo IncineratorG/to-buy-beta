@@ -120,9 +120,9 @@ const dbUpgradeData = {
           PRODUCTS_TABLE_COMPLETION_STATUS +
           ' TEXT, ' +
           PRODUCTS_TABLE_CREATE_TIMESTAMP +
-          ' INTEGER NOT_NULL, ' +
+          ' INTEGER NOT NULL, ' +
           PRODUCTS_TABLE_UPDATE_TIMESTAMP +
-          ' INTEGER NOT_NULL)',
+          ' INTEGER NOT NULL)',
       ],
     },
   },

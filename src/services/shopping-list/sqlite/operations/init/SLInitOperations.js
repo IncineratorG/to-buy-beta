@@ -12,10 +12,6 @@ export class SLInitOperations {
     const currentDbVersion = await SLManager.getVersion(db);
     const actualDbVersion = DbUpgradeDataParser.getActualVersion({upgradeData});
 
-    // console.log('|' + currentDbVersion + '|');
-    // console.log('|' + actualDbVersion + '|');
-    // console.log(currentDbVersion + ' - ' + actualDbVersion);
-
     if (currentDbVersion.toString() === actualDbVersion.toString()) {
       SystemEventsHandler.onInfo({
         info: 'SLInitOperations->init(): USING_ACTUAL_VERSION',

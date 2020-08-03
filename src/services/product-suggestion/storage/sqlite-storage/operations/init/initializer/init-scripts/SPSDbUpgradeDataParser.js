@@ -1,6 +1,6 @@
-import {SystemEventsHandler} from '../../../../../../service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../../service-utils/system-events-handler/SystemEventsHandler';
 
-export class DbUpgradeDataParser {
+class SPSDbUpgradeDataParser {
   static getActualVersion({upgradeData}) {
     return upgradeData.actualVersion;
   }
@@ -8,7 +8,7 @@ export class DbUpgradeDataParser {
   static getUpgradeScripts({currentVersion, targetVersion, upgradeData}) {
     if (!targetVersion || !upgradeData) {
       SystemEventsHandler.onError({
-        err: 'DbUpgradeDataParser->getUpgradeScripts(): BAD_INPUT',
+        err: 'SPSDbUpgradeDataParser->getUpgradeScripts(): BAD_INPUT',
       });
       return [];
     }
@@ -21,7 +21,7 @@ export class DbUpgradeDataParser {
     const versionsObj = upgradeData.versions;
     if (!versionsObj) {
       SystemEventsHandler.onError({
-        err: 'DbUpgradeDataParser->getUpgradeScripts(): BAD_VERSIONS_OBJECT',
+        err: 'SPSDbUpgradeDataParser->getUpgradeScripts(): BAD_VERSIONS_OBJECT',
       });
       return [];
     }
@@ -46,7 +46,7 @@ export class DbUpgradeDataParser {
       if (!requiredVersionObject) {
         SystemEventsHandler.onError({
           err:
-            'DbUpgradeDataParser->getUpgradeScripts(): BAD_VERSION_OBJECT_FOR_CODE: ' +
+            'SPSDbUpgradeDataParser->getUpgradeScripts(): BAD_VERSION_OBJECT_FOR_CODE: ' +
             versionCode,
         });
         continue;
@@ -56,7 +56,7 @@ export class DbUpgradeDataParser {
       if (!versionUpgradeScripts) {
         SystemEventsHandler.onError({
           err:
-            'DbUpgradeDataParser->getUpgradeScripts(): BAD_VERSION_UPGRADE_SCRIPT_FOR_CODE: ' +
+            'SPSDbUpgradeDataParser->getUpgradeScripts(): BAD_VERSION_UPGRADE_SCRIPT_FOR_CODE: ' +
             versionCode,
         });
         continue;
@@ -68,3 +68,5 @@ export class DbUpgradeDataParser {
     return upgradeScripts;
   }
 }
+
+export default SPSDbUpgradeDataParser;
