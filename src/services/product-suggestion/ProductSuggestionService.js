@@ -17,7 +17,17 @@ class ProductSuggestionService {
     await ProductSuggestionService.#suggester.init({productsDataArray});
   }
 
-  static async updateProductData({}) {}
+  static async updateProductData({name, productId, unitId, categoryId}) {
+    SystemEventsHandler.onInfo({
+      info:
+        'ProductSuggestionService->updateProductData(): ' +
+        name +
+        ' - ' +
+        unitId +
+        ' - ' +
+        categoryId,
+    });
+  }
 
   static async suggest({partialProductName}) {
     const suggestions = await ProductSuggestionService.#suggester.suggest({
