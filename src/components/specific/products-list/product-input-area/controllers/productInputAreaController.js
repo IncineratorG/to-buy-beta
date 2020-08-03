@@ -11,6 +11,10 @@ import {
   piaa_submitValues,
 } from '../stores/productInputAreaActions';
 import ProductInputType from '../stores/types/productInputAreaProductInputTypes';
+import {
+  clearProductSuggestionsAction,
+  suggestProductsAction,
+} from '../../../../../store/actions/product-suggestion/productSuggestionActions';
 
 export const useProductInputAreaController = (model) => {
   const productNameTypePressHandler = () => {
@@ -123,6 +127,14 @@ export const useProductInputAreaController = (model) => {
     });
   };
 
+  const makeProductsSuggestion = ({partialProductName}) => {
+    model.dispatch(suggestProductsAction({partialProductName}));
+  };
+
+  const clearProductSuggestions = () => {
+    model.dispatch(clearProductSuggestionsAction());
+  };
+
   return {
     productNameTypePressHandler,
     productQuantityTypePressHandler,
@@ -135,5 +147,7 @@ export const useProductInputAreaController = (model) => {
     unitPressHandler,
     unitLongPressHandler,
     addUnitPressHandler,
+    makeProductsSuggestion,
+    clearProductSuggestions,
   };
 };

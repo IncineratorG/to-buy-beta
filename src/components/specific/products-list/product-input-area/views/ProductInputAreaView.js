@@ -30,6 +30,8 @@ const ProductInputAreaView = ({styles, model, controller}) => {
     unitPressHandler,
     unitLongPressHandler,
     addUnitPressHandler,
+    makeProductsSuggestion,
+    clearProductSuggestions,
   } = controller;
 
   const inputOptionsComponent = (
@@ -60,6 +62,7 @@ const ProductInputAreaView = ({styles, model, controller}) => {
         categoriesList={categoriesList}
         onConfirmPress={confirmInputButtonPressHandler}
         onChangeText={changeInputTextHandler}
+        onMakeProductsSuggestion={makeProductsSuggestion}
       />
     </View>
   );

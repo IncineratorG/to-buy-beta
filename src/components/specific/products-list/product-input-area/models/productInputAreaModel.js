@@ -1,4 +1,5 @@
 import {useState, useEffect, useReducer} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {Keyboard} from 'react-native';
 import productInputAreaReducer from '../stores/productInputAreaReducer';
 import productInputAreaState from '../stores/productInputAreaState';
@@ -25,14 +26,20 @@ export const useProductInputAreaModel = ({
   unitsList,
   unitsMap,
 }) => {
-  const [state, dispatch] = useReducer(
+  const [state, localDispatch] = useReducer(
     productInputAreaReducer,
     productInputAreaState,
   );
 
+  const dispatch = useDispatch();
+
+  const productSuggestions = useSelector(
+    (appState) => appState.productSuggestion.productSuggestions.suggestions,
+  );
+
   useEffect(() => {
     const keyboardHideHandler = () => {
-      dispatch(piaa_hideInputArea());
+      localDispatch(piaa_hideInputArea());
 
       if (onInputAreaHide) {
         onInputAreaHide({inputAreaState: state});
@@ -48,13 +55,15 @@ export const useProductInputAreaModel = ({
 
   useEffect(() => {
     if (predefinedState) {
-      dispatch(piaa_setPredefinedState({state: predefinedState}));
+      localDispatch(piaa_setPredefinedState({state: predefinedState}));
     } else if (predefinedData) {
       const {name, quantity, note, unitId, categoryId} = predefinedData;
       const unit = unitsMap.get(unitId);
       const category = categoriesMap.get(categoryId);
 
-      dispatch(piaa_setPredefinedData({name, quantity, note, unit, category}));
+      localDispatch(
+        piaa_setPredefinedData({name, quantity, note, unit, category}),
+      );
     } else {
       let defaultUnit;
       const defaultUnitsList = unitsList.filter((u) => u.default);
@@ -68,11 +77,15 @@ export const useProductInputAreaModel = ({
         defaultCategory = defaultCategoriesList[0];
       }
 
-      dispatch(piaa_setUnit({unit: defaultUnit}));
-      dispatch(piaa_setCategory({category: defaultCategory}));
+      localDispatch(piaa_setUnit({unit: defaultUnit}));
+      localDispatch(piaa_setCategory({category: defaultCategory}));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [predefinedState, predefinedData]);
+
+  useEffect(() => {
+    SystemEventsHandler.onInfo({info: JSON.stringify(productSuggestions)});
+  }, [productSuggestions]);
 
   return {
     data: {
@@ -91,6 +104,7 @@ export const useProductInputAreaModel = ({
       onUnitLongPress,
       onSubmit,
     },
-    localDispatch: dispatch,
+    localDispatch,
+    dispatch,
   };
 };
