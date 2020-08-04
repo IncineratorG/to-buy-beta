@@ -137,10 +137,30 @@ export const useProductInputAreaController = (model) => {
     model.dispatch(clearProductSuggestionsAction());
   };
 
-  const suggestionPressHandler = ({suggestion}) => {
-    SystemEventsHandler.onInfo({
-      info: 'suggestionPressHandler(): ' + JSON.stringify(suggestion),
-    });
+  const productSuggestionPressHandler = ({suggestion}) => {
+    if (!suggestion) {
+      return;
+    }
+
+    const {productName, unitId, categoryId} = suggestion;
+
+    if (productName) {
+      model.localDispatch(piaa_setProductName({name: productName}));
+    }
+    if (unitId) {
+      const unit = model.data.unitsMap.get(unitId);
+      if (unit) {
+        model.localDispatch(piaa_setUnit({unit}));
+      }
+    }
+    if (categoryId) {
+      const category = model.data.categoriesMap.get(categoryId);
+      if (category) {
+        model.localDispatch(piaa_setCategory({category}));
+      }
+    }
+
+    model.dispatch(clearProductSuggestionsAction());
   };
 
   return {
@@ -157,6 +177,6 @@ export const useProductInputAreaController = (model) => {
     addUnitPressHandler,
     makeProductsSuggestion,
     clearProductSuggestions,
-    suggestionPressHandler,
+    productSuggestionPressHandler,
   };
 };

@@ -20,8 +20,6 @@ const initialState = {
 export const productSuggestionReducer = (state = initialState, action) => {
   switch (action.type) {
     case CLEAR_PRODUCTS_SUGGESTIONS: {
-      SystemEventsHandler.onInfo({info: 'CLEAR_PRODUCTS_SUGGESTIONS'});
-
       return {
         ...state,
         productSuggestions: {

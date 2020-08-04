@@ -76,10 +76,14 @@ const ProductSuggestion = ({state, onSuggestionPress}) => {
       </TouchableHighlight>
     ) : null;
 
+  const separatorLineComponent =
+    suggestions.length > 1 ? <View style={styles.separatorLine} /> : null;
+
   return (
     <View style={styles.mainContainer}>
-      {firstSuggestionComponent}
       {secondSuggestionComponent}
+      {separatorLineComponent}
+      {firstSuggestionComponent}
       {thirdSuggestionComponent}
     </View>
   );
@@ -95,18 +99,24 @@ const styles = StyleSheet.create({
   },
   suggestionTouchable: {
     flex: 1,
-    margin: 4,
+    margin: 0,
   },
   suggestion: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.4)',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   suggestionText: {
     fontSize: 14,
     color: 'white',
     marginLeft: 2,
     marginRight: 2,
+  },
+  separatorLine: {
+    width: 1,
+    backgroundColor: 'white',
+    alignSelf: 'stretch',
   },
 });
 
