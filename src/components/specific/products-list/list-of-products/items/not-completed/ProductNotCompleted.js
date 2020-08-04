@@ -27,6 +27,15 @@ const ProductNotCompleted = ({
 }) => {
   const {t} = useTranslation();
 
+  const {confirmationStatus} = product;
+  let awaitConfirmation = false;
+  let confirmed = false;
+
+  if (confirmationStatus) {
+    awaitConfirmation = confirmationStatus.awaitConfirmation;
+    confirmed = confirmationStatus.confirmed;
+  }
+
   const [menuVisible, setMenuVisible] = useState(false);
 
   const categoryDescription = categoriesMap.get(product.categoryId);
@@ -91,6 +100,10 @@ const ProductNotCompleted = ({
 
   const noteComponent =
     product.note.length > 0 ? noteExistComponent : noteNotExistComponent;
+
+  const awaitConfirmationComponent = awaitConfirmation ? (
+    <Image style={styles.statusIcon} source={icons.progress_grey} />
+  ) : null;
 
   const menuComponent = (
     <Menu opened={menuVisible} onBackdropPress={menuPressHandler}>
@@ -160,7 +173,9 @@ const ProductNotCompleted = ({
           style={styles.statusTouchable}
           onPress={statusPressHandler}>
           <View style={styles.statusContainer}>
-            <View style={styles.statusNotFinished} />
+            <View style={styles.statusNotFinished}>
+              {awaitConfirmationComponent}
+            </View>
           </View>
         </TouchableWithoutFeedback>
       </View>

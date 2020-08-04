@@ -53,6 +53,9 @@ const ProductsListScreenMenuButton = ({
   };
 
   const removeBoughtHandler = () => {
+    if (onRemoveBought) {
+      onRemoveBought();
+    }
     setMenuVisible(false);
   };
 

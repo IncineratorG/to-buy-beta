@@ -39,7 +39,12 @@ export const productCompletedStyles = StyleSheet.create({
     elevation: 6,
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 10,
+    marginBottom: 10,
     // marginRight: 10,
+  },
+  awaitConfirmationIcon: {
+    transform: [{scale: 0.5}],
   },
   checmarkIcon: {
     transform: [{scale: 0.7}],
