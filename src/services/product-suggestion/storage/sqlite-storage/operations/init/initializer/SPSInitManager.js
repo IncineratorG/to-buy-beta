@@ -1,20 +1,20 @@
 import {SqlStatementExecutor} from '../../../../../../service-utils/sql-statement-executor/SqlStatementExecutor';
 import {SystemEventsHandler} from '../../../../../../service-utils/system-events-handler/SystemEventsHandler';
 
-export class SPSManager {
+export class SPSInitManager {
   static async runUpgradeScripts({db, scripts}) {
     if (!db) {
       SystemEventsHandler.onError({
-        err: 'SPSManager->runUpdateScripts(): BAD_DB',
+        err: 'SPSInitManager->runUpdateScripts(): BAD_DB',
       });
-      return;
+      return false;
     }
 
     if (!scripts) {
       SystemEventsHandler.onError({
-        err: 'SPSManager->runUpdateScripts(): NOTHING_TO_UPDATE',
+        err: 'SPSInitManager->runUpdateScripts(): NOTHING_TO_UPDATE',
       });
-      return;
+      return false;
     }
 
     let success = true;
@@ -24,7 +24,7 @@ export class SPSManager {
       } catch (e) {
         SystemEventsHandler.onError({
           err:
-            'SPSManager->runUpdateScripts(): ERROR_EXECUTING_SCRIPT: ' +
+            'SPSInitManager->runUpdateScripts(): ERROR_EXECUTING_SCRIPT: ' +
             scripts[i],
         });
         success = false;
@@ -56,4 +56,4 @@ export class SPSManager {
   }
 }
 
-export default SPSManager;
+export default SPSInitManager;

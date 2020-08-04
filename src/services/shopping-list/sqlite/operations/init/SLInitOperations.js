@@ -1,4 +1,4 @@
-import {SLManager} from './initializer/SLManager';
+import {SLInitManager} from './initializer/SLInitManager';
 import dbUpgradeData from './initializer/init-scripts/dbUpgradeData';
 import {DbUpgradeDataParser} from './initializer/init-scripts/DbUpgradeDataParser';
 import {SystemEventsHandler} from '../../../../service-utils/system-events-handler/SystemEventsHandler';
@@ -9,7 +9,7 @@ export class SLInitOperations {
 
     const upgradeData = dbUpgradeData;
 
-    const currentDbVersion = await SLManager.getVersion(db);
+    const currentDbVersion = await SLInitManager.getVersion(db);
     const actualDbVersion = DbUpgradeDataParser.getActualVersion({upgradeData});
 
     if (currentDbVersion.toString() === actualDbVersion.toString()) {
@@ -29,12 +29,12 @@ export class SLInitOperations {
       upgradeData,
     });
 
-    const success = await SLManager.runUpgradeScripts({
+    const success = await SLInitManager.runUpgradeScripts({
       db,
       scripts: upgradeScripts,
     });
     if (success) {
-      await SLManager.setVersion({db, version: actualDbVersion});
+      await SLInitManager.setVersion({db, version: actualDbVersion});
     }
 
     return db;

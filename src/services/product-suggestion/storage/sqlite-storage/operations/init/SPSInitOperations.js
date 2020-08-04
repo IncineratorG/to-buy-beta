@@ -1,5 +1,5 @@
 import spsDbUpgradeData from './initializer/init-scripts/spsDbUpgrageData';
-import SPSManager from './initializer/SPSManager';
+import SPSInitManager from './initializer/SPSInitManager';
 import SPSDbUpgradeDataParser from './initializer/init-scripts/SPSDbUpgradeDataParser';
 import {SystemEventsHandler} from '../../../../../service-utils/system-events-handler/SystemEventsHandler';
 
@@ -9,7 +9,7 @@ class SPSInitOperations {
 
     const upgradeData = spsDbUpgradeData;
 
-    const currentDbVersion = await SPSManager.getVersion(db);
+    const currentDbVersion = await SPSInitManager.getVersion(db);
     const actualDbVersion = SPSDbUpgradeDataParser.getActualVersion({
       upgradeData,
     });
@@ -31,12 +31,12 @@ class SPSInitOperations {
       upgradeData,
     });
 
-    const success = await SPSManager.runUpgradeScripts({
+    const success = await SPSInitManager.runUpgradeScripts({
       db,
       scripts: upgradeScripts,
     });
     if (success) {
-      await SPSManager.setVersion({db, version: actualDbVersion});
+      await SPSInitManager.setVersion({db, version: actualDbVersion});
     }
 
     return db;

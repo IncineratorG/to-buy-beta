@@ -3,15 +3,7 @@ import {SystemEventsHandler} from '../../../../services/service-utils/system-eve
 import Services from '../../../../services/Services';
 
 function* pss_updateProductDataHandler(action) {
-  const {
-    shoppingListId,
-    productId,
-    name,
-    quantity,
-    note,
-    unitId,
-    categoryId,
-  } = action.payload;
+  const {name, unitId, categoryId} = action.payload;
 
   try {
     const productSuggestionService = Services.get(
@@ -20,7 +12,6 @@ function* pss_updateProductDataHandler(action) {
 
     yield call(productSuggestionService.updateProductData, {
       name,
-      productId,
       unitId,
       categoryId,
     });

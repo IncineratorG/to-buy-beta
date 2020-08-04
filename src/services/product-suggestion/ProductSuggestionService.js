@@ -8,33 +8,30 @@ class ProductSuggestionService {
 
   static async init() {
     await ProductSuggestionService.#productsDataStorage.init();
+    const productsData = await ProductSuggestionService.#productsDataStorage.getProductsData();
 
-    const productsDataArray = [
-      {id: 1, productName: 'Hamburger', unitId: 1, categoryId: 1},
-      {id: 2, productName: 'Hamster', unitId: 3, categoryId: 5},
-    ];
-
-    await ProductSuggestionService.#suggester.init({productsDataArray});
+    await ProductSuggestionService.#suggester.init({
+      productsDataArray: productsData,
+    });
   }
 
-  static async updateProductData({name, productId, unitId, categoryId}) {
-    SystemEventsHandler.onInfo({
-      info:
-        'ProductSuggestionService->updateProductData(): ' +
-        name +
-        ' - ' +
-        unitId +
-        ' - ' +
+  static async updateProductData({name, unitId, categoryId}) {
+    const updatedProductData = await ProductSuggestionService.#productsDataStorage.updateProductData(
+      {
+        name,
+        unitId,
         categoryId,
+      },
+    );
+    await ProductSuggestionService.#suggester.updateProductData({
+      productData: updatedProductData,
     });
   }
 
   static async suggest({partialProductName}) {
-    const suggestions = await ProductSuggestionService.#suggester.suggest({
+    return await ProductSuggestionService.#suggester.suggest({
       partialProductName,
     });
-
-    return suggestions;
   }
 }
 
