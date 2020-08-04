@@ -7,7 +7,7 @@ import {ProductsTableOperations} from './operations/products-table/ProductsTable
 import ProductStatus from '../data/product-status/ProductStatus';
 import wait from '../../service-utils/wait/wait';
 
-const DB_NAME = 'tobuy.db';
+const DB_NAME = 'tobuy_shopping_list.db';
 
 const SQlite = require('react-native-sqlite-storage');
 

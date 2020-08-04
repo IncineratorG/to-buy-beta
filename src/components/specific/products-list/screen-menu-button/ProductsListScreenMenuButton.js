@@ -10,9 +10,11 @@ import {
 import {useTranslation} from '../../../../utils/common/localization';
 
 const ProductsListScreenMenuButton = ({
-  onRemoveAll,
+  onRenameList,
   onAllBought,
   onAllNotBought,
+  onRemoveAll,
+  onRemoveBought,
 }) => {
   const {t} = useTranslation();
 
@@ -20,6 +22,13 @@ const ProductsListScreenMenuButton = ({
 
   const menuPressHandler = () => {
     setMenuVisible(!menuVisible);
+  };
+
+  const renameListHandler = () => {
+    if (onRenameList) {
+      onRenameList();
+    }
+    setMenuVisible(false);
   };
 
   const removeAllHandler = () => {
@@ -43,13 +52,17 @@ const ProductsListScreenMenuButton = ({
     setMenuVisible(false);
   };
 
+  const removeBoughtHandler = () => {
+    setMenuVisible(false);
+  };
+
   const menuComponent = (
     <Menu opened={menuVisible} onBackdropPress={menuPressHandler}>
       <MenuTrigger text="" />
       <MenuOptions>
         <MenuOption
-          onSelect={removeAllHandler}
-          text={t('ProductsListScreenMenuButton_menuRemoveAllOption')}
+          onSelect={renameListHandler}
+          text={t('ProductsListScreenMenuButton_menuRenameList')}
         />
         <MenuOption
           onSelect={markAllAsBoughtHandler}
@@ -58,6 +71,14 @@ const ProductsListScreenMenuButton = ({
         <MenuOption
           onSelect={markAllAsNotBoughtHandler}
           text={t('ProductsListScreenMenuButton_markAllAsNotOption')}
+        />
+        <MenuOption
+          onSelect={removeBoughtHandler}
+          text={t('ProductsListScreenMenuButton_menuRemoveBoughtOption')}
+        />
+        <MenuOption
+          onSelect={removeAllHandler}
+          text={t('ProductsListScreenMenuButton_menuRemoveAllOption')}
         />
       </MenuOptions>
     </Menu>

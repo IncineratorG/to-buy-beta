@@ -17,6 +17,7 @@ const ProductMainInput = ({
   categoriesList,
   onConfirmPress,
   onChangeText,
+  onMakeProductsSuggestion,
 }) => {
   const {
     keyboardType,
@@ -77,6 +78,10 @@ const ProductMainInput = ({
   const changeTextHandler = (text) => {
     if (onChangeText) {
       onChangeText({text, inputType: type});
+    }
+
+    if (type === ProductInputType.PRODUCT_NAME) {
+      onMakeProductsSuggestion({partialProductName: text});
     }
   };
 

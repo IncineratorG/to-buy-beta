@@ -7,7 +7,10 @@ import {
   removeProductAction,
   updateProductAction,
 } from '../../../store/actions/products-list/productsListActions';
-import {updateShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
+import {
+  renameShoppingListAction,
+  updateShoppingListsAction,
+} from '../../../store/actions/shopping-lists/shoppingListsActions';
 import {
   pla_addSelectedCategoryId,
   pla_closeAddCategoryDialog,
@@ -319,8 +322,8 @@ export const useProductsListController = (model) => {
     model.setters.setSharePanelVisible(false);
   };
 
-  const screenMenuRemoveAllPressHandler = () => {
-    SystemEventsHandler.onInfo({info: 'screenMenuRemoveAllPressHandler()'});
+  const screenMenuRenameListPressHandler = () => {
+    model.setters.setRenameListDialogVisible(true);
   };
 
   const screenMenuMarkAllAsBoughtPressHandler = () => {
@@ -333,6 +336,33 @@ export const useProductsListController = (model) => {
     SystemEventsHandler.onInfo({
       info: 'screenMenuMarkAllAsNotBoughtPressHandler()',
     });
+  };
+
+  const screenMenuRemoveBoughtPressHandler = () => {
+    SystemEventsHandler.onInfo({info: 'screenMenuRemoveBoughtPressHandler()'});
+  };
+
+  const screenMenuRemoveAllPressHandler = () => {
+    SystemEventsHandler.onInfo({info: 'screenMenuRemoveAllPressHandler()'});
+  };
+
+  const renameListDialogTouchOutsideHandler = () => {
+    model.setters.setRenameListDialogVisible(false);
+  };
+
+  const renameListDialogCancelPressHandler = () => {
+    model.setters.setRenameListDialogVisible(false);
+  };
+
+  const renameListDialogRenamePressHandler = ({listId, oldName, newName}) => {
+    if (!newName || oldName === newName) {
+      model.setters.setRenameListDialogVisible(false);
+      return;
+    }
+
+    model.dispatch(renameShoppingListAction({id: listId, newName}));
+
+    model.setters.setRenameListDialogVisible(false);
   };
 
   return {
@@ -369,8 +399,13 @@ export const useProductsListController = (model) => {
     shareButtonPressHandler,
     smsSharePressHandler,
     whatsAppSharePressHandler,
-    screenMenuRemoveAllPressHandler,
+    screenMenuRenameListPressHandler,
     screenMenuMarkAllAsBoughtPressHandler,
     screenMenuMarkAllAsNotBoughtPressHandler,
+    screenMenuRemoveBoughtPressHandler,
+    screenMenuRemoveAllPressHandler,
+    renameListDialogTouchOutsideHandler,
+    renameListDialogCancelPressHandler,
+    renameListDialogRenamePressHandler,
   };
 };

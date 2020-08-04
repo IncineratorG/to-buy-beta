@@ -10,7 +10,6 @@ export class DbUpgradeDataParser {
       SystemEventsHandler.onError({
         err: 'DbUpgradeDataParser->getUpgradeScripts(): BAD_INPUT',
       });
-      // console.log('DbUpgradeDataParser->getUpgradeScripts(): BAD_INPUT');
       return [];
     }
 
@@ -24,9 +23,6 @@ export class DbUpgradeDataParser {
       SystemEventsHandler.onError({
         err: 'DbUpgradeDataParser->getUpgradeScripts(): BAD_VERSIONS_OBJECT',
       });
-      // console.log(
-      //   'DbUpgradeDataParser->getUpgradeScripts(): BAD_VERSIONS_OBJECT',
-      // );
       return [];
     }
 
@@ -53,10 +49,6 @@ export class DbUpgradeDataParser {
             'DbUpgradeDataParser->getUpgradeScripts(): BAD_VERSION_OBJECT_FOR_CODE: ' +
             versionCode,
         });
-        // console.log(
-        //   'DbUpgradeDataParser->getUpgradeScripts(): BAD_VERSION_OBJECT_FOR_CODE: ' +
-        //     versionCode,
-        // );
         continue;
       }
 
@@ -67,10 +59,6 @@ export class DbUpgradeDataParser {
             'DbUpgradeDataParser->getUpgradeScripts(): BAD_VERSION_UPGRADE_SCRIPT_FOR_CODE: ' +
             versionCode,
         });
-        // console.log(
-        //   'DbUpgradeDataParser->getUpgradeScripts(): BAD_VERSION_UPGRADE_SCRIPT_FOR_CODE: ' +
-        //     versionCode,
-        // );
         continue;
       }
 

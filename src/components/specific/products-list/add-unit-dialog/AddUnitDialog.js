@@ -92,6 +92,7 @@ const AddUnitDialog = ({
         <View style={styles.unitNameContainer}>
           <TextInput
             value={unitName}
+            autoCapitalize={'none'}
             blurOnSubmit={false}
             placeholder={t('AddUnitDialog_placeholder')}
             fontSize={18}

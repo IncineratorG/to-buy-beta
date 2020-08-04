@@ -102,7 +102,9 @@ export const ru = {
   ProductNotCompleted_menuEditOption: 'Редактировать',
   ProductNotCompleted_menuRemoveOption: 'Удалить',
 
-  ProductsListScreenMenuButton_menuRemoveAllOption: 'Удалить всё',
+  ProductsListScreenMenuButton_menuRenameList: 'Переименовать',
   ProductsListScreenMenuButton_markAllAsBoughtOption: 'Всё куплено',
   ProductsListScreenMenuButton_markAllAsNotOption: 'Всё не куплено',
+  ProductsListScreenMenuButton_menuRemoveBoughtOption: 'Удалить купленное',
+  ProductsListScreenMenuButton_menuRemoveAllOption: 'Удалить всё',
 };

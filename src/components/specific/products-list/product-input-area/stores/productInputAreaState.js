@@ -15,6 +15,9 @@ const productInputAreaState = {
     },
     selectedCategory: undefined,
     selectedUnit: undefined,
+    productSuggestions: {
+      suggestions: [],
+    },
   },
 };
 

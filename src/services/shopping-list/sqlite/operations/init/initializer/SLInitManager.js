@@ -1,21 +1,19 @@
 import {SqlStatementExecutor} from '../../../../../service-utils/sql-statement-executor/SqlStatementExecutor';
 import {SystemEventsHandler} from '../../../../../service-utils/system-events-handler/SystemEventsHandler';
 
-export class SLManager {
+export class SLInitManager {
   static async runUpgradeScripts({db, scripts}) {
     if (!db) {
       SystemEventsHandler.onError({
-        err: 'SLManager->runUpdateScripts(): BAD_DB',
+        err: 'SLInitManager->runUpdateScripts(): BAD_DB',
       });
-      // console.log('SLManager->runUpdateScripts(): BAD_DB');
       return;
     }
 
     if (!scripts) {
       SystemEventsHandler.onError({
-        err: 'SLManager->runUpdateScripts(): NOTHING_TO_UPDATE',
+        err: 'SLInitManager->runUpdateScripts(): NOTHING_TO_UPDATE',
       });
-      // console.log('SLManager->runUpdateScripts(): NOTHING_TO_UPDATE');
       return;
     }
 
@@ -26,13 +24,9 @@ export class SLManager {
       } catch (e) {
         SystemEventsHandler.onError({
           err:
-            'SLManager->runUpdateScripts(): ERROR_EXECUTING_SCRIPT: ' +
+            'SLInitManager->runUpdateScripts(): ERROR_EXECUTING_SCRIPT: ' +
             scripts[i],
         });
-        // console.log(
-        //   'SLManager->runUpdateScripts(): ERROR_EXECUTING_SCRIPT: ' +
-        //     scripts[i],
-        // );
         success = false;
       }
     }
@@ -64,12 +58,12 @@ export class SLManager {
 
 // static async executeStatement({db, statement}) {
 //   if (!db) {
-//     console.log('SLManager->executeStatement(): BAD_DB');
+//     console.log('SLInitManager->executeStatement(): BAD_DB');
 //     return;
 //   }
 //
 //   if (!statement) {
-//     console.log('SLManager->executeStatement(): BAD_STATEMENT');
+//     console.log('SLInitManager->executeStatement(): BAD_STATEMENT');
 //     return;
 //   }
 //

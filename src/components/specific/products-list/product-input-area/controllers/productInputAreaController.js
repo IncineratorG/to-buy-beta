@@ -11,6 +11,10 @@ import {
   piaa_submitValues,
 } from '../stores/productInputAreaActions';
 import ProductInputType from '../stores/types/productInputAreaProductInputTypes';
+import {
+  clearProductSuggestionsAction,
+  suggestProductsAction,
+} from '../../../../../store/actions/product-suggestion/productSuggestionActions';
 
 export const useProductInputAreaController = (model) => {
   const productNameTypePressHandler = () => {
@@ -51,6 +55,8 @@ export const useProductInputAreaController = (model) => {
 
       return;
     }
+
+    model.dispatch(clearProductSuggestionsAction());
 
     model.externalHandlers.onSubmit({
       productName,
@@ -123,6 +129,40 @@ export const useProductInputAreaController = (model) => {
     });
   };
 
+  const makeProductsSuggestion = ({partialProductName}) => {
+    model.dispatch(suggestProductsAction({partialProductName}));
+  };
+
+  const clearProductSuggestions = () => {
+    model.dispatch(clearProductSuggestionsAction());
+  };
+
+  const productSuggestionPressHandler = ({suggestion}) => {
+    if (!suggestion) {
+      return;
+    }
+
+    const {productName, unitId, categoryId} = suggestion;
+
+    if (productName) {
+      model.localDispatch(piaa_setProductName({name: productName}));
+    }
+    if (unitId) {
+      const unit = model.data.unitsMap.get(unitId);
+      if (unit) {
+        model.localDispatch(piaa_setUnit({unit}));
+      }
+    }
+    if (categoryId) {
+      const category = model.data.categoriesMap.get(categoryId);
+      if (category) {
+        model.localDispatch(piaa_setCategory({category}));
+      }
+    }
+
+    model.dispatch(clearProductSuggestionsAction());
+  };
+
   return {
     productNameTypePressHandler,
     productQuantityTypePressHandler,
@@ -135,5 +175,8 @@ export const useProductInputAreaController = (model) => {
     unitPressHandler,
     unitLongPressHandler,
     addUnitPressHandler,
+    makeProductsSuggestion,
+    clearProductSuggestions,
+    productSuggestionPressHandler,
   };
 };

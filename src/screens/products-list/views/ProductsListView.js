@@ -15,6 +15,7 @@ import EditUnitDialog from '../../../components/specific/products-list/edit-unit
 import {ConfirmDialog} from 'react-native-simple-dialogs';
 import ShareButton from '../../../components/specific/products-list/share-button/ShareButton';
 import SharePanel from '../../../components/specific/products-list/share-panel/SharePanel';
+import RenameShoppingListDialog from '../../../components/specific/shopping-lists/rename-shopping-list-dialog/RenameShoppingListDialog';
 
 const ProductsListView = ({styles, model, controller}) => {
   const {t} = model;
@@ -22,9 +23,12 @@ const ProductsListView = ({styles, model, controller}) => {
   const {
     state,
     shoppingListId,
+    listName,
     products,
     unitsList,
     unitsMap,
+    allUnitsList,
+    allUnitsMap,
     categoriesList,
     categoriesMap,
     allCategoriesList,
@@ -33,6 +37,7 @@ const ProductsListView = ({styles, model, controller}) => {
     sharePanelVisible,
     smsShareSupported,
     whatsAppShareSupported,
+    renameListDialogVisible,
   } = model.data;
 
   const {
@@ -92,9 +97,23 @@ const ProductsListView = ({styles, model, controller}) => {
     shareButtonPressHandler,
     smsSharePressHandler,
     whatsAppSharePressHandler,
+    renameListDialogTouchOutsideHandler,
+    renameListDialogCancelPressHandler,
+    renameListDialogRenamePressHandler,
   } = controller;
 
   // ===
+  const renameListDialogComponent = renameListDialogVisible ? (
+    <RenameShoppingListDialog
+      visible={renameListDialogVisible}
+      listId={shoppingListId}
+      listName={listName}
+      onTouchOutside={renameListDialogTouchOutsideHandler}
+      onCancelButton={renameListDialogCancelPressHandler}
+      onRenameButton={renameListDialogRenamePressHandler}
+    />
+  ) : null;
+
   const removeProductConfirmationDialogComponent = (
     <ConfirmDialog
       title={t('ProductsList_removeProductConfirmationDialogTitle')}
@@ -198,8 +217,8 @@ const ProductsListView = ({styles, model, controller}) => {
         onProductPress={productPressHandler}
         onStatusPress={statusPressHandler}
         onRemovePress={productRemoveHandler}
-        unitsMap={unitsMap}
-        categoriesMap={categoriesMap}
+        unitsMap={allUnitsMap}
+        categoriesMap={allCategoriesMap}
         selectedCategoriesIds={selectedCategoriesIds}
       />
     </View>
@@ -287,6 +306,7 @@ const ProductsListView = ({styles, model, controller}) => {
       {addUnitDialogComponent}
       {editUnitDialogComponent}
       {removeProductConfirmationDialogComponent}
+      {renameListDialogComponent}
     </View>
   );
 

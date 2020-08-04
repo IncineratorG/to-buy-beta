@@ -48,7 +48,8 @@ const ShoppingListsView = ({styles, model, controller}) => {
   const renameDialogComponent = (
     <RenameShoppingListDialog
       visible={renameDialogVisible}
-      shoppingList={listToRename}
+      listId={listToRename ? listToRename.id : null}
+      listName={listToRename ? listToRename.name : null}
       onTouchOutside={renameDialogTouchOutsideHandler}
       onCancelButton={renameDialogCancelPressHandler}
       onRenameButton={renameDialogRenamePressHandler}
