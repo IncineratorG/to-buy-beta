@@ -4,6 +4,7 @@ import {
   addProductAction,
   changeProductStatusAction,
   clearProductsListCachedData,
+  removeAllProductsAction,
   removeProductAction,
   updateProductAction,
 } from '../../../store/actions/products-list/productsListActions';
@@ -343,7 +344,7 @@ export const useProductsListController = (model) => {
   };
 
   const screenMenuRemoveAllPressHandler = () => {
-    SystemEventsHandler.onInfo({info: 'screenMenuRemoveAllPressHandler()'});
+    model.setters.setRemoveAllProductsDialogVisible(true);
   };
 
   const renameListDialogTouchOutsideHandler = () => {
@@ -363,6 +364,21 @@ export const useProductsListController = (model) => {
     model.dispatch(renameShoppingListAction({id: listId, newName}));
 
     model.setters.setRenameListDialogVisible(false);
+  };
+
+  const removeAllProductsDialogTouchOutsideHandler = () => {
+    model.setters.setRemoveAllProductsDialogVisible(false);
+  };
+
+  const removeAllProductsDialogRemoveButtonHandler = () => {
+    model.setters.setRemoveAllProductsDialogVisible(false);
+    model.dispatch(
+      removeAllProductsAction({shoppingListId: model.data.shoppingListId}),
+    );
+  };
+
+  const removeAllProductsDialogCancelButtonHandler = () => {
+    model.setters.setRemoveAllProductsDialogVisible(false);
   };
 
   return {
@@ -407,5 +423,8 @@ export const useProductsListController = (model) => {
     renameListDialogTouchOutsideHandler,
     renameListDialogCancelPressHandler,
     renameListDialogRenamePressHandler,
+    removeAllProductsDialogTouchOutsideHandler,
+    removeAllProductsDialogRemoveButtonHandler,
+    removeAllProductsDialogCancelButtonHandler,
   };
 };

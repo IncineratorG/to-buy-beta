@@ -19,6 +19,10 @@ import {
   REMOVE_PRODUCT_REMOVED,
   REMOVE_PRODUCT_CONFIRMED,
   REMOVE_PRODUCT_ERROR,
+  REMOVE_ALL_PRODUCTS_BEGIN,
+  REMOVE_ALL_PRODUCTS_REMOVED,
+  REMOVE_ALL_PRODUCTS_CONFIRMED,
+  REMOVE_ALL_PRODUCTS_ERROR,
 } from '../../types/products-list/productsListTypes';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import productsComparator from './helpers/productsComparator';
@@ -574,6 +578,93 @@ export const productsListReducer = (state = initialState, action) => {
         productsList: {
           ...state.productsList,
           name: shoppingList.name,
+        },
+      };
+    }
+
+    case REMOVE_ALL_PRODUCTS_BEGIN: {
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      const products = state.productsList.products.map((product) => {
+        return {
+          ...product,
+          confirmationStatus: {
+            awaitConfirmation: true,
+            confirmed: false,
+          },
+        };
+      });
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          updating: true,
+          updatingError: {
+            hasError: false,
+            description: '',
+          },
+          products,
+        },
+      };
+    }
+
+    case REMOVE_ALL_PRODUCTS_REMOVED: {
+      return {...state};
+    }
+
+    case REMOVE_ALL_PRODUCTS_CONFIRMED: {
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      const confirmed = action.payload.confirmed;
+      let products = [];
+      if (!confirmed) {
+        products = state.productsList.products.map((product) => {
+          return {
+            ...product,
+            confirmationStatus: {
+              awaitConfirmation: false,
+              confirmed: false,
+            },
+          };
+        });
+      }
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          updating: false,
+          updatingError: {
+            hasError: false,
+            description: '',
+          },
+          products,
+        },
+      };
+    }
+
+    case REMOVE_ALL_PRODUCTS_ERROR: {
+      SystemEventsHandler.onInfo({
+        info: 'productsListReducer->REMOVE_ALL_PRODUCTS_ERROR',
+      });
+
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      return {
+        ...state,
+        productsList: {
+          updating: false,
+          updatingError: {
+            hasError: true,
+            description: action.payload.error.description,
+          },
         },
       };
     }

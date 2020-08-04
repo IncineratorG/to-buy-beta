@@ -205,4 +205,34 @@ export class ShoppingListService {
       onError,
     });
   }
+
+  static async removeAllShoppingListProducts({shoppingListId}) {
+    const onRemoved = ({shoppingListId}) => {
+      ShoppingListService.#notifier.notify({
+        event: ShoppingListServiceEvents.ALL_SHOPPING_LIST_PRODUCTS_REMOVED,
+        data: {shoppingListId},
+      });
+    };
+    const onConfirmed = ({shoppingListId, confirmed}) => {
+      ShoppingListService.#notifier.notify({
+        event:
+          ShoppingListServiceEvents.ALL_SHOPPING_LIST_PRODUCTS_REMOVE_CONFIRMED,
+        data: {shoppingListId, confirmed},
+      });
+    };
+    const onError = ({error}) => {
+      SystemEventsHandler.onError({
+        err:
+          'ShoppingListService->removeAllShoppingListProducts()->ERROR: ' +
+          error,
+      });
+    };
+
+    await SLSqliteService.removeAllShoppingListProducts({
+      shoppingListId,
+      onRemoved,
+      onConfirmed,
+      onError,
+    });
+  }
 }

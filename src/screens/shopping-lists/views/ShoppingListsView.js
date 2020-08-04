@@ -70,7 +70,7 @@ const ShoppingListsView = ({styles, model, controller}) => {
 
   const removeConfirmationDialogComponent = (
     <ConfirmDialog
-      title={t('ShoppingLists_removeConfirmationDialogTitle')}
+      // title={t('ShoppingLists_removeConfirmationDialogTitle')}
       message={
         t('ShoppingLists_removeConfirmationDialogMessage') +
         ' ' +

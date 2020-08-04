@@ -24,6 +24,11 @@ import {
   REMOVE_PRODUCT_REMOVED,
   REMOVE_PRODUCT_CONFIRMED,
   REMOVE_PRODUCT_ERROR,
+  REMOVE_ALL_PRODUCTS,
+  REMOVE_ALL_PRODUCTS_BEGIN,
+  REMOVE_ALL_PRODUCTS_REMOVED,
+  REMOVE_ALL_PRODUCTS_CONFIRMED,
+  REMOVE_ALL_PRODUCTS_ERROR,
 } from '../../types/products-list/productsListTypes';
 
 export const loadProductsListAction = ({shoppingListId}) => {
@@ -301,5 +306,43 @@ export const removeProductErrorAction = ({
   return {
     type: REMOVE_PRODUCT_ERROR,
     payload: {shoppingListId, productId, error: {description}},
+  };
+};
+
+export const removeAllProductsAction = ({shoppingListId}) => {
+  return {
+    type: REMOVE_ALL_PRODUCTS,
+    payload: {shoppingListId},
+  };
+};
+
+export const removeAllProductsBeginAction = ({shoppingListId}) => {
+  return {
+    type: REMOVE_ALL_PRODUCTS_BEGIN,
+    payload: {shoppingListId},
+  };
+};
+
+export const removeAllProductsRemovedAction = ({shoppingListId}) => {
+  return {
+    type: REMOVE_ALL_PRODUCTS_REMOVED,
+    payload: {shoppingListId},
+  };
+};
+
+export const removeAllProductsConfirmedAction = ({
+  shoppingListId,
+  confirmed,
+}) => {
+  return {
+    type: REMOVE_ALL_PRODUCTS_CONFIRMED,
+    payload: {shoppingListId, confirmed},
+  };
+};
+
+export const removeAllProductsErrorAction = ({shoppingListId, description}) => {
+  return {
+    type: REMOVE_ALL_PRODUCTS_ERROR,
+    payload: {shoppingListId, error: {description}},
   };
 };

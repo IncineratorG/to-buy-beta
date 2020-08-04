@@ -528,4 +528,60 @@ export class SLSqliteService {
 
     return true;
   }
+
+  static async removeAllShoppingListProducts({
+    shoppingListId,
+    onRemoved,
+    onConfirmed,
+    onError,
+  }) {
+    const {
+      hasError: hasRemovedError,
+    } = await ProductsTableOperations.removeProductsWithShoppingListId({
+      db: this.#db,
+      id: shoppingListId,
+    });
+
+    if (hasRemovedError) {
+      if (onError) {
+        onError({
+          error:
+            'SLSqliteService->removeAllShoppingListProducts()->REMOVE_ALL_SHOPPING_LIST_PRODUCTS_ERROR',
+        });
+      }
+      return false;
+    }
+
+    if (onRemoved) {
+      onRemoved({shoppingListId});
+    }
+
+    const totalProductsCount = 0;
+    const completedProductsCount = 0;
+
+    const {
+      hasError: updateShoppingListError,
+    } = await ShoppingListsTableOperations.updateShoppingListProductsCount({
+      db: this.#db,
+      id: shoppingListId,
+      totalProductsCount,
+      completedProductsCount,
+    });
+
+    if (updateShoppingListError) {
+      if (onError) {
+        onError({
+          error:
+            'SLSqliteService->removeAllShoppingListProducts()->UPDATE_SHOPPING_LIST_ERROR',
+        });
+      }
+      return false;
+    }
+
+    if (onConfirmed) {
+      onConfirmed({shoppingListId, confirmed: true});
+    }
+
+    return true;
+  }
 }

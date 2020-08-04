@@ -7,6 +7,8 @@ import {
   addProductCreatedAction,
   changeProductStatusChangedAction,
   changeProductStatusConfirmedAction,
+  removeAllProductsConfirmedAction,
+  removeAllProductsRemovedAction,
   removeProductConfirmedAction,
   removeProductRemovedAction,
   updateProductConfirmedAction,
@@ -68,6 +70,16 @@ function createProductEventsChannel() {
       );
     };
 
+    const removeAllShoppingListProductsHandler = ({shoppingListId}) => {
+      emit(removeAllProductsRemovedAction({shoppingListId}));
+    };
+    const confirmRemoveAllShoppingListProductsHandler = ({
+      shoppingListId,
+      confirmed,
+    }) => {
+      emit(removeAllProductsConfirmedAction({shoppingListId, confirmed}));
+    };
+
     const shoppingListService = Services.get(
       Services.serviceTypes.SHOPPING_LIST,
     );
@@ -108,6 +120,20 @@ function createProductEventsChannel() {
       handler: confirmRemoveProductHandler,
     });
 
+    const removeAllShoppingListProductsUnsubscribe = shoppingListService.subscribe(
+      {
+        event: ShoppingListServiceEvents.ALL_SHOPPING_LIST_PRODUCTS_REMOVED,
+        handler: removeAllShoppingListProductsHandler,
+      },
+    );
+    const removeAllShoppingListProductsConfirmedUnsubscribe = shoppingListService.subscribe(
+      {
+        event:
+          ShoppingListServiceEvents.ALL_SHOPPING_LIST_PRODUCTS_REMOVE_CONFIRMED,
+        handler: confirmRemoveAllShoppingListProductsHandler,
+      },
+    );
+
     return () => {
       createUnsubscribe();
       createConfirmUnsubscribe();
@@ -117,6 +143,8 @@ function createProductEventsChannel() {
       changeStatusConfirmUnsubscribe();
       removeUnsubscribe();
       removeConfirmUnsubscribe();
+      removeAllShoppingListProductsUnsubscribe();
+      removeAllShoppingListProductsConfirmedUnsubscribe();
     };
   });
 }

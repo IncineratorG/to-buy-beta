@@ -21,6 +21,10 @@ export const useProductsListModel = () => {
   const [shareButtonVisible, setShareButtonVisible] = useState(false);
   const [sharePanelVisible, setSharePanelVisible] = useState(false);
   const [renameListDialogVisible, setRenameListDialogVisible] = useState(false);
+  const [
+    removeAllProductsDialogVisible,
+    setRemoveAllProductsDialogVisible,
+  ] = useState(false);
 
   const navigation = useNavigation();
 
@@ -203,11 +207,13 @@ export const useProductsListModel = () => {
       smsShareSupported,
       whatsAppShareSupported,
       renameListDialogVisible,
+      removeAllProductsDialogVisible,
     },
     setters: {
       setShareButtonVisible,
       setSharePanelVisible,
       setRenameListDialogVisible,
+      setRemoveAllProductsDialogVisible,
     },
     navigation,
     dispatch,

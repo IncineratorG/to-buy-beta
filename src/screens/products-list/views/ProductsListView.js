@@ -38,6 +38,7 @@ const ProductsListView = ({styles, model, controller}) => {
     smsShareSupported,
     whatsAppShareSupported,
     renameListDialogVisible,
+    removeAllProductsDialogVisible,
   } = model.data;
 
   const {
@@ -100,6 +101,9 @@ const ProductsListView = ({styles, model, controller}) => {
     renameListDialogTouchOutsideHandler,
     renameListDialogCancelPressHandler,
     renameListDialogRenamePressHandler,
+    removeAllProductsDialogTouchOutsideHandler,
+    removeAllProductsDialogRemoveButtonHandler,
+    removeAllProductsDialogCancelButtonHandler,
   } = controller;
 
   // ===
@@ -114,9 +118,32 @@ const ProductsListView = ({styles, model, controller}) => {
     />
   ) : null;
 
+  const removeAllProductsConfirmationDialogComponent = (
+    <ConfirmDialog
+      // title={t('ProductsList_removeAllProductsConfirmationDialogTitle')}
+      message={t('ProductsList_removeAllProductsConfirmationDialogMessage')}
+      visible={removeAllProductsDialogVisible}
+      onTouchOutside={removeAllProductsDialogTouchOutsideHandler}
+      positiveButton={{
+        title: t(
+          'ProductsList_removeAllProductsConfirmationDialogPositiveButton',
+        ),
+        titleStyle: {color: 'red'},
+        onPress: removeAllProductsDialogRemoveButtonHandler,
+      }}
+      negativeButton={{
+        title: t(
+          'ProductsList_removeAllProductsConfirmationDialogNegativeButton',
+        ),
+        titleStyle: {color: 'grey'},
+        onPress: removeAllProductsDialogCancelButtonHandler,
+      }}
+    />
+  );
+
   const removeProductConfirmationDialogComponent = (
     <ConfirmDialog
-      title={t('ProductsList_removeProductConfirmationDialogTitle')}
+      // title={t('ProductsList_removeProductConfirmationDialogTitle')}
       message={
         t('ProductsList_removeProductConfirmationDialogMessage') +
         ' ' +
@@ -306,6 +333,7 @@ const ProductsListView = ({styles, model, controller}) => {
       {addUnitDialogComponent}
       {editUnitDialogComponent}
       {removeProductConfirmationDialogComponent}
+      {removeAllProductsConfirmationDialogComponent}
       {renameListDialogComponent}
     </View>
   );

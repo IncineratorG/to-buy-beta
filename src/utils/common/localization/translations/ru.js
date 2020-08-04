@@ -86,6 +86,13 @@ export const ru = {
   ProductsList_removeProductConfirmationDialogPositiveButton: 'Удалить',
   ProductsList_removeProductConfirmationDialogNegativeButton: 'Нет',
 
+  ProductsList_removeAllProductsConfirmationDialogTitle:
+    'Удаление всех продуктов из списка',
+  ProductsList_removeAllProductsConfirmationDialogMessage:
+    'Удалить все продукты из списка?',
+  ProductsList_removeAllProductsConfirmationDialogPositiveButton: 'Удалить',
+  ProductsList_removeAllProductsConfirmationDialogNegativeButton: 'Нет',
+
   ProductsListModel_allCategory: 'Все',
   ProductsListModel_completedCategory: 'Купленные',
   ProductsListModel_notCompletedCategory: 'Не купленные',
