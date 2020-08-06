@@ -15,7 +15,11 @@ import {
   OPEN_REMOVE_PRODUCT_DIALOG,
   REMOVE_SELECTED_CATEGORY_ID,
   SET_DATA_LOADING,
+  SET_REMOVE_ALL_PRODUCTS_DIALOG_VISIBILITY,
+  SET_RENAME_LIST_DIALOG_VISIBILITY,
   SET_SELECTED_CATEGORY_ID,
+  SET_SHARE_BUTTON_VISIBILITY,
+  SET_SHARE_PANEL_VISIBILITY,
   SET_USED_CATEGORIES,
 } from './types/productListActionTypes';
 import ProductInitialCategories from '../../../components/specific/products-list/product-initial-categories/ProductInitialCategories';
@@ -271,6 +275,42 @@ function productListReducer(state, action) {
         usedCategories: {
           ...state.usedCategories,
           usedCategoriesList: [...action.payload.categories],
+        },
+      };
+    }
+
+    case SET_SHARE_BUTTON_VISIBILITY: {
+      return {
+        ...state,
+        shareButton: {
+          shareButtonVisible: action.payload.visible,
+        },
+      };
+    }
+
+    case SET_SHARE_PANEL_VISIBILITY: {
+      return {
+        ...state,
+        sharePanel: {
+          sharePanelVisible: action.payload.visible,
+        },
+      };
+    }
+
+    case SET_RENAME_LIST_DIALOG_VISIBILITY: {
+      return {
+        ...state,
+        renameListDialog: {
+          renameListDialogVisible: action.payload.visible,
+        },
+      };
+    }
+
+    case SET_REMOVE_ALL_PRODUCTS_DIALOG_VISIBILITY: {
+      return {
+        ...state,
+        removeAllProductsDialog: {
+          removeAllProductsDialogVisible: action.payload.visible,
         },
       };
     }

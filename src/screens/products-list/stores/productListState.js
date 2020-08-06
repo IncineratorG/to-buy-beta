@@ -36,6 +36,18 @@ const productListState = {
     editUnit: null,
     canRemoveUnit: false,
   },
+  shareButton: {
+    shareButtonVisible: false,
+  },
+  sharePanel: {
+    sharePanelVisible: false,
+  },
+  renameListDialog: {
+    renameListDialogVisible: false,
+  },
+  removeAllProductsDialog: {
+    removeAllProductsDialogVisible: false,
+  },
 };
 
 export default productListState;

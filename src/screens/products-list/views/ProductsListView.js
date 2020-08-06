@@ -33,12 +33,8 @@ const ProductsListView = ({styles, model, controller}) => {
     categoriesMap,
     allCategoriesList,
     allCategoriesMap,
-    shareButtonVisible,
-    sharePanelVisible,
     smsShareSupported,
     whatsAppShareSupported,
-    renameListDialogVisible,
-    removeAllProductsDialogVisible,
   } = model.data;
 
   const {
@@ -50,6 +46,10 @@ const ProductsListView = ({styles, model, controller}) => {
     addUnitDialog,
     editUnitDialog,
     removeProductDialog,
+    shareButton,
+    sharePanel,
+    renameListDialog,
+    removeAllProductsDialog,
   } = state;
 
   const {
@@ -68,6 +68,10 @@ const ProductsListView = ({styles, model, controller}) => {
   const {addUnitDialogVisible} = addUnitDialog;
   const {editUnitDialogVisible, editUnit, canRemoveUnit} = editUnitDialog;
   const {removeProductDialogVisible, removeProduct} = removeProductDialog;
+  const {shareButtonVisible} = shareButton;
+  const {sharePanelVisible} = sharePanel;
+  const {renameListDialogVisible} = renameListDialog;
+  const {removeAllProductsDialogVisible} = removeAllProductsDialog;
 
   const {
     addProductButtonHandler,

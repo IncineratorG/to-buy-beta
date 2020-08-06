@@ -28,7 +28,10 @@ import {
   pla_openProductInputAreaInEditMode,
   pla_openRemoveProductDialog,
   pla_removeSelectedCategoryId,
+  pla_setRemoveAllProductsDialogVisibility,
+  pla_setRenameListDialogVisibility,
   pla_setSelectedCategoryId,
+  pla_setSharePanelVisibility,
 } from '../stores/productListActions';
 import {
   addCategoryAction,
@@ -56,16 +59,17 @@ export const useProductsListController = (model) => {
     return true;
   };
 
-  const addProductButtonHandler = () => {
-    model.setters.setSharePanelVisible(false);
+  const addProductButtonHandler = useCallback(() => {
+    model.localDispatch(pla_setSharePanelVisibility({visible: false}));
     model.localDispatch(pla_openProductInputAreaInCreateMode());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const inputAreaHideHandler = ({inputAreaState}) => {
-    SystemEventsHandler.onInfo({info: 'inputAreaHideHandler()'});
-    model.setters.setSharePanelVisible(false);
+  const inputAreaHideHandler = useCallback(({inputAreaState}) => {
+    model.localDispatch(pla_setSharePanelVisibility({visible: false}));
     model.localDispatch(pla_hideProductInputArea());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const inputAreaSubmitValuesHandler = ({
     productName,
@@ -109,7 +113,8 @@ export const useProductsListController = (model) => {
   };
 
   const productPressHandler = useCallback((product) => {
-    model.setters.setSharePanelVisible(false);
+    // model.setters.setSharePanelVisible(false);
+    model.localDispatch(pla_setSharePanelVisibility({visible: false}));
 
     const {
       parentListId: shoppingListId,
@@ -136,7 +141,8 @@ export const useProductsListController = (model) => {
   }, []);
 
   const statusPressHandler = useCallback((product) => {
-    model.setters.setSharePanelVisible(false);
+    // model.setters.setSharePanelVisible(false);
+    model.localDispatch(pla_setSharePanelVisibility({visible: false}));
 
     const newStatus =
       product.completionStatus === ProductStatus.COMPLETED
@@ -164,13 +170,14 @@ export const useProductsListController = (model) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const categoryPressHandler = ({category, selected}) => {
-    model.setters.setSharePanelVisible(false);
+  const categoryPressHandler = useCallback(({category, selected}) => {
+    model.localDispatch(pla_setSharePanelVisibility({visible: false}));
 
     if (!selected) {
       model.localDispatch(pla_setSelectedCategoryId({id: category.id}));
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const shadedBackgroundPressHandler = useCallback(() => {
     model.localDispatch(pla_hideProductInputArea());
@@ -351,7 +358,11 @@ export const useProductsListController = (model) => {
 
   const shareButtonPressHandler = () => {
     if (model.data.smsShareSupported && model.data.whatsAppShareSupported) {
-      model.setters.setSharePanelVisible(!model.data.sharePanelVisible);
+      model.localDispatch(
+        pla_setSharePanelVisibility({
+          visible: !model.data.state.sharePanel.sharePanelVisible,
+        }),
+      );
     } else if (model.data.whatsAppShareSupported) {
       model.dispatch(
         shareProductsListViaWhatsAppAction({id: model.data.shoppingListId}),
@@ -363,25 +374,28 @@ export const useProductsListController = (model) => {
     }
   };
 
-  const smsSharePressHandler = async () => {
+  const smsSharePressHandler = useCallback(() => {
     model.dispatch(
       shareProductsListViaSmsAction({id: model.data.shoppingListId}),
     );
 
-    model.setters.setSharePanelVisible(false);
-  };
+    model.localDispatch(pla_setSharePanelVisibility({visible: false}));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const whatsAppSharePressHandler = async () => {
+  const whatsAppSharePressHandler = useCallback(() => {
     model.dispatch(
       shareProductsListViaWhatsAppAction({id: model.data.shoppingListId}),
     );
 
-    model.setters.setSharePanelVisible(false);
-  };
+    model.localDispatch(pla_setSharePanelVisibility({visible: false}));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const screenMenuRenameListPressHandler = () => {
-    model.setters.setRenameListDialogVisible(true);
-  };
+  const screenMenuRenameListPressHandler = useCallback(() => {
+    model.localDispatch(pla_setRenameListDialogVisibility({visible: true}));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const screenMenuMarkAllAsBoughtPressHandler = () => {
     SystemEventsHandler.onInfo({
@@ -399,43 +413,62 @@ export const useProductsListController = (model) => {
     SystemEventsHandler.onInfo({info: 'screenMenuRemoveBoughtPressHandler()'});
   };
 
-  const screenMenuRemoveAllPressHandler = () => {
-    model.setters.setRemoveAllProductsDialogVisible(true);
-  };
+  const screenMenuRemoveAllPressHandler = useCallback(() => {
+    model.localDispatch(
+      pla_setRemoveAllProductsDialogVisibility({visible: true}),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const renameListDialogTouchOutsideHandler = () => {
-    model.setters.setRenameListDialogVisible(false);
-  };
+  const renameListDialogTouchOutsideHandler = useCallback(() => {
+    model.localDispatch(pla_setRenameListDialogVisibility({visible: false}));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const renameListDialogCancelPressHandler = () => {
-    model.setters.setRenameListDialogVisible(false);
-  };
+  const renameListDialogCancelPressHandler = useCallback(() => {
+    model.localDispatch(pla_setRenameListDialogVisibility({visible: false}));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const renameListDialogRenamePressHandler = ({listId, oldName, newName}) => {
-    if (!newName || oldName === newName) {
-      model.setters.setRenameListDialogVisible(false);
-      return;
-    }
+  const renameListDialogRenamePressHandler = useCallback(
+    ({listId, oldName, newName}) => {
+      if (!newName || oldName === newName) {
+        model.localDispatch(
+          pla_setRenameListDialogVisibility({visible: false}),
+        );
+        return;
+      }
 
-    model.dispatch(renameShoppingListAction({id: listId, newName}));
+      model.dispatch(renameShoppingListAction({id: listId, newName}));
 
-    model.setters.setRenameListDialogVisible(false);
-  };
+      model.localDispatch(pla_setRenameListDialogVisibility({visible: false}));
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
-  const removeAllProductsDialogTouchOutsideHandler = () => {
-    model.setters.setRemoveAllProductsDialogVisible(false);
-  };
+  const removeAllProductsDialogTouchOutsideHandler = useCallback(() => {
+    model.localDispatch(
+      pla_setRemoveAllProductsDialogVisibility({visible: false}),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const removeAllProductsDialogRemoveButtonHandler = () => {
-    model.setters.setRemoveAllProductsDialogVisible(false);
+    model.localDispatch(
+      pla_setRemoveAllProductsDialogVisibility({visible: false}),
+    );
     model.dispatch(
       removeAllProductsAction({shoppingListId: model.data.shoppingListId}),
     );
   };
 
-  const removeAllProductsDialogCancelButtonHandler = () => {
-    model.setters.setRemoveAllProductsDialogVisible(false);
-  };
+  const removeAllProductsDialogCancelButtonHandler = useCallback(() => {
+    model.localDispatch(
+      pla_setRemoveAllProductsDialogVisibility({visible: false}),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     backButtonPressHandler,

@@ -6,6 +6,7 @@ import productListReducer from '../stores/produtcListReducer';
 import productListState from '../stores/productListState';
 import {
   pla_setDataLoading,
+  pla_setShareButtonVisibility,
   pla_setUsedCategories,
 } from '../stores/productListActions';
 import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
@@ -17,14 +18,6 @@ export const useProductsListModel = () => {
     productListReducer,
     productListState,
   );
-
-  const [shareButtonVisible, setShareButtonVisible] = useState(false);
-  const [sharePanelVisible, setSharePanelVisible] = useState(false);
-  const [renameListDialogVisible, setRenameListDialogVisible] = useState(false);
-  const [
-    removeAllProductsDialogVisible,
-    setRemoveAllProductsDialogVisible,
-  ] = useState(false);
 
   const navigation = useNavigation();
 
@@ -180,9 +173,9 @@ export const useProductsListModel = () => {
     localDispatch(pla_setUsedCategories({categories: usedCategoriesList}));
 
     if (hasNotCompletedProducts) {
-      setShareButtonVisible(true);
+      localDispatch(pla_setShareButtonVisibility({visible: true}));
     } else {
-      setShareButtonVisible(false);
+      localDispatch(pla_setShareButtonVisibility({visible: false}));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoriesLoading, listLoading, products, allCategoriesMap]);
@@ -202,19 +195,10 @@ export const useProductsListModel = () => {
       categoriesMap,
       allCategoriesList,
       allCategoriesMap,
-      shareButtonVisible,
-      sharePanelVisible,
       smsShareSupported,
       whatsAppShareSupported,
-      renameListDialogVisible,
-      removeAllProductsDialogVisible,
     },
-    setters: {
-      setShareButtonVisible,
-      setSharePanelVisible,
-      setRenameListDialogVisible,
-      setRemoveAllProductsDialogVisible,
-    },
+    setters: {},
     navigation,
     dispatch,
     localDispatch,

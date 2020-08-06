@@ -15,7 +15,11 @@ import {
   OPEN_REMOVE_PRODUCT_DIALOG,
   REMOVE_SELECTED_CATEGORY_ID,
   SET_DATA_LOADING,
+  SET_REMOVE_ALL_PRODUCTS_DIALOG_VISIBILITY,
+  SET_RENAME_LIST_DIALOG_VISIBILITY,
   SET_SELECTED_CATEGORY_ID,
+  SET_SHARE_BUTTON_VISIBILITY,
+  SET_SHARE_PANEL_VISIBILITY,
   SET_USED_CATEGORIES,
 } from './types/productListActionTypes';
 
@@ -174,5 +178,33 @@ export const pla_removeSelectedCategoryId = ({id}) => {
   return {
     type: REMOVE_SELECTED_CATEGORY_ID,
     payload: {id},
+  };
+};
+
+export const pla_setShareButtonVisibility = ({visible}) => {
+  return {
+    type: SET_SHARE_BUTTON_VISIBILITY,
+    payload: {visible},
+  };
+};
+
+export const pla_setSharePanelVisibility = ({visible}) => {
+  return {
+    type: SET_SHARE_PANEL_VISIBILITY,
+    payload: {visible},
+  };
+};
+
+export const pla_setRenameListDialogVisibility = ({visible}) => {
+  return {
+    type: SET_RENAME_LIST_DIALOG_VISIBILITY,
+    payload: {visible},
+  };
+};
+
+export const pla_setRemoveAllProductsDialogVisibility = ({visible}) => {
+  return {
+    type: SET_REMOVE_ALL_PRODUCTS_DIALOG_VISIBILITY,
+    payload: {visible},
   };
 };
