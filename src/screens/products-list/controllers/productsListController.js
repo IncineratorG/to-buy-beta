@@ -172,114 +172,172 @@ export const useProductsListController = (model) => {
     }
   };
 
-  const shadedBackgroundPressHandler = () => {
+  const shadedBackgroundPressHandler = useCallback(() => {
     model.localDispatch(pla_hideProductInputArea());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const inputAreaAddCategoryPressHandler = ({productInputState}) => {
-    model.localDispatch(
-      pla_openAddCategoryDialog({productInputAreaState: productInputState}),
-    );
-  };
+  const inputAreaAddCategoryPressHandler = useCallback(
+    ({productInputState}) => {
+      model.localDispatch(
+        pla_openAddCategoryDialog({productInputAreaState: productInputState}),
+      );
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
-  const addCategoryDialogTouchOutsideHandler = () => {
+  const addCategoryDialogTouchOutsideHandler = useCallback(() => {
     model.localDispatch(pla_closeAddCategoryDialog());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const addCategoryDialogAddButtonHandler = ({name, color}) => {
+  const addCategoryDialogAddButtonHandler = useCallback(({name, color}) => {
     model.dispatch(addCategoryAction({name, color}));
     model.localDispatch(pla_closeAddCategoryDialog());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const addCategoryDialogCancelButtonHandler = () => {
+  const addCategoryDialogCancelButtonHandler = useCallback(() => {
     model.localDispatch(pla_closeAddCategoryDialog());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const inputAreaCategoryLongPressHandler = ({category, productInputState}) => {
-    if (!category.editable) {
-      return;
-    }
+  const inputAreaCategoryLongPressHandler = useCallback(
+    ({category, productInputState}) => {
+      if (!category.editable) {
+        return;
+      }
 
-    model.localDispatch(
-      pla_openEditCategoryDialog({
-        productInputAreaState: productInputState,
-        category,
-      }),
-    );
-  };
+      let canRemoveCategory = true;
 
-  const editCategoryDialogTouchOutsideHandler = () => {
+      const {currentInput} = productInputState;
+      if (currentInput) {
+        const {selectedCategory} = currentInput;
+        if (selectedCategory && selectedCategory.id === category.id) {
+          canRemoveCategory = false;
+        }
+      }
+
+      model.localDispatch(
+        pla_openEditCategoryDialog({
+          productInputAreaState: productInputState,
+          category,
+          canRemove: canRemoveCategory,
+        }),
+      );
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
+  const editCategoryDialogTouchOutsideHandler = useCallback(() => {
     model.localDispatch(pla_closeEditCategoryDialog());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const editCategoryDialogSaveButtonHandler = ({id, name, color}) => {
-    model.dispatch(updateCategoryAction({id, name, color}));
-    model.localDispatch(pla_closeEditCategoryDialog());
-  };
+  const editCategoryDialogSaveButtonHandler = useCallback(
+    ({id, name, color}) => {
+      model.dispatch(updateCategoryAction({id, name, color}));
+      model.localDispatch(pla_closeEditCategoryDialog());
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
-  const editCategoryDialogRemoveButtonHandler = ({id}) => {
+  const editCategoryDialogRemoveButtonHandler = useCallback(({id}) => {
     model.dispatch(removeCategoryAction({id}));
     model.localDispatch(pla_closeEditCategoryDialog());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const editCategoryDialogCancelButtonHandler = () => {
+  const editCategoryDialogCancelButtonHandler = useCallback(() => {
     model.localDispatch(pla_closeEditCategoryDialog());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const inputAreaAddUnitPressHandler = ({productInputState}) => {
+  const inputAreaAddUnitPressHandler = useCallback(({productInputState}) => {
     model.localDispatch(
       pla_openAddUnitDialog({productInputAreaState: productInputState}),
     );
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const addUnitDialogTouchOutsideHandler = () => {
+  const addUnitDialogTouchOutsideHandler = useCallback(() => {
     model.localDispatch(pla_closeAddUnitDialog());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const addUnitDialogCancelButtonHandler = () => {
+  const addUnitDialogCancelButtonHandler = useCallback(() => {
     model.localDispatch(pla_closeAddUnitDialog());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const addUnitDialogAddButtonHandler = ({name}) => {
+  const addUnitDialogAddButtonHandler = useCallback(({name}) => {
     model.dispatch(addUnitAction({name}));
     model.localDispatch(pla_closeAddUnitDialog());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const inputAreaUnitLongPressHandler = ({unit, productInputState}) => {
-    if (!unit.editable) {
-      return;
-    }
+  const inputAreaUnitLongPressHandler = useCallback(
+    ({unit, productInputState}) => {
+      if (!unit.editable) {
+        return;
+      }
 
-    model.localDispatch(
-      pla_openEditUnitDialog({productInputAreaState: productInputState, unit}),
-    );
-  };
+      let canRemoveUnit = true;
 
-  const editUnitDialogTouchOutsideHandler = () => {
+      const {currentInput} = productInputState;
+      if (currentInput) {
+        const {selectedUnit} = currentInput;
+        if (selectedUnit && selectedUnit.id === unit.id) {
+          canRemoveUnit = false;
+        }
+      }
+
+      model.localDispatch(
+        pla_openEditUnitDialog({
+          productInputAreaState: productInputState,
+          unit,
+          canRemove: canRemoveUnit,
+        }),
+      );
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
+  const editUnitDialogTouchOutsideHandler = useCallback(() => {
     model.localDispatch(pla_closeEditUnitDialog());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const editUnitDialogCancelButtonHandler = () => {
+  const editUnitDialogCancelButtonHandler = useCallback(() => {
     model.localDispatch(pla_closeEditUnitDialog());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const editUnitDialogSaveButtonHandler = ({id, name}) => {
+  const editUnitDialogSaveButtonHandler = useCallback(({id, name}) => {
     model.dispatch(updateUnitAction({id, name}));
     model.localDispatch(pla_closeEditUnitDialog());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const editUnitDialogRemoveButtonHandler = ({id}) => {
+  const editUnitDialogRemoveButtonHandler = useCallback(({id}) => {
     model.dispatch(removeUnitAction({id}));
     model.localDispatch(pla_closeEditUnitDialog());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const removeProductDialogTouchOutsideHandler = () => {
+  const removeProductDialogTouchOutsideHandler = useCallback(() => {
     model.localDispatch(pla_closeRemoveProductDialog());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const removeProductDialogCancelButtonHandler = () => {
+  const removeProductDialogCancelButtonHandler = useCallback(() => {
     model.localDispatch(pla_closeRemoveProductDialog());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const removeProductDialogRemoveButtonHandler = () => {
     const shoppingListId =
@@ -292,8 +350,6 @@ export const useProductsListController = (model) => {
   };
 
   const shareButtonPressHandler = () => {
-    // model.setters.setSharePanelVisible(!model.data.sharePanelVisible);
-
     if (model.data.smsShareSupported && model.data.whatsAppShareSupported) {
       model.setters.setSharePanelVisible(!model.data.sharePanelVisible);
     } else if (model.data.whatsAppShareSupported) {

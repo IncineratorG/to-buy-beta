@@ -25,9 +25,14 @@ export const useProductInputAreaModel = ({
   predefinedState,
   categoriesList,
   categoriesMap,
+  allCategoriesMap,
   unitsList,
   unitsMap,
+  allUnitsMap,
 }) => {
+  const [extendedUnitsList, setExtendedUnitsList] = useState(null);
+  const [extendedCategoriesList, setExtendedCategoriesList] = useState(null);
+
   const [state, localDispatch] = useReducer(
     productInputAreaReducer,
     productInputAreaState,
@@ -62,11 +67,51 @@ export const useProductInputAreaModel = ({
 
   useEffect(() => {
     if (predefinedState) {
+      const {currentInput} = predefinedState;
+      if (currentInput) {
+        const {selectedUnit, selectedCategory} = currentInput;
+        if (selectedUnit) {
+          if (!unitsMap.has(selectedUnit.id)) {
+            const customUnitsList = [...unitsList];
+            customUnitsList.unshift(selectedUnit);
+            setExtendedUnitsList(customUnitsList);
+          } else {
+            setExtendedUnitsList(null);
+          }
+        }
+        if (selectedCategory) {
+          if (!categoriesMap.has(selectedCategory.id)) {
+            const customCategoriesList = [...categoriesList];
+            customCategoriesList.unshift(selectedCategory);
+            setExtendedCategoriesList(customCategoriesList);
+          } else {
+            setExtendedCategoriesList(null);
+          }
+        }
+      }
+
       localDispatch(piaa_setPredefinedState({state: predefinedState}));
     } else if (predefinedData) {
       const {name, quantity, note, unitId, categoryId} = predefinedData;
-      const unit = unitsMap.get(unitId);
-      const category = categoriesMap.get(categoryId);
+      let unit = unitsMap.get(unitId);
+      let category = categoriesMap.get(categoryId);
+
+      if (!unit) {
+        unit = allUnitsMap.get(unitId);
+        const customUnitsList = [...unitsList];
+        customUnitsList.unshift(unit);
+        setExtendedUnitsList(customUnitsList);
+      } else {
+        setExtendedUnitsList(null);
+      }
+      if (!category) {
+        category = allCategoriesMap.get(categoryId);
+        const customCategoriesList = [...categoriesList];
+        customCategoriesList.unshift(category);
+        setExtendedCategoriesList(customCategoriesList);
+      } else {
+        setExtendedCategoriesList(null);
+      }
 
       localDispatch(
         piaa_setPredefinedData({name, quantity, note, unit, category}),
@@ -96,13 +141,35 @@ export const useProductInputAreaModel = ({
     );
   }, [productSuggestions]);
 
+  useEffect(() => {
+    if (extendedCategoriesList) {
+      const extraCategory = extendedCategoriesList[0];
+      const customCategoriesList = [...categoriesList];
+      customCategoriesList.unshift(extraCategory);
+      setExtendedCategoriesList(customCategoriesList);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoriesList]);
+
+  useEffect(() => {
+    if (extendedUnitsList) {
+      const extraUnit = extendedUnitsList[0];
+      const customUnitsList = [...unitsList];
+      customUnitsList.unshift(extraUnit);
+      setExtendedUnitsList(customUnitsList);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [unitsList]);
+
   return {
     data: {
       state,
       categoriesList,
       categoriesMap,
+      extendedCategoriesList,
       unitsList,
       unitsMap,
+      extendedUnitsList,
     },
     setters: {},
     externalHandlers: {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import ProductInputType from '../../stores/types/productInputAreaProductInputTypes';
 import CategoriesOption from './categories/CategoriesOption';

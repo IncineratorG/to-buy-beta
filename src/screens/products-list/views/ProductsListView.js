@@ -60,9 +60,13 @@ const ProductsListView = ({styles, model, controller}) => {
 
   const {inputAreaVisible, inputAreaState, editData} = inputArea;
   const {addCategoryDialogVisible} = addCategoryDialog;
-  const {editCategoryDialogVisible, editCategory} = editCategoryDialog;
+  const {
+    editCategoryDialogVisible,
+    editCategory,
+    canRemoveCategory,
+  } = editCategoryDialog;
   const {addUnitDialogVisible} = addUnitDialog;
-  const {editUnitDialogVisible, editUnit} = editUnitDialog;
+  const {editUnitDialogVisible, editUnit, canRemoveUnit} = editUnitDialog;
   const {removeProductDialogVisible, removeProduct} = removeProductDialog;
 
   const {
@@ -178,6 +182,7 @@ const ProductsListView = ({styles, model, controller}) => {
     <EditUnitDialog
       visible={editUnitDialogVisible}
       unit={editUnit}
+      canRemove={canRemoveUnit}
       onTouchOutside={editUnitDialogTouchOutsideHandler}
       onSavePress={editUnitDialogSaveButtonHandler}
       onRemovePress={editUnitDialogRemoveButtonHandler}
@@ -198,6 +203,7 @@ const ProductsListView = ({styles, model, controller}) => {
     <EditCategoryDialog
       visible={editCategoryDialogVisible}
       category={editCategory}
+      canRemove={canRemoveCategory}
       onTouchOutside={editCategoryDialogTouchOutsideHandler}
       onSavePress={editCategoryDialogSaveButtonHandler}
       onRemovePress={editCategoryDialogRemoveButtonHandler}
@@ -302,8 +308,10 @@ const ProductsListView = ({styles, model, controller}) => {
         predefinedState={inputAreaState}
         categoriesList={categoriesList}
         categoriesMap={categoriesMap}
+        allCategoriesMap={allCategoriesMap}
         unitsList={unitsList}
         unitsMap={unitsMap}
+        allUnitsMap={allUnitsMap}
       />
     </View>
   ) : null;

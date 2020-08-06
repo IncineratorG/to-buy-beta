@@ -29,10 +29,18 @@ const ProductCompleted = ({
     : '';
 
   const statusPressHandler = () => {
+    if (awaitConfirmation) {
+      return;
+    }
+
     onStatusPress(product);
   };
 
   const productLongPressHandler = () => {
+    if (awaitConfirmation) {
+      return;
+    }
+
     if (onProductLongPress) {
       onProductLongPress(product);
     }

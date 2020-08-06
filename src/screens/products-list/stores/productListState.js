@@ -26,6 +26,7 @@ const productListState = {
   editCategoryDialog: {
     editCategoryDialogVisible: false,
     editCategory: null,
+    canRemoveCategory: false,
   },
   addUnitDialog: {
     addUnitDialogVisible: false,
@@ -33,6 +34,7 @@ const productListState = {
   editUnitDialog: {
     editUnitDialogVisible: false,
     editUnit: null,
+    canRemoveUnit: false,
   },
 };
 

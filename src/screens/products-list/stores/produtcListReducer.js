@@ -103,6 +103,7 @@ function productListReducer(state, action) {
         editCategoryDialog: {
           editCategoryDialogVisible: true,
           editCategory: action.payload.category,
+          canRemoveCategory: action.payload.canRemove,
         },
       };
     }
@@ -158,6 +159,7 @@ function productListReducer(state, action) {
         editUnitDialog: {
           editUnitDialogVisible: true,
           editUnit: action.payload.unit,
+          canRemoveUnit: action.payload.canRemove,
         },
       };
     }

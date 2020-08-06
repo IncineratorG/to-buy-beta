@@ -12,6 +12,7 @@ import {useTranslation} from '../../../../utils/common/localization';
 const EditUnitDialog = ({
   visible,
   unit,
+  canRemove,
   onTouchOutside,
   onSavePress,
   onRemovePress,
@@ -58,6 +59,21 @@ const EditUnitDialog = ({
     setUnitName(initialUnitName);
   }, [unit]);
 
+  const removeButtonComponent = canRemove ? (
+    <View style={styles.removeButtonWrapper}>
+      <TouchableNativeFeedback
+        style={styles.removeButtonTouchable}
+        underlayColor={'lightgrey'}
+        onPress={removeButtonHandler}>
+        <View style={styles.removeButtonContainer}>
+          <Text style={styles.removeButtonText}>
+            {t('EditUnitDialog_removeButton')}
+          </Text>
+        </View>
+      </TouchableNativeFeedback>
+    </View>
+  ) : null;
+
   const buttons = (
     <View style={styles.buttonsContainer}>
       <TouchableNativeFeedback
@@ -85,18 +101,7 @@ const EditUnitDialog = ({
           </Text>
         </View>
       </TouchableNativeFeedback>
-      <View style={styles.removeButtonWrapper}>
-        <TouchableNativeFeedback
-          style={styles.removeButtonTouchable}
-          underlayColor={'lightgrey'}
-          onPress={removeButtonHandler}>
-          <View style={styles.removeButtonContainer}>
-            <Text style={styles.removeButtonText}>
-              {t('EditUnitDialog_removeButton')}
-            </Text>
-          </View>
-        </TouchableNativeFeedback>
-      </View>
+      {removeButtonComponent}
     </View>
   );
 

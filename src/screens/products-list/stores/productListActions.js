@@ -80,12 +80,14 @@ export const pla_closeAddCategoryDialog = () => {
 export const pla_openEditCategoryDialog = ({
   productInputAreaState,
   category,
+  canRemove,
 }) => {
   return {
     type: OPEN_EDIT_CATEGORY_DIALOG,
     payload: {
       productInputAreaState,
       category,
+      canRemove,
     },
   };
 };
@@ -111,10 +113,14 @@ export const pla_closeAddUnitDialog = () => {
   };
 };
 
-export const pla_openEditUnitDialog = ({productInputAreaState, unit}) => {
+export const pla_openEditUnitDialog = ({
+  productInputAreaState,
+  unit,
+  canRemove,
+}) => {
   return {
     type: OPEN_EDIT_UNIT_DIALOG,
-    payload: {productInputAreaState, unit},
+    payload: {productInputAreaState, unit, canRemove},
   };
 };
 

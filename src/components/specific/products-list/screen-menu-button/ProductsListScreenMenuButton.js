@@ -59,6 +59,8 @@ const ProductsListScreenMenuButton = ({
     setMenuVisible(false);
   };
 
+  const noActionsHandler = () => {};
+
   const menuComponent = (
     <Menu opened={menuVisible} onBackdropPress={menuPressHandler}>
       <MenuTrigger text="" />
@@ -67,6 +69,7 @@ const ProductsListScreenMenuButton = ({
           onSelect={renameListHandler}
           text={t('ProductsListScreenMenuButton_menuRenameList')}
         />
+        <MenuOption onSelect={noActionsHandler} text={''} />
         <MenuOption
           onSelect={markAllAsBoughtHandler}
           text={t('ProductsListScreenMenuButton_markAllAsBoughtOption')}
@@ -75,6 +78,7 @@ const ProductsListScreenMenuButton = ({
           onSelect={markAllAsNotBoughtHandler}
           text={t('ProductsListScreenMenuButton_markAllAsNotOption')}
         />
+        <MenuOption onSelect={noActionsHandler} text={''} />
         <MenuOption
           onSelect={removeBoughtHandler}
           text={t('ProductsListScreenMenuButton_menuRemoveBoughtOption')}
