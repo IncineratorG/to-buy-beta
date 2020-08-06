@@ -140,7 +140,6 @@ export const useProductsListController = (model) => {
   }, []);
 
   const statusPressHandler = useCallback((product) => {
-    // model.setters.setSharePanelVisible(false);
     model.localDispatch(pla_setSharePanelVisibility({visible: false}));
 
     const newStatus =

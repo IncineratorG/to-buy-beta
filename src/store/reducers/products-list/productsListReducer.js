@@ -351,30 +351,12 @@ export const productsListReducer = (state = initialState, action) => {
         return state;
       }
 
-      return {
-        ...state,
-        productsList: {
-          ...state.productsList,
-          updating: true,
-          updatingError: {
-            hasError: false,
-            description: '',
-          },
-        },
-      };
-    }
-
-    case CHANGE_PRODUCT_STATUS_CHANGED: {
-      if (action.payload.shoppingListId !== state.productsList.id) {
-        return state;
-      }
-
-      const updatedProduct = action.payload.product;
+      const updatedProductId = action.payload.productId;
 
       const products = state.productsList.products.map((product) => {
-        if (product.id === updatedProduct.id) {
+        if (product.id === updatedProductId) {
           return {
-            ...updatedProduct,
+            ...product,
             confirmationStatus: {
               awaitConfirmation: true,
               confirmed: false,
@@ -398,28 +380,43 @@ export const productsListReducer = (state = initialState, action) => {
       };
     }
 
+    case CHANGE_PRODUCT_STATUS_CHANGED: {
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          updating: true,
+          updatingError: {
+            hasError: false,
+            description: '',
+          },
+        },
+      };
+    }
+
     case CHANGE_PRODUCT_STATUS_CONFIRMED: {
       if (action.payload.shoppingListId !== state.productsList.id) {
         return state;
       }
 
-      const productId = action.payload.product.id;
       const confirmed = action.payload.confirmed;
 
-      const products = state.productsList.products
-        .map((product) => {
-          if (product.id === productId) {
-            return {
-              ...product,
-              confirmationStatus: {
-                awaitConfirmation: false,
-                confirmed,
-              },
-            };
-          }
-          return product;
-        })
-        .sort(productsComparator);
+      const products = state.productsList.products.map((product) => {
+        if (product.id === action.payload.product.id) {
+          return {
+            ...action.payload.product,
+            confirmationStatus: {
+              awaitConfirmation: false,
+              confirmed,
+            },
+          };
+        }
+        return product;
+      });
 
       return {
         ...state,
@@ -494,26 +491,6 @@ export const productsListReducer = (state = initialState, action) => {
       if (action.payload.shoppingListId !== state.productsList.id) {
         return state;
       }
-
-      // const updatedProductsArray = action.payload.productsArray;
-      //
-      // const updatedProductsMap = new Map();
-      // updatedProductsArray.forEach((product) => {
-      //   updatedProductsMap.set(product.id, product);
-      // });
-      //
-      // const products = state.productsList.products.map((product) => {
-      //   if (updatedProductsMap.has(product.id)) {
-      //     return {
-      //       ...updatedProductsMap.get(product.id),
-      //       confirmationStatus: {
-      //         awaitConfirmation: true,
-      //         confirmed: false,
-      //       },
-      //     };
-      //   }
-      //   return product;
-      // });
 
       return {
         ...state,
