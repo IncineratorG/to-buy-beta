@@ -1,3 +1,4 @@
+import {useCallback} from 'react';
 import {SystemEventsHandler} from '../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import {
   piaa_selectProductNameType,
@@ -17,20 +18,23 @@ import {
 } from '../../../../../store/actions/product-suggestion/productSuggestionActions';
 
 export const useProductInputAreaController = (model) => {
-  const productNameTypePressHandler = () => {
+  const productNameTypePressHandler = useCallback(() => {
     SystemEventsHandler.onInfo({info: 'productNameTypePressHandler()'});
     model.localDispatch(piaa_selectProductNameType());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const productQuantityTypePressHandler = () => {
+  const productQuantityTypePressHandler = useCallback(() => {
     SystemEventsHandler.onInfo({info: 'productQuantityTypePressHandler()'});
     model.localDispatch(piaa_selectProductQuantityType());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const productNoteTypePressHandler = () => {
+  const productNoteTypePressHandler = useCallback(() => {
     SystemEventsHandler.onInfo({info: 'productNoteTypePressHandler()'});
     model.localDispatch(piaa_selectProductNoteType());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const confirmInputButtonPressHandler = ({
     productName,
@@ -68,7 +72,7 @@ export const useProductInputAreaController = (model) => {
     model.localDispatch(piaa_submitValues());
   };
 
-  const changeInputTextHandler = ({text, inputType}) => {
+  const changeInputTextHandler = useCallback(({text, inputType}) => {
     switch (inputType) {
       case ProductInputType.PRODUCT_NAME: {
         model.localDispatch(piaa_setProductName({name: text}));
@@ -93,11 +97,13 @@ export const useProductInputAreaController = (model) => {
         });
       }
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const categoryPressHandler = ({category}) => {
+  const categoryPressHandler = useCallback(({category}) => {
     model.localDispatch(piaa_setCategory({category}));
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const categoryLongPressHandler = ({category}) => {
     model.externalHandlers.onCategoryLongPress({
@@ -112,9 +118,10 @@ export const useProductInputAreaController = (model) => {
     });
   };
 
-  const unitPressHandler = ({unit}) => {
+  const unitPressHandler = useCallback(({unit}) => {
     model.localDispatch(piaa_setUnit({unit}));
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const unitLongPressHandler = ({unit}) => {
     model.externalHandlers.onUnitLongPress({
@@ -129,13 +136,15 @@ export const useProductInputAreaController = (model) => {
     });
   };
 
-  const makeProductsSuggestion = ({partialProductName}) => {
+  const makeProductsSuggestion = useCallback(({partialProductName}) => {
     model.dispatch(suggestProductsAction({partialProductName}));
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const clearProductSuggestions = () => {
+  const clearProductSuggestions = useCallback(() => {
     model.dispatch(clearProductSuggestionsAction());
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const productSuggestionPressHandler = ({suggestion}) => {
     if (!suggestion) {

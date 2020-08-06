@@ -6,10 +6,12 @@ export class SystemEventsHandler {
   }
 
   static onInfo({info}) {
-    if (info === 'RENDERED') {
-      console.log(info + ' ' + ++this.#counter);
-    } else {
-      console.log(info);
-    }
+    console.log(info);
+
+    // if (info === 'RENDERED') {
+    //   console.log(info + ' ' + ++this.#counter);
+    // } else {
+    //   console.log(info);
+    // }
   }
 }

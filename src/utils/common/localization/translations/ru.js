@@ -112,6 +112,12 @@ export const ru = {
   ProductsListScreenMenuButton_menuRenameList: 'Переименовать',
   ProductsListScreenMenuButton_markAllAsBoughtOption: 'Всё куплено',
   ProductsListScreenMenuButton_markAllAsNotOption: 'Всё не куплено',
-  ProductsListScreenMenuButton_menuRemoveBoughtOption: 'Удалить купленное',
+  ProductsListScreenMenuButton_markCurrentCategoryAsBoughtOption:
+    'Категория куплена',
+  ProductsListScreenMenuButton_markCurrentCategoryAsNotBoughtOption:
+    'Категория не куплена',
+  ProductsListScreenMenuButton_menuRemoveBoughtOption: 'Удалить всё купленное',
+  ProductsListScreenMenuButton_menuRemoveCurrentCategoryOption:
+    'Удалить категорию',
   ProductsListScreenMenuButton_menuRemoveAllOption: 'Удалить всё',
 };

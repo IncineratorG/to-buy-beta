@@ -13,7 +13,6 @@ import {
   updateShoppingListsAction,
 } from '../../../store/actions/shopping-lists/shoppingListsActions';
 import {
-  pla_addSelectedCategoryId,
   pla_closeAddCategoryDialog,
   pla_closeAddUnitDialog,
   pla_closeEditCategoryDialog,
@@ -27,7 +26,6 @@ import {
   pla_openProductInputAreaInCreateMode,
   pla_openProductInputAreaInEditMode,
   pla_openRemoveProductDialog,
-  pla_removeSelectedCategoryId,
   pla_setRemoveAllProductsDialogVisibility,
   pla_setRenameListDialogVisibility,
   pla_setSelectedCategoryId,

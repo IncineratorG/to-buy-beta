@@ -12,6 +12,7 @@ import {
 import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
 import ProductInitialCategories from '../../../components/specific/products-list/product-initial-categories/ProductInitialCategories';
 import {checkShareAvailabilityAction} from '../../../store/actions/share/shareActions';
+import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 
 export const useProductsListModel = () => {
   const [state, localDispatch] = useReducer(

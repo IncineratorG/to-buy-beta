@@ -31,13 +31,6 @@ const ProductsListScreenMenuButton = ({
     setMenuVisible(false);
   };
 
-  const removeAllHandler = () => {
-    if (onRemoveAll) {
-      onRemoveAll();
-    }
-    setMenuVisible(false);
-  };
-
   const markAllAsBoughtHandler = () => {
     if (onAllBought) {
       onAllBought();
@@ -52,9 +45,28 @@ const ProductsListScreenMenuButton = ({
     setMenuVisible(false);
   };
 
+  const markCurrentCategoryAsBoughtHandler = () => {
+    setMenuVisible(false);
+  };
+
+  const markCurrentCategoryAsNotBought = () => {
+    setMenuVisible(false);
+  };
+
   const removeBoughtHandler = () => {
     if (onRemoveBought) {
       onRemoveBought();
+    }
+    setMenuVisible(false);
+  };
+
+  const removeCurrentCategoryHandler = () => {
+    setMenuVisible(false);
+  };
+
+  const removeAllHandler = () => {
+    if (onRemoveAll) {
+      onRemoveAll();
     }
     setMenuVisible(false);
   };
@@ -78,10 +90,28 @@ const ProductsListScreenMenuButton = ({
           onSelect={markAllAsNotBoughtHandler}
           text={t('ProductsListScreenMenuButton_markAllAsNotOption')}
         />
+        <MenuOption
+          onSelect={markCurrentCategoryAsBoughtHandler}
+          text={t(
+            'ProductsListScreenMenuButton_markCurrentCategoryAsBoughtOption',
+          )}
+        />
+        <MenuOption
+          onSelect={markCurrentCategoryAsNotBought}
+          text={t(
+            'ProductsListScreenMenuButton_markCurrentCategoryAsNotBoughtOption',
+          )}
+        />
         <MenuOption onSelect={noActionsHandler} text={''} />
         <MenuOption
           onSelect={removeBoughtHandler}
           text={t('ProductsListScreenMenuButton_menuRemoveBoughtOption')}
+        />
+        <MenuOption
+          onSelect={removeCurrentCategoryHandler}
+          text={t(
+            'ProductsListScreenMenuButton_menuRemoveCurrentCategoryOption',
+          )}
         />
         <MenuOption
           onSelect={removeAllHandler}

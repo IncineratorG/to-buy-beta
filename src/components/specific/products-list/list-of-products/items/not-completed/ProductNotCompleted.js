@@ -25,8 +25,6 @@ const ProductNotCompleted = ({
   onProductPress,
   onProductLongPress,
 }) => {
-  SystemEventsHandler.onInfo({info: 'RENDERED'});
-
   const {t} = useTranslation();
 
   const {confirmationStatus} = product;

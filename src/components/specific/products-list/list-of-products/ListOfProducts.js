@@ -2,6 +2,7 @@ import React from 'react';
 import {View, FlatList, StyleSheet} from 'react-native';
 import Product from './items/Product';
 import ProductRenderManager from './items/ProductRenderManager';
+import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 
 const ListOfProducts = ({
   list,
