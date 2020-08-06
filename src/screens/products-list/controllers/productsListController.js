@@ -47,6 +47,7 @@ import {
   shareProductsListViaSmsAction,
   shareProductsListViaWhatsAppAction,
 } from '../../../store/actions/share/shareActions';
+import ProductInitialCategories from '../../../components/specific/products-list/product-initial-categories/ProductInitialCategories';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
@@ -396,10 +397,6 @@ export const useProductsListController = (model) => {
   }, []);
 
   const screenMenuMarkAllAsBoughtPressHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'screenMenuMarkAllAsBoughtPressHandler()',
-    });
-
     const shoppingListId = model.data.shoppingListId;
     const productsIdsArray = model.data.products.map((product) => product.id);
     const status = ProductStatus.COMPLETED;
@@ -414,10 +411,6 @@ export const useProductsListController = (model) => {
   };
 
   const screenMenuMarkAllAsNotBoughtPressHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'screenMenuMarkAllAsNotBoughtPressHandler()',
-    });
-
     const shoppingListId = model.data.shoppingListId;
     const productsIdsArray = model.data.products.map((product) => product.id);
     const status = ProductStatus.NOT_COMPLETED;
@@ -429,6 +422,62 @@ export const useProductsListController = (model) => {
         status,
       }),
     );
+  };
+
+  const screenMenuMarkCurrentCategoryAsBoughtPressHandler = () => {
+    SystemEventsHandler.onInfo({
+      info: 'screenMenuMarkCurrentCategoryAsBoughtPressHandler()',
+    });
+
+    const shoppingListId = model.data.shoppingListId;
+    let productsIdsArray = [];
+    const status = ProductStatus.COMPLETED;
+
+    const selectedCategories = [
+      ...model.data.state.usedCategories.selectedCategoriesIds,
+    ];
+    if (!selectedCategories || !selectedCategories.length) {
+      return;
+    }
+
+    const selectedCategoryId = selectedCategories[0];
+    if (selectedCategoryId === ProductInitialCategories.COMPLETED) {
+      return;
+    } else if (selectedCategoryId === ProductInitialCategories.NOT_COMPLETED) {
+      productsIdsArray = model.data.products
+        .filter(
+          (product) => product.completionStatus === ProductStatus.NOT_COMPLETED,
+        )
+        .map((product) => product.id);
+    } else if (selectedCategoryId === ProductInitialCategories.ALL) {
+      productsIdsArray = model.data.products
+        .filter(
+          (product) => product.completionStatus === ProductStatus.NOT_COMPLETED,
+        )
+        .map((product) => product.id);
+    } else {
+      productsIdsArray = model.data.products
+        .filter((product) => product.categoryId === selectedCategoryId)
+        .map((product) => product.id);
+    }
+
+    if (!productsIdsArray || !productsIdsArray.length) {
+      return;
+    }
+
+    model.dispatch(
+      changeMultipleProductsStatusAction({
+        shoppingListId,
+        productsIdsArray,
+        status,
+      }),
+    );
+  };
+
+  const screenMenuMarkCurrentCategoryAsNotBoughtPressHandler = () => {
+    SystemEventsHandler.onInfo({
+      info: 'screenMenuMarkCurrentCategoryAsNotBoughtPressHandler()',
+    });
   };
 
   const screenMenuRemoveBoughtPressHandler = () => {
@@ -529,6 +578,8 @@ export const useProductsListController = (model) => {
     screenMenuRenameListPressHandler,
     screenMenuMarkAllAsBoughtPressHandler,
     screenMenuMarkAllAsNotBoughtPressHandler,
+    screenMenuMarkCurrentCategoryAsBoughtPressHandler,
+    screenMenuMarkCurrentCategoryAsNotBoughtPressHandler,
     screenMenuRemoveBoughtPressHandler,
     screenMenuRemoveAllPressHandler,
     renameListDialogTouchOutsideHandler,

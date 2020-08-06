@@ -19,6 +19,8 @@ const ProductsList = () => {
     screenMenuRenameListPressHandler,
     screenMenuMarkAllAsBoughtPressHandler,
     screenMenuMarkAllAsNotBoughtPressHandler,
+    screenMenuMarkCurrentCategoryAsBoughtPressHandler,
+    screenMenuMarkCurrentCategoryAsNotBoughtPressHandler,
     screenMenuRemoveBoughtPressHandler,
     screenMenuRemoveAllPressHandler,
   } = controller;
@@ -35,6 +37,12 @@ const ProductsList = () => {
           onRemoveBought={screenMenuRemoveBoughtPressHandler}
           onAllBought={screenMenuMarkAllAsBoughtPressHandler}
           onAllNotBought={screenMenuMarkAllAsNotBoughtPressHandler}
+          onCurrentCategoryBought={
+            screenMenuMarkCurrentCategoryAsBoughtPressHandler
+          }
+          onCurrentCategoryNotBought={
+            screenMenuMarkCurrentCategoryAsNotBoughtPressHandler
+          }
         />
       ),
     });

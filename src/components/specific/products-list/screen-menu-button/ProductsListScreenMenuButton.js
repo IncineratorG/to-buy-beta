@@ -13,6 +13,8 @@ const ProductsListScreenMenuButton = ({
   onRenameList,
   onAllBought,
   onAllNotBought,
+  onCurrentCategoryBought,
+  onCurrentCategoryNotBought,
   onRemoveAll,
   onRemoveBought,
 }) => {
@@ -46,10 +48,16 @@ const ProductsListScreenMenuButton = ({
   };
 
   const markCurrentCategoryAsBoughtHandler = () => {
+    if (onCurrentCategoryBought) {
+      onCurrentCategoryBought();
+    }
     setMenuVisible(false);
   };
 
   const markCurrentCategoryAsNotBought = () => {
+    if (onCurrentCategoryNotBought) {
+      onCurrentCategoryNotBought();
+    }
     setMenuVisible(false);
   };
 
