@@ -5,6 +5,8 @@ import Services from '../../../services/Services';
 import {
   addProductConfirmedAction,
   addProductCreatedAction,
+  changeMultipleProductsStatusChangedAction,
+  changeMultipleProductsStatusConfirmedAction,
   changeProductStatusChangedAction,
   changeProductStatusConfirmedAction,
   removeAllProductsConfirmedAction,
@@ -80,6 +82,31 @@ function createProductEventsChannel() {
       emit(removeAllProductsConfirmedAction({shoppingListId, confirmed}));
     };
 
+    const changeMultipleProductsStatusHandler = ({
+      shoppingListId,
+      productsArray,
+    }) => {
+      emit(
+        changeMultipleProductsStatusChangedAction({
+          shoppingListId,
+          productsArray,
+        }),
+      );
+    };
+    const confirmChangeMultipleProductsStatusHandler = ({
+      shoppingListId,
+      productsArray,
+      confirmed,
+    }) => {
+      emit(
+        changeMultipleProductsStatusConfirmedAction({
+          shoppingListId,
+          productsArray,
+          confirmed,
+        }),
+      );
+    };
+
     const shoppingListService = Services.get(
       Services.serviceTypes.SHOPPING_LIST,
     );
@@ -134,6 +161,19 @@ function createProductEventsChannel() {
       },
     );
 
+    const changeMultipleProductsStatusUnsubscribe = shoppingListService.subscribe(
+      {
+        event: ShoppingListServiceEvents.PRODUCTS_STATUS_CHANGED,
+        handler: changeMultipleProductsStatusHandler,
+      },
+    );
+    const changeMultipleProductsStatusConfirmedUnsubscribe = shoppingListService.subscribe(
+      {
+        event: ShoppingListServiceEvents.PRODUCTS_STATUS_CHANGE_CONFIRMED,
+        handler: confirmChangeMultipleProductsStatusHandler,
+      },
+    );
+
     return () => {
       createUnsubscribe();
       createConfirmUnsubscribe();
@@ -145,6 +185,8 @@ function createProductEventsChannel() {
       removeConfirmUnsubscribe();
       removeAllShoppingListProductsUnsubscribe();
       removeAllShoppingListProductsConfirmedUnsubscribe();
+      changeMultipleProductsStatusUnsubscribe();
+      changeMultipleProductsStatusConfirmedUnsubscribe();
     };
   });
 }

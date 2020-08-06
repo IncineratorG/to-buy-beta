@@ -23,6 +23,10 @@ import {
   REMOVE_ALL_PRODUCTS_REMOVED,
   REMOVE_ALL_PRODUCTS_CONFIRMED,
   REMOVE_ALL_PRODUCTS_ERROR,
+  CHANGE_MULTIPLE_PRODUCTS_STATUS_BEGIN,
+  CHANGE_MULTIPLE_PRODUCTS_STATUS_CHANGED,
+  CHANGE_MULTIPLE_PRODUCTS_STATUS_CONFIRMED,
+  CHANGE_MULTIPLE_PRODUCTS_STATUS_ERROR,
 } from '../../types/products-list/productsListTypes';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import productsComparator from './helpers/productsComparator';
@@ -434,6 +438,139 @@ export const productsListReducer = (state = initialState, action) => {
     case CHANGE_PRODUCT_STATUS_ERROR: {
       SystemEventsHandler.onInfo({
         info: 'productsListReducer->CHANGE_PRODUCT_STATUS_ERROR',
+      });
+
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      return {
+        ...state,
+        productsList: {
+          updating: false,
+          updatingError: {
+            hasError: true,
+            description: action.payload.error.description,
+          },
+        },
+      };
+    }
+
+    case CHANGE_MULTIPLE_PRODUCTS_STATUS_BEGIN: {
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      const updatedProductsIdsSet = new Set(action.payload.productsIdsArray);
+
+      const products = state.productsList.products.map((product) => {
+        if (updatedProductsIdsSet.has(product.id)) {
+          return {
+            ...product,
+            confirmationStatus: {
+              awaitConfirmation: true,
+              confirmed: false,
+            },
+          };
+        }
+        return product;
+      });
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          updating: true,
+          updatingError: {
+            hasError: false,
+            description: '',
+          },
+          products,
+        },
+      };
+    }
+
+    case CHANGE_MULTIPLE_PRODUCTS_STATUS_CHANGED: {
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      // const updatedProductsArray = action.payload.productsArray;
+      //
+      // const updatedProductsMap = new Map();
+      // updatedProductsArray.forEach((product) => {
+      //   updatedProductsMap.set(product.id, product);
+      // });
+      //
+      // const products = state.productsList.products.map((product) => {
+      //   if (updatedProductsMap.has(product.id)) {
+      //     return {
+      //       ...updatedProductsMap.get(product.id),
+      //       confirmationStatus: {
+      //         awaitConfirmation: true,
+      //         confirmed: false,
+      //       },
+      //     };
+      //   }
+      //   return product;
+      // });
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          updating: true,
+          updatingError: {
+            hasError: false,
+            description: '',
+          },
+        },
+      };
+    }
+
+    case CHANGE_MULTIPLE_PRODUCTS_STATUS_CONFIRMED: {
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      const confirmed = action.payload.confirmed;
+      const confirmedProductsArray = action.payload.productsArray;
+
+      const confirmedProductsMap = new Map();
+      confirmedProductsArray.forEach((product) => {
+        confirmedProductsMap.set(product.id, product);
+      });
+
+      const products = state.productsList.products.map((product) => {
+        if (confirmedProductsMap.has(product.id)) {
+          return {
+            ...confirmedProductsMap.get(product.id),
+            confirmationStatus: {
+              awaitConfirmation: false,
+              confirmed: confirmed,
+            },
+          };
+        }
+        return product;
+      });
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          updating: false,
+          updatingError: {
+            hasError: false,
+            description: '',
+          },
+          products,
+        },
+      };
+    }
+
+    case CHANGE_MULTIPLE_PRODUCTS_STATUS_ERROR: {
+      SystemEventsHandler.onInfo({
+        info: 'productsListReducer->CHANGE_MULTIPLE_PRODUCTS_STATUS_ERROR',
       });
 
       if (action.payload.shoppingListId !== state.productsList.id) {

@@ -2,6 +2,7 @@ import {useCallback} from 'react';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import {
   addProductAction,
+  changeMultipleProductsStatusAction,
   changeProductStatusAction,
   clearProductsListCachedData,
   removeAllProductsAction,
@@ -399,12 +400,36 @@ export const useProductsListController = (model) => {
     SystemEventsHandler.onInfo({
       info: 'screenMenuMarkAllAsBoughtPressHandler()',
     });
+
+    const shoppingListId = model.data.shoppingListId;
+    const productsIdsArray = model.data.products.map((product) => product.id);
+    const status = ProductStatus.COMPLETED;
+
+    model.dispatch(
+      changeMultipleProductsStatusAction({
+        shoppingListId,
+        productsIdsArray,
+        status,
+      }),
+    );
   };
 
   const screenMenuMarkAllAsNotBoughtPressHandler = () => {
     SystemEventsHandler.onInfo({
       info: 'screenMenuMarkAllAsNotBoughtPressHandler()',
     });
+
+    const shoppingListId = model.data.shoppingListId;
+    const productsIdsArray = model.data.products.map((product) => product.id);
+    const status = ProductStatus.NOT_COMPLETED;
+
+    model.dispatch(
+      changeMultipleProductsStatusAction({
+        shoppingListId,
+        productsIdsArray,
+        status,
+      }),
+    );
   };
 
   const screenMenuRemoveBoughtPressHandler = () => {

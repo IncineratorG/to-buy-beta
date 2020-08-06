@@ -2,6 +2,7 @@ import {takeLatest} from '@redux-saga/core/effects';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import {
   ADD_PRODUCT,
+  CHANGE_MULTIPLE_PRODUCTS_STATUS,
   CHANGE_PRODUCT_STATUS,
   LOAD_PRODUCTS_LIST,
   REMOVE_ALL_PRODUCTS,
@@ -14,6 +15,7 @@ import pls_updateProductHandler from './handlers/pls_updateProductHandler';
 import pls_changeProductStatusHandler from './handlers/pls_changeProductStatusHandler';
 import pls_removeProductHandler from './handlers/pls_removeProductHandler';
 import pls_removeAllProductsHandler from './handlers/pls_removeAllProductsHandler';
+import pls_changeMultipleProductsStatusHandler from './handlers/pls_changeMultipleProductsStatusHandler';
 
 function* productsListSaga() {
   SystemEventsHandler.onInfo({info: 'productsListSaga()'});
@@ -24,6 +26,10 @@ function* productsListSaga() {
   yield takeLatest(CHANGE_PRODUCT_STATUS, pls_changeProductStatusHandler);
   yield takeLatest(REMOVE_PRODUCT, pls_removeProductHandler);
   yield takeLatest(REMOVE_ALL_PRODUCTS, pls_removeAllProductsHandler);
+  yield takeLatest(
+    CHANGE_MULTIPLE_PRODUCTS_STATUS,
+    pls_changeMultipleProductsStatusHandler,
+  );
 }
 
 export default productsListSaga;

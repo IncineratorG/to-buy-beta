@@ -235,4 +235,45 @@ export class ShoppingListService {
       onError,
     });
   }
+
+  static async changeMultipleProductsStatus({
+    shoppingListId,
+    productsIdsArray,
+    status,
+  }) {
+    const onChanged = ({productsArray}) => {
+      ShoppingListService.#notifier.notify({
+        event: ShoppingListServiceEvents.PRODUCTS_STATUS_CHANGED,
+        data: {shoppingListId, productsArray},
+      });
+    };
+    const onConfirmed = ({productsArray, confirmed}) => {
+      ShoppingListService.#notifier.notify({
+        event: ShoppingListServiceEvents.PRODUCTS_STATUS_CHANGE_CONFIRMED,
+        data: {
+          shoppingListId,
+          productsArray,
+          confirmed,
+        },
+      });
+    };
+    const onError = ({error}) => {
+      SystemEventsHandler.onError({
+        err: 'ShoppingListService->changeProductsStatus()->ERROR: ' + error,
+      });
+      ShoppingListService.#notifier.notify({
+        event: ShoppingListServiceEvents.PRODUCTS_STATUS_CHANGE_ERROR,
+        data: {shoppingListId, productsIdsArray, error},
+      });
+    };
+
+    await SLSqliteService.changeMultipleProductsStatus({
+      shoppingListId,
+      productsIdsArray,
+      status,
+      onChanged,
+      onConfirmed,
+      onError,
+    });
+  }
 }

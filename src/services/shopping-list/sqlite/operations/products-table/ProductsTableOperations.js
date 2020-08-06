@@ -18,7 +18,7 @@ import ProductStatus from '../../../data/product-status/ProductStatus';
 export class ProductsTableOperations {
   static #className = 'ProductsTableOperations';
 
-  static async getProducts({db, listId}) {
+  static async getShoppingListProducts({db, listId}) {
     const getProductsStatement =
       'SELECT * FROM ' +
       PRODUCTS_TABLE +
@@ -42,7 +42,7 @@ export class ProductsTableOperations {
       result.products = products;
     } catch (e) {
       SystemEventsHandler.onError({
-        err: this.#className + '->getProducts()->ERROR: ' + e,
+        err: this.#className + '->getShoppingListProducts()->ERROR: ' + e,
       });
       result.hasError = true;
     }
@@ -73,6 +73,39 @@ export class ProductsTableOperations {
     } catch (e) {
       SystemEventsHandler.onError({
         err: this.#className + '->getProduct()->ERROR: ' + e,
+      });
+      result.hasError = true;
+    }
+
+    return result;
+  }
+
+  static async getProducts({db, productsIds}) {
+    const productsIdsString = productsIds.join(', ');
+
+    const getProductsStatement =
+      'SELECT * FROM ' +
+      PRODUCTS_TABLE +
+      ' WHERE ' +
+      PRODUCTS_TABLE_ID +
+      ' IN (' +
+      productsIdsString +
+      ')';
+
+    const result = {products: [], hasError: false};
+    try {
+      const executionResult = await SqlStatementExecutor.execute({
+        db,
+        statement: getProductsStatement,
+      });
+      const products = [];
+      for (let i = 0; i < executionResult.rows.length; ++i) {
+        products.push(executionResult.rows.item(i));
+      }
+      result.products = products;
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err: this.#className + '->getProducts()->ERROR: ' + e,
       });
       result.hasError = true;
     }
@@ -264,6 +297,44 @@ export class ProductsTableOperations {
     } catch (e) {
       SystemEventsHandler.onError({
         err: this.#className + '->changeProductStatus()->ERROR: ' + e,
+      });
+      result.hasError = true;
+    }
+
+    return result;
+  }
+
+  static async changeMultipleProductsStatus({db, productsIds, status}) {
+    const productsIdsString = productsIds.join(', ');
+
+    const changeMultipleProductsStatusStatement =
+      'UPDATE ' +
+      PRODUCTS_TABLE +
+      ' SET ' +
+      PRODUCTS_TABLE_COMPLETION_STATUS +
+      ' = ?, ' +
+      PRODUCTS_TABLE_UPDATE_TIMESTAMP +
+      ' = ? WHERE ' +
+      PRODUCTS_TABLE_ID +
+      ' IN (' +
+      productsIdsString +
+      ')';
+
+    const timestamp = Date.now();
+
+    const statementParams = [status, timestamp];
+
+    const result = {updatedProductsCount: 0, hasError: false};
+    try {
+      const executionResult = await SqlStatementExecutor.execute({
+        db,
+        statement: changeMultipleProductsStatusStatement,
+        params: statementParams,
+      });
+      result.updatedProductsCount = executionResult.rowsAffected;
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err: this.#className + '->changeMultipleProductsStatus()->ERROR: ' + e,
       });
       result.hasError = true;
     }
