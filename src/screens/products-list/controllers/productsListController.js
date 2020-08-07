@@ -4,8 +4,7 @@ import {
   addProductAction,
   changeMultipleProductsStatusAction,
   changeProductStatusAction,
-  clearProductsListCachedData,
-  removeAllProductsAction,
+  removeMultipleProductsAction,
   removeProductAction,
   updateProductAction,
 } from '../../../store/actions/products-list/productsListActions';
@@ -27,11 +26,9 @@ import {
   pla_openProductInputAreaInCreateMode,
   pla_openProductInputAreaInEditMode,
   pla_openRemoveProductDialog,
-  pla_setChangeCategoryListUpdateRunning,
   pla_setProductsListCategoryUpdatingComplete,
   pla_setRemoveAllProductsDialogVisibility,
   pla_setRenameListDialogVisibility,
-  pla_setSelectedCategoryId,
   pla_setSelectedCategoryIdForCategoriesList,
   pla_setSelectedCategoryIdForProductsList,
   pla_setSharePanelVisibility,
@@ -123,7 +120,6 @@ export const useProductsListController = (model) => {
   };
 
   const productPressHandler = useCallback((product) => {
-    // model.setters.setSharePanelVisible(false);
     model.localDispatch(pla_setSharePanelVisibility({visible: false}));
 
     const {
@@ -446,14 +442,8 @@ export const useProductsListController = (model) => {
     let productsIdsArray = [];
     const status = ProductStatus.COMPLETED;
 
-    const selectedCategories = [
-      ...model.data.state.usedCategories.selectedCategoriesIds,
-    ];
-    if (!selectedCategories || !selectedCategories.length) {
-      return;
-    }
-
-    const selectedCategoryId = selectedCategories[0];
+    const selectedCategoryId =
+      model.data.state.selectedCategory.productsList.selectedCategoryId;
     if (selectedCategoryId === ProductInitialCategories.COMPLETED) {
       return;
     } else if (selectedCategoryId === ProductInitialCategories.NOT_COMPLETED) {
@@ -492,14 +482,8 @@ export const useProductsListController = (model) => {
     let productsIdsArray = [];
     const status = ProductStatus.NOT_COMPLETED;
 
-    const selectedCategories = [
-      ...model.data.state.usedCategories.selectedCategoriesIds,
-    ];
-    if (!selectedCategories || !selectedCategories.length) {
-      return;
-    }
-
-    const selectedCategoryId = selectedCategories[0];
+    const selectedCategoryId =
+      model.data.state.selectedCategory.productsList.selectedCategoryId;
     if (selectedCategoryId === ProductInitialCategories.NOT_COMPLETED) {
       return;
     } else if (selectedCategoryId === ProductInitialCategories.COMPLETED) {
@@ -535,6 +519,12 @@ export const useProductsListController = (model) => {
 
   const screenMenuRemoveBoughtPressHandler = () => {
     SystemEventsHandler.onInfo({info: 'screenMenuRemoveBoughtPressHandler()'});
+  };
+
+  const screenMenuRemoveCurrentCategoryPressHandler = () => {
+    SystemEventsHandler.onInfo({
+      info: 'screenMenuRemoveCurrentCategoryPressHandler()',
+    });
   };
 
   const screenMenuRemoveAllPressHandler = useCallback(() => {
@@ -579,11 +569,14 @@ export const useProductsListController = (model) => {
   }, []);
 
   const removeAllProductsDialogRemoveButtonHandler = () => {
+    const shoppingListId = model.data.shoppingListId;
+    const productsIdsArray = model.data.products.map((product) => product.id);
+
     model.localDispatch(
       pla_setRemoveAllProductsDialogVisibility({visible: false}),
     );
     model.dispatch(
-      removeAllProductsAction({shoppingListId: model.data.shoppingListId}),
+      removeMultipleProductsAction({shoppingListId, productsIdsArray}),
     );
   };
 
@@ -635,6 +628,7 @@ export const useProductsListController = (model) => {
     screenMenuMarkCurrentCategoryAsBoughtPressHandler,
     screenMenuMarkCurrentCategoryAsNotBoughtPressHandler,
     screenMenuRemoveBoughtPressHandler,
+    screenMenuRemoveCurrentCategoryPressHandler,
     screenMenuRemoveAllPressHandler,
     renameListDialogTouchOutsideHandler,
     renameListDialogCancelPressHandler,

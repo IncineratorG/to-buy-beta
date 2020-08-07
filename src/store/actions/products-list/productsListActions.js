@@ -24,16 +24,16 @@ import {
   REMOVE_PRODUCT_REMOVED,
   REMOVE_PRODUCT_CONFIRMED,
   REMOVE_PRODUCT_ERROR,
-  REMOVE_ALL_PRODUCTS,
-  REMOVE_ALL_PRODUCTS_BEGIN,
-  REMOVE_ALL_PRODUCTS_REMOVED,
-  REMOVE_ALL_PRODUCTS_CONFIRMED,
-  REMOVE_ALL_PRODUCTS_ERROR,
   CHANGE_MULTIPLE_PRODUCTS_STATUS,
   CHANGE_MULTIPLE_PRODUCTS_STATUS_BEGIN,
   CHANGE_MULTIPLE_PRODUCTS_STATUS_CHANGED,
   CHANGE_MULTIPLE_PRODUCTS_STATUS_CONFIRMED,
   CHANGE_MULTIPLE_PRODUCTS_STATUS_ERROR,
+  REMOVE_MULTIPLE_PRODUCTS,
+  REMOVE_MULTIPLE_PRODUCTS_BEGIN,
+  REMOVE_MULTIPLE_PRODUCTS_REMOVED,
+  REMOVE_MULTIPLE_PRODUCTS_CONFIRMED,
+  REMOVE_MULTIPLE_PRODUCTS_ERROR,
 } from '../../types/products-list/productsListTypes';
 
 export const loadProductsListAction = ({shoppingListId}) => {
@@ -314,41 +314,55 @@ export const removeProductErrorAction = ({
   };
 };
 
-export const removeAllProductsAction = ({shoppingListId}) => {
-  return {
-    type: REMOVE_ALL_PRODUCTS,
-    payload: {shoppingListId},
-  };
-};
-
-export const removeAllProductsBeginAction = ({shoppingListId}) => {
-  return {
-    type: REMOVE_ALL_PRODUCTS_BEGIN,
-    payload: {shoppingListId},
-  };
-};
-
-export const removeAllProductsRemovedAction = ({shoppingListId}) => {
-  return {
-    type: REMOVE_ALL_PRODUCTS_REMOVED,
-    payload: {shoppingListId},
-  };
-};
-
-export const removeAllProductsConfirmedAction = ({
+export const removeMultipleProductsAction = ({
   shoppingListId,
+  productsIdsArray,
+}) => {
+  return {
+    type: REMOVE_MULTIPLE_PRODUCTS,
+    payload: {shoppingListId, productsIdsArray},
+  };
+};
+
+export const removeMultipleProductsBeginAction = ({
+  shoppingListId,
+  productsIdsArray,
+}) => {
+  return {
+    type: REMOVE_MULTIPLE_PRODUCTS_BEGIN,
+    payload: {shoppingListId, productsIdsArray},
+  };
+};
+
+export const removeMultipleProductsRemovedAction = ({
+  shoppingListId,
+  productsIdsArray,
+}) => {
+  return {
+    type: REMOVE_MULTIPLE_PRODUCTS_REMOVED,
+    payload: {shoppingListId, productsIdsArray},
+  };
+};
+
+export const removeMultipleProductsConfirmedAction = ({
+  shoppingListId,
+  productsIdsArray,
   confirmed,
 }) => {
   return {
-    type: REMOVE_ALL_PRODUCTS_CONFIRMED,
-    payload: {shoppingListId, confirmed},
+    type: REMOVE_MULTIPLE_PRODUCTS_CONFIRMED,
+    payload: {shoppingListId, productsIdsArray, confirmed},
   };
 };
 
-export const removeAllProductsErrorAction = ({shoppingListId, description}) => {
+export const removeMultipleProductsErrorAction = ({
+  shoppingListId,
+  productsIdsArray,
+  descritpion,
+}) => {
   return {
-    type: REMOVE_ALL_PRODUCTS_ERROR,
-    payload: {shoppingListId, error: {description}},
+    type: REMOVE_MULTIPLE_PRODUCTS_ERROR,
+    payload: {shoppingListId, productsIdsArray, error: {descritpion}},
   };
 };
 

@@ -17,6 +17,7 @@ const ProductsListScreenMenuButton = ({
   onCurrentCategoryNotBought,
   onRemoveAll,
   onRemoveBought,
+  onRemoveCurrentCategory,
 }) => {
   const {t} = useTranslation();
 
@@ -69,6 +70,9 @@ const ProductsListScreenMenuButton = ({
   };
 
   const removeCurrentCategoryHandler = () => {
+    if (onRemoveCurrentCategory) {
+      onRemoveCurrentCategory();
+    }
     setMenuVisible(false);
   };
 

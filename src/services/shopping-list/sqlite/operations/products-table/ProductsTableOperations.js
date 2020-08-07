@@ -394,4 +394,33 @@ export class ProductsTableOperations {
 
     return result;
   }
+
+  static async removeMultipleProducts({db, productsIds}) {
+    const productsIdsString = productsIds.join(', ');
+
+    const removeMultipleProductsStatement =
+      'DELETE FROM ' +
+      PRODUCTS_TABLE +
+      ' WHERE ' +
+      PRODUCTS_TABLE_ID +
+      ' IN (' +
+      productsIdsString +
+      ')';
+
+    const result = {removedProductsCount: 0, hasError: false};
+    try {
+      const executionResult = await SqlStatementExecutor.execute({
+        db,
+        statement: removeMultipleProductsStatement,
+      });
+      result.removedProductsCount = executionResult.rowsAffected;
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err: this.#className + '->removeMultipleProducts()->ERROR: ' + e,
+      });
+      result.hasError = true;
+    }
+
+    return result;
+  }
 }

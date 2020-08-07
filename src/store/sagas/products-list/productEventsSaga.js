@@ -9,8 +9,8 @@ import {
   changeMultipleProductsStatusConfirmedAction,
   changeProductStatusChangedAction,
   changeProductStatusConfirmedAction,
-  removeAllProductsConfirmedAction,
-  removeAllProductsRemovedAction,
+  removeMultipleProductsConfirmedAction,
+  removeMultipleProductsRemovedAction,
   removeProductConfirmedAction,
   removeProductRemovedAction,
   updateProductConfirmedAction,
@@ -72,14 +72,26 @@ function createProductEventsChannel() {
       );
     };
 
-    const removeAllShoppingListProductsHandler = ({shoppingListId}) => {
-      emit(removeAllProductsRemovedAction({shoppingListId}));
-    };
-    const confirmRemoveAllShoppingListProductsHandler = ({
+    const removeMultipleProductsHandler = ({
       shoppingListId,
+      productsIdsArray,
+    }) => {
+      emit(
+        removeMultipleProductsRemovedAction({shoppingListId, productsIdsArray}),
+      );
+    };
+    const confirmRemoveMultipleProductsHandler = ({
+      shoppingListId,
+      productsIdsArray,
       confirmed,
     }) => {
-      emit(removeAllProductsConfirmedAction({shoppingListId, confirmed}));
+      emit(
+        removeMultipleProductsConfirmedAction({
+          shoppingListId,
+          productsIdsArray,
+          confirmed,
+        }),
+      );
     };
 
     const changeMultipleProductsStatusHandler = ({
@@ -147,29 +159,27 @@ function createProductEventsChannel() {
       handler: confirmRemoveProductHandler,
     });
 
-    const removeAllShoppingListProductsUnsubscribe = shoppingListService.subscribe(
+    const removeMultipleProductsUnsubscribe = shoppingListService.subscribe({
+      event: ShoppingListServiceEvents.MULTIPLE_PRODUCTS_REMOVED,
+      handler: removeMultipleProductsHandler,
+    });
+    const removeMultipleProductsConfirmedUnsubscribe = shoppingListService.subscribe(
       {
-        event: ShoppingListServiceEvents.ALL_SHOPPING_LIST_PRODUCTS_REMOVED,
-        handler: removeAllShoppingListProductsHandler,
-      },
-    );
-    const removeAllShoppingListProductsConfirmedUnsubscribe = shoppingListService.subscribe(
-      {
-        event:
-          ShoppingListServiceEvents.ALL_SHOPPING_LIST_PRODUCTS_REMOVE_CONFIRMED,
-        handler: confirmRemoveAllShoppingListProductsHandler,
+        event: ShoppingListServiceEvents.MULTIPLE_PRODUCTS_REMOVE_CONFIRMED,
+        handler: confirmRemoveMultipleProductsHandler,
       },
     );
 
     const changeMultipleProductsStatusUnsubscribe = shoppingListService.subscribe(
       {
-        event: ShoppingListServiceEvents.PRODUCTS_STATUS_CHANGED,
+        event: ShoppingListServiceEvents.MULTIPLE_PRODUCTS_STATUS_CHANGED,
         handler: changeMultipleProductsStatusHandler,
       },
     );
     const changeMultipleProductsStatusConfirmedUnsubscribe = shoppingListService.subscribe(
       {
-        event: ShoppingListServiceEvents.PRODUCTS_STATUS_CHANGE_CONFIRMED,
+        event:
+          ShoppingListServiceEvents.MULTIPLE_PRODUCTS_STATUS_CHANGE_CONFIRMED,
         handler: confirmChangeMultipleProductsStatusHandler,
       },
     );
@@ -183,8 +193,8 @@ function createProductEventsChannel() {
       changeStatusConfirmUnsubscribe();
       removeUnsubscribe();
       removeConfirmUnsubscribe();
-      removeAllShoppingListProductsUnsubscribe();
-      removeAllShoppingListProductsConfirmedUnsubscribe();
+      removeMultipleProductsUnsubscribe();
+      removeMultipleProductsConfirmedUnsubscribe();
       changeMultipleProductsStatusUnsubscribe();
       changeMultipleProductsStatusConfirmedUnsubscribe();
     };

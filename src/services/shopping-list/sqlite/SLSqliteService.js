@@ -613,35 +613,52 @@ export class SLSqliteService {
     return true;
   }
 
-  static async removeAllShoppingListProducts({
+  static async removeMultipleProducts({
     shoppingListId,
+    productsIdsArray,
     onRemoved,
     onConfirmed,
     onError,
   }) {
     const {
-      hasError: hasRemovedError,
-    } = await ProductsTableOperations.removeProductsWithShoppingListId({
+      hasError: removeProductsError,
+    } = await ProductsTableOperations.removeMultipleProducts({
       db: this.#db,
-      id: shoppingListId,
+      productsIds: productsIdsArray,
     });
-
-    if (hasRemovedError) {
+    if (removeProductsError) {
       if (onError) {
         onError({
           error:
-            'SLSqliteService->removeAllShoppingListProducts()->REMOVE_ALL_SHOPPING_LIST_PRODUCTS_ERROR',
+            'SLSqliteService->removeMultipleProducts()->REMOVE_MULTIPLE_PRODUCTS_ERROR',
         });
       }
       return false;
     }
 
     if (onRemoved) {
-      onRemoved({shoppingListId});
+      onRemoved();
     }
 
-    const totalProductsCount = 0;
-    const completedProductsCount = 0;
+    const {
+      products: completedProducts,
+    } = await ProductsTableOperations.getListProductsWithStatus({
+      db: this.#db,
+      shoppingListId,
+      status: ProductStatus.COMPLETED,
+    });
+
+    const {
+      products: notCompletedProducts,
+    } = await ProductsTableOperations.getListProductsWithStatus({
+      db: this.#db,
+      shoppingListId,
+      status: ProductStatus.NOT_COMPLETED,
+    });
+
+    const completedProductsCount = completedProducts.length;
+    const totalProductsCount =
+      completedProducts.length + notCompletedProducts.length;
 
     const {
       hasError: updateShoppingListError,
@@ -656,14 +673,14 @@ export class SLSqliteService {
       if (onError) {
         onError({
           error:
-            'SLSqliteService->removeAllShoppingListProducts()->UPDATE_SHOPPING_LIST_ERROR',
+            'SLSqliteService->removeMultipleProducts()->UPDATE_SHOPPING_LIST_ERROR',
         });
       }
       return false;
     }
 
     if (onConfirmed) {
-      onConfirmed({shoppingListId, confirmed: true});
+      onConfirmed({confirmed: true});
     }
 
     return true;

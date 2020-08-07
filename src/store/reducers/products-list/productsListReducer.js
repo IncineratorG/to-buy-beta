@@ -19,14 +19,14 @@ import {
   REMOVE_PRODUCT_REMOVED,
   REMOVE_PRODUCT_CONFIRMED,
   REMOVE_PRODUCT_ERROR,
-  REMOVE_ALL_PRODUCTS_BEGIN,
-  REMOVE_ALL_PRODUCTS_REMOVED,
-  REMOVE_ALL_PRODUCTS_CONFIRMED,
-  REMOVE_ALL_PRODUCTS_ERROR,
   CHANGE_MULTIPLE_PRODUCTS_STATUS_BEGIN,
   CHANGE_MULTIPLE_PRODUCTS_STATUS_CHANGED,
   CHANGE_MULTIPLE_PRODUCTS_STATUS_CONFIRMED,
   CHANGE_MULTIPLE_PRODUCTS_STATUS_ERROR,
+  REMOVE_MULTIPLE_PRODUCTS_BEGIN,
+  REMOVE_MULTIPLE_PRODUCTS_REMOVED,
+  REMOVE_MULTIPLE_PRODUCTS_CONFIRMED,
+  REMOVE_MULTIPLE_PRODUCTS_ERROR,
 } from '../../types/products-list/productsListTypes';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import productsComparator from './helpers/productsComparator';
@@ -681,34 +681,24 @@ export const productsListReducer = (state = initialState, action) => {
       };
     }
 
-    case RENAME_SHOPPING_LIST_FINISHED: {
-      const {shoppingList} = action.payload;
-      if (state.productsList.id !== shoppingList.id) {
-        return state;
-      }
-
-      return {
-        ...state,
-        productsList: {
-          ...state.productsList,
-          name: shoppingList.name,
-        },
-      };
-    }
-
-    case REMOVE_ALL_PRODUCTS_BEGIN: {
+    case REMOVE_MULTIPLE_PRODUCTS_BEGIN: {
       if (action.payload.shoppingListId !== state.productsList.id) {
         return state;
       }
 
+      const removedProductsIdsSet = new Set(action.payload.productsIdsArray);
+
       const products = state.productsList.products.map((product) => {
-        return {
-          ...product,
-          confirmationStatus: {
-            awaitConfirmation: true,
-            confirmed: false,
-          },
-        };
+        if (removedProductsIdsSet.has(product.id)) {
+          return {
+            ...product,
+            confirmationStatus: {
+              awaitConfirmation: true,
+              confirmed: false,
+            },
+          };
+        }
+        return product;
       });
 
       return {
@@ -725,26 +715,49 @@ export const productsListReducer = (state = initialState, action) => {
       };
     }
 
-    case REMOVE_ALL_PRODUCTS_REMOVED: {
-      return {...state};
+    case REMOVE_MULTIPLE_PRODUCTS_REMOVED: {
+      if (action.payload.shoppingListId !== state.productsList.id) {
+        return state;
+      }
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          updating: true,
+          updatingError: {
+            hasError: false,
+            description: '',
+          },
+        },
+      };
     }
 
-    case REMOVE_ALL_PRODUCTS_CONFIRMED: {
+    case REMOVE_MULTIPLE_PRODUCTS_CONFIRMED: {
       if (action.payload.shoppingListId !== state.productsList.id) {
         return state;
       }
 
       const confirmed = action.payload.confirmed;
+      const removedProductsIdsSet = new Set(action.payload.productsIdsArray);
+
       let products = [];
-      if (!confirmed) {
+      if (confirmed) {
+        products = state.productsList.products.filter(
+          (product) => !removedProductsIdsSet.has(product.id),
+        );
+      } else {
         products = state.productsList.products.map((product) => {
-          return {
-            ...product,
-            confirmationStatus: {
-              awaitConfirmation: false,
-              confirmed: false,
-            },
-          };
+          if (removedProductsIdsSet.has(product.id)) {
+            return {
+              ...product,
+              confirmationStatus: {
+                awaitConfirmation: false,
+                confirmed: false,
+              },
+            };
+          }
+          return product;
         });
       }
 
@@ -762,9 +775,9 @@ export const productsListReducer = (state = initialState, action) => {
       };
     }
 
-    case REMOVE_ALL_PRODUCTS_ERROR: {
+    case REMOVE_MULTIPLE_PRODUCTS_ERROR: {
       SystemEventsHandler.onInfo({
-        info: 'productsListReducer->REMOVE_ALL_PRODUCTS_ERROR',
+        info: 'productsListReducer->REMOVE_MULTIPLE_PRODUCTS_ERROR',
       });
 
       if (action.payload.shoppingListId !== state.productsList.id) {
@@ -779,6 +792,21 @@ export const productsListReducer = (state = initialState, action) => {
             hasError: true,
             description: action.payload.error.description,
           },
+        },
+      };
+    }
+
+    case RENAME_SHOPPING_LIST_FINISHED: {
+      const {shoppingList} = action.payload;
+      if (state.productsList.id !== shoppingList.id) {
+        return state;
+      }
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          name: shoppingList.name,
         },
       };
     }
