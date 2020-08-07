@@ -1,11 +1,12 @@
 import React, {useCallback} from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
 import ProductCategoryItem from './ProductCategoryItem';
+import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 
 const ProductCategoriesList = ({
   categories,
-  changeCategoryProductsListUpdateRunning,
-  selectedCategoriesIds,
+  productsListChangeCategoryUpdating,
+  selectedCategoryId,
   onCategoryPress,
 }) => {
   const renderItem = useCallback(
@@ -13,19 +14,15 @@ const ProductCategoriesList = ({
       return (
         <ProductCategoryItem
           category={item}
-          selectedCategoriesIds={selectedCategoriesIds}
-          changeCategoryProductsListUpdateRunning={
-            changeCategoryProductsListUpdateRunning
+          selectedCategoryId={selectedCategoryId}
+          productsListChangeCategoryUpdating={
+            productsListChangeCategoryUpdating
           }
           onCategoryPress={onCategoryPress}
         />
       );
     },
-    [
-      selectedCategoriesIds,
-      changeCategoryProductsListUpdateRunning,
-      onCategoryPress,
-    ],
+    [selectedCategoryId, productsListChangeCategoryUpdating, onCategoryPress],
   );
 
   const keyExtractor = useCallback((item) => item.id.toString(), []);

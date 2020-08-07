@@ -5,8 +5,17 @@ const productListState = {
   usedCategories: {
     usedCategoriesLoading: false,
     usedCategoriesList: [],
-    selectedCategoriesIds: new Set([ProductInitialCategories.ALL]),
-    listUpdateRunning: false,
+  },
+  selectedCategory: {
+    categoriesList: {
+      selectedCategoryId: ProductInitialCategories.ALL,
+    },
+    productsList: {
+      selectedCategoryId: ProductInitialCategories.ALL,
+    },
+  },
+  productsList: {
+    changeCategoryUpdating: false,
   },
   removeProductDialog: {
     removeProductDialogVisible: false,

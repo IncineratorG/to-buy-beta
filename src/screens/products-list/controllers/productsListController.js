@@ -28,9 +28,12 @@ import {
   pla_openProductInputAreaInEditMode,
   pla_openRemoveProductDialog,
   pla_setChangeCategoryListUpdateRunning,
+  pla_setProductsListCategoryUpdatingComplete,
   pla_setRemoveAllProductsDialogVisibility,
   pla_setRenameListDialogVisibility,
   pla_setSelectedCategoryId,
+  pla_setSelectedCategoryIdForCategoriesList,
+  pla_setSelectedCategoryIdForProductsList,
   pla_setSharePanelVisibility,
 } from '../stores/productListActions';
 import {
@@ -61,9 +64,8 @@ export const useProductsListController = (model) => {
   };
 
   const productsListRenderCompletedHandler = useCallback(() => {
-    model.localDispatch(
-      pla_setChangeCategoryListUpdateRunning({running: false}),
-    );
+    // SystemEventsHandler.onInfo({info: 'HERE'});
+    model.localDispatch(pla_setProductsListCategoryUpdatingComplete());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -180,12 +182,15 @@ export const useProductsListController = (model) => {
   const categoryPressHandler = useCallback(({category, selected}) => {
     model.localDispatch(pla_setSharePanelVisibility({visible: false}));
 
-    model.localDispatch(
-      pla_setChangeCategoryListUpdateRunning({running: true}),
-    );
-
     if (!selected) {
-      model.localDispatch(pla_setSelectedCategoryId({id: category.id}));
+      model.localDispatch(
+        pla_setSelectedCategoryIdForCategoriesList({id: category.id}),
+      );
+      setTimeout(() => {
+        model.localDispatch(
+          pla_setSelectedCategoryIdForProductsList({id: category.id}),
+        );
+      }, 1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

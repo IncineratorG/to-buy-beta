@@ -40,6 +40,8 @@ const ProductsListView = ({styles, model, controller}) => {
   const {
     dataLoading,
     usedCategories,
+    selectedCategory,
+    productsList,
     inputArea,
     addCategoryDialog,
     editCategoryDialog,
@@ -52,12 +54,24 @@ const ProductsListView = ({styles, model, controller}) => {
     removeAllProductsDialog,
   } = state;
 
+  const {usedCategoriesLoading, usedCategoriesList} = usedCategories;
+
   const {
-    usedCategoriesLoading,
-    usedCategoriesList,
-    selectedCategoriesIds,
-    listUpdateRunning,
-  } = usedCategories;
+    categoriesList: categoriesListSelectedCategoryData,
+    productsList: productsListSelectedCategoryData,
+  } = selectedCategory;
+
+  const {
+    selectedCategoryId: categoriesListSelectedCategoryId,
+  } = categoriesListSelectedCategoryData;
+
+  const {
+    selectedCategoryId: productsListSelectedCategoryId,
+  } = productsListSelectedCategoryData;
+
+  const {
+    changeCategoryUpdating: productsListChangeCategoryUpdating,
+  } = productsList;
 
   const {inputAreaVisible, inputAreaState, editData} = inputArea;
   const {addCategoryDialogVisible} = addCategoryDialog;
@@ -243,9 +257,9 @@ const ProductsListView = ({styles, model, controller}) => {
     <View style={styles.productCategoriesContainer}>
       <ProductCategoriesList
         categories={usedCategoriesList}
-        changeCategoryProductsListUpdateRunning={listUpdateRunning}
         onCategoryPress={categoryPressHandler}
-        selectedCategoriesIds={selectedCategoriesIds}
+        selectedCategoryId={categoriesListSelectedCategoryId}
+        productsListChangeCategoryUpdating={productsListChangeCategoryUpdating}
       />
     </View>
   );
@@ -260,7 +274,7 @@ const ProductsListView = ({styles, model, controller}) => {
         onRenderCompleted={productsListRenderCompletedHandler}
         unitsMap={allUnitsMap}
         categoriesMap={allCategoriesMap}
-        selectedCategoriesIds={selectedCategoriesIds}
+        selectedCategoryId={productsListSelectedCategoryId}
       />
     </View>
   );

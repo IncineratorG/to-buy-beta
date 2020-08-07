@@ -12,11 +12,13 @@ import {
   OPEN_PRODUCT_INPUT_AREA_IN_CREATE_MODE,
   OPEN_PRODUCT_INPUT_AREA_IN_EDIT_MODE,
   OPEN_REMOVE_PRODUCT_DIALOG,
-  SET_CHANGE_CATEGORY_LIST_UPDATE_RUNNING,
   SET_DATA_LOADING,
+  SET_PRODUCTS_LIST_CATEGORY_UPDATING_COMPLETE,
   SET_REMOVE_ALL_PRODUCTS_DIALOG_VISIBILITY,
   SET_RENAME_LIST_DIALOG_VISIBILITY,
   SET_SELECTED_CATEGORY_ID,
+  SET_SELECTED_CATEGORY_ID_FOR_CATEGORIES_LIST,
+  SET_SELECTED_CATEGORY_ID_FOR_PRODUCTS_LIST,
   SET_SHARE_BUTTON_VISIBILITY,
   SET_SHARE_PANEL_VISIBILITY,
   SET_USED_CATEGORIES,
@@ -31,16 +33,12 @@ function productListReducer(state, action) {
       };
     }
 
-    case SET_CHANGE_CATEGORY_LIST_UPDATE_RUNNING: {
-      if (action.payload.running === state.usedCategories.listUpdateRunning) {
-        return state;
-      }
-
+    case SET_PRODUCTS_LIST_CATEGORY_UPDATING_COMPLETE: {
       return {
         ...state,
-        usedCategories: {
-          ...state.usedCategories,
-          listUpdateRunning: action.payload.running,
+        productsList: {
+          ...state.productsList,
+          changeCategoryUpdating: false,
         },
       };
     }
@@ -226,14 +224,48 @@ function productListReducer(state, action) {
     }
 
     case SET_SELECTED_CATEGORY_ID: {
-      const selectedCategoriesIds = new Set();
-      selectedCategoriesIds.add(action.payload.id);
-
       return {
         ...state,
-        usedCategories: {
-          ...state.usedCategories,
-          selectedCategoriesIds,
+        selectedCategory: {
+          ...state.selectedCategory,
+          categoriesList: {
+            ...state.selectedCategory.categoriesList,
+            selectedCategoryId: action.payload.id,
+          },
+          productsList: {
+            ...state.selectedCategory.productsList,
+            selectedCategoryId: action.payload.id,
+          },
+        },
+      };
+    }
+
+    case SET_SELECTED_CATEGORY_ID_FOR_CATEGORIES_LIST: {
+      return {
+        ...state,
+        selectedCategory: {
+          ...state.selectedCategory,
+          categoriesList: {
+            ...state.selectedCategory.categoriesList,
+            selectedCategoryId: action.payload.id,
+          },
+        },
+        productsList: {
+          ...state.productsList,
+          changeCategoryUpdating: true,
+        },
+      };
+    }
+
+    case SET_SELECTED_CATEGORY_ID_FOR_PRODUCTS_LIST: {
+      return {
+        ...state,
+        selectedCategory: {
+          ...state.selectedCategory,
+          productsList: {
+            ...state.selectedCategory.productsList,
+            selectedCategoryId: action.payload.id,
+          },
         },
       };
     }

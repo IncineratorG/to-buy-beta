@@ -12,21 +12,17 @@ const ListOfProducts = ({
   onRenderCompleted,
   unitsMap,
   categoriesMap,
-  selectedCategoriesIds,
+  selectedCategoryId,
 }) => {
-  const innerList = [...list];
+  const innerList = list.filter((product) =>
+    ProductRenderManager.canRender({product, selectedCategoryId}),
+  );
   if (innerList.length) {
     innerList.push({id: 'extra', extra: true});
   }
 
   const renderItem = useCallback(
     ({item}) => {
-      if (
-        !ProductRenderManager.canRender({product: item, selectedCategoriesIds})
-      ) {
-        return null;
-      }
-
       return (
         <Product
           product={item}
@@ -38,14 +34,7 @@ const ListOfProducts = ({
         />
       );
     },
-    [
-      selectedCategoriesIds,
-      onProductPress,
-      onRemovePress,
-      onStatusPress,
-      unitsMap,
-      categoriesMap,
-    ],
+    [onProductPress, onRemovePress, onStatusPress, unitsMap, categoriesMap],
   );
 
   const keyExtractor = useCallback((item) => item.id.toString(), []);
@@ -55,7 +44,7 @@ const ListOfProducts = ({
       onRenderCompleted();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [innerList]);
+  }, [selectedCategoryId]);
 
   return (
     <View style={styles.mainContainer}>

@@ -1,15 +1,21 @@
 import React from 'react';
-import {View, StyleSheet, Text, TouchableWithoutFeedback} from 'react-native';
-import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import TextColorDeterminer from '../../../../utils/common/text-color-determiner/TextColorDeterminer';
+import {icons} from '../../../../assets/icons';
 
 const ProductCategoryItem = ({
   category,
-  changeCategoryProductsListUpdateRunning,
-  selectedCategoriesIds,
+  productsListChangeCategoryUpdating,
+  selectedCategoryId,
   onCategoryPress,
 }) => {
-  const categorySelected = selectedCategoriesIds.has(category.id);
+  const categorySelected = selectedCategoryId === category.id;
   const categoryCompleted = category.completed;
 
   let backgroundColor = '#edeef1';
@@ -22,15 +28,29 @@ const ProductCategoryItem = ({
     textColor = TextColorDeterminer.determine(backgroundColor);
   }
 
-  // if (categorySelected && changeCategoryProductsListUpdateRunning) {
-  //   backgroundColor = 'green';
-  // }
+  let loadingComponent = null;
+
+  if (categorySelected && productsListChangeCategoryUpdating) {
+    textColor = 'transparent';
+    loadingComponent = (
+      <View style={{position: 'absolute'}}>
+        <Image
+          style={{transform: [{scale: 0.4}]}}
+          source={icons.progress_white}
+        />
+      </View>
+    );
+  }
+
+  let categoryNameComponent = (
+    <Text style={[styles.typeTitle, {color: textColor}]}>{category.name}</Text>
+  );
 
   const itemPressHandler = () => {
     if (onCategoryPress) {
       onCategoryPress({
         category,
-        selected: selectedCategoriesIds.has(category.id),
+        selected: categorySelected,
       });
     }
   };
@@ -50,9 +70,8 @@ const ProductCategoryItem = ({
             backgroundColor: backgroundColor,
           },
         ]}>
-        <Text style={[styles.typeTitle, {color: textColor}]}>
-          {category.name}
-        </Text>
+        {categoryNameComponent}
+        {loadingComponent}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -64,6 +83,7 @@ const styles = StyleSheet.create({
     margin: 4,
     alignItems: 'center',
     justifyContent: 'center',
+    minWidth: 50,
   },
   mainContainer: {
     backgroundColor: 'lightgrey',
@@ -73,6 +93,7 @@ const styles = StyleSheet.create({
     borderColor: 'lightgrey',
     justifyContent: 'center',
     alignItems: 'center',
+    minWidth: 50,
   },
   typeTitle: {
     margin: 5,
