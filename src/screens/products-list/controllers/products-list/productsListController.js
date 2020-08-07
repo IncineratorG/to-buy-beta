@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import {
   addProductAction,
   changeMultipleProductsStatusAction,
@@ -7,11 +7,11 @@ import {
   removeMultipleProductsAction,
   removeProductAction,
   updateProductAction,
-} from '../../../store/actions/products-list/productsListActions';
+} from '../../../../store/actions/products-list/productsListActions';
 import {
   renameShoppingListAction,
   updateShoppingListsAction,
-} from '../../../store/actions/shopping-lists/shoppingListsActions';
+} from '../../../../store/actions/shopping-lists/shoppingListsActions';
 import {
   pla_closeAddCategoryDialog,
   pla_closeAddUnitDialog,
@@ -32,23 +32,23 @@ import {
   pla_setSelectedCategoryIdForCategoriesList,
   pla_setSelectedCategoryIdForProductsList,
   pla_setSharePanelVisibility,
-} from '../stores/productListActions';
+} from '../../stores/productListActions';
 import {
   addCategoryAction,
   removeCategoryAction,
   updateCategoryAction,
-} from '../../../store/actions/categories/categoriesActions';
+} from '../../../../store/actions/categories/categoriesActions';
 import {
   addUnitAction,
   removeUnitAction,
   updateUnitAction,
-} from '../../../store/actions/units/unitsActions';
-import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
+} from '../../../../store/actions/units/unitsActions';
+import ProductStatus from '../../../../services/shopping-list/data/product-status/ProductStatus';
 import {
   shareProductsListViaSmsAction,
   shareProductsListViaWhatsAppAction,
-} from '../../../store/actions/share/shareActions';
-import ProductInitialCategories from '../../../components/specific/products-list/product-initial-categories/ProductInitialCategories';
+} from '../../../../store/actions/share/shareActions';
+import ProductInitialCategories from '../../../../components/specific/products-list/product-initial-categories/ProductInitialCategories';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
@@ -599,42 +599,42 @@ export const useProductsListController = (model) => {
     categoryPressHandler,
     inputAreaAddCategoryPressHandler,
     shadedBackgroundPressHandler,
-    addCategoryDialogTouchOutsideHandler,
-    addCategoryDialogAddButtonHandler,
-    addCategoryDialogCancelButtonHandler,
+    // addCategoryDialogTouchOutsideHandler,
+    // addCategoryDialogAddButtonHandler,
+    // addCategoryDialogCancelButtonHandler,
     inputAreaCategoryLongPressHandler,
-    editCategoryDialogTouchOutsideHandler,
-    editCategoryDialogSaveButtonHandler,
-    editCategoryDialogRemoveButtonHandler,
-    editCategoryDialogCancelButtonHandler,
+    // editCategoryDialogTouchOutsideHandler,
+    // editCategoryDialogSaveButtonHandler,
+    // editCategoryDialogRemoveButtonHandler,
+    // editCategoryDialogCancelButtonHandler,
     inputAreaAddUnitPressHandler,
-    addUnitDialogTouchOutsideHandler,
-    addUnitDialogCancelButtonHandler,
-    addUnitDialogAddButtonHandler,
+    // addUnitDialogTouchOutsideHandler,
+    // addUnitDialogCancelButtonHandler,
+    // addUnitDialogAddButtonHandler,
     inputAreaUnitLongPressHandler,
-    editUnitDialogTouchOutsideHandler,
-    editUnitDialogCancelButtonHandler,
-    editUnitDialogSaveButtonHandler,
-    editUnitDialogRemoveButtonHandler,
-    removeProductDialogTouchOutsideHandler,
-    removeProductDialogCancelButtonHandler,
-    removeProductDialogRemoveButtonHandler,
+    // editUnitDialogTouchOutsideHandler,
+    // editUnitDialogCancelButtonHandler,
+    // editUnitDialogSaveButtonHandler,
+    // editUnitDialogRemoveButtonHandler,
+    // removeProductDialogTouchOutsideHandler,
+    // removeProductDialogCancelButtonHandler,
+    // removeProductDialogRemoveButtonHandler,
     shareButtonPressHandler,
     smsSharePressHandler,
     whatsAppSharePressHandler,
-    screenMenuRenameListPressHandler,
-    screenMenuMarkAllAsBoughtPressHandler,
-    screenMenuMarkAllAsNotBoughtPressHandler,
-    screenMenuMarkCurrentCategoryAsBoughtPressHandler,
-    screenMenuMarkCurrentCategoryAsNotBoughtPressHandler,
-    screenMenuRemoveBoughtPressHandler,
-    screenMenuRemoveCurrentCategoryPressHandler,
-    screenMenuRemoveAllPressHandler,
-    renameListDialogTouchOutsideHandler,
-    renameListDialogCancelPressHandler,
-    renameListDialogRenamePressHandler,
-    removeAllProductsDialogTouchOutsideHandler,
-    removeAllProductsDialogRemoveButtonHandler,
-    removeAllProductsDialogCancelButtonHandler,
+    // screenMenuRenameListPressHandler,
+    // screenMenuMarkAllAsBoughtPressHandler,
+    // screenMenuMarkAllAsNotBoughtPressHandler,
+    // screenMenuMarkCurrentCategoryAsBoughtPressHandler,
+    // screenMenuMarkCurrentCategoryAsNotBoughtPressHandler,
+    // screenMenuRemoveBoughtPressHandler,
+    // screenMenuRemoveCurrentCategoryPressHandler,
+    // screenMenuRemoveAllPressHandler,
+    // renameListDialogTouchOutsideHandler,
+    // renameListDialogCancelPressHandler,
+    // renameListDialogRenamePressHandler,
+    // removeAllProductsDialogTouchOutsideHandler,
+    // removeAllProductsDialogRemoveButtonHandler,
+    // removeAllProductsDialogCancelButtonHandler,
   };
 };

@@ -89,8 +89,45 @@ const ProductsListView = ({styles, model, controller}) => {
   const {removeAllProductsDialogVisible} = removeAllProductsDialog;
 
   const {
-    addProductButtonHandler,
+    addCategoryDialogController,
+    addUnitDialogController,
+    editCategoryDialogController,
+    editUnitDialogController,
+    productsListController,
+    removeAllProductsDialogController,
+    removeProductDialogController,
+    renameListDialogController,
+  } = controller;
+
+  const {
+    addCategoryDialogTouchOutsideHandler,
+    addCategoryDialogAddButtonHandler,
+    addCategoryDialogCancelButtonHandler,
+  } = addCategoryDialogController;
+
+  const {
+    addUnitDialogTouchOutsideHandler,
+    addUnitDialogCancelButtonHandler,
+    addUnitDialogAddButtonHandler,
+  } = addUnitDialogController;
+
+  const {
+    editCategoryDialogTouchOutsideHandler,
+    editCategoryDialogSaveButtonHandler,
+    editCategoryDialogRemoveButtonHandler,
+    editCategoryDialogCancelButtonHandler,
+  } = editCategoryDialogController;
+
+  const {
+    editUnitDialogTouchOutsideHandler,
+    editUnitDialogCancelButtonHandler,
+    editUnitDialogSaveButtonHandler,
+    editUnitDialogRemoveButtonHandler,
+  } = editUnitDialogController;
+
+  const {
     productsListRenderCompletedHandler,
+    addProductButtonHandler,
     inputAreaSubmitValuesHandler,
     inputAreaHideHandler,
     statusPressHandler,
@@ -99,36 +136,31 @@ const ProductsListView = ({styles, model, controller}) => {
     categoryPressHandler,
     inputAreaAddCategoryPressHandler,
     shadedBackgroundPressHandler,
-    addCategoryDialogTouchOutsideHandler,
-    addCategoryDialogAddButtonHandler,
-    addCategoryDialogCancelButtonHandler,
     inputAreaCategoryLongPressHandler,
-    editCategoryDialogTouchOutsideHandler,
-    editCategoryDialogSaveButtonHandler,
-    editCategoryDialogRemoveButtonHandler,
-    editCategoryDialogCancelButtonHandler,
     inputAreaAddUnitPressHandler,
-    addUnitDialogTouchOutsideHandler,
-    addUnitDialogCancelButtonHandler,
-    addUnitDialogAddButtonHandler,
     inputAreaUnitLongPressHandler,
-    editUnitDialogTouchOutsideHandler,
-    editUnitDialogCancelButtonHandler,
-    editUnitDialogSaveButtonHandler,
-    editUnitDialogRemoveButtonHandler,
-    removeProductDialogTouchOutsideHandler,
-    removeProductDialogCancelButtonHandler,
-    removeProductDialogRemoveButtonHandler,
     shareButtonPressHandler,
     smsSharePressHandler,
     whatsAppSharePressHandler,
-    renameListDialogTouchOutsideHandler,
-    renameListDialogCancelPressHandler,
-    renameListDialogRenamePressHandler,
+  } = productsListController;
+
+  const {
     removeAllProductsDialogTouchOutsideHandler,
     removeAllProductsDialogRemoveButtonHandler,
     removeAllProductsDialogCancelButtonHandler,
-  } = controller;
+  } = removeAllProductsDialogController;
+
+  const {
+    removeProductDialogTouchOutsideHandler,
+    removeProductDialogCancelButtonHandler,
+    removeProductDialogRemoveButtonHandler,
+  } = removeProductDialogController;
+
+  const {
+    renameListDialogTouchOutsideHandler,
+    renameListDialogCancelPressHandler,
+    renameListDialogRenamePressHandler,
+  } = renameListDialogController;
 
   // ===
   const renameListDialogComponent = renameListDialogVisible ? (
