@@ -238,7 +238,7 @@ export class SLSqliteService {
       id,
     });
 
-    const {products} = await ProductsTableOperations.getProducts({
+    const {products} = await ProductsTableOperations.getShoppingListProducts({
       db: this.#db,
       listId: id,
     });
@@ -460,6 +460,90 @@ export class SLSqliteService {
     return true;
   }
 
+  static async changeMultipleProductsStatus({
+    shoppingListId,
+    productsIdsArray,
+    status,
+    onChanged,
+    onConfirmed,
+    onError,
+  }) {
+    if (
+      status !== ProductStatus.COMPLETED &&
+      status !== ProductStatus.NOT_COMPLETED
+    ) {
+      if (onError) {
+        onError({
+          error:
+            'SLSqliteService->changeMultipleProductsStatus()->BAD_PRODUCT_STATUS: ' +
+            status,
+        });
+      }
+      return false;
+    }
+
+    const {
+      hasError: changeStatusError,
+    } = await ProductsTableOperations.changeMultipleProductsStatus({
+      db: this.#db,
+      productsIds: productsIdsArray,
+      status,
+    });
+    if (changeStatusError) {
+      if (onError) {
+        onError({
+          error:
+            'SLSqliteService->changeMultipleProductsStatus()->CHANGE_PRODUCTS_STATUS_ERROR',
+        });
+      }
+      return false;
+    }
+
+    const {products} = await ProductsTableOperations.getProducts({
+      db: this.#db,
+      productsIds: productsIdsArray,
+    });
+
+    if (onChanged) {
+      onChanged({productsArray: products});
+    }
+
+    const {
+      products: completedProducts,
+    } = await ProductsTableOperations.getListProductsWithStatus({
+      db: this.#db,
+      shoppingListId,
+      status: ProductStatus.COMPLETED,
+    });
+
+    const {
+      products: notCompletedProducts,
+    } = await ProductsTableOperations.getListProductsWithStatus({
+      db: this.#db,
+      shoppingListId,
+      status: ProductStatus.NOT_COMPLETED,
+    });
+
+    const completedProductsCount = completedProducts.length;
+    const totalProductsCount =
+      completedProducts.length + notCompletedProducts.length;
+
+    const {
+      hasError: updateShoppingListError,
+    } = await ShoppingListsTableOperations.updateShoppingListProductsCount({
+      db: this.#db,
+      id: shoppingListId,
+      totalProductsCount,
+      completedProductsCount,
+    });
+
+    if (onConfirmed) {
+      onConfirmed({productsArray: products, confirmed: true});
+    }
+
+    return true;
+  }
+
   static async removeProduct({
     shoppingListId,
     productId,
@@ -524,6 +608,79 @@ export class SLSqliteService {
 
     if (onConfirmed) {
       onConfirmed({productId, confirmed: true});
+    }
+
+    return true;
+  }
+
+  static async removeMultipleProducts({
+    shoppingListId,
+    productsIdsArray,
+    onRemoved,
+    onConfirmed,
+    onError,
+  }) {
+    const {
+      hasError: removeProductsError,
+    } = await ProductsTableOperations.removeMultipleProducts({
+      db: this.#db,
+      productsIds: productsIdsArray,
+    });
+    if (removeProductsError) {
+      if (onError) {
+        onError({
+          error:
+            'SLSqliteService->removeMultipleProducts()->REMOVE_MULTIPLE_PRODUCTS_ERROR',
+        });
+      }
+      return false;
+    }
+
+    if (onRemoved) {
+      onRemoved();
+    }
+
+    const {
+      products: completedProducts,
+    } = await ProductsTableOperations.getListProductsWithStatus({
+      db: this.#db,
+      shoppingListId,
+      status: ProductStatus.COMPLETED,
+    });
+
+    const {
+      products: notCompletedProducts,
+    } = await ProductsTableOperations.getListProductsWithStatus({
+      db: this.#db,
+      shoppingListId,
+      status: ProductStatus.NOT_COMPLETED,
+    });
+
+    const completedProductsCount = completedProducts.length;
+    const totalProductsCount =
+      completedProducts.length + notCompletedProducts.length;
+
+    const {
+      hasError: updateShoppingListError,
+    } = await ShoppingListsTableOperations.updateShoppingListProductsCount({
+      db: this.#db,
+      id: shoppingListId,
+      totalProductsCount,
+      completedProductsCount,
+    });
+
+    if (updateShoppingListError) {
+      if (onError) {
+        onError({
+          error:
+            'SLSqliteService->removeMultipleProducts()->UPDATE_SHOPPING_LIST_ERROR',
+        });
+      }
+      return false;
+    }
+
+    if (onConfirmed) {
+      onConfirmed({confirmed: true});
     }
 
     return true;

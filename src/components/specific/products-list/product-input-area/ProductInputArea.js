@@ -15,8 +15,10 @@ const ProductInputArea = ({
   predefinedState,
   categoriesList,
   categoriesMap,
+  allCategoriesMap,
   unitsList,
   unitsMap,
+  allUnitsMap,
 }) => {
   const styles = productInputAreaStyles;
   const model = useProductInputAreaModel({
@@ -30,8 +32,10 @@ const ProductInputArea = ({
     predefinedState,
     categoriesList,
     categoriesMap,
+    allCategoriesMap,
     unitsList,
     unitsMap,
+    allUnitsMap,
   });
   const controller = useProductInputAreaController(model);
 

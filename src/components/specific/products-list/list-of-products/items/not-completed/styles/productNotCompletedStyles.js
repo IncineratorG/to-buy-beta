@@ -112,7 +112,12 @@ export const productNotCompletedStyles = StyleSheet.create({
     elevation: 6,
     marginTop: 10,
     marginBottom: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
     // marginRight: 10,
+  },
+  statusIcon: {
+    transform: [{scale: 0.5}],
   },
   noteContainer: {
     flex: 1,

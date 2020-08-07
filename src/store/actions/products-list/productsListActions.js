@@ -24,6 +24,16 @@ import {
   REMOVE_PRODUCT_REMOVED,
   REMOVE_PRODUCT_CONFIRMED,
   REMOVE_PRODUCT_ERROR,
+  CHANGE_MULTIPLE_PRODUCTS_STATUS,
+  CHANGE_MULTIPLE_PRODUCTS_STATUS_BEGIN,
+  CHANGE_MULTIPLE_PRODUCTS_STATUS_CHANGED,
+  CHANGE_MULTIPLE_PRODUCTS_STATUS_CONFIRMED,
+  CHANGE_MULTIPLE_PRODUCTS_STATUS_ERROR,
+  REMOVE_MULTIPLE_PRODUCTS,
+  REMOVE_MULTIPLE_PRODUCTS_BEGIN,
+  REMOVE_MULTIPLE_PRODUCTS_REMOVED,
+  REMOVE_MULTIPLE_PRODUCTS_CONFIRMED,
+  REMOVE_MULTIPLE_PRODUCTS_ERROR,
 } from '../../types/products-list/productsListTypes';
 
 export const loadProductsListAction = ({shoppingListId}) => {
@@ -301,5 +311,111 @@ export const removeProductErrorAction = ({
   return {
     type: REMOVE_PRODUCT_ERROR,
     payload: {shoppingListId, productId, error: {description}},
+  };
+};
+
+export const removeMultipleProductsAction = ({
+  shoppingListId,
+  productsIdsArray,
+}) => {
+  return {
+    type: REMOVE_MULTIPLE_PRODUCTS,
+    payload: {shoppingListId, productsIdsArray},
+  };
+};
+
+export const removeMultipleProductsBeginAction = ({
+  shoppingListId,
+  productsIdsArray,
+}) => {
+  return {
+    type: REMOVE_MULTIPLE_PRODUCTS_BEGIN,
+    payload: {shoppingListId, productsIdsArray},
+  };
+};
+
+export const removeMultipleProductsRemovedAction = ({
+  shoppingListId,
+  productsIdsArray,
+}) => {
+  return {
+    type: REMOVE_MULTIPLE_PRODUCTS_REMOVED,
+    payload: {shoppingListId, productsIdsArray},
+  };
+};
+
+export const removeMultipleProductsConfirmedAction = ({
+  shoppingListId,
+  productsIdsArray,
+  confirmed,
+}) => {
+  return {
+    type: REMOVE_MULTIPLE_PRODUCTS_CONFIRMED,
+    payload: {shoppingListId, productsIdsArray, confirmed},
+  };
+};
+
+export const removeMultipleProductsErrorAction = ({
+  shoppingListId,
+  productsIdsArray,
+  descritpion,
+}) => {
+  return {
+    type: REMOVE_MULTIPLE_PRODUCTS_ERROR,
+    payload: {shoppingListId, productsIdsArray, error: {descritpion}},
+  };
+};
+
+export const changeMultipleProductsStatusAction = ({
+  shoppingListId,
+  productsIdsArray,
+  status,
+}) => {
+  return {
+    type: CHANGE_MULTIPLE_PRODUCTS_STATUS,
+    payload: {shoppingListId, productsIdsArray, status},
+  };
+};
+
+export const changeMultipleProductsStatusBeginAction = ({
+  shoppingListId,
+  productsIdsArray,
+  status,
+}) => {
+  return {
+    type: CHANGE_MULTIPLE_PRODUCTS_STATUS_BEGIN,
+    payload: {shoppingListId, productsIdsArray, status},
+  };
+};
+
+export const changeMultipleProductsStatusChangedAction = ({
+  shoppingListId,
+  productsArray,
+}) => {
+  return {
+    type: CHANGE_MULTIPLE_PRODUCTS_STATUS_CHANGED,
+    payload: {shoppingListId, productsArray},
+  };
+};
+
+export const changeMultipleProductsStatusConfirmedAction = ({
+  shoppingListId,
+  productsArray,
+  confirmed,
+}) => {
+  return {
+    type: CHANGE_MULTIPLE_PRODUCTS_STATUS_CONFIRMED,
+    payload: {shoppingListId, productsArray, confirmed},
+  };
+};
+
+export const changeMultipleProductsStatusErrorAction = ({
+  shoppingListId,
+  productsIdsArray,
+  description,
+}) => {
+  return {
+    type: CHANGE_MULTIPLE_PRODUCTS_STATUS_ERROR,
+    payload: {shoppingListId, productsIdsArray, error: {description}},
   };
 };

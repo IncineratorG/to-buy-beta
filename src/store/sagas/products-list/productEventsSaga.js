@@ -5,8 +5,12 @@ import Services from '../../../services/Services';
 import {
   addProductConfirmedAction,
   addProductCreatedAction,
+  changeMultipleProductsStatusChangedAction,
+  changeMultipleProductsStatusConfirmedAction,
   changeProductStatusChangedAction,
   changeProductStatusConfirmedAction,
+  removeMultipleProductsConfirmedAction,
+  removeMultipleProductsRemovedAction,
   removeProductConfirmedAction,
   removeProductRemovedAction,
   updateProductConfirmedAction,
@@ -68,6 +72,53 @@ function createProductEventsChannel() {
       );
     };
 
+    const removeMultipleProductsHandler = ({
+      shoppingListId,
+      productsIdsArray,
+    }) => {
+      emit(
+        removeMultipleProductsRemovedAction({shoppingListId, productsIdsArray}),
+      );
+    };
+    const confirmRemoveMultipleProductsHandler = ({
+      shoppingListId,
+      productsIdsArray,
+      confirmed,
+    }) => {
+      emit(
+        removeMultipleProductsConfirmedAction({
+          shoppingListId,
+          productsIdsArray,
+          confirmed,
+        }),
+      );
+    };
+
+    const changeMultipleProductsStatusHandler = ({
+      shoppingListId,
+      productsArray,
+    }) => {
+      emit(
+        changeMultipleProductsStatusChangedAction({
+          shoppingListId,
+          productsArray,
+        }),
+      );
+    };
+    const confirmChangeMultipleProductsStatusHandler = ({
+      shoppingListId,
+      productsArray,
+      confirmed,
+    }) => {
+      emit(
+        changeMultipleProductsStatusConfirmedAction({
+          shoppingListId,
+          productsArray,
+          confirmed,
+        }),
+      );
+    };
+
     const shoppingListService = Services.get(
       Services.serviceTypes.SHOPPING_LIST,
     );
@@ -108,6 +159,31 @@ function createProductEventsChannel() {
       handler: confirmRemoveProductHandler,
     });
 
+    const removeMultipleProductsUnsubscribe = shoppingListService.subscribe({
+      event: ShoppingListServiceEvents.MULTIPLE_PRODUCTS_REMOVED,
+      handler: removeMultipleProductsHandler,
+    });
+    const removeMultipleProductsConfirmedUnsubscribe = shoppingListService.subscribe(
+      {
+        event: ShoppingListServiceEvents.MULTIPLE_PRODUCTS_REMOVE_CONFIRMED,
+        handler: confirmRemoveMultipleProductsHandler,
+      },
+    );
+
+    const changeMultipleProductsStatusUnsubscribe = shoppingListService.subscribe(
+      {
+        event: ShoppingListServiceEvents.MULTIPLE_PRODUCTS_STATUS_CHANGED,
+        handler: changeMultipleProductsStatusHandler,
+      },
+    );
+    const changeMultipleProductsStatusConfirmedUnsubscribe = shoppingListService.subscribe(
+      {
+        event:
+          ShoppingListServiceEvents.MULTIPLE_PRODUCTS_STATUS_CHANGE_CONFIRMED,
+        handler: confirmChangeMultipleProductsStatusHandler,
+      },
+    );
+
     return () => {
       createUnsubscribe();
       createConfirmUnsubscribe();
@@ -117,6 +193,10 @@ function createProductEventsChannel() {
       changeStatusConfirmUnsubscribe();
       removeUnsubscribe();
       removeConfirmUnsubscribe();
+      removeMultipleProductsUnsubscribe();
+      removeMultipleProductsConfirmedUnsubscribe();
+      changeMultipleProductsStatusUnsubscribe();
+      changeMultipleProductsStatusConfirmedUnsubscribe();
     };
   });
 }

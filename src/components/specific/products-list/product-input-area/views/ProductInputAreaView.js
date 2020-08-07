@@ -11,9 +11,9 @@ const ProductInputAreaView = ({styles, model, controller}) => {
   const {
     state,
     categoriesList,
-    categoriesMap,
+    extendedCategoriesList,
     unitsList,
-    unitsMap,
+    extendedUnitsList,
   } = model.data;
 
   const {type} = state.currentInput;
@@ -43,8 +43,10 @@ const ProductInputAreaView = ({styles, model, controller}) => {
       ]}>
       <ProductInputOptions
         state={state}
-        unitsList={unitsList}
-        categoriesList={categoriesList}
+        unitsList={extendedUnitsList ? extendedUnitsList : unitsList}
+        categoriesList={
+          extendedCategoriesList ? extendedCategoriesList : categoriesList
+        }
         onCategoryPress={categoryPressHandler}
         onCategoryLongPress={categoryLongPressHandler}
         onAddCategoryPress={addCategoryPressHandler}

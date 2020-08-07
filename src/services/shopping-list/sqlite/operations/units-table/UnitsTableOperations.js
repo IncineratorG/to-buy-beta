@@ -87,14 +87,17 @@ export class UnitsTableOperations {
       ' SET ' +
       UNITS_TABLE_UNIT_NAME +
       ' = ?, ' +
+      UNITS_TABLE_DELETED +
+      ' = ?, ' +
       UNITS_TABLE_UPDATE_TIMESTAMP +
       ' = ? WHERE ' +
       UNITS_TABLE_ID +
       ' = ?';
 
     const timestamp = Date.now();
+    const deleted = 0;
 
-    const statementParams = [name, timestamp, id];
+    const statementParams = [name, deleted, timestamp, id];
 
     const result = {updatedUnitsCount: 0, hasError: false};
     try {

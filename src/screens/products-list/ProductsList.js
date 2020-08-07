@@ -5,23 +5,41 @@ import {useFocusEffect} from '@react-navigation/native';
 import ProductsListView from './views/ProductsListView';
 import {productsListViewStyles} from './styles/productsListStyles';
 import {useProductsListModel} from './models/productsListModel';
-import {useProductsListController} from './controllers/productsListController';
-import {SystemEventsHandler} from '../../services/service-utils/system-events-handler/SystemEventsHandler';
 import ProductsListScreenMenuButton from '../../components/specific/products-list/screen-menu-button/ProductsListScreenMenuButton';
+import {useMainProductsListController} from './controllers/mainProductsListController';
 
 const ProductsList = () => {
   const styles = productsListViewStyles;
   const model = useProductsListModel();
-  const controller = useProductsListController(model);
+  // const controller = useProductsListController(model);
+  const mainController = useMainProductsListController(model);
 
+  // const {
+  //   backButtonPressHandler,
+  //   screenMenuRenameListPressHandler,
+  //   screenMenuMarkAllAsBoughtPressHandler,
+  //   screenMenuMarkAllAsNotBoughtPressHandler,
+  //   screenMenuMarkCurrentCategoryAsBoughtPressHandler,
+  //   screenMenuMarkCurrentCategoryAsNotBoughtPressHandler,
+  //   screenMenuRemoveBoughtPressHandler,
+  //   screenMenuRemoveCurrentCategoryPressHandler,
+  //   screenMenuRemoveAllPressHandler,
+  // } = mainController;
+
+  const {screenMenuButtonController} = mainController;
   const {
-    backButtonPressHandler,
     screenMenuRenameListPressHandler,
     screenMenuMarkAllAsBoughtPressHandler,
     screenMenuMarkAllAsNotBoughtPressHandler,
+    screenMenuMarkCurrentCategoryAsBoughtPressHandler,
+    screenMenuMarkCurrentCategoryAsNotBoughtPressHandler,
     screenMenuRemoveBoughtPressHandler,
+    screenMenuRemoveCurrentCategoryPressHandler,
     screenMenuRemoveAllPressHandler,
-  } = controller;
+  } = screenMenuButtonController;
+
+  const {productsListController} = mainController;
+  const {backButtonPressHandler} = productsListController;
 
   useFocusEffect(() => {
     model.navigation.setOptions({
@@ -32,9 +50,16 @@ const ProductsList = () => {
         <ProductsListScreenMenuButton
           onRenameList={screenMenuRenameListPressHandler}
           onRemoveAll={screenMenuRemoveAllPressHandler}
+          onRemoveCurrentCategory={screenMenuRemoveCurrentCategoryPressHandler}
           onRemoveBought={screenMenuRemoveBoughtPressHandler}
           onAllBought={screenMenuMarkAllAsBoughtPressHandler}
           onAllNotBought={screenMenuMarkAllAsNotBoughtPressHandler}
+          onCurrentCategoryBought={
+            screenMenuMarkCurrentCategoryAsBoughtPressHandler
+          }
+          onCurrentCategoryNotBought={
+            screenMenuMarkCurrentCategoryAsNotBoughtPressHandler
+          }
         />
       ),
     });
@@ -49,7 +74,11 @@ const ProductsList = () => {
   }, []);
 
   return (
-    <ProductsListView styles={styles} model={model} controller={controller} />
+    <ProductsListView
+      styles={styles}
+      model={model}
+      controller={mainController}
+    />
   );
 };
 

@@ -15,6 +15,7 @@ import {useTranslation} from '../../../../utils/common/localization';
 const EditCategoryDialog = ({
   visible,
   category,
+  canRemove,
   onTouchOutside,
   onSavePress,
   onRemovePress,
@@ -79,6 +80,21 @@ const EditCategoryDialog = ({
     setSelectedColorItem(initialCategoryColorItem);
   }, [category]);
 
+  const removeButtonComponent = canRemove ? (
+    <View style={styles.removeButtonWrapper}>
+      <TouchableNativeFeedback
+        style={styles.removeButtonTouchable}
+        underlayColor={'lightgrey'}
+        onPress={removeButtonHandler}>
+        <View style={styles.removeButtonContainer}>
+          <Text style={styles.removeButtonText}>
+            {t('EditCategoryDialog_removeButton')}
+          </Text>
+        </View>
+      </TouchableNativeFeedback>
+    </View>
+  ) : null;
+
   const buttons = (
     <View style={styles.buttonsContainer}>
       <TouchableNativeFeedback
@@ -106,18 +122,7 @@ const EditCategoryDialog = ({
           </Text>
         </View>
       </TouchableNativeFeedback>
-      <View style={styles.removeButtonWrapper}>
-        <TouchableNativeFeedback
-          style={styles.removeButtonTouchable}
-          underlayColor={'lightgrey'}
-          onPress={removeButtonHandler}>
-          <View style={styles.removeButtonContainer}>
-            <Text style={styles.removeButtonText}>
-              {t('EditCategoryDialog_removeButton')}
-            </Text>
-          </View>
-        </TouchableNativeFeedback>
-      </View>
+      {removeButtonComponent}
     </View>
   );
 

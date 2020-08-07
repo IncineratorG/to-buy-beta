@@ -33,38 +33,100 @@ const ProductsListView = ({styles, model, controller}) => {
     categoriesMap,
     allCategoriesList,
     allCategoriesMap,
-    shareButtonVisible,
-    sharePanelVisible,
     smsShareSupported,
     whatsAppShareSupported,
-    renameListDialogVisible,
   } = model.data;
 
   const {
     dataLoading,
     usedCategories,
+    selectedCategory,
+    productsList,
     inputArea,
     addCategoryDialog,
     editCategoryDialog,
     addUnitDialog,
     editUnitDialog,
     removeProductDialog,
+    shareButton,
+    sharePanel,
+    renameListDialog,
+    removeAllProductsDialog,
   } = state;
 
+  const {usedCategoriesLoading, usedCategoriesList} = usedCategories;
+
   const {
-    usedCategoriesLoading,
-    usedCategoriesList,
-    selectedCategoriesIds,
-  } = usedCategories;
+    categoriesList: categoriesListSelectedCategoryData,
+    productsList: productsListSelectedCategoryData,
+  } = selectedCategory;
+
+  const {
+    selectedCategoryId: categoriesListSelectedCategoryId,
+  } = categoriesListSelectedCategoryData;
+
+  const {
+    selectedCategoryId: productsListSelectedCategoryId,
+  } = productsListSelectedCategoryData;
+
+  const {
+    changeCategoryUpdating: productsListChangeCategoryUpdating,
+  } = productsList;
 
   const {inputAreaVisible, inputAreaState, editData} = inputArea;
   const {addCategoryDialogVisible} = addCategoryDialog;
-  const {editCategoryDialogVisible, editCategory} = editCategoryDialog;
+  const {
+    editCategoryDialogVisible,
+    editCategory,
+    canRemoveCategory,
+  } = editCategoryDialog;
   const {addUnitDialogVisible} = addUnitDialog;
-  const {editUnitDialogVisible, editUnit} = editUnitDialog;
+  const {editUnitDialogVisible, editUnit, canRemoveUnit} = editUnitDialog;
   const {removeProductDialogVisible, removeProduct} = removeProductDialog;
+  const {shareButtonVisible} = shareButton;
+  const {sharePanelVisible} = sharePanel;
+  const {renameListDialogVisible} = renameListDialog;
+  const {removeAllProductsDialogVisible} = removeAllProductsDialog;
 
   const {
+    addCategoryDialogController,
+    addUnitDialogController,
+    editCategoryDialogController,
+    editUnitDialogController,
+    productsListController,
+    removeAllProductsDialogController,
+    removeProductDialogController,
+    renameListDialogController,
+  } = controller;
+
+  const {
+    addCategoryDialogTouchOutsideHandler,
+    addCategoryDialogAddButtonHandler,
+    addCategoryDialogCancelButtonHandler,
+  } = addCategoryDialogController;
+
+  const {
+    addUnitDialogTouchOutsideHandler,
+    addUnitDialogCancelButtonHandler,
+    addUnitDialogAddButtonHandler,
+  } = addUnitDialogController;
+
+  const {
+    editCategoryDialogTouchOutsideHandler,
+    editCategoryDialogSaveButtonHandler,
+    editCategoryDialogRemoveButtonHandler,
+    editCategoryDialogCancelButtonHandler,
+  } = editCategoryDialogController;
+
+  const {
+    editUnitDialogTouchOutsideHandler,
+    editUnitDialogCancelButtonHandler,
+    editUnitDialogSaveButtonHandler,
+    editUnitDialogRemoveButtonHandler,
+  } = editUnitDialogController;
+
+  const {
+    productsListRenderCompletedHandler,
     addProductButtonHandler,
     inputAreaSubmitValuesHandler,
     inputAreaHideHandler,
@@ -74,33 +136,31 @@ const ProductsListView = ({styles, model, controller}) => {
     categoryPressHandler,
     inputAreaAddCategoryPressHandler,
     shadedBackgroundPressHandler,
-    addCategoryDialogTouchOutsideHandler,
-    addCategoryDialogAddButtonHandler,
-    addCategoryDialogCancelButtonHandler,
     inputAreaCategoryLongPressHandler,
-    editCategoryDialogTouchOutsideHandler,
-    editCategoryDialogSaveButtonHandler,
-    editCategoryDialogRemoveButtonHandler,
-    editCategoryDialogCancelButtonHandler,
     inputAreaAddUnitPressHandler,
-    addUnitDialogTouchOutsideHandler,
-    addUnitDialogCancelButtonHandler,
-    addUnitDialogAddButtonHandler,
     inputAreaUnitLongPressHandler,
-    editUnitDialogTouchOutsideHandler,
-    editUnitDialogCancelButtonHandler,
-    editUnitDialogSaveButtonHandler,
-    editUnitDialogRemoveButtonHandler,
-    removeProductDialogTouchOutsideHandler,
-    removeProductDialogCancelButtonHandler,
-    removeProductDialogRemoveButtonHandler,
     shareButtonPressHandler,
     smsSharePressHandler,
     whatsAppSharePressHandler,
+  } = productsListController;
+
+  const {
+    removeAllProductsDialogTouchOutsideHandler,
+    removeAllProductsDialogRemoveButtonHandler,
+    removeAllProductsDialogCancelButtonHandler,
+  } = removeAllProductsDialogController;
+
+  const {
+    removeProductDialogTouchOutsideHandler,
+    removeProductDialogCancelButtonHandler,
+    removeProductDialogRemoveButtonHandler,
+  } = removeProductDialogController;
+
+  const {
     renameListDialogTouchOutsideHandler,
     renameListDialogCancelPressHandler,
     renameListDialogRenamePressHandler,
-  } = controller;
+  } = renameListDialogController;
 
   // ===
   const renameListDialogComponent = renameListDialogVisible ? (
@@ -114,9 +174,32 @@ const ProductsListView = ({styles, model, controller}) => {
     />
   ) : null;
 
+  const removeAllProductsConfirmationDialogComponent = (
+    <ConfirmDialog
+      // title={t('ProductsList_removeAllProductsConfirmationDialogTitle')}
+      message={t('ProductsList_removeAllProductsConfirmationDialogMessage')}
+      visible={removeAllProductsDialogVisible}
+      onTouchOutside={removeAllProductsDialogTouchOutsideHandler}
+      positiveButton={{
+        title: t(
+          'ProductsList_removeAllProductsConfirmationDialogPositiveButton',
+        ),
+        titleStyle: {color: 'red'},
+        onPress: removeAllProductsDialogRemoveButtonHandler,
+      }}
+      negativeButton={{
+        title: t(
+          'ProductsList_removeAllProductsConfirmationDialogNegativeButton',
+        ),
+        titleStyle: {color: 'grey'},
+        onPress: removeAllProductsDialogCancelButtonHandler,
+      }}
+    />
+  );
+
   const removeProductConfirmationDialogComponent = (
     <ConfirmDialog
-      title={t('ProductsList_removeProductConfirmationDialogTitle')}
+      // title={t('ProductsList_removeProductConfirmationDialogTitle')}
       message={
         t('ProductsList_removeProductConfirmationDialogMessage') +
         ' ' +
@@ -151,6 +234,7 @@ const ProductsListView = ({styles, model, controller}) => {
     <EditUnitDialog
       visible={editUnitDialogVisible}
       unit={editUnit}
+      canRemove={canRemoveUnit}
       onTouchOutside={editUnitDialogTouchOutsideHandler}
       onSavePress={editUnitDialogSaveButtonHandler}
       onRemovePress={editUnitDialogRemoveButtonHandler}
@@ -171,6 +255,7 @@ const ProductsListView = ({styles, model, controller}) => {
     <EditCategoryDialog
       visible={editCategoryDialogVisible}
       category={editCategory}
+      canRemove={canRemoveCategory}
       onTouchOutside={editCategoryDialogTouchOutsideHandler}
       onSavePress={editCategoryDialogSaveButtonHandler}
       onRemovePress={editCategoryDialogRemoveButtonHandler}
@@ -205,7 +290,8 @@ const ProductsListView = ({styles, model, controller}) => {
       <ProductCategoriesList
         categories={usedCategoriesList}
         onCategoryPress={categoryPressHandler}
-        selectedCategoriesIds={selectedCategoriesIds}
+        selectedCategoryId={categoriesListSelectedCategoryId}
+        productsListChangeCategoryUpdating={productsListChangeCategoryUpdating}
       />
     </View>
   );
@@ -217,9 +303,10 @@ const ProductsListView = ({styles, model, controller}) => {
         onProductPress={productPressHandler}
         onStatusPress={statusPressHandler}
         onRemovePress={productRemoveHandler}
+        onRenderCompleted={productsListRenderCompletedHandler}
         unitsMap={allUnitsMap}
         categoriesMap={allCategoriesMap}
-        selectedCategoriesIds={selectedCategoriesIds}
+        selectedCategoryId={productsListSelectedCategoryId}
       />
     </View>
   );
@@ -275,8 +362,10 @@ const ProductsListView = ({styles, model, controller}) => {
         predefinedState={inputAreaState}
         categoriesList={categoriesList}
         categoriesMap={categoriesMap}
+        allCategoriesMap={allCategoriesMap}
         unitsList={unitsList}
         unitsMap={unitsMap}
+        allUnitsMap={allUnitsMap}
       />
     </View>
   ) : null;
@@ -306,6 +395,7 @@ const ProductsListView = ({styles, model, controller}) => {
       {addUnitDialogComponent}
       {editUnitDialogComponent}
       {removeProductConfirmationDialogComponent}
+      {removeAllProductsConfirmationDialogComponent}
       {renameListDialogComponent}
     </View>
   );

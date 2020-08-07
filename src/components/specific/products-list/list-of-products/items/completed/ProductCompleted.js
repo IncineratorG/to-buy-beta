@@ -15,15 +15,32 @@ const ProductCompleted = ({
   onStatusPress,
   onProductLongPress,
 }) => {
+  const {confirmationStatus} = product;
+  let awaitConfirmation = false;
+  let confirmed = false;
+
+  if (confirmationStatus) {
+    awaitConfirmation = confirmationStatus.awaitConfirmation;
+    confirmed = confirmationStatus.confirmed;
+  }
+
   const productUnit = unitsMap.get(product.unitId)
     ? unitsMap.get(product.unitId).name
     : '';
 
   const statusPressHandler = () => {
+    if (awaitConfirmation) {
+      return;
+    }
+
     onStatusPress(product);
   };
 
   const productLongPressHandler = () => {
+    if (awaitConfirmation) {
+      return;
+    }
+
     if (onProductLongPress) {
       onProductLongPress(product);
     }
@@ -39,6 +56,12 @@ const ProductCompleted = ({
 
   const noteComponent =
     product.note.length > 0 ? noteExistComponent : noteNotExistComponent;
+
+  const statusImageComponent = awaitConfirmation ? (
+    <Image style={styles.awaitConfirmationIcon} source={icons.progress_white} />
+  ) : (
+    <Image style={styles.checmarkIcon} source={icons.checkmark} />
+  );
 
   return (
     <TouchableHighlight
@@ -75,9 +98,7 @@ const ProductCompleted = ({
           style={styles.statusTouchable}
           onPress={statusPressHandler}>
           <View style={styles.statusContainer}>
-            <View style={styles.statusFinished}>
-              <Image style={styles.checmarkIcon} source={icons.checkmark} />
-            </View>
+            <View style={styles.statusFinished}>{statusImageComponent}</View>
           </View>
         </TouchableWithoutFeedback>
       </View>

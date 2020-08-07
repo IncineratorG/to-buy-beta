@@ -99,14 +99,17 @@ export class CategoriesTableOperations {
       ' = ?, ' +
       CATEGORIES_TABLE_COLOR +
       ' = ?, ' +
+      CATEGORIES_TABLE_DELETED +
+      ' = ?, ' +
       CATEGORIES_TABLE_UPDATE_TIMESTAMP +
       ' = ? WHERE ' +
       CATEGORIES_TABLE_ID +
       ' = ?';
 
     const timestamp = Date.now();
+    const deleted = 0;
 
-    const statementParams = [name, color, timestamp, id];
+    const statementParams = [name, color, deleted, timestamp, id];
 
     const result = {updatedCategoriesCount: 0, hasError: false};
     try {

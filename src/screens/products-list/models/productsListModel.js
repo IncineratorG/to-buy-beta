@@ -6,21 +6,19 @@ import productListReducer from '../stores/produtcListReducer';
 import productListState from '../stores/productListState';
 import {
   pla_setDataLoading,
+  pla_setShareButtonVisibility,
   pla_setUsedCategories,
 } from '../stores/productListActions';
 import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
 import ProductInitialCategories from '../../../components/specific/products-list/product-initial-categories/ProductInitialCategories';
 import {checkShareAvailabilityAction} from '../../../store/actions/share/shareActions';
+import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 
 export const useProductsListModel = () => {
   const [state, localDispatch] = useReducer(
     productListReducer,
     productListState,
   );
-
-  const [shareButtonVisible, setShareButtonVisible] = useState(false);
-  const [sharePanelVisible, setSharePanelVisible] = useState(false);
-  const [renameListDialogVisible, setRenameListDialogVisible] = useState(false);
 
   const navigation = useNavigation();
 
@@ -165,10 +163,8 @@ export const useProductsListModel = () => {
       return c1.createTimestamp < c2.createTimestamp;
     });
 
-    if (hasCompletedProducts) {
+    if (hasCompletedProducts && hasNotCompletedProducts) {
       usedCategoriesList.unshift(completedCategory);
-    }
-    if (hasNotCompletedProducts) {
       usedCategoriesList.unshift(notCompletedCategory);
     }
     usedCategoriesList.unshift(allCategory);
@@ -176,9 +172,9 @@ export const useProductsListModel = () => {
     localDispatch(pla_setUsedCategories({categories: usedCategoriesList}));
 
     if (hasNotCompletedProducts) {
-      setShareButtonVisible(true);
+      localDispatch(pla_setShareButtonVisibility({visible: true}));
     } else {
-      setShareButtonVisible(false);
+      localDispatch(pla_setShareButtonVisibility({visible: false}));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoriesLoading, listLoading, products, allCategoriesMap]);
@@ -198,17 +194,10 @@ export const useProductsListModel = () => {
       categoriesMap,
       allCategoriesList,
       allCategoriesMap,
-      shareButtonVisible,
-      sharePanelVisible,
       smsShareSupported,
       whatsAppShareSupported,
-      renameListDialogVisible,
     },
-    setters: {
-      setShareButtonVisible,
-      setSharePanelVisible,
-      setRenameListDialogVisible,
-    },
+    setters: {},
     navigation,
     dispatch,
     localDispatch,

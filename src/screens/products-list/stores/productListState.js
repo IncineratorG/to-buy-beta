@@ -5,7 +5,17 @@ const productListState = {
   usedCategories: {
     usedCategoriesLoading: false,
     usedCategoriesList: [],
-    selectedCategoriesIds: new Set([ProductInitialCategories.ALL]),
+  },
+  selectedCategory: {
+    categoriesList: {
+      selectedCategoryId: ProductInitialCategories.ALL,
+    },
+    productsList: {
+      selectedCategoryId: ProductInitialCategories.ALL,
+    },
+  },
+  productsList: {
+    changeCategoryUpdating: false,
   },
   removeProductDialog: {
     removeProductDialogVisible: false,
@@ -26,6 +36,7 @@ const productListState = {
   editCategoryDialog: {
     editCategoryDialogVisible: false,
     editCategory: null,
+    canRemoveCategory: false,
   },
   addUnitDialog: {
     addUnitDialogVisible: false,
@@ -33,6 +44,19 @@ const productListState = {
   editUnitDialog: {
     editUnitDialogVisible: false,
     editUnit: null,
+    canRemoveUnit: false,
+  },
+  shareButton: {
+    shareButtonVisible: false,
+  },
+  sharePanel: {
+    sharePanelVisible: false,
+  },
+  renameListDialog: {
+    renameListDialogVisible: false,
+  },
+  removeAllProductsDialog: {
+    removeAllProductsDialogVisible: false,
   },
 };
 

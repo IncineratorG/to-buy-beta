@@ -1,40 +1,50 @@
-import React from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {View, FlatList, StyleSheet} from 'react-native';
 import Product from './items/Product';
 import ProductRenderManager from './items/ProductRenderManager';
+import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 
 const ListOfProducts = ({
   list,
   onProductPress,
   onStatusPress,
   onRemovePress,
+  onRenderCompleted,
   unitsMap,
   categoriesMap,
-  selectedCategoriesIds,
+  selectedCategoryId,
 }) => {
-  const innerList = [...list];
+  const innerList = list.filter((product) =>
+    ProductRenderManager.canRender({product, selectedCategoryId}),
+  );
   if (innerList.length) {
     innerList.push({id: 'extra', extra: true});
   }
 
-  const renderItem = ({item}) => {
-    if (
-      !ProductRenderManager.canRender({product: item, selectedCategoriesIds})
-    ) {
-      return null;
-    }
+  const renderItem = useCallback(
+    ({item}) => {
+      return (
+        <Product
+          product={item}
+          onProductPress={onProductPress}
+          onProductLongPress={onRemovePress}
+          onStatusPress={onStatusPress}
+          unitsMap={unitsMap}
+          categoriesMap={categoriesMap}
+        />
+      );
+    },
+    [onProductPress, onRemovePress, onStatusPress, unitsMap, categoriesMap],
+  );
 
-    return (
-      <Product
-        product={item}
-        onProductPress={onProductPress}
-        onProductLongPress={onRemovePress}
-        onStatusPress={onStatusPress}
-        unitsMap={unitsMap}
-        categoriesMap={categoriesMap}
-      />
-    );
-  };
+  const keyExtractor = useCallback((item) => item.id.toString(), []);
+
+  useEffect(() => {
+    if (onRenderCompleted) {
+      onRenderCompleted();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCategoryId]);
 
   return (
     <View style={styles.mainContainer}>
@@ -44,7 +54,7 @@ const ListOfProducts = ({
           data={innerList}
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={keyExtractor}
         />
       </View>
     </View>

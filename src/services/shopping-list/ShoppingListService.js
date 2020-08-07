@@ -178,6 +178,50 @@ export class ShoppingListService {
     });
   }
 
+  static async changeMultipleProductsStatus({
+    shoppingListId,
+    productsIdsArray,
+    status,
+  }) {
+    const onChanged = ({productsArray}) => {
+      ShoppingListService.#notifier.notify({
+        event: ShoppingListServiceEvents.MULTIPLE_PRODUCTS_STATUS_CHANGED,
+        data: {shoppingListId, productsArray},
+      });
+    };
+    const onConfirmed = ({productsArray, confirmed}) => {
+      ShoppingListService.#notifier.notify({
+        event:
+          ShoppingListServiceEvents.MULTIPLE_PRODUCTS_STATUS_CHANGE_CONFIRMED,
+        data: {
+          shoppingListId,
+          productsArray,
+          confirmed,
+        },
+      });
+    };
+    const onError = ({error}) => {
+      SystemEventsHandler.onError({
+        err:
+          'ShoppingListService->changeMultipleProductsStatus()->ERROR: ' +
+          error,
+      });
+      ShoppingListService.#notifier.notify({
+        event: ShoppingListServiceEvents.MULTIPLE_PRODUCTS_STATUS_CHANGE_ERROR,
+        data: {shoppingListId, productsIdsArray, error},
+      });
+    };
+
+    await SLSqliteService.changeMultipleProductsStatus({
+      shoppingListId,
+      productsIdsArray,
+      status,
+      onChanged,
+      onConfirmed,
+      onError,
+    });
+  }
+
   static async removeProduct({shoppingListId, productId}) {
     const onRemoved = ({productId}) => {
       ShoppingListService.#notifier.notify({
@@ -200,6 +244,38 @@ export class ShoppingListService {
     await SLSqliteService.removeProduct({
       shoppingListId,
       productId,
+      onRemoved,
+      onConfirmed,
+      onError,
+    });
+  }
+
+  static async removeMultipleProducts({shoppingListId, productsIdsArray}) {
+    const onRemoved = () => {
+      ShoppingListService.#notifier.notify({
+        event: ShoppingListServiceEvents.MULTIPLE_PRODUCTS_REMOVED,
+        data: {shoppingListId, productsIdsArray},
+      });
+    };
+    const onConfirmed = ({confirmed}) => {
+      ShoppingListService.#notifier.notify({
+        event: ShoppingListServiceEvents.MULTIPLE_PRODUCTS_REMOVE_CONFIRMED,
+        data: {shoppingListId, productsIdsArray, confirmed},
+      });
+    };
+    const onError = ({error}) => {
+      SystemEventsHandler.onError({
+        err: 'ShoppingListService->removeMultipleProducts()->ERROR: ' + error,
+      });
+      ShoppingListService.#notifier.notify({
+        event: ShoppingListServiceEvents.MULTIPLE_PRODUCTS_REMOVE_ERROR,
+        data: {shoppingListId, productsIdsArray, error},
+      });
+    };
+
+    await SLSqliteService.removeMultipleProducts({
+      shoppingListId,
+      productsIdsArray,
       onRemoved,
       onConfirmed,
       onError,
