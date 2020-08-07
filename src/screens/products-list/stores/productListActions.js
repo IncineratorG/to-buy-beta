@@ -1,5 +1,4 @@
 import {
-  ADD_SELECTED_CATEGORY_ID,
   CLOSE_ADD_CATEGORY_DIALOG,
   CLOSE_ADD_UNIT_DIALOG,
   CLOSE_EDIT_CATEGORY_DIALOG,
@@ -13,7 +12,7 @@ import {
   OPEN_PRODUCT_INPUT_AREA_IN_CREATE_MODE,
   OPEN_PRODUCT_INPUT_AREA_IN_EDIT_MODE,
   OPEN_REMOVE_PRODUCT_DIALOG,
-  REMOVE_SELECTED_CATEGORY_ID,
+  SET_CHANGE_CATEGORY_LIST_UPDATE_RUNNING,
   SET_DATA_LOADING,
   SET_REMOVE_ALL_PRODUCTS_DIALOG_VISIBILITY,
   SET_RENAME_LIST_DIALOG_VISIBILITY,
@@ -167,20 +166,6 @@ export const pla_setSelectedCategoryId = ({id}) => {
   };
 };
 
-export const pla_addSelectedCategoryId = ({id}) => {
-  return {
-    type: ADD_SELECTED_CATEGORY_ID,
-    payload: {id},
-  };
-};
-
-export const pla_removeSelectedCategoryId = ({id}) => {
-  return {
-    type: REMOVE_SELECTED_CATEGORY_ID,
-    payload: {id},
-  };
-};
-
 export const pla_setShareButtonVisibility = ({visible}) => {
   return {
     type: SET_SHARE_BUTTON_VISIBILITY,
@@ -206,5 +191,12 @@ export const pla_setRemoveAllProductsDialogVisibility = ({visible}) => {
   return {
     type: SET_REMOVE_ALL_PRODUCTS_DIALOG_VISIBILITY,
     payload: {visible},
+  };
+};
+
+export const pla_setChangeCategoryListUpdateRunning = ({running}) => {
+  return {
+    type: SET_CHANGE_CATEGORY_LIST_UPDATE_RUNNING,
+    payload: {running},
   };
 };

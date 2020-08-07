@@ -163,10 +163,8 @@ export const useProductsListModel = () => {
       return c1.createTimestamp < c2.createTimestamp;
     });
 
-    if (hasCompletedProducts) {
+    if (hasCompletedProducts && hasNotCompletedProducts) {
       usedCategoriesList.unshift(completedCategory);
-    }
-    if (hasNotCompletedProducts) {
       usedCategoriesList.unshift(notCompletedCategory);
     }
     usedCategoriesList.unshift(allCategory);

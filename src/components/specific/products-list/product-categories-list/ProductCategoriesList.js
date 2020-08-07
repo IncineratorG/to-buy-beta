@@ -1,21 +1,34 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
 import ProductCategoryItem from './ProductCategoryItem';
 
 const ProductCategoriesList = ({
   categories,
+  changeCategoryProductsListUpdateRunning,
   selectedCategoriesIds,
   onCategoryPress,
 }) => {
-  const renderItem = ({item}) => {
-    return (
-      <ProductCategoryItem
-        category={item}
-        selectedCategoriesIds={selectedCategoriesIds}
-        onCategoryPress={onCategoryPress}
-      />
-    );
-  };
+  const renderItem = useCallback(
+    ({item}) => {
+      return (
+        <ProductCategoryItem
+          category={item}
+          selectedCategoriesIds={selectedCategoriesIds}
+          changeCategoryProductsListUpdateRunning={
+            changeCategoryProductsListUpdateRunning
+          }
+          onCategoryPress={onCategoryPress}
+        />
+      );
+    },
+    [
+      selectedCategoriesIds,
+      changeCategoryProductsListUpdateRunning,
+      onCategoryPress,
+    ],
+  );
+
+  const keyExtractor = useCallback((item) => item.id.toString(), []);
 
   return (
     <View style={styles.mainContainer}>
@@ -26,7 +39,7 @@ const ProductCategoriesList = ({
         activeOpacity={1}
         showsHorizontalScrollIndicator={false}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={keyExtractor}
       />
     </View>
   );

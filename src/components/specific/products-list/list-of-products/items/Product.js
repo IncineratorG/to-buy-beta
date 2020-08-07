@@ -56,4 +56,11 @@ const Product = ({
   }
 };
 
+// const comparator = (prevProps, currProps) => {
+//   return (
+//     prevProps.product.completionStatus === currProps.product.completionStatus ||
+//     prevProps.product.updateTimestamp === currProps.product.updateTimestamp
+//   );
+// };
+
 export default React.memo(Product);

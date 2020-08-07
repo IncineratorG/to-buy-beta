@@ -6,6 +6,7 @@ const productListState = {
     usedCategoriesLoading: false,
     usedCategoriesList: [],
     selectedCategoriesIds: new Set([ProductInitialCategories.ALL]),
+    listUpdateRunning: false,
   },
   removeProductDialog: {
     removeProductDialogVisible: false,

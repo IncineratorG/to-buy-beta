@@ -56,6 +56,7 @@ const ProductsListView = ({styles, model, controller}) => {
     usedCategoriesLoading,
     usedCategoriesList,
     selectedCategoriesIds,
+    listUpdateRunning,
   } = usedCategories;
 
   const {inputAreaVisible, inputAreaState, editData} = inputArea;
@@ -75,6 +76,7 @@ const ProductsListView = ({styles, model, controller}) => {
 
   const {
     addProductButtonHandler,
+    productsListRenderCompletedHandler,
     inputAreaSubmitValuesHandler,
     inputAreaHideHandler,
     statusPressHandler,
@@ -241,6 +243,7 @@ const ProductsListView = ({styles, model, controller}) => {
     <View style={styles.productCategoriesContainer}>
       <ProductCategoriesList
         categories={usedCategoriesList}
+        changeCategoryProductsListUpdateRunning={listUpdateRunning}
         onCategoryPress={categoryPressHandler}
         selectedCategoriesIds={selectedCategoriesIds}
       />
@@ -254,6 +257,7 @@ const ProductsListView = ({styles, model, controller}) => {
         onProductPress={productPressHandler}
         onStatusPress={statusPressHandler}
         onRemovePress={productRemoveHandler}
+        onRenderCompleted={productsListRenderCompletedHandler}
         unitsMap={allUnitsMap}
         categoriesMap={allCategoriesMap}
         selectedCategoriesIds={selectedCategoriesIds}

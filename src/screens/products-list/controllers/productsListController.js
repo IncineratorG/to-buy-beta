@@ -27,6 +27,7 @@ import {
   pla_openProductInputAreaInCreateMode,
   pla_openProductInputAreaInEditMode,
   pla_openRemoveProductDialog,
+  pla_setChangeCategoryListUpdateRunning,
   pla_setRemoveAllProductsDialogVisibility,
   pla_setRenameListDialogVisibility,
   pla_setSelectedCategoryId,
@@ -58,6 +59,13 @@ export const useProductsListController = (model) => {
 
     return true;
   };
+
+  const productsListRenderCompletedHandler = useCallback(() => {
+    model.localDispatch(
+      pla_setChangeCategoryListUpdateRunning({running: false}),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const addProductButtonHandler = useCallback(() => {
     model.localDispatch(pla_setSharePanelVisibility({visible: false}));
@@ -171,6 +179,10 @@ export const useProductsListController = (model) => {
 
   const categoryPressHandler = useCallback(({category, selected}) => {
     model.localDispatch(pla_setSharePanelVisibility({visible: false}));
+
+    model.localDispatch(
+      pla_setChangeCategoryListUpdateRunning({running: true}),
+    );
 
     if (!selected) {
       model.localDispatch(pla_setSelectedCategoryId({id: category.id}));
@@ -425,10 +437,6 @@ export const useProductsListController = (model) => {
   };
 
   const screenMenuMarkCurrentCategoryAsBoughtPressHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'screenMenuMarkCurrentCategoryAsBoughtPressHandler()',
-    });
-
     const shoppingListId = model.data.shoppingListId;
     let productsIdsArray = [];
     const status = ProductStatus.COMPLETED;
@@ -475,9 +483,49 @@ export const useProductsListController = (model) => {
   };
 
   const screenMenuMarkCurrentCategoryAsNotBoughtPressHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'screenMenuMarkCurrentCategoryAsNotBoughtPressHandler()',
-    });
+    const shoppingListId = model.data.shoppingListId;
+    let productsIdsArray = [];
+    const status = ProductStatus.NOT_COMPLETED;
+
+    const selectedCategories = [
+      ...model.data.state.usedCategories.selectedCategoriesIds,
+    ];
+    if (!selectedCategories || !selectedCategories.length) {
+      return;
+    }
+
+    const selectedCategoryId = selectedCategories[0];
+    if (selectedCategoryId === ProductInitialCategories.NOT_COMPLETED) {
+      return;
+    } else if (selectedCategoryId === ProductInitialCategories.COMPLETED) {
+      productsIdsArray = model.data.products
+        .filter(
+          (product) => product.completionStatus === ProductStatus.COMPLETED,
+        )
+        .map((product) => product.id);
+    } else if (selectedCategoryId === ProductInitialCategories.ALL) {
+      productsIdsArray = model.data.products
+        .filter(
+          (product) => product.completionStatus === ProductStatus.COMPLETED,
+        )
+        .map((product) => product.id);
+    } else {
+      productsIdsArray = model.data.products
+        .filter((product) => product.categoryId === selectedCategoryId)
+        .map((product) => product.id);
+    }
+
+    if (!productsIdsArray || !productsIdsArray.length) {
+      return;
+    }
+
+    model.dispatch(
+      changeMultipleProductsStatusAction({
+        shoppingListId,
+        productsIdsArray,
+        status,
+      }),
+    );
   };
 
   const screenMenuRemoveBoughtPressHandler = () => {
@@ -543,6 +591,7 @@ export const useProductsListController = (model) => {
 
   return {
     backButtonPressHandler,
+    productsListRenderCompletedHandler,
     addProductButtonHandler,
     inputAreaSubmitValuesHandler,
     inputAreaHideHandler,
