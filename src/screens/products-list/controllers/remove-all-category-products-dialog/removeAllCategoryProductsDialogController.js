@@ -1,4 +1,8 @@
-import {pla_setRemoveAllCategoryProductsDialogVisibility} from '../../stores/productListActions';
+import {
+  pla_setRemoveAllCategoryProductsDialogVisibility,
+  pla_setSelectedCategoryIdForCategoriesList,
+  pla_setSelectedCategoryIdForProductsList,
+} from '../../stores/productListActions';
 import ProductStatus from '../../../../services/shopping-list/data/product-status/ProductStatus';
 import {removeMultipleProductsAction} from '../../../../store/actions/products-list/productsListActions';
 import ProductInitialCategories from '../../../../components/specific/products-list/product-initial-categories/ProductInitialCategories';
@@ -43,6 +47,21 @@ export const useRemoveAllCategoryProductsDialogController = (model) => {
     model.localDispatch(
       pla_setRemoveAllCategoryProductsDialogVisibility({visible: false}),
     );
+
+    if (selectedCategoryId !== ProductInitialCategories.ALL) {
+      model.localDispatch(
+        pla_setSelectedCategoryIdForCategoriesList({
+          id: ProductInitialCategories.ALL,
+        }),
+      );
+      setTimeout(() => {
+        model.localDispatch(
+          pla_setSelectedCategoryIdForProductsList({
+            id: ProductInitialCategories.ALL,
+          }),
+        );
+      }, 1);
+    }
   };
 
   const removeAllCategoryProductsDialogCancelButtonHandler = () => {
