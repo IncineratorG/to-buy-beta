@@ -1,5 +1,6 @@
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import {
+  copyShoppingListAction,
   removeShoppingListAction,
   renameShoppingListAction,
   resetCreateShoppingListStatusAction,
@@ -141,7 +142,9 @@ export const useShoppingListsController = (model) => {
   };
 
   const copyDialogCopyButtonHandler = ({listId, copiedListName}) => {
-    SystemEventsHandler.onInfo({info: listId + ' - ' + copiedListName});
+    model.dispatch(
+      copyShoppingListAction({shoppingListId: listId, copiedListName}),
+    );
 
     model.setters.setCopyDialogVisible(false);
     model.setters.setListToCopy(null);

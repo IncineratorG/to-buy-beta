@@ -5,7 +5,6 @@ import {SystemEventsHandler} from '../../service-utils/system-events-handler/Sys
 import {ShoppingListsTableOperations} from './operations/shopping-lists-table/ShoppingListsTableOperations';
 import {ProductsTableOperations} from './operations/products-table/ProductsTableOperations';
 import ProductStatus from '../data/product-status/ProductStatus';
-import wait from '../../service-utils/wait/wait';
 
 const DB_NAME = 'tobuy_shopping_list.db';
 
@@ -246,6 +245,89 @@ export class SLSqliteService {
     shoppingList.products = products;
 
     return shoppingList;
+  }
+
+  static async copyShoppingList({shoppingListId, copiedListName}) {
+    const result = {
+      shoppingList: undefined,
+      error: {hasError: false, description: ''},
+    };
+
+    const {
+      products,
+      hasError: getProductsError,
+    } = await ProductsTableOperations.getShoppingListProducts({
+      db: this.#db,
+      listId: shoppingListId,
+    });
+    if (getProductsError) {
+      result.error.hasError = true;
+      result.error.description = 'GET_PRODUCTS_ERROR';
+      return result;
+    }
+
+    const {
+      id: copiedListId,
+      hasError: createListError,
+    } = await ShoppingListsTableOperations.createShoppingList({
+      db: this.#db,
+      listName: copiedListName,
+    });
+    if (createListError) {
+      result.error.hasError = true;
+      result.error.description = 'CREATE_LIST_ERROR';
+      return result;
+    }
+
+    const {
+      hasError: addProductsError,
+    } = await ProductsTableOperations.addMultipleProducts({
+      db: this.#db,
+      shoppingListId: copiedListId,
+      products,
+    });
+    if (addProductsError) {
+      result.error.hasError = true;
+      result.error.description = 'ADD_PRODUCTS_ERROR';
+      return result;
+    }
+
+    const {
+      products: completedProducts,
+    } = await ProductsTableOperations.getListProductsWithStatus({
+      db: this.#db,
+      shoppingListId: copiedListId,
+      status: ProductStatus.COMPLETED,
+    });
+
+    const {
+      products: notCompletedProducts,
+    } = await ProductsTableOperations.getListProductsWithStatus({
+      db: this.#db,
+      shoppingListId: copiedListId,
+      status: ProductStatus.NOT_COMPLETED,
+    });
+
+    const completedProductsCount = completedProducts.length;
+    const totalProductsCount =
+      completedProducts.length + notCompletedProducts.length;
+
+    const {
+      hasError: updateShoppingListError,
+    } = await ShoppingListsTableOperations.updateShoppingListProductsCount({
+      db: this.#db,
+      id: copiedListId,
+      totalProductsCount,
+      completedProductsCount,
+    });
+    if (updateShoppingListError) {
+      result.error.hasError = true;
+      result.error.description = 'UPDATE_SHOPPING_LIST_ERROR';
+      return result;
+    }
+
+    result.shoppingList = await this.getProductsList({id: copiedListId});
+    return result;
   }
 
   static async addProduct({

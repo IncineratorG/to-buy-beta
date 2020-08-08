@@ -212,6 +212,84 @@ export class ProductsTableOperations {
     return result;
   }
 
+  static async addMultipleProducts({db, shoppingListId, products}) {
+    const result = {insertedProductsCount: 0, hasError: false};
+    if (!products || !products.length) {
+      return result;
+    }
+
+    let addMultipleProductsStatement =
+      'INSERT INTO ' +
+      PRODUCTS_TABLE +
+      ' (' +
+      PRODUCTS_TABLE_PARENT_LIST_ID +
+      ', ' +
+      PRODUCTS_TABLE_PRODUCT_NAME +
+      ', ' +
+      PRODUCTS_TABLE_UNIT_ID +
+      ', ' +
+      PRODUCTS_TABLE_PRODUCT_COUNT +
+      ', ' +
+      PRODUCTS_TABLE_CATEGORY_ID +
+      ', ' +
+      PRODUCTS_TABLE_NOTE +
+      ', ' +
+      PRODUCTS_TABLE_COMPLETION_STATUS +
+      ', ' +
+      PRODUCTS_TABLE_CREATE_TIMESTAMP +
+      ', ' +
+      PRODUCTS_TABLE_UPDATE_TIMESTAMP +
+      ') VALUES ';
+
+    const currentTimestamp = Date.now();
+
+    const statementParams = [];
+    for (let i = 0; i < products.length; ++i) {
+      let values = '(?, ?, ?, ?, ?, ?, ?, ?, ?)';
+      if (i !== products.length - 1) {
+        values = values + ',';
+      }
+      addMultipleProductsStatement = addMultipleProductsStatement + values;
+
+      const {
+        name,
+        unitId,
+        categoryId,
+        quantity,
+        note,
+        completionStatus,
+        createTimestamp,
+        updateTimestamp,
+      } = products[i];
+
+      statementParams.push(shoppingListId);
+      statementParams.push(name);
+      statementParams.push(unitId);
+      statementParams.push(quantity);
+      statementParams.push(categoryId);
+      statementParams.push(note);
+      statementParams.push(completionStatus);
+      statementParams.push(createTimestamp);
+      statementParams.push(updateTimestamp);
+    }
+
+    try {
+      const executionResult = await SqlStatementExecutor.execute({
+        db,
+        statement: addMultipleProductsStatement,
+        params: statementParams,
+      });
+      result.insertedProductsCount = executionResult.rowsAffected;
+    } catch (e) {
+      SystemEventsHandler.onError({
+        err: this.#className + '->addMultipleProducts()->ERROR: ' + e,
+      });
+      result.hasError = true;
+    }
+
+    return result;
+  }
+
   static async updateProduct({
     db,
     productId,

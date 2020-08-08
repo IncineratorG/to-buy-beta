@@ -69,6 +69,13 @@ export class ShoppingListService {
     return await SLSqliteService.getProductsList({id});
   }
 
+  static async copyShoppingList({shoppingListId, copiedListName}) {
+    return await SLSqliteService.copyShoppingList({
+      shoppingListId,
+      copiedListName,
+    });
+  }
+
   static async addProduct({
     shoppingListId,
     name,
