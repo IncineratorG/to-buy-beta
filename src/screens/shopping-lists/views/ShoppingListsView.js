@@ -8,6 +8,7 @@ import {LoadingShoppingListsScreen} from '../../../components/specific/shopping-
 import ListOfShoppingLists from '../../../components/specific/shopping-lists/list-of-shopping-lists/ListOfShoppingLists';
 import ShareShoppingListDialog from '../../../components/specific/shopping-lists/share-shopping-list-dialog/ShareShoppingListDialog';
 import RenameShoppingListDialog from '../../../components/specific/shopping-lists/rename-shopping-list-dialog/RenameShoppingListDialog';
+import CopyShoppingListDialog from '../../../components/specific/shopping-lists/copy-shopping-list-dialog/CopyShoppingListDialog';
 
 const ShoppingListsView = ({styles, model, controller}) => {
   const {t} = model;
@@ -16,12 +17,14 @@ const ShoppingListsView = ({styles, model, controller}) => {
     shareDialogVisible,
     removeConfirmationDialogVisible,
     renameDialogVisible,
+    copyDialogVisible,
     online,
     currentEmail,
     selectedShoppingLists,
     listsLoading,
     listToRemove,
     listToRename,
+    listToCopy,
     smsShareSupported,
     whatsAppShareSupported,
   } = model.data;
@@ -30,6 +33,7 @@ const ShoppingListsView = ({styles, model, controller}) => {
     listItemPressHandler,
     listItemRemoveHandler,
     listItemRenameHandler,
+    listItemCopyHandler,
     addButtonHandler,
     removeConfirmationDialogTouchOutsideHandler,
     removeConfirmationDialogRemoveHandler,
@@ -43,7 +47,21 @@ const ShoppingListsView = ({styles, model, controller}) => {
     renameDialogTouchOutsideHandler,
     renameDialogCancelPressHandler,
     renameDialogRenamePressHandler,
+    copyDialogTouchOutsideHandler,
+    copyDialogCancelButtonHandler,
+    copyDialogCopyButtonHandler,
   } = controller;
+
+  const copyDialogComponent = (
+    <CopyShoppingListDialog
+      visible={copyDialogVisible}
+      listId={listToCopy ? listToCopy.id : null}
+      listName={listToCopy ? listToCopy.name : null}
+      onTouchOutside={copyDialogTouchOutsideHandler}
+      onCancelButton={copyDialogCancelButtonHandler}
+      onCopyButton={copyDialogCopyButtonHandler}
+    />
+  );
 
   const renameDialogComponent = (
     <RenameShoppingListDialog
@@ -119,6 +137,7 @@ const ShoppingListsView = ({styles, model, controller}) => {
         onRemovePress={listItemRemoveHandler}
         onSharePress={shareListHandler}
         onRenamePress={listItemRenameHandler}
+        onCopyPress={listItemCopyHandler}
       />
     </View>
   );
@@ -155,6 +174,7 @@ const ShoppingListsView = ({styles, model, controller}) => {
       {screenContent}
       {shareDialogComponent}
       {renameDialogComponent}
+      {copyDialogComponent}
       {removeConfirmationDialogComponent}
       {addButtonComponent}
       {bottomGradientComponent}

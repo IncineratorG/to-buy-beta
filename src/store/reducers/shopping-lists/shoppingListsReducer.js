@@ -1,4 +1,7 @@
 import {
+  COPY_SHOPPING_LIST_BEGIN,
+  COPY_SHOPPING_LIST_ERROR,
+  COPY_SHOPPING_LIST_FINISHED,
   CREATE_SHOPPING_LIST_BEGIN,
   CREATE_SHOPPING_LIST_ERROR,
   CREATE_SHOPPING_LIST_FINISHED,
@@ -49,6 +52,14 @@ const initialState = {
     },
     success: false,
     createdListId: undefined,
+  },
+  copy: {
+    running: false,
+    error: {
+      hasError: false,
+      description: '',
+    },
+    copiedListId: undefined,
   },
 };
 
@@ -400,6 +411,83 @@ export const shoppingListsReducer = (state = initialState, action) => {
       });
 
       return state;
+    }
+
+    case COPY_SHOPPING_LIST_BEGIN: {
+      return {
+        ...state,
+        copy: {
+          ...state.copy,
+          running: true,
+          error: {
+            hasError: false,
+            description: '',
+          },
+          copiedListId: undefined,
+        },
+      };
+    }
+
+    case COPY_SHOPPING_LIST_FINISHED: {
+      const copiedShoppingList = {...action.payload.shoppingList};
+
+      const allLists = [
+        ...state.shoppingLists.allLists.lists,
+        copiedShoppingList,
+      ].sort(shoppingListsComparator);
+      const localLists = [];
+      const sharedLists = [];
+      allLists.forEach((list) => {
+        if (list.shared) {
+          sharedLists.push(list);
+        } else {
+          localLists.push(list);
+        }
+      });
+
+      return {
+        ...state,
+        copy: {
+          ...state.copy,
+          running: false,
+          error: {
+            hasError: false,
+            description: '',
+          },
+          copiedListId: copiedShoppingList.id,
+        },
+        shoppingLists: {
+          ...state.shoppingLists,
+          allLists: {
+            lists: allLists,
+          },
+          localLists: {
+            lists: localLists,
+          },
+          sharedLists: {
+            lists: sharedLists,
+          },
+        },
+      };
+    }
+
+    case COPY_SHOPPING_LIST_ERROR: {
+      SystemEventsHandler.onError({
+        err: 'COPY_SHOPPING_LIST_ERROR->' + action.payload.error.description,
+      });
+
+      return {
+        ...state,
+        copy: {
+          ...state.copy,
+          running: false,
+          error: {
+            hasError: true,
+            description: action.payload.error.description,
+          },
+          copiedListId: undefined,
+        },
+      };
     }
 
     default: {

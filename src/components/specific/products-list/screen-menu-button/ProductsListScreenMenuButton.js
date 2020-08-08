@@ -102,6 +102,7 @@ const ProductsListScreenMenuButton = ({
           onSelect={markAllAsNotBoughtHandler}
           text={t('ProductsListScreenMenuButton_markAllAsNotOption')}
         />
+        <MenuOption onSelect={noActionsHandler} text={''} />
         <MenuOption
           onSelect={markCurrentCategoryAsBoughtHandler}
           text={t(

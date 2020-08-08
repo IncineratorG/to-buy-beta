@@ -18,6 +18,7 @@ const ListOfShoppingListsItemGeneral = ({
   onRemovePress,
   onSharedPress,
   onRenamePress,
+  onCopyPress,
 }) => {
   const {t} = useTranslation();
 
@@ -88,6 +89,13 @@ const ListOfShoppingListsItemGeneral = ({
     setMenuVisible(false);
   };
 
+  const onCopyPressHandler = () => {
+    if (onCopyPress) {
+      onCopyPress(listItem);
+    }
+    setMenuVisible(false);
+  };
+
   const onMenuPressHandler = () => {
     setMenuVisible(!menuVisible);
   };
@@ -114,6 +122,10 @@ const ListOfShoppingListsItemGeneral = ({
         <MenuOption
           onSelect={onRenamePressHandler}
           text={t('ListOfShoppingListsItemGeneral_menuRenameOption')}
+        />
+        <MenuOption
+          onSelect={onCopyPressHandler}
+          text={t('ListOfShoppingListsItemGeneral_menuCopyOption')}
         />
         <MenuOption
           onSelect={onRemovePressHandler}

@@ -1,5 +1,6 @@
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 import {
+  copyShoppingListAction,
   removeShoppingListAction,
   renameShoppingListAction,
   resetCreateShoppingListStatusAction,
@@ -29,6 +30,11 @@ export const useShoppingListsController = (model) => {
   const listItemRenameHandler = (listItem) => {
     model.setters.setListToRename(listItem);
     model.setters.setRenameDialogVisible(true);
+  };
+
+  const listItemCopyHandler = (listItem) => {
+    model.setters.setListToCopy(listItem);
+    model.setters.setCopyDialogVisible(true);
   };
 
   const addButtonHandler = () => {
@@ -125,10 +131,30 @@ export const useShoppingListsController = (model) => {
     model.setters.setListToRename(null);
   };
 
+  const copyDialogTouchOutsideHandler = () => {
+    model.setters.setCopyDialogVisible(false);
+    model.setters.setListToCopy(null);
+  };
+
+  const copyDialogCancelButtonHandler = () => {
+    model.setters.setCopyDialogVisible(false);
+    model.setters.setListToCopy(null);
+  };
+
+  const copyDialogCopyButtonHandler = ({listId, copiedListName}) => {
+    model.dispatch(
+      copyShoppingListAction({shoppingListId: listId, copiedListName}),
+    );
+
+    model.setters.setCopyDialogVisible(false);
+    model.setters.setListToCopy(null);
+  };
+
   return {
     listItemPressHandler,
     listItemRemoveHandler,
     listItemRenameHandler,
+    listItemCopyHandler,
     addButtonHandler,
     removeConfirmationDialogTouchOutsideHandler,
     removeConfirmationDialogRemoveHandler,
@@ -142,6 +168,9 @@ export const useShoppingListsController = (model) => {
     renameDialogTouchOutsideHandler,
     renameDialogCancelPressHandler,
     renameDialogRenamePressHandler,
+    copyDialogTouchOutsideHandler,
+    copyDialogCancelButtonHandler,
+    copyDialogCopyButtonHandler,
   };
 };
 

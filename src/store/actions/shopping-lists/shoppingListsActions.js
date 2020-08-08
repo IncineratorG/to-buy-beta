@@ -1,4 +1,8 @@
 import {
+  COPY_SHOPPING_LIST,
+  COPY_SHOPPING_LIST_BEGIN,
+  COPY_SHOPPING_LIST_ERROR,
+  COPY_SHOPPING_LIST_FINISHED,
   CREATE_SHOPPING_LIST,
   CREATE_SHOPPING_LIST_BEGIN,
   CREATE_SHOPPING_LIST_ERROR,
@@ -195,5 +199,33 @@ export const renameShoppingListErrorAction = ({id, description}) => {
   return {
     type: RENAME_SHOPPING_LIST_ERROR,
     payload: {id, error: {description}},
+  };
+};
+
+export const copyShoppingListAction = ({shoppingListId, copiedListName}) => {
+  return {
+    type: COPY_SHOPPING_LIST,
+    payload: {shoppingListId, copiedListName},
+  };
+};
+
+export const copyShoppingListBeginAction = ({shoppingListId}) => {
+  return {
+    type: COPY_SHOPPING_LIST_BEGIN,
+    payload: {shoppingListId},
+  };
+};
+
+export const copyShoppingListFinishedAction = ({shoppingList}) => {
+  return {
+    type: COPY_SHOPPING_LIST_FINISHED,
+    payload: {shoppingList},
+  };
+};
+
+export const copyShoppingListErrorAction = ({shoppingListId, description}) => {
+  return {
+    type: COPY_SHOPPING_LIST_ERROR,
+    payload: {shoppingListId, error: {description}},
   };
 };

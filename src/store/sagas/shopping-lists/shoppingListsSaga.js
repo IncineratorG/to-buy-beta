@@ -1,5 +1,6 @@
 import {takeLatest} from '@redux-saga/core/effects';
 import {
+  COPY_SHOPPING_LIST,
   CREATE_SHOPPING_LIST,
   LOAD_SHOPPING_LISTS,
   REMOVE_SHOPPING_LIST,
@@ -12,6 +13,7 @@ import sls_loadShoppingListsHandler from './handlers/sls_loadShoppingListsHandle
 import sls_removeShoppingListHandler from './handlers/sls_removeShoppingListHandler';
 import sls_updateShoppingListsHandler from './handlers/sls_updateShoppingListsHandler';
 import sls_renameShoppingListHandler from './handlers/sls_renameShoppingListHandler';
+import sls_copyShoppingListHandler from './handlers/sls_copyShoppingListHandler';
 
 function* shoppingListsSaga() {
   SystemEventsHandler.onInfo({info: 'shoppingListsSaga()'});
@@ -21,6 +23,7 @@ function* shoppingListsSaga() {
   yield takeLatest(UPDATE_SHOPPING_LISTS, sls_updateShoppingListsHandler);
   yield takeLatest(REMOVE_SHOPPING_LIST, sls_removeShoppingListHandler);
   yield takeLatest(RENAME_SHOPPING_LIST, sls_renameShoppingListHandler);
+  yield takeLatest(COPY_SHOPPING_LIST, sls_copyShoppingListHandler);
 }
 
 export default shoppingListsSaga;

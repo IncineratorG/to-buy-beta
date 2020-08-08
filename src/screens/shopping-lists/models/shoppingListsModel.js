@@ -21,6 +21,8 @@ export const useShoppingListsModel = () => {
   const [listIdToShare, setListIdToShare] = useState(-1);
   const [renameDialogVisible, setRenameDialogVisible] = useState(false);
   const [listToRename, setListToRename] = useState(null);
+  const [copyDialogVisible, setCopyDialogVisible] = useState(false);
+  const [listToCopy, setListToCopy] = useState(null);
 
   const listsLoading = useSelector(
     (state) => state.shoppingLists.shoppingLists.loading,
@@ -51,12 +53,14 @@ export const useShoppingListsModel = () => {
       shareDialogVisible,
       renameDialogVisible,
       removeConfirmationDialogVisible,
+      copyDialogVisible,
       online,
       currentEmail,
       selectedShoppingLists,
       listsLoading,
       listToRemove,
       listToRename,
+      listToCopy,
       listIdToShare,
       smsShareSupported,
       whatsAppShareSupported,
@@ -65,8 +69,10 @@ export const useShoppingListsModel = () => {
       setShareDialogVisible,
       setRenameDialogVisible,
       setRemoveConfirmationDialogVisible,
+      setCopyDialogVisible,
       setListToRemove,
       setListToRename,
+      setListToCopy,
       setListIdToShare,
     },
     navigation,

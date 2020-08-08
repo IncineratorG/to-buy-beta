@@ -12,6 +12,7 @@ const ListOfShoppingListsItem = ({
   onRemovePress,
   onSharePress,
   onRenamePress,
+  onCopyPress,
 }) => {
   const generalItemStyles = listOfShoppingListsItemStylesGeneral;
   const extraItemStyles = listOfShoppingListsItemStylesExtra;
@@ -26,6 +27,7 @@ const ListOfShoppingListsItem = ({
       onRemovePress={onRemovePress}
       onSharedPress={onSharePress}
       onRenamePress={onRenamePress}
+      onCopyPress={onCopyPress}
     />
   );
 
