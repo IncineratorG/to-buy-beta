@@ -1,6 +1,8 @@
 import {useState, useEffect} from 'react';
 import * as RNLocalize from 'react-native-localize';
 import {ru} from './translations/ru';
+import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {en} from './translations/en';
 
 const localization = {
   options: {
@@ -8,6 +10,7 @@ const localization = {
   },
   translations: {
     ru: ru,
+    en: en,
   },
 };
 
@@ -20,6 +23,8 @@ export const useTranslation = () => {
   ) {
     initialLanguageCode = initialLocales[0].languageCode;
   }
+
+  SystemEventsHandler.onInfo({info: initialLocales});
 
   const [language, setLanguage] = useState(initialLanguageCode);
 

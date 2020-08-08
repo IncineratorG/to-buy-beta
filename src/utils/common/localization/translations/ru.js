@@ -23,7 +23,7 @@ export const ru = {
   units_gram: 'г',
   units_liter: 'л',
   units_milliliter: 'мл',
-  units_package: 'уп',
+  // units_package: 'уп',
 
   ShoppingLists_screenTitle: 'Списки покупок',
   ShoppingLists_removeConfirmationDialogTitle: 'Удаление списка',

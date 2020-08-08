@@ -47,15 +47,15 @@ const unitsTableInitialData = {
       deleted: 0,
       translationMark: 'units_milliliter',
     },
-    {
-      id: Number.MAX_SAFE_INTEGER - 6,
-      name: 'уп',
-      createTimestamp: 6,
-      updateTimestamp: 6,
-      editable: 0,
-      deleted: 0,
-      translationMark: 'units_package',
-    },
+    // {
+    //   id: Number.MAX_SAFE_INTEGER - 6,
+    //   name: 'уп',
+    //   createTimestamp: 6,
+    //   updateTimestamp: 6,
+    //   editable: 0,
+    //   deleted: 0,
+    //   translationMark: 'units_package',
+    // },
   ],
 };
 
