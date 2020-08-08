@@ -24,8 +24,6 @@ export const useTranslation = () => {
     initialLanguageCode = initialLocales[0].languageCode;
   }
 
-  SystemEventsHandler.onInfo({info: initialLocales});
-
   const [language, setLanguage] = useState(initialLanguageCode);
 
   useEffect(() => {
