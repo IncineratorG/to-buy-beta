@@ -31,6 +31,11 @@ export const useShoppingListsController = (model) => {
     model.setters.setRenameDialogVisible(true);
   };
 
+  const listItemCopyHandler = (listItem) => {
+    model.setters.setListToCopy(listItem);
+    model.setters.setCopyDialogVisible(true);
+  };
+
   const addButtonHandler = () => {
     model.dispatch(resetCreateShoppingListStatusAction());
     model.navigation.navigate('CreateShoppingList');
@@ -125,10 +130,28 @@ export const useShoppingListsController = (model) => {
     model.setters.setListToRename(null);
   };
 
+  const copyDialogTouchOutsideHandler = () => {
+    model.setters.setCopyDialogVisible(false);
+    model.setters.setListToCopy(null);
+  };
+
+  const copyDialogCancelButtonHandler = () => {
+    model.setters.setCopyDialogVisible(false);
+    model.setters.setListToCopy(null);
+  };
+
+  const copyDialogCopyButtonHandler = ({listId, copiedListName}) => {
+    SystemEventsHandler.onInfo({info: listId + ' - ' + copiedListName});
+
+    model.setters.setCopyDialogVisible(false);
+    model.setters.setListToCopy(null);
+  };
+
   return {
     listItemPressHandler,
     listItemRemoveHandler,
     listItemRenameHandler,
+    listItemCopyHandler,
     addButtonHandler,
     removeConfirmationDialogTouchOutsideHandler,
     removeConfirmationDialogRemoveHandler,
@@ -142,6 +165,9 @@ export const useShoppingListsController = (model) => {
     renameDialogTouchOutsideHandler,
     renameDialogCancelPressHandler,
     renameDialogRenamePressHandler,
+    copyDialogTouchOutsideHandler,
+    copyDialogCancelButtonHandler,
+    copyDialogCopyButtonHandler,
   };
 };
 

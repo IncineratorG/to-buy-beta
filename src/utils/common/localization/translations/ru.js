@@ -47,8 +47,9 @@ export const ru = {
   EmptyProductsListScreen_emptyExplanationText:
     'Добавьте сюда то, что вы планируете купить',
 
-  ListOfShoppingListsItemGeneral_menuShareOption: 'Поделиться',
+  ListOfShoppingListsItemGeneral_menuShareOption: 'Отправить',
   ListOfShoppingListsItemGeneral_menuRenameOption: 'Переименовать',
+  ListOfShoppingListsItemGeneral_menuCopyOption: 'Скопировать',
   ListOfShoppingListsItemGeneral_menuRemoveOption: 'Удалить',
 
   ProductInputTypes_productNameType: 'Название продукта',
@@ -120,6 +121,11 @@ export const ru = {
   RenameShoppingListDialog_placeholder: 'Название списка',
   RenameShoppingListDialog_renameButton: 'ПЕРЕИМЕНОВАТЬ',
   RenameShoppingListDialog_cancelButton: 'ОТМЕНА',
+
+  CopyShoppingListDialog_dialogTitle: 'Копирование списка',
+  CopyShoppingListDialog_placeholder: 'Новый список',
+  CopyShoppingListDialog_copyButton: 'СКОПИРВАТЬ',
+  CopyShoppingListDialog_cancelButton: 'ОТМЕНА',
 
   ProductNotCompleted_menuMarkAsBoughtOption: 'Отметить как купленное',
   ProductNotCompleted_menuEditOption: 'Редактировать',
