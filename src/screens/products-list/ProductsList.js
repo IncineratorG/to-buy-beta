@@ -11,20 +11,7 @@ import {useMainProductsListController} from './controllers/mainProductsListContr
 const ProductsList = () => {
   const styles = productsListViewStyles;
   const model = useProductsListModel();
-  // const controller = useProductsListController(model);
   const mainController = useMainProductsListController(model);
-
-  // const {
-  //   backButtonPressHandler,
-  //   screenMenuRenameListPressHandler,
-  //   screenMenuMarkAllAsBoughtPressHandler,
-  //   screenMenuMarkAllAsNotBoughtPressHandler,
-  //   screenMenuMarkCurrentCategoryAsBoughtPressHandler,
-  //   screenMenuMarkCurrentCategoryAsNotBoughtPressHandler,
-  //   screenMenuRemoveBoughtPressHandler,
-  //   screenMenuRemoveCurrentCategoryPressHandler,
-  //   screenMenuRemoveAllPressHandler,
-  // } = mainController;
 
   const {screenMenuButtonController} = mainController;
   const {

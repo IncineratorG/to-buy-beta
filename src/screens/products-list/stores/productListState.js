@@ -58,6 +58,12 @@ const productListState = {
   removeAllProductsDialog: {
     removeAllProductsDialogVisible: false,
   },
+  removeAllBoughtProductsDialog: {
+    removeAllBoughtProductsDialogVisible: false,
+  },
+  removeAllCategoryProductsDialog: {
+    removeAllCategoryProductsDialogVisible: false,
+  },
 };
 
 export default productListState;

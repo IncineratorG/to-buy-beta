@@ -14,6 +14,8 @@ import {
   OPEN_REMOVE_PRODUCT_DIALOG,
   SET_DATA_LOADING,
   SET_PRODUCTS_LIST_CATEGORY_UPDATING_COMPLETE,
+  SET_REMOVE_ALL_BOUGHT_PRODUCTS_DIALOG_VISIBILITY,
+  SET_REMOVE_ALL_CATEGORY_PRODUCTS_DIALOG_VISIBILITY,
   SET_REMOVE_ALL_PRODUCTS_DIALOG_VISIBILITY,
   SET_RENAME_LIST_DIALOG_VISIBILITY,
   SET_SELECTED_CATEGORY_ID,
@@ -312,6 +314,24 @@ function productListReducer(state, action) {
         ...state,
         removeAllProductsDialog: {
           removeAllProductsDialogVisible: action.payload.visible,
+        },
+      };
+    }
+
+    case SET_REMOVE_ALL_BOUGHT_PRODUCTS_DIALOG_VISIBILITY: {
+      return {
+        ...state,
+        removeAllBoughtProductsDialog: {
+          removeAllBoughtProductsDialogVisible: action.payload.visible,
+        },
+      };
+    }
+
+    case SET_REMOVE_ALL_CATEGORY_PRODUCTS_DIALOG_VISIBILITY: {
+      return {
+        ...state,
+        removeAllCategoryProductsDialog: {
+          removeAllCategoryProductsDialogVisible: action.payload.visible,
         },
       };
     }

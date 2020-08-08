@@ -7,6 +7,8 @@ import {useRemoveAllProductsDialogController} from './remove-all-products-dialog
 import {useRemoveProductDialogController} from './remove-products-dialog/removeProductDialogController';
 import {useRenameListDialogController} from './rename-list-dialog/renameListDialogController';
 import {useScreenMenuButtonController} from './screen-menu-button/screenMenuButtonController';
+import {useRemoveAllBoughtProductsDialogController} from './remove-all-bought-products-dialog/removeAllBoughtProductsDialogController';
+import {useRemoveAllCategoryProductsDialogController} from './remove-all-category-products-dialog/removeAllCategoryProductsDialogController';
 
 export const useMainProductsListController = (model) => {
   const addCategoryDialogController = useAddCategoryDialogController(model);
@@ -20,6 +22,12 @@ export const useMainProductsListController = (model) => {
   const removeProductDialogController = useRemoveProductDialogController(model);
   const renameListDialogController = useRenameListDialogController(model);
   const screenMenuButtonController = useScreenMenuButtonController(model);
+  const removeAllBoughtProductsDialogController = useRemoveAllBoughtProductsDialogController(
+    model,
+  );
+  const removeAllCategoryProductsDialogController = useRemoveAllCategoryProductsDialogController(
+    model,
+  );
 
   return {
     addCategoryDialogController,
@@ -31,5 +39,7 @@ export const useMainProductsListController = (model) => {
     removeProductDialogController,
     renameListDialogController,
     screenMenuButtonController,
+    removeAllBoughtProductsDialogController,
+    removeAllCategoryProductsDialogController,
   };
 };

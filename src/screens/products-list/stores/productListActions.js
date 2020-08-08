@@ -15,6 +15,8 @@ import {
   // SET_CHANGE_CATEGORY_LIST_UPDATE_RUNNING,
   SET_DATA_LOADING,
   SET_PRODUCTS_LIST_CATEGORY_UPDATING_COMPLETE,
+  SET_REMOVE_ALL_BOUGHT_PRODUCTS_DIALOG_VISIBILITY,
+  SET_REMOVE_ALL_CATEGORY_PRODUCTS_DIALOG_VISIBILITY,
   SET_REMOVE_ALL_PRODUCTS_DIALOG_VISIBILITY,
   SET_RENAME_LIST_DIALOG_VISIBILITY,
   SET_SELECTED_CATEGORY_ID,
@@ -218,9 +220,16 @@ export const pla_setProductsListCategoryUpdatingComplete = () => {
   };
 };
 
-// export const pla_setChangeCategoryListUpdateRunning = ({running}) => {
-//   return {
-//     type: SET_CHANGE_CATEGORY_LIST_UPDATE_RUNNING,
-//     payload: {running},
-//   };
-// };
+export const pla_setRemoveAllBoughtProductsDialogVisibility = ({visible}) => {
+  return {
+    type: SET_REMOVE_ALL_BOUGHT_PRODUCTS_DIALOG_VISIBILITY,
+    payload: {visible},
+  };
+};
+
+export const pla_setRemoveAllCategoryProductsDialogVisibility = ({visible}) => {
+  return {
+    type: SET_REMOVE_ALL_CATEGORY_PRODUCTS_DIALOG_VISIBILITY,
+    payload: {visible},
+  };
+};

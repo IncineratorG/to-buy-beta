@@ -1,5 +1,7 @@
 import {useCallback} from 'react';
 import {
+  pla_setRemoveAllBoughtProductsDialogVisibility,
+  pla_setRemoveAllCategoryProductsDialogVisibility,
   pla_setRemoveAllProductsDialogVisibility,
   pla_setRenameListDialogVisibility,
 } from '../../stores/productListActions';
@@ -123,13 +125,15 @@ export const useScreenMenuButtonController = (model) => {
   };
 
   const screenMenuRemoveBoughtPressHandler = () => {
-    SystemEventsHandler.onInfo({info: 'screenMenuRemoveBoughtPressHandler()'});
+    model.localDispatch(
+      pla_setRemoveAllBoughtProductsDialogVisibility({visible: true}),
+    );
   };
 
   const screenMenuRemoveCurrentCategoryPressHandler = () => {
-    SystemEventsHandler.onInfo({
-      info: 'screenMenuRemoveCurrentCategoryPressHandler()',
-    });
+    model.localDispatch(
+      pla_setRemoveAllCategoryProductsDialogVisibility({visible: true}),
+    );
   };
 
   const screenMenuRemoveAllPressHandler = useCallback(() => {
