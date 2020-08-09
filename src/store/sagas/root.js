@@ -9,6 +9,8 @@ import productEventsSaga from './products-list/productEventsSaga';
 import shareEventsSaga from './share/shareEventsSaga';
 import shareSaga from './share/shareSaga';
 import productSuggestionSaga from './product-suggestion/productSuggestionSaga';
+import systemSaga from './system/systemSaga';
+import systemEventsSaga from './system/systemEventsSaga';
 
 function* rootSaga() {
   const sagas = [
@@ -21,6 +23,8 @@ function* rootSaga() {
     shareSaga,
     shareEventsSaga,
     productSuggestionSaga,
+    systemSaga,
+    systemEventsSaga,
   ];
 
   yield all(

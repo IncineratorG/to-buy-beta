@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import * as RNLocalize from 'react-native-localize';
-import {ru} from '../../../assets/translations/ru';
-import {en} from '../../../assets/translations/en';
+import {ru} from '../../../assets/translations/languages/ru';
+import {en} from '../../../assets/translations/languages/en';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 
 const localization = {

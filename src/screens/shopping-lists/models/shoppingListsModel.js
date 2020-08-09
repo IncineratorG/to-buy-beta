@@ -1,4 +1,4 @@
-import {useState, useEffect, useCallback} from 'react';
+import {useState} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from '../../../utils/common/localization';
