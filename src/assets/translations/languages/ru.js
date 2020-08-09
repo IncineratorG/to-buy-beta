@@ -1,7 +1,7 @@
 export const ru = {
+  language: 'Язык',
   ru: 'Русский',
   en: 'Английский',
-  default_language: 'По умолчанию',
 
   categories_other: 'Другое',
   categories_products: 'Продукты',

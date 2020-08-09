@@ -21,10 +21,22 @@ class SqliteSystemServiceStorage {
   }
 
   static async setCurrentLanguageCode({languageCode}) {
-    return await PreferencesTableOperations.setCurrentLanguageCode({
+    const {id} = await PreferencesTableOperations.getPreferencesRowId({
       db: this.#db,
-      languageCode,
     });
+
+    if (!id) {
+      await PreferencesTableOperations.setCurrentLanguageCode({
+        db: this.#db,
+        languageCode,
+      });
+    } else {
+      await PreferencesTableOperations.updateCurrentLanguageCode({
+        db: this.#db,
+        languageCode,
+        rowId: id,
+      });
+    }
   }
 }
 

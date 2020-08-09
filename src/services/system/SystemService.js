@@ -46,6 +46,10 @@ class SystemService {
       info: 'SystemService->setSystemLanguageCode(): ' + languageCode,
     });
 
+    await SystemService.#storage.setCurrentLanguageCode({
+      languageCode,
+    });
+
     await SystemService.updateSystemLanguageInfo();
   }
 }

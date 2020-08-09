@@ -1,7 +1,7 @@
 export const en = {
+  language: 'Language',
   ru: 'Russian',
   en: 'English',
-  default_language: 'Default',
 
   categories_other: 'Other',
   categories_products: 'Products',

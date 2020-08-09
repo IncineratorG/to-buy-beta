@@ -152,6 +152,9 @@ export const useShoppingListsController = (model) => {
   };
 
   const screenMenuLanguagePressHandler = ({languageCode}) => {
+    if (languageCode === model.data.currentLanguage) {
+      return;
+    }
     model.dispatch(setSystemLanguageAction({languageCode}));
   };
 
