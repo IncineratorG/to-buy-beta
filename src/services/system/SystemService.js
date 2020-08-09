@@ -31,15 +31,23 @@ class SystemService {
 
     if (!systemLanguageCode) {
       systemLanguageCode = await SystemService.#systemLocalization.getOptimalLanguageCode();
-      await SystemService.#storage.setCurrentLanguageCode({
-        languageCode: systemLanguageCode,
-      });
+      // await SystemService.#storage.setCurrentLanguageCode({
+      //   languageCode: systemLanguageCode,
+      // });
     }
 
     SystemService.#notifier.notify({
       event: SystemServiceEventTypes.LANGUAGE_SET,
       data: {languageCode: systemLanguageCode},
     });
+  }
+
+  static async setSystemLanguageCode({languageCode}) {
+    SystemEventsHandler.onInfo({
+      info: 'SystemService->setSystemLanguageCode()',
+    });
+
+    await SystemService.updateSystemLanguageInfo();
   }
 }
 
