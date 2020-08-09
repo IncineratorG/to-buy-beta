@@ -1,4 +1,8 @@
 export const en = {
+  ru: 'Russian',
+  en: 'English',
+  default_language: 'Default',
+
   categories_other: 'Other',
   categories_products: 'Products',
   categories_toys: 'Toys',

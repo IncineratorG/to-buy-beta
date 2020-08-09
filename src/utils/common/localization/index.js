@@ -1,5 +1,6 @@
 import {useSelector} from 'react-redux';
 import translations from '../../../assets/translations';
+import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
 
 export const useTranslation = () => {
   const appTranslations = translations;
@@ -9,7 +10,7 @@ export const useTranslation = () => {
   );
 
   const t = (pattern) => {
-    return appTranslations.availableTranslations[currentLanguageCode][pattern];
+    return appTranslations.translationsMap[currentLanguageCode][pattern];
   };
 
   return {t, language: currentLanguageCode};

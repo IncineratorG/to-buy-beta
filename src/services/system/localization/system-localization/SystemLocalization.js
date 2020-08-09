@@ -5,13 +5,13 @@ import {SystemEventsHandler} from '../../../service-utils/system-events-handler/
 class SystemLocalization {
   static async init() {}
 
-  static async getOptimalLanguageCode() {
+  static getOptimalLanguageCode() {
     const appTranslations = translations;
     const appDefaultLanguage = appTranslations.defaultLanguage;
-    const appAvailableTranslations = appTranslations.availableTranslations;
+    const appTranslationsMap = appTranslations.translationsMap;
 
     const availableTranslationsSet = new Set();
-    Object.keys(appAvailableTranslations).forEach((key) =>
+    Object.keys(appTranslationsMap).forEach((key) =>
       availableTranslationsSet.add(key),
     );
 
@@ -33,6 +33,18 @@ class SystemLocalization {
     }
 
     return appDefaultLanguage;
+  }
+
+  static getAvailableLanguageCodes() {
+    const appTranslations = translations;
+    const uniqueLanguageCodes = appTranslations.uniqueLanguages;
+
+    const uniqueLanguagesArray = [];
+    Object.keys(uniqueLanguageCodes).forEach((key) =>
+      uniqueLanguagesArray.push(key),
+    );
+
+    return uniqueLanguagesArray;
   }
 }
 

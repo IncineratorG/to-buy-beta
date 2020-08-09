@@ -8,8 +8,13 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import {useTranslation} from '../../../../utils/common/localization';
+import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
 
-const ShoppingListScreenMenuButton = () => {
+const ShoppingListScreenMenuButton = ({
+  availableLanguages,
+  currentLanguage,
+  onLanguagePress,
+}) => {
   const {t} = useTranslation();
 
   const [menuVisible, setMenuVisible] = useState(false);
@@ -18,7 +23,40 @@ const ShoppingListScreenMenuButton = () => {
     setMenuVisible(!menuVisible);
   };
 
+  const languagePressHandler = (language) => {
+    if (onLanguagePress) {
+      onLanguagePress({languageCode: language});
+    }
+    setMenuVisible(false);
+  };
+
   const noActionsHandler = () => {};
+
+  const menuItems = availableLanguages.map((language) => {
+    const markedItem = '\u2713 ' + t(language);
+    const notMarkedItem = '     ' + t(language);
+    const menuItemText =
+      language === currentLanguage ? markedItem : notMarkedItem;
+
+    return (
+      <MenuOption
+        key={language}
+        onSelect={() => languagePressHandler(language)}
+        text={menuItemText}
+      />
+    );
+  });
+
+  const defaultMenuItemText = '     ' + t('default_language');
+  const defaultMenuItem = (
+    <MenuOption
+      key={'default_language'}
+      onSelect={() => languagePressHandler('')}
+      text={defaultMenuItemText}
+    />
+  );
+
+  menuItems.push(defaultMenuItem);
 
   const menuComponent = (
     <Menu opened={menuVisible} onBackdropPress={menuPressHandler}>
@@ -29,8 +67,7 @@ const ShoppingListScreenMenuButton = () => {
           disableTouchable={true}
           text={'Язык'}
         />
-        <MenuOption onSelect={noActionsHandler} text={'\u2713 Русский'} />
-        <MenuOption onSelect={noActionsHandler} text={'\u2713 Английский'} />
+        {menuItems}
       </MenuOptions>
     </Menu>
   );

@@ -12,6 +12,7 @@ import {
   shareProductsListViaSmsAction,
   shareProductsListViaWhatsAppAction,
 } from '../../../store/actions/share/shareActions';
+import {setSystemLanguageAction} from '../../../store/actions/system/systemActions';
 
 export const useShoppingListsController = (model) => {
   const listItemPressHandler = (listItemId) => {
@@ -150,6 +151,10 @@ export const useShoppingListsController = (model) => {
     model.setters.setListToCopy(null);
   };
 
+  const screenMenuLanguagePressHandler = ({languageCode}) => {
+    model.dispatch(setSystemLanguageAction({languageCode}));
+  };
+
   return {
     listItemPressHandler,
     listItemRemoveHandler,
@@ -171,6 +176,7 @@ export const useShoppingListsController = (model) => {
     copyDialogTouchOutsideHandler,
     copyDialogCancelButtonHandler,
     copyDialogCopyButtonHandler,
+    screenMenuLanguagePressHandler,
   };
 };
 

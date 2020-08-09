@@ -3,11 +3,15 @@ import {en} from './languages/en';
 
 const translations = {
   defaultLanguage: 'en',
-  availableTranslations: {
+  translationsMap: {
     ru: ru,
     be: ru,
     uk: ru,
     az: ru,
+    en: en,
+  },
+  uniqueLanguages: {
+    ru: ru,
     en: en,
   },
 };

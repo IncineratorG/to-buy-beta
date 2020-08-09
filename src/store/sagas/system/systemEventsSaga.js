@@ -7,8 +7,8 @@ import SystemServiceEventTypes from '../../../services/system/data/event-types/S
 
 function createSystemEventsChannel() {
   return eventChannel((emit) => {
-    const languageSetHandler = ({languageCode}) => {
-      emit(systemLanguageSetAction({languageCode}));
+    const languageSetHandler = ({languageCode, availableLanguageCodes}) => {
+      emit(systemLanguageSetAction({languageCode, availableLanguageCodes}));
     };
 
     const systemService = Services.get(Services.serviceTypes.SYSTEM);

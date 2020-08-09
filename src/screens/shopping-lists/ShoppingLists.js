@@ -13,7 +13,13 @@ const ShoppingLists = () => {
 
   useFocusEffect(() => {
     model.navigation.setOptions({
-      headerRight: (props) => <ShoppingListScreenMenuButton />,
+      headerRight: (props) => (
+        <ShoppingListScreenMenuButton
+          availableLanguages={model.data.availableLanguages}
+          currentLanguage={model.data.currentLanguage}
+          onLanguagePress={controller.screenMenuLanguagePressHandler}
+        />
+      ),
     });
   });
 

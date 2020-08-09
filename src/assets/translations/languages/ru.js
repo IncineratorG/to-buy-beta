@@ -1,4 +1,8 @@
 export const ru = {
+  ru: 'Русский',
+  en: 'Английский',
+  default_language: 'По умолчанию',
+
   categories_other: 'Другое',
   categories_products: 'Продукты',
   categories_toys: 'Игрушки',
