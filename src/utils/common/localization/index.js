@@ -1,8 +1,8 @@
 import {useState, useEffect} from 'react';
 import * as RNLocalize from 'react-native-localize';
-import {ru} from './translations/ru';
+import {ru} from '../../../assets/translations/ru';
+import {en} from '../../../assets/translations/en';
 import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
-import {en} from './translations/en';
 
 const localization = {
   options: {
@@ -10,6 +10,9 @@ const localization = {
   },
   translations: {
     ru: ru,
+    be: ru,
+    uk: ru,
+    az: ru,
     en: en,
   },
   currentActiveLanguage: undefined,
