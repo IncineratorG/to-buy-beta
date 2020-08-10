@@ -6,6 +6,8 @@ import productListReducer from '../stores/produtcListReducer';
 import productListState from '../stores/productListState';
 import {
   pla_setDataLoading,
+  pla_setSelectedCategoryIdForCategoriesList,
+  pla_setSelectedCategoryIdForProductsList,
   pla_setShareButtonVisibility,
   pla_setUsedCategories,
 } from '../stores/productListActions';
@@ -165,9 +167,16 @@ export const useProductsListModel = () => {
 
     if (hasCompletedProducts && hasNotCompletedProducts) {
       usedCategoriesList.unshift(completedCategory);
+      usedCategoriesStatisticMap.set(ProductInitialCategories.COMPLETED, {});
+
       usedCategoriesList.unshift(notCompletedCategory);
+      usedCategoriesStatisticMap.set(
+        ProductInitialCategories.NOT_COMPLETED,
+        {},
+      );
     }
     usedCategoriesList.unshift(allCategory);
+    usedCategoriesStatisticMap.set(ProductInitialCategories.ALL, {});
 
     localDispatch(pla_setUsedCategories({categories: usedCategoriesList}));
 
@@ -175,6 +184,26 @@ export const useProductsListModel = () => {
       localDispatch(pla_setShareButtonVisibility({visible: true}));
     } else {
       localDispatch(pla_setShareButtonVisibility({visible: false}));
+    }
+
+    const currentSelectedCategoryId =
+      state.selectedCategory.categoriesList.selectedCategoryId;
+    if (
+      currentSelectedCategoryId &&
+      !usedCategoriesStatisticMap.has(currentSelectedCategoryId)
+    ) {
+      localDispatch(
+        pla_setSelectedCategoryIdForCategoriesList({
+          id: ProductInitialCategories.ALL,
+        }),
+      );
+      setTimeout(() => {
+        localDispatch(
+          pla_setSelectedCategoryIdForProductsList({
+            id: ProductInitialCategories.ALL,
+          }),
+        );
+      }, 1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoriesLoading, listLoading, products, allCategoriesMap]);

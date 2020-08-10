@@ -196,6 +196,7 @@ const ProductsListView = ({styles, model, controller}) => {
 
   const removeAllCategoryProductsConfirmationDialogComponent = (
     <ConfirmDialog
+      dialogStyle={{borderRadius: 10}}
       // title={t('ProductsList_removeAllCategoryProductsConfirmationDialogTitle')}
       message={t(
         'ProductsList_removeAllCategoryProductsConfirmationDialogMessage',
@@ -221,6 +222,7 @@ const ProductsListView = ({styles, model, controller}) => {
 
   const removeAllBoughtProductsConfirmationDialogComponent = (
     <ConfirmDialog
+      dialogStyle={{borderRadius: 10}}
       // title={t('ProductsList_removeAllBoughtProductsConfirmationDialogTitle')}
       message={t(
         'ProductsList_removeAllBoughtProductsConfirmationDialogMessage',
@@ -246,6 +248,7 @@ const ProductsListView = ({styles, model, controller}) => {
 
   const removeAllProductsConfirmationDialogComponent = (
     <ConfirmDialog
+      dialogStyle={{borderRadius: 10}}
       // title={t('ProductsList_removeAllProductsConfirmationDialogTitle')}
       message={t('ProductsList_removeAllProductsConfirmationDialogMessage')}
       visible={removeAllProductsDialogVisible}
@@ -269,6 +272,7 @@ const ProductsListView = ({styles, model, controller}) => {
 
   const removeProductConfirmationDialogComponent = (
     <ConfirmDialog
+      dialogStyle={{borderRadius: 10}}
       // title={t('ProductsList_removeProductConfirmationDialogTitle')}
       message={
         t('ProductsList_removeProductConfirmationDialogMessage') +

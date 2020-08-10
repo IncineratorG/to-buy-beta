@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import TextColorDeterminer from '../../../../utils/common/text-color-determiner/TextColorDeterminer';
 import {icons} from '../../../../assets/icons';
+import {useTranslation} from '../../../../utils/common/localization';
 
 const ProductCategoryItem = ({
   category,
@@ -15,6 +16,8 @@ const ProductCategoryItem = ({
   selectedCategoryId,
   onCategoryPress,
 }) => {
+  const {t} = useTranslation();
+
   const categorySelected = selectedCategoryId === category.id;
   const categoryCompleted = category.completed;
 
@@ -43,7 +46,9 @@ const ProductCategoryItem = ({
   }
 
   let categoryNameComponent = (
-    <Text style={[styles.typeTitle, {color: textColor}]}>{category.name}</Text>
+    <Text style={[styles.typeTitle, {color: textColor}]}>
+      {category.translationMark ? t(category.translationMark) : category.name}
+    </Text>
   );
 
   const itemPressHandler = () => {

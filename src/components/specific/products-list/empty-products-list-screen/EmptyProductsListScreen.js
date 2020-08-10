@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyHeaderText: {
+    // fontFamily: 'Roboto',
     fontSize: 24,
     textAlign: 'center',
   },

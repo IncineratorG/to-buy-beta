@@ -128,6 +128,7 @@ const EditCategoryDialog = ({
 
   return (
     <Dialog
+      dialogStyle={{borderRadius: 10}}
       visible={visible}
       title={t('EditCategoryDialog_dialogTitle')}
       buttons={buttons}

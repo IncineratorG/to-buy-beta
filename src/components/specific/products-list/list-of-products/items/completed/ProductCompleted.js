@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import {icons} from '../../../../../../assets/icons';
+import {useTranslation} from '../../../../../../utils/common/localization';
 
 const ProductCompleted = ({
   styles,
@@ -15,6 +16,8 @@ const ProductCompleted = ({
   onStatusPress,
   onProductLongPress,
 }) => {
+  const {t} = useTranslation();
+
   const {confirmationStatus} = product;
   let awaitConfirmation = false;
   let confirmed = false;
@@ -24,9 +27,15 @@ const ProductCompleted = ({
     confirmed = confirmationStatus.confirmed;
   }
 
-  const productUnit = unitsMap.get(product.unitId)
-    ? unitsMap.get(product.unitId).name
-    : '';
+  const productUnit = unitsMap.get(product.unitId);
+  let productUnitName = '';
+  if (productUnit) {
+    if (productUnit.translationMark) {
+      productUnitName = t(productUnit.translationMark);
+    } else {
+      productUnitName = productUnit.name;
+    }
+  }
 
   const statusPressHandler = () => {
     if (awaitConfirmation) {
@@ -87,7 +96,7 @@ const ProductCompleted = ({
               </View>
               <View style={styles.quantityUnitContainer}>
                 <Text style={styles.quantityUnit} numberOfLines={1}>
-                  {productUnit}
+                  {productUnitName}
                 </Text>
               </View>
             </View>

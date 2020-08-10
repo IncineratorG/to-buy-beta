@@ -263,23 +263,21 @@ export const useProductsListController = (model) => {
     }
   };
 
-  const smsSharePressHandler = useCallback(() => {
+  const smsSharePressHandler = () => {
     model.dispatch(
       shareProductsListViaSmsAction({id: model.data.shoppingListId}),
     );
 
     model.localDispatch(pla_setSharePanelVisibility({visible: false}));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
-  const whatsAppSharePressHandler = useCallback(() => {
+  const whatsAppSharePressHandler = () => {
     model.dispatch(
       shareProductsListViaWhatsAppAction({id: model.data.shoppingListId}),
     );
 
     model.localDispatch(pla_setSharePanelVisibility({visible: false}));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   return {
     backButtonPressHandler,

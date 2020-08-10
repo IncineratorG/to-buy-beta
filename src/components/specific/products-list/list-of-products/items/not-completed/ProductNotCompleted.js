@@ -43,9 +43,15 @@ const ProductNotCompleted = ({
     ? categoryDescription.color
     : 'lightgrey';
 
-  const productUnit = unitsMap.get(product.unitId)
-    ? unitsMap.get(product.unitId).name
-    : '';
+  const productUnit = unitsMap.get(product.unitId);
+  let productUnitName = '';
+  if (productUnit) {
+    if (productUnit.translationMark) {
+      productUnitName = t(productUnit.translationMark);
+    } else {
+      productUnitName = productUnit.name;
+    }
+  }
 
   const productPressHandler = () => {
     if (awaitConfirmation) {
@@ -177,7 +183,7 @@ const ProductNotCompleted = ({
               </View>
               <View style={styles.quantityUnitContainer}>
                 <Text style={styles.quantityUnit} numberOfLines={1}>
-                  {productUnit}
+                  {productUnitName}
                 </Text>
               </View>
             </View>

@@ -50,6 +50,7 @@ const RenameShoppingListDialog = ({
 
   return (
     <ConfirmDialog
+      dialogStyle={{borderRadius: 10}}
       title={t('RenameShoppingListDialog_dialogTitle')}
       keyboardShouldPersistTaps={'always'}
       visible={visible}

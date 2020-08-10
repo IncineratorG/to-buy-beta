@@ -1,4 +1,4 @@
-import {useState, useEffect, useCallback} from 'react';
+import {useState} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from '../../../utils/common/localization';
@@ -37,6 +37,12 @@ export const useShoppingListsModel = () => {
     (storeState) =>
       storeState.share.share.availability.whatsAppSharingSupported,
   );
+  const availableLanguages = useSelector(
+    (state) => state.system.system.localization.availableLanguageCodes,
+  );
+  const currentLanguage = useSelector(
+    (state) => state.system.system.localization.currentLanguageCode,
+  );
 
   // ===
   const online = false;
@@ -64,6 +70,8 @@ export const useShoppingListsModel = () => {
       listIdToShare,
       smsShareSupported,
       whatsAppShareSupported,
+      availableLanguages,
+      currentLanguage,
     },
     setters: {
       setShareDialogVisible,

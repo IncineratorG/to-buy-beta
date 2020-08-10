@@ -22,6 +22,7 @@ function* ss_shareProductsListViaSmsHandler(action) {
     const categoriesList = yield call(shoppingListService.getCategories, {
       shoppingListId: id,
     });
+
     const unitsList = yield call(shoppingListService.getUnits, {
       shoppingListId: id,
     });
@@ -46,6 +47,7 @@ function* ss_shareProductsListViaSmsHandler(action) {
     const shareService = Services.get(Services.serviceTypes.SHARE);
 
     yield call(shareService.shareViaSms, {text: productsListTextForm});
+
     yield put(shareProductsListViaSmsFinishedAction());
   } catch (e) {
     SystemEventsHandler.onError({

@@ -48,6 +48,7 @@ const CopyShoppingListDialog = ({
 
   return (
     <ConfirmDialog
+      dialogStyle={{borderRadius: 10}}
       title={t('CopyShoppingListDialog_dialogTitle')}
       keyboardShouldPersistTaps={'always'}
       visible={visible}
