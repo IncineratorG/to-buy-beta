@@ -1,5 +1,5 @@
 import {takeLatest, debounce} from '@redux-saga/core/effects';
-import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import {SUGGEST_PRODUCTS} from '../../types/product-suggestion/productSuggestionTypes';
 import pss_suggestProductHandler from './handlers/pss_suggestProductHandler';
 import {

@@ -8,7 +8,7 @@ import {
 import ProductStatus from '../../../../services/shopping-list/data/product-status/ProductStatus';
 import {changeMultipleProductsStatusAction} from '../../../../store/actions/products-list/productsListActions';
 import ProductInitialCategories from '../../../../components/specific/products-list/product-initial-categories/ProductInitialCategories';
-import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
 export const useScreenMenuButtonController = (model) => {
   const screenMenuRenameListPressHandler = useCallback(() => {

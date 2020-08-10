@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {icons} from '../../../../../../assets/icons';
-import {SystemEventsHandler} from '../../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import {useTranslation} from '../../../../../../utils/common/localization';
 import ProductInputType from '../../stores/types/productInputAreaProductInputTypes';
 

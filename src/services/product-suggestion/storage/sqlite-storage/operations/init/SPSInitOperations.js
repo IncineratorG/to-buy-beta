@@ -1,7 +1,7 @@
 import spsDbUpgradeData from './initializer/init-scripts/spsDbUpgrageData';
 import SPSInitManager from './initializer/SPSInitManager';
 import SPSDbUpgradeDataParser from './initializer/init-scripts/SPSDbUpgradeDataParser';
-import {SystemEventsHandler} from '../../../../../service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
 class SPSInitOperations {
   static async init(sqlite, dbName) {

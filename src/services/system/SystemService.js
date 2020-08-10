@@ -1,7 +1,7 @@
 import SqliteSystemServiceStorage from './storage/sqlite-storage/SqliteSystemServiceStorage';
-import {Notifier} from '../service-utils/notifier/Notifier';
+import {Notifier} from '../../utils/common/service-utils/notifier/Notifier';
 import SystemLocalization from './localization/system-localization/SystemLocalization';
-import {SystemEventsHandler} from '../service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import SystemServiceEventTypes from './data/event-types/SystemServiceEventTypes';
 
 class SystemService {

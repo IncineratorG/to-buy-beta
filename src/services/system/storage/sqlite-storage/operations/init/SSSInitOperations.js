@@ -1,4 +1,4 @@
-import {SystemEventsHandler} from '../../../../../service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import sssDbUpgradeData from './initializer/init-scripts/sssDbUpgradeData';
 import SSSInitManager from './initializer/SSSInitManager';
 import SSSDbUpgradeDataParser from './initializer/init-scripts/SSSDbUpgradeDataParser';

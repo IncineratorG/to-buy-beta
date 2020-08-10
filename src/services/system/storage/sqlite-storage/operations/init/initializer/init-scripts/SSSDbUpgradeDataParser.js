@@ -1,4 +1,4 @@
-import {SystemEventsHandler} from '../../../../../../../service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
 class SSSDbUpgradeDataParser {
   static getActualVersion({upgradeData}) {

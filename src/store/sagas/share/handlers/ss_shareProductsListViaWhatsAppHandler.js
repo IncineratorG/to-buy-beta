@@ -1,12 +1,12 @@
 import {call, put} from '@redux-saga/core/effects';
-import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import Services from '../../../../services/Services';
 import {
   shareProductsListViaWhatsAppBeginAction,
   shareProductsListViaWhatsAppErrorAction,
   shareProductsListViaWhatsAppFinishedAction,
 } from '../../../actions/share/shareActions';
-import ListToTextConverter from '../../../../services/service-utils/list-to-text-converter/ListToTextConverter';
+import ListToTextConverter from '../../../../utils/common/service-utils/list-to-text-converter/ListToTextConverter';
 
 function* ss_shareProductsListViaWhatsAppHandler(action) {
   const {id} = action.payload;

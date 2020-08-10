@@ -19,7 +19,7 @@ import {
   UPDATE_SHOPPING_LISTS_ERROR,
   UPDATE_SHOPPING_LISTS_FINISHED,
 } from '../../types/shopping-lists/shoppingListsTypes';
-import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import shoppingListsComparator from './helpers/shoppingListsComparator';
 
 const initialState = {

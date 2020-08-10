@@ -1,6 +1,6 @@
 import * as RNLocalize from 'react-native-localize';
 import translations from '../../../../assets/translations';
-import {SystemEventsHandler} from '../../../service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
 class SystemLocalization {
   static async init() {}

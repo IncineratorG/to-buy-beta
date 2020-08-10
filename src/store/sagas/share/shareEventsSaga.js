@@ -1,5 +1,5 @@
 import {call, take, put} from '@redux-saga/core/effects';
-import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import {eventChannel} from 'redux-saga';
 import {setShareAvailabilityAction} from '../../actions/share/shareActions';
 import Services from '../../../services/Services';

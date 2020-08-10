@@ -1,5 +1,5 @@
-import {Notifier} from '../service-utils/notifier/Notifier';
-import {SystemEventsHandler} from '../service-utils/system-events-handler/SystemEventsHandler';
+import {Notifier} from '../../utils/common/service-utils/notifier/Notifier';
+import {SystemEventsHandler} from '../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import ShareServiceEvents from './data/event-types/ShareServiceEvents';
 import PhoneMessaging from './libs/phone-messaging/PhoneMessaging';
 

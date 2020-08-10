@@ -6,7 +6,7 @@ import {productCompletedStyles} from './completed/styles/productCompletedStyles'
 import ProductExtra from './extra/ProductExtra';
 import {productExtraStyles} from './extra/styles/productExtraStyles';
 import ProductStatus from '../../../../../services/shopping-list/data/product-status/ProductStatus';
-import {SystemEventsHandler} from '../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
 const Product = ({
   product,

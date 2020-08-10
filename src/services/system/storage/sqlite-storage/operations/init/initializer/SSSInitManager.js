@@ -1,5 +1,5 @@
-import {SystemEventsHandler} from '../../../../../../service-utils/system-events-handler/SystemEventsHandler';
-import {SqlStatementExecutor} from '../../../../../../service-utils/sql-statement-executor/SqlStatementExecutor';
+import {SystemEventsHandler} from '../../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SqlStatementExecutor} from '../../../../../../../utils/common/service-utils/sql-statement-executor/SqlStatementExecutor';
 
 export class SSSInitManager {
   static async runUpgradeScripts({db, scripts}) {

@@ -1,7 +1,7 @@
 import {SLInitManager} from './initializer/SLInitManager';
 import dbUpgradeData from './initializer/init-scripts/dbUpgradeData';
 import {DbUpgradeDataParser} from './initializer/init-scripts/DbUpgradeDataParser';
-import {SystemEventsHandler} from '../../../../service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
 export class SLInitOperations {
   static async init(sqlite, dbName) {

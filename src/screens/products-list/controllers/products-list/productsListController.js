@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import {
   addProductAction,
   changeProductStatusAction,

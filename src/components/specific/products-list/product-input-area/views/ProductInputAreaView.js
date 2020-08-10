@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import ProductInputTypes from './input-types/ProductInputTypes';
 import ProductInputOptions from './input-options/ProductInputOptions';
 import ProductMainInput from './main-input/ProductMainInput';
-import {SystemEventsHandler} from '../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import ProductInputType from '../stores/types/productInputAreaProductInputTypes';
 import ProductSuggestion from './suggestion/ProductSuggestion';
 
