@@ -88,6 +88,7 @@ const ShoppingListsView = ({styles, model, controller}) => {
 
   const removeConfirmationDialogComponent = (
     <ConfirmDialog
+      dialogStyle={{borderRadius: 10}}
       // title={t('ShoppingLists_removeConfirmationDialogTitle')}
       message={
         t('ShoppingLists_removeConfirmationDialogMessage') +

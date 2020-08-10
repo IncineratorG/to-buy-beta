@@ -17,6 +17,7 @@ const CreateListDialog = ({
 
   return (
     <ConfirmDialog
+      dialogStyle={{borderRadius: 10}}
       title={t('CreateListDialog_dialogTitle')}
       keyboardShouldPersistTaps={'always'}
       visible={visible}

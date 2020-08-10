@@ -84,6 +84,7 @@ const AddUnitDialog = ({
 
   return (
     <Dialog
+      dialogStyle={{borderRadius: 10}}
       visible={visible}
       title={t('AddUnitDialog_dialogTitle')}
       buttons={buttons}

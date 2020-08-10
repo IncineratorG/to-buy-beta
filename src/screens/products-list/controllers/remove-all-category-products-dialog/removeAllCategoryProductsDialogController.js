@@ -48,20 +48,20 @@ export const useRemoveAllCategoryProductsDialogController = (model) => {
       pla_setRemoveAllCategoryProductsDialogVisibility({visible: false}),
     );
 
-    if (selectedCategoryId !== ProductInitialCategories.ALL) {
-      model.localDispatch(
-        pla_setSelectedCategoryIdForCategoriesList({
-          id: ProductInitialCategories.ALL,
-        }),
-      );
-      setTimeout(() => {
-        model.localDispatch(
-          pla_setSelectedCategoryIdForProductsList({
-            id: ProductInitialCategories.ALL,
-          }),
-        );
-      }, 1);
-    }
+    // if (selectedCategoryId !== ProductInitialCategories.ALL) {
+    //   model.localDispatch(
+    //     pla_setSelectedCategoryIdForCategoriesList({
+    //       id: ProductInitialCategories.ALL,
+    //     }),
+    //   );
+    //   setTimeout(() => {
+    //     model.localDispatch(
+    //       pla_setSelectedCategoryIdForProductsList({
+    //         id: ProductInitialCategories.ALL,
+    //       }),
+    //     );
+    //   }, 1);
+    // }
   };
 
   const removeAllCategoryProductsDialogCancelButtonHandler = () => {

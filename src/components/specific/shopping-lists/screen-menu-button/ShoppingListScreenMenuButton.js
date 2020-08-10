@@ -47,17 +47,6 @@ const ShoppingListScreenMenuButton = ({
     );
   });
 
-  // const defaultMenuItemText = '     ' + t('default_language');
-  // const defaultMenuItem = (
-  //   <MenuOption
-  //     key={'default_language'}
-  //     onSelect={() => languagePressHandler('')}
-  //     text={defaultMenuItemText}
-  //   />
-  // );
-  //
-  // menuItems.push(defaultMenuItem);
-
   const menuComponent = (
     <Menu opened={menuVisible} onBackdropPress={menuPressHandler}>
       <MenuTrigger text="" />

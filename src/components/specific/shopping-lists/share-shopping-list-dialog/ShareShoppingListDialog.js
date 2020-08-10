@@ -88,6 +88,7 @@ const ShareShoppingListDialog = ({
 
   return (
     <Dialog
+      dialogStyle={{borderRadius: 10}}
       visible={visible}
       title={t('ShareShoppingListDialog_dialogTitle')}
       onTouchOutside={touchOutsideHandler}

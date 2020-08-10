@@ -98,6 +98,8 @@ const AddCategoryDialog = ({
 
   return (
     <Dialog
+      dialogStyle={{borderRadius: 10}}
+      // animationType={'none'}
       visible={visible}
       title={t('AddCategoryDialog_dialogTitle')}
       buttons={buttons}
