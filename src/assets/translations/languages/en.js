@@ -61,12 +61,12 @@ export const en = {
   EditCategoryDialog_removeButton: 'REMOVE',
   EditCategoryDialog_cancelButton: 'CANCEL',
 
-  AddUnitDialog_dialogTitle: 'Добавление единицы измерения',
-  AddUnitDialog_placeholder: 'Единица измерения',
-  AddUnitDialog_addButton: 'ДОБАВИТЬ',
-  AddUnitDialog_cancelButton: 'ОТМЕНА',
+  AddUnitDialog_dialogTitle: 'Adding a unit of measurement',
+  AddUnitDialog_placeholder: 'Unit',
+  AddUnitDialog_addButton: 'ADD',
+  AddUnitDialog_cancelButton: 'CANCEL',
 
-  EditUnitDialog_dialogTitle: 'Adding a unit of measurement',
+  EditUnitDialog_dialogTitle: 'Editing a unit of measurement',
   EditUnitDialog_placeholder: 'Unit',
   EditUnitDialog_saveButton: 'SAVE',
   EditUnitDialog_removeButton: 'REMOVE',
