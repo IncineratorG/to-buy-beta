@@ -29,8 +29,10 @@ export const productInputAreaStyles = StyleSheet.create({
   suggestionContainer: {
     position: 'absolute',
     bottom: 0,
-    // left: 0,
+    left: 0,
     // right: 0,
-    marginBottom: 35,
+    marginBottom: 40,
+    marginLeft: 50,
+    borderRadius: 3,
   },
 });

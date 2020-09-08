@@ -1,4 +1,4 @@
-import SSSInitOperations from './operations/init/SSSInitOperations';
+import SystemDbInitOperations from './operations/init/SystemDbInitOperations';
 import PreferencesTableOperations from './operations/preferences/PreferencesTableOperations';
 
 const DB_NAME = 'tobuy_system_service.db';
@@ -10,7 +10,7 @@ class SqliteSystemServiceStorage {
 
   static async init() {
     if (!this.#db) {
-      this.#db = await SSSInitOperations.init(SQlite, DB_NAME);
+      this.#db = await SystemDbInitOperations.init(SQlite, DB_NAME);
     }
   }
 

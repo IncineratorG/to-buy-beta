@@ -1,6 +1,6 @@
 export const en = {
   language: 'Language',
-  ru: 'Russian',
+  ru: 'Русский',
   en: 'English',
 
   categories_other: 'Other',
@@ -16,6 +16,7 @@ export const en = {
   units_gram: 'g',
   units_liter: 'l',
   units_milliliter: 'ml',
+  units_unspecified: 'unspecified',
 
   ShoppingLists_screenTitle: 'Shopping lists',
   ShoppingLists_removeConfirmationDialogTitle: 'Deleting a list',
@@ -118,6 +119,7 @@ export const en = {
   CopyShoppingListDialog_cancelButton: 'CANCEL',
 
   ProductNotCompleted_menuMarkAsBoughtOption: 'Mark as purchased',
+  ProductNotCompleted_menuMarkUnspecified: 'Mark',
   ProductNotCompleted_menuEditOption: 'Edit',
   ProductNotCompleted_menuRemoveOption: 'Remove',
 

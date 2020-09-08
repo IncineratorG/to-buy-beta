@@ -1,14 +1,20 @@
-import {SystemEventsHandler} from '../../../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../system-events-handler/SystemEventsHandler';
 
-class SSSDbUpgradeDataParser {
-  static getActualVersion({upgradeData}) {
+export class SqlGeneralUpgradeDataParser {
+  #parserName;
+
+  constructor({parserName}) {
+    this.#parserName = parserName;
+  }
+
+  getActualVersion({upgradeData}) {
     return upgradeData.actualVersion;
   }
 
-  static getUpgradeScripts({currentVersion, targetVersion, upgradeData}) {
+  getUpgradeScripts({currentVersion, targetVersion, upgradeData}) {
     if (!targetVersion || !upgradeData) {
       SystemEventsHandler.onError({
-        err: 'SSSDbUpgradeDataParser->getUpgradeScripts(): BAD_INPUT',
+        err: this.#parserName + '->getUpgradeScripts(): BAD_INPUT',
       });
       return [];
     }
@@ -21,7 +27,7 @@ class SSSDbUpgradeDataParser {
     const versionsObj = upgradeData.versions;
     if (!versionsObj) {
       SystemEventsHandler.onError({
-        err: 'SSSDbUpgradeDataParser->getUpgradeScripts(): BAD_VERSIONS_OBJECT',
+        err: this.#parserName + '->getUpgradeScripts(): BAD_VERSIONS_OBJECT',
       });
       return [];
     }
@@ -46,7 +52,8 @@ class SSSDbUpgradeDataParser {
       if (!requiredVersionObject) {
         SystemEventsHandler.onError({
           err:
-            'SSSDbUpgradeDataParser->getUpgradeScripts(): BAD_VERSION_OBJECT_FOR_CODE: ' +
+            this.#parserName +
+            '->getUpgradeScripts(): BAD_VERSION_OBJECT_FOR_CODE: ' +
             versionCode,
         });
         continue;
@@ -56,7 +63,8 @@ class SSSDbUpgradeDataParser {
       if (!versionUpgradeScripts) {
         SystemEventsHandler.onError({
           err:
-            'SSSDbUpgradeDataParser->getUpgradeScripts(): BAD_VERSION_UPGRADE_SCRIPT_FOR_CODE: ' +
+            this.#parserName +
+            '->getUpgradeScripts(): BAD_VERSION_UPGRADE_SCRIPT_FOR_CODE: ' +
             versionCode,
         });
         continue;
@@ -68,5 +76,3 @@ class SSSDbUpgradeDataParser {
     return upgradeScripts;
   }
 }
-
-export default SSSDbUpgradeDataParser;

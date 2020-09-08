@@ -1,7 +1,7 @@
 export const ru = {
   language: 'Язык',
   ru: 'Русский',
-  en: 'Английский',
+  en: 'English',
 
   categories_other: 'Другое',
   categories_products: 'Продукты',
@@ -16,6 +16,7 @@ export const ru = {
   units_gram: 'г',
   units_liter: 'л',
   units_milliliter: 'мл',
+  units_unspecified: 'не указывать',
 
   ShoppingLists_screenTitle: 'Списки покупок',
   ShoppingLists_removeConfirmationDialogTitle: 'Удаление списка',
@@ -120,6 +121,7 @@ export const ru = {
   CopyShoppingListDialog_cancelButton: 'ОТМЕНА',
 
   ProductNotCompleted_menuMarkAsBoughtOption: 'Отметить как купленное',
+  ProductNotCompleted_menuMarkUnspecified: 'Отметить',
   ProductNotCompleted_menuEditOption: 'Редактировать',
   ProductNotCompleted_menuRemoveOption: 'Удалить',
 

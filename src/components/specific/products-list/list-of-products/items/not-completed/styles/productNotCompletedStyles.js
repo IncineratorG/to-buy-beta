@@ -3,7 +3,6 @@ import {StyleSheet} from 'react-native';
 export const productNotCompletedStyles = StyleSheet.create({
   touchable: {
     flex: 1,
-    // marginTop: 7,
     borderRadius: 4,
     marginLeft: 8,
     marginRight: 8,
@@ -14,12 +13,10 @@ export const productNotCompletedStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    // marginTop: 7,
     backgroundColor: 'white',
     borderRadius: 4,
     borderWidth: 1,
     borderColor: 'grey',
-    // elevation: 3,
   },
   colorComponent: {
     alignSelf: 'stretch',
@@ -28,15 +25,12 @@ export const productNotCompletedStyles = StyleSheet.create({
   },
   infoContainer: {
     flex: 1,
-    // backgroundColor: 'gold',
     alignSelf: 'stretch',
     justifyContent: 'center',
   },
   majorInfoContainer: {
     flexDirection: 'row',
     alignSelf: 'stretch',
-    // height: 50,
-    // backgroundColor: 'cyan',
   },
   productNameContainer: {
     flex: 1,
@@ -54,14 +48,12 @@ export const productNotCompletedStyles = StyleSheet.create({
     alignSelf: 'stretch',
     width: 70,
     flexDirection: 'row',
-    // backgroundColor: 'blue',
   },
   quantityCountContainer: {
     flex: 1,
     alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'flex-end',
-    // backgroundColor: 'orange',
   },
   quantityCount: {
     marginLeft: 2,
@@ -73,10 +65,8 @@ export const productNotCompletedStyles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'yellow',
   },
   quantityUnit: {
-    // marginLeft: 8,
     marginRight: 2,
     fontSize: 18,
   },
@@ -96,7 +86,6 @@ export const productNotCompletedStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'stretch',
-    // backgroundColor: 'green',
   },
   statusTouchable: {
     width: 60,
@@ -114,7 +103,6 @@ export const productNotCompletedStyles = StyleSheet.create({
     marginBottom: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    // marginRight: 10,
   },
   statusIcon: {
     transform: [{scale: 0.5}],

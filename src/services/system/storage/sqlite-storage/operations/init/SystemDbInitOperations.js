@@ -1,20 +1,20 @@
-import dbUpgradeData from './initializer/init-scripts/dbUpgradeData';
-import {SystemEventsHandler} from '../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
-import {SqlGeneralInitManager} from '../../../../../utils/common/service-utils/sql-general-init-manager/SqlGeneralInitManager';
-import {SqlGeneralUpgradeDataParser} from '../../../../../utils/common/service-utils/sql-general-upgrade-data-parser/SqlGeneralUpgradeDataParser';
+import {SystemEventsHandler} from '../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import sssDbUpgradeData from './initializer/init-scripts/sssDbUpgradeData';
+import {SqlGeneralInitManager} from '../../../../../../utils/common/service-utils/sql-general-init-manager/SqlGeneralInitManager';
+import {SqlGeneralUpgradeDataParser} from '../../../../../../utils/common/service-utils/sql-general-upgrade-data-parser/SqlGeneralUpgradeDataParser';
 
-export class SLInitOperations {
+class SystemDbInitOperations {
   static #initManager = new SqlGeneralInitManager({
-    managerName: 'ShoppingListDbInitManager',
+    managerName: 'SystemDbInitManager',
   });
   static #upgradeDataParser = new SqlGeneralUpgradeDataParser({
-    parserName: 'ShoppingListDbUpgradeDataParser',
+    parserName: 'SystemDbUpgradeDataParser',
   });
 
   static async init(sqlite, dbName) {
     const db = sqlite.openDatabase({name: dbName});
 
-    const upgradeData = dbUpgradeData;
+    const upgradeData = sssDbUpgradeData;
 
     const currentDbVersion = await this.#initManager.getVersion(db);
     const actualDbVersion = this.#upgradeDataParser.getActualVersion({
@@ -23,12 +23,12 @@ export class SLInitOperations {
 
     if (currentDbVersion.toString() === actualDbVersion.toString()) {
       SystemEventsHandler.onInfo({
-        info: 'ShoppingListDbInitOperations->init(): USING_ACTUAL_VERSION',
+        info: 'SystemDbInitOperations->init(): USING_ACTUAL_VERSION',
       });
       return db;
     } else {
       SystemEventsHandler.onInfo({
-        info: 'ShoppingListDbInitOperations->init(): NEED_UPDATE',
+        info: 'SystemDbInitOperations->init(): NEED_UPDATE',
       });
     }
 
@@ -49,3 +49,5 @@ export class SLInitOperations {
     return db;
   }
 }
+
+export default SystemDbInitOperations;
