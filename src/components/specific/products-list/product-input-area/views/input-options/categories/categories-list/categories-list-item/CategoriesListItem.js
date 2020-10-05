@@ -5,6 +5,7 @@ import TextColorDeterminer from '../../../../../../../../../utils/common/text-co
 import {useTranslation} from '../../../../../../../../../utils/common/localization';
 
 const CategoriesListItem = ({
+  onLayout,
   category,
   selectedCategory,
   onCategoryPress,
@@ -30,8 +31,15 @@ const CategoriesListItem = ({
     }
   };
 
+  const onLayoutHandler = (e) => {
+    if (onLayout) {
+      onLayout({event: e, category});
+    }
+  };
+
   return (
     <TouchableWithoutFeedback
+      onLayout={onLayoutHandler}
       style={styles.touchable}
       onPress={categoryPressHandler}
       onLongPress={categoryLongPressHandler}>
