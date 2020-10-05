@@ -9,8 +9,10 @@ const CategoriesListActual = ({
   onCategoryPress,
   onCategoryLongPress,
 }) => {
-  // const width = useWindowDimensions().width;
+  const width = useWindowDimensions().width;
   const listRef = useRef(null);
+
+  const [count, setCount] = useState(0);
 
   const renderItem = ({item}) => {
     return (
@@ -60,17 +62,24 @@ const CategoriesListActual = ({
 
       if (selectedCategoryIndex >= 0) {
         setTimeout(() => {
-          SystemEventsHandler.onInfo({info: 'NOW_MOVING'});
+          const screenWidth = Math.ceil(width);
+
+          SystemEventsHandler.onInfo({info: ''});
+          SystemEventsHandler.onInfo({info: 'NOW_MOVING: ' + count});
+          SystemEventsHandler.onInfo({info: 'SCREEN_WIDTH: ' + screenWidth});
 
           listRef.current.scrollToIndex({
             animated: true,
             index: selectedCategoryIndex,
-            viewOffset: selectedCategoryIndex > 0 ? 0 : itemWidth,
+            viewOffset: count === 0 ? width / 2.5 : 0,
             viewPosition: 0.5,
           });
+
+          setCount(count + 1);
         }, 50);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoriesListWithWidths, selectedCategory, listRef]);
 
   return (
