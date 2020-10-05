@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {Dialog} from 'react-native-simple-dialogs';
-import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import {useTranslation} from '../../../../utils/common/localization';
 
 const AddUnitDialog = ({

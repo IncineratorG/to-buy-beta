@@ -1,5 +1,5 @@
 import {takeLatest} from '@redux-saga/core/effects';
-import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import {
   CHECK_SHARE_AVAILABILITY,
   SHARE_PRODUCTS_LIST_VIA_SMS,

@@ -1,20 +1,26 @@
-import {SystemEventsHandler} from '../../../../../../service-utils/system-events-handler/SystemEventsHandler';
-import {SqlStatementExecutor} from '../../../../../../service-utils/sql-statement-executor/SqlStatementExecutor';
+import {SystemEventsHandler} from '../system-events-handler/SystemEventsHandler';
+import {SqlStatementExecutor} from '../sql-statement-executor/SqlStatementExecutor';
 
-export class SSSInitManager {
-  static async runUpgradeScripts({db, scripts}) {
+export class SqlGeneralInitManager {
+  #managerName;
+
+  constructor({managerName}) {
+    this.#managerName = managerName;
+  }
+
+  async runUpgradeScripts({db, scripts}) {
     if (!db) {
       SystemEventsHandler.onError({
-        err: 'SSSInitManager->runUpdateScripts(): BAD_DB',
+        err: this.#managerName + '->runUpdateScripts(): BAD_DB',
       });
-      return false;
+      return;
     }
 
     if (!scripts) {
       SystemEventsHandler.onError({
-        err: 'SSSInitManager->runUpdateScripts(): NOTHING_TO_UPDATE',
+        err: this.#managerName + '->runUpdateScripts(): NOTHING_TO_UPDATE',
       });
-      return false;
+      return;
     }
 
     let success = true;
@@ -24,7 +30,8 @@ export class SSSInitManager {
       } catch (e) {
         SystemEventsHandler.onError({
           err:
-            'SSSInitManager->runUpdateScripts(): ERROR_EXECUTING_SCRIPT: ' +
+            this.#managerName +
+            '->runUpdateScripts(): ERROR_EXECUTING_SCRIPT: ' +
             scripts[i],
         });
         success = false;
@@ -34,7 +41,7 @@ export class SSSInitManager {
     return success;
   }
 
-  static async getVersion(db) {
+  async getVersion(db) {
     const getVersionStatement = 'PRAGMA user_version';
 
     const result = await SqlStatementExecutor.execute({
@@ -50,10 +57,8 @@ export class SSSInitManager {
     return version;
   }
 
-  static async setVersion({db, version}) {
+  async setVersion({db, version}) {
     const setVersionStatement = 'PRAGMA user_version = ' + version;
     await SqlStatementExecutor.execute({db, statement: setVersionStatement});
   }
 }
-
-export default SSSInitManager;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableHighlight, StyleSheet} from 'react-native';
 import ProductInputType from '../../stores/types/productInputAreaProductInputTypes';
-import {SystemEventsHandler} from '../../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
 const ProductSuggestion = ({state, onSuggestionPress}) => {
   const {type, productSuggestions} = state.currentInput;
@@ -79,6 +79,8 @@ const ProductSuggestion = ({state, onSuggestionPress}) => {
   const separatorLineComponent =
     suggestions.length > 1 ? <View style={styles.separatorLine} /> : null;
 
+  // return <View style={styles.mainContainer}>{firstSuggestionComponent}</View>;
+
   return (
     <View style={styles.mainContainer}>
       {secondSuggestionComponent}
@@ -93,19 +95,22 @@ const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: 'row',
     alignSelf: 'stretch',
-    height: 30,
-    width: 300,
+    height: 25,
+    width: 220,
     backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: 3,
   },
   suggestionTouchable: {
     flex: 1,
     margin: 0,
+    borderRadius: 3,
   },
   suggestion: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.4)',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 3,
   },
   suggestionText: {
     fontSize: 14,

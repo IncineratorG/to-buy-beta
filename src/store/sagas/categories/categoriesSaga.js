@@ -1,5 +1,5 @@
 import {call, put, takeEvery, takeLatest} from '@redux-saga/core/effects';
-import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import {
   ADD_CATEGORY,
   LOAD_CATEGORIES,

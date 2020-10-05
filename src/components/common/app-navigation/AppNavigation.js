@@ -12,40 +12,6 @@ const ModalStack = createStackNavigator();
 const AppNavigation = () => {
   const {t} = useTranslation();
 
-  // const modalStack = () => {
-  //   return (
-  //     <ModalStack.Navigator mode="modal">
-  //       <ModalStack.Screen
-  //         name={'CreateShoppingList'}
-  //         component={CreateShoppingList}
-  //         options={{
-  //           headerShown: false,
-  //         }}
-  //       />
-  //       <MainStack.Screen
-  //         name={'ShoppingLists'}
-  //         component={ShoppingLists}
-  //         options={{title: t('ShoppingLists_screenTitle')}}
-  //       />
-  //     </ModalStack.Navigator>
-  //   );
-  // };
-  //
-  // const mainStack = (
-  //   <MainStack.Navigator>
-  //     <MainStack.Screen
-  //       name={'ShoppingLists'}
-  //       component={ShoppingLists}
-  //       options={{title: t('ShoppingLists_screenTitle')}}
-  //     />
-  //     <MainStack.Screen
-  //       name={'ProductsList'}
-  //       component={ProductsList}
-  //       options={{title: 'MY_TITLE', headerShown: true}}
-  //     />
-  //   </MainStack.Navigator>
-  // );
-
   const mainStack = () => {
     return (
       <MainStack.Navigator mode="card">
@@ -82,6 +48,42 @@ const AppNavigation = () => {
 
   return <NavigationContainer>{modalStack}</NavigationContainer>;
 };
+
+export default AppNavigation;
+
+// const modalStack = () => {
+//   return (
+//     <ModalStack.Navigator mode="modal">
+//       <ModalStack.Screen
+//         name={'CreateShoppingList'}
+//         component={CreateShoppingList}
+//         options={{
+//           headerShown: false,
+//         }}
+//       />
+//       <MainStack.Screen
+//         name={'ShoppingLists'}
+//         component={ShoppingLists}
+//         options={{title: t('ShoppingLists_screenTitle')}}
+//       />
+//     </ModalStack.Navigator>
+//   );
+// };
+//
+// const mainStack = (
+//   <MainStack.Navigator>
+//     <MainStack.Screen
+//       name={'ShoppingLists'}
+//       component={ShoppingLists}
+//       options={{title: t('ShoppingLists_screenTitle')}}
+//     />
+//     <MainStack.Screen
+//       name={'ProductsList'}
+//       component={ProductsList}
+//       options={{title: 'MY_TITLE', headerShown: true}}
+//     />
+//   </MainStack.Navigator>
+// );
 
 // const AppNavigation = () => {
 //   const {t} = useTranslation();
@@ -137,8 +139,6 @@ const AppNavigation = () => {
 //
 //   return <NavigationContainer>{modalStack}</NavigationContainer>;
 // };
-
-export default AppNavigation;
 
 // import React from 'react';
 // import {NavigationContainer} from '@react-navigation/native';

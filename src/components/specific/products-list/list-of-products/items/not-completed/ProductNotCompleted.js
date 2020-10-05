@@ -6,7 +6,7 @@ import {
   TouchableHighlight,
   Image,
 } from 'react-native';
-import {SystemEventsHandler} from '../../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import {icons} from '../../../../../../assets/icons';
 import {
   Menu,
@@ -52,6 +52,7 @@ const ProductNotCompleted = ({
       productUnitName = productUnit.name;
     }
   }
+  const productUnitUnspecified = productUnit ? productUnit.unspecified : false;
 
   const productPressHandler = () => {
     if (awaitConfirmation) {
@@ -68,9 +69,7 @@ const ProductNotCompleted = ({
       return;
     }
 
-    if (onProductLongPress) {
-      onProductLongPress(product);
-    }
+    setMenuVisible(true);
   };
 
   const statusPressHandler = () => {
@@ -131,6 +130,27 @@ const ProductNotCompleted = ({
   const noteComponent =
     product.note.length > 0 ? noteExistComponent : noteNotExistComponent;
 
+  const quantityExistComponent = (
+    <View style={styles.quantityContainer}>
+      <View style={styles.quantityCountContainer}>
+        <Text style={styles.quantityCount} numberOfLines={1}>
+          {product.quantity}
+        </Text>
+      </View>
+      <View style={styles.quantityUnitContainer}>
+        <Text style={styles.quantityUnit} numberOfLines={1}>
+          {productUnitName}
+        </Text>
+      </View>
+    </View>
+  );
+
+  const quantityNotExistComponent = <View />;
+
+  const quantityComponent = productUnitUnspecified
+    ? quantityNotExistComponent
+    : quantityExistComponent;
+
   const awaitConfirmationComponent = awaitConfirmation ? (
     <Image style={styles.statusIcon} source={icons.progress_grey} />
   ) : null;
@@ -141,7 +161,11 @@ const ProductNotCompleted = ({
       <MenuOptions>
         <MenuOption
           onSelect={markAsBoughtPressHandler}
-          text={t('ProductNotCompleted_menuMarkAsBoughtOption')}
+          text={
+            productUnitUnspecified
+              ? t('ProductNotCompleted_menuMarkUnspecified')
+              : t('ProductNotCompleted_menuMarkAsBoughtOption')
+          }
         />
         <MenuOption
           onSelect={editPressHandler}
@@ -175,18 +199,7 @@ const ProductNotCompleted = ({
                 {product.name}
               </Text>
             </View>
-            <View style={styles.quantityContainer}>
-              <View style={styles.quantityCountContainer}>
-                <Text style={styles.quantityCount} numberOfLines={1}>
-                  {product.quantity}
-                </Text>
-              </View>
-              <View style={styles.quantityUnitContainer}>
-                <Text style={styles.quantityUnit} numberOfLines={1}>
-                  {productUnitName}
-                </Text>
-              </View>
-            </View>
+            {quantityComponent}
           </View>
           {noteComponent}
         </View>

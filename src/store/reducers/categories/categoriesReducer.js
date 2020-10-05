@@ -12,7 +12,7 @@ import {
   UPDATE_CATEGORY_ERROR,
   UPDATE_CATEGORY_FINISHED,
 } from '../../types/categories/categoriesTypes';
-import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import categoriesComparator from './helpers/categoriesComparator';
 
 const initialState = {

@@ -11,8 +11,8 @@ import {
   PRODUCTS_TABLE_UNIT_ID,
   PRODUCTS_TABLE_UPDATE_TIMESTAMP,
 } from '../../tables/productsTable';
-import {SystemEventsHandler} from '../../../../service-utils/system-events-handler/SystemEventsHandler';
-import {SqlStatementExecutor} from '../../../../service-utils/sql-statement-executor/SqlStatementExecutor';
+import {SystemEventsHandler} from '../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SqlStatementExecutor} from '../../../../../utils/common/service-utils/sql-statement-executor/SqlStatementExecutor';
 import ProductStatus from '../../../data/product-status/ProductStatus';
 
 export class ProductsTableOperations {

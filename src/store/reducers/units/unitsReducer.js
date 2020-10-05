@@ -12,7 +12,7 @@ import {
   UPDATE_UNIT_ERROR,
   UPDATE_UNIT_FINISHED,
 } from '../../types/units/unitsTypes';
-import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import unitsComparator from './helpers/unitsComparator';
 
 const initialState = {

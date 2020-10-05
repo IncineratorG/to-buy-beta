@@ -8,8 +8,8 @@ import {
   SHOPPING_LISTS_TABLE_COMPLETED_ITEMS,
   SHOPPING_LISTS_TABLE_ID,
 } from '../../tables/shoppingListsTable';
-import {SqlStatementExecutor} from '../../../../service-utils/sql-statement-executor/SqlStatementExecutor';
-import {SystemEventsHandler} from '../../../../service-utils/system-events-handler/SystemEventsHandler';
+import {SqlStatementExecutor} from '../../../../../utils/common/service-utils/sql-statement-executor/SqlStatementExecutor';
+import {SystemEventsHandler} from '../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
 export class ShoppingListsTableOperations {
   static #className = 'ShoppingListsTableOperations';

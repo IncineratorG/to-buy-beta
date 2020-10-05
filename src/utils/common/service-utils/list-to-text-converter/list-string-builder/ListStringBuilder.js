@@ -18,9 +18,10 @@ class ListStringBuilder {
 
     productsList.forEach((p) => {
       const productName = p.name;
-      const category = categories.get(p.categoryId).name;
-      const quantity = p.quantity;
-      const unit = units.get(p.unitId).name;
+      const categoryName = categories.get(p.categoryId).name;
+      const unit = units.get(p.unitId);
+      const unitName = unit.unspecified ? '' : unit.name;
+      const quantity = unit.unspecified ? '' : p.quantity.toString();
       const note = p.note;
 
       const noteString = note ? '(' + note + ')' : '';
@@ -28,13 +29,13 @@ class ListStringBuilder {
       const productDescription =
         counter.toString() +
         '. ' +
-        category +
+        categoryName +
         ' - ' +
         productName +
         ' ' +
-        quantity.toString() +
+        quantity +
         ' ' +
-        unit +
+        unitName +
         ' ' +
         noteString;
 
@@ -52,9 +53,10 @@ class ListStringBuilder {
 
     productsList.forEach((p) => {
       const productName = p.name;
-      const category = categories.get(p.categoryId).name;
-      const quantity = p.quantity;
-      const unit = units.get(p.unitId).name;
+      const categoryName = categories.get(p.categoryId).name;
+      const unit = units.get(p.unitId);
+      const unitName = unit.unspecified ? '' : unit.name;
+      const quantity = unit.unspecified ? '' : p.quantity.toString();
       const note = p.note;
 
       const noteString = note ? '(' + note + ')' : '';
@@ -67,9 +69,9 @@ class ListStringBuilder {
           ' - ' +
           productName +
           ' ' +
-          quantity.toString() +
+          quantity +
           ' ' +
-          unit +
+          unitName +
           ' ' +
           noteString;
       } else {
@@ -80,14 +82,14 @@ class ListStringBuilder {
 
         productDescription =
           newLineSymbol +
-          category +
+          categoryName +
           '\n' +
           ' - ' +
           productName +
           ' ' +
-          quantity.toString() +
+          quantity +
           ' ' +
-          unit +
+          unitName +
           ' ' +
           noteString;
       }

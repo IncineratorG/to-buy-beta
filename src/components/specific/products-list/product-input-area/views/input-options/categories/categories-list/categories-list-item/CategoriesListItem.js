@@ -1,10 +1,11 @@
 import React from 'react';
 import {View, Text, TouchableWithoutFeedback, StyleSheet} from 'react-native';
-import {SystemEventsHandler} from '../../../../../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import TextColorDeterminer from '../../../../../../../../../utils/common/text-color-determiner/TextColorDeterminer';
 import {useTranslation} from '../../../../../../../../../utils/common/localization';
 
 const CategoriesListItem = ({
+  onLayout,
   category,
   selectedCategory,
   onCategoryPress,
@@ -30,8 +31,15 @@ const CategoriesListItem = ({
     }
   };
 
+  const onLayoutHandler = (e) => {
+    if (onLayout) {
+      onLayout({event: e, category});
+    }
+  };
+
   return (
     <TouchableWithoutFeedback
+      onLayout={onLayoutHandler}
       style={styles.touchable}
       onPress={categoryPressHandler}
       onLongPress={categoryLongPressHandler}>

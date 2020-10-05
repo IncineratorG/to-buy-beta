@@ -36,6 +36,7 @@ const ProductCompleted = ({
       productUnitName = productUnit.name;
     }
   }
+  const productUnitUnspecified = productUnit ? productUnit.unspecified : false;
 
   const statusPressHandler = () => {
     if (awaitConfirmation) {
@@ -72,6 +73,27 @@ const ProductCompleted = ({
     <Image style={styles.checmarkIcon} source={icons.checkmark} />
   );
 
+  const quantityExistComponent = (
+    <View style={styles.quantityContainer}>
+      <View style={styles.quantityCountContainer}>
+        <Text style={styles.quantityCount} numberOfLines={1}>
+          {product.quantity}
+        </Text>
+      </View>
+      <View style={styles.quantityUnitContainer}>
+        <Text style={styles.quantityUnit} numberOfLines={1}>
+          {productUnitName}
+        </Text>
+      </View>
+    </View>
+  );
+
+  const quantityNotExistComponent = <View />;
+
+  const quantityComponent = productUnitUnspecified
+    ? quantityNotExistComponent
+    : quantityExistComponent;
+
   return (
     <TouchableHighlight
       style={styles.touchable}
@@ -88,18 +110,7 @@ const ProductCompleted = ({
                 {product.name}
               </Text>
             </View>
-            <View style={styles.quantityContainer}>
-              <View style={styles.quantityCountContainer}>
-                <Text style={styles.quantityCount} numberOfLines={1}>
-                  {product.quantity}
-                </Text>
-              </View>
-              <View style={styles.quantityUnitContainer}>
-                <Text style={styles.quantityUnit} numberOfLines={1}>
-                  {productUnitName}
-                </Text>
-              </View>
-            </View>
+            {quantityComponent}
           </View>
           {noteComponent}
         </View>

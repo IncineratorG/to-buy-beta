@@ -1,5 +1,5 @@
 import {call} from '@redux-saga/core/effects';
-import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import Services from '../../../../services/Services';
 
 function* s_setSystemLanguageHandler(action) {

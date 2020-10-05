@@ -3,7 +3,7 @@ import {
   CHECK_SHARE_AVAILABILITY_ERROR,
   SET_SHARE_AVAILABILITY,
 } from '../../types/share/shareTypes';
-import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
 const initialState = {
   share: {

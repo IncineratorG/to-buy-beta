@@ -1,4 +1,4 @@
-import SPSInitOperations from './operations/init/SPSInitOperations';
+import SuggestedProductsDbInitOperations from './operations/init/SuggestedProductsDbInitOperations';
 import SuggestedProductsTableOperations from './operations/suggested-products-table/SuggestedProductsTableOperations';
 
 const DB_NAME = 'tobuy_products_suggester.db';
@@ -11,7 +11,7 @@ class SqliteProductsSuggesterStorage {
 
   static async init() {
     if (!this.#db) {
-      this.#db = await SPSInitOperations.init(SQlite, DB_NAME);
+      this.#db = await SuggestedProductsDbInitOperations.init(SQlite, DB_NAME);
     }
     this.#productsDataCache.clear();
 

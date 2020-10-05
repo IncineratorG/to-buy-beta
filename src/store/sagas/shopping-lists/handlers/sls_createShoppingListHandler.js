@@ -4,7 +4,7 @@ import {
   createShoppingListErrorAction,
   createShoppingListFinishedAction,
 } from '../../../actions/shopping-lists/shoppingListsActions';
-import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import Services from '../../../../services/Services';
 
 function* sls_createShoppingListHandler(action) {

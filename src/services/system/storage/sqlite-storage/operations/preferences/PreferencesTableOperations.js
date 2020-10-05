@@ -3,8 +3,8 @@ import {
   SYSTEM_PREFERENCES_TABLE_ID,
   SYSTEM_PREFERENCES_TABLE_LANGUAGE_CODE,
 } from '../../tables/systemPreferencesTable';
-import {SqlStatementExecutor} from '../../../../../service-utils/sql-statement-executor/SqlStatementExecutor';
-import {SystemEventsHandler} from '../../../../../service-utils/system-events-handler/SystemEventsHandler';
+import {SqlStatementExecutor} from '../../../../../../utils/common/service-utils/sql-statement-executor/SqlStatementExecutor';
+import {SystemEventsHandler} from '../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
 class PreferencesTableOperations {
   static #className = 'PreferencesTableOperations';

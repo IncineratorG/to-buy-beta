@@ -13,7 +13,7 @@ import {
   SET_UNIT,
   SUBMIT_VALUES,
 } from './types/productInputAreaActionTypes';
-import {SystemEventsHandler} from '../../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import {icons} from '../../../../../assets/icons';
 import ProductInputType from './types/productInputAreaProductInputTypes';
 import productInputAcceptable from './helpers/productInputAcceptable';
@@ -21,10 +21,6 @@ import productInputAcceptable from './helpers/productInputAcceptable';
 function productInputAreaReducer(state, action) {
   switch (action.type) {
     case HIDE_INPUT_AREA: {
-      SystemEventsHandler.onInfo({
-        info: 'productInputAreaReducer(): HIDE_INPUT_AREA',
-      });
-
       return {
         ...state,
         currentInput: {
@@ -41,9 +37,6 @@ function productInputAreaReducer(state, action) {
           },
           selectedCategory: undefined,
           selectedUnit: undefined,
-          // productSuggestions: {
-          //   suggestions: [],
-          // },
         },
       };
     }
@@ -90,7 +83,6 @@ function productInputAreaReducer(state, action) {
     }
 
     case SELECT_PRODUCT_QUANTITY: {
-      SystemEventsHandler.onInfo({info: 'SELECT_PRODUCT_QUANTITY'});
       return {
         ...state,
         currentInput: {
@@ -104,7 +96,6 @@ function productInputAreaReducer(state, action) {
     }
 
     case SELECT_PRODUCT_NOTE: {
-      SystemEventsHandler.onInfo({info: 'SELECT_PRODUCT_NOTE'});
       return {
         ...state,
         currentInput: {
@@ -206,13 +197,7 @@ function productInputAreaReducer(state, action) {
             note: '',
             acceptable: false,
           },
-          // productSuggestions: {
-          //   ...state.currentInput.productSuggestions,
-          //   suggestions: [],
-          // },
         },
-        // selectedCategory: undefined,
-        // selectedUnit: undefined,
       };
     }
 

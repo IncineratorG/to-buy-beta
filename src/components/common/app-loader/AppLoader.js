@@ -3,8 +3,8 @@ import {useDispatch} from 'react-redux';
 import AppNavigation from '../app-navigation/AppNavigation';
 import AppLoading from '../app-loading/AppLoading';
 import Services from '../../../services/Services';
-import {SystemEventsHandler} from '../../../services/service-utils/system-events-handler/SystemEventsHandler';
-import wait from '../../../services/service-utils/wait/wait';
+import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import wait from '../../../utils/common/service-utils/wait/wait';
 import {loadShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
 
 const AppLoader = () => {
@@ -18,9 +18,7 @@ const AppLoader = () => {
 
       try {
         await Services.init();
-        // ===
         await dispatch(loadShoppingListsAction());
-        // ===
       } catch (e) {
         SystemEventsHandler.onError({err: 'AppLoader->init()->ERROR'});
       }

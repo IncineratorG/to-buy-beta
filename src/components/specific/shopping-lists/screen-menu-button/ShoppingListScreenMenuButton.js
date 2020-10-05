@@ -8,7 +8,7 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import {useTranslation} from '../../../../utils/common/localization';
-import {SystemEventsHandler} from '../../../../services/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
 const ShoppingListScreenMenuButton = ({
   availableLanguages,
