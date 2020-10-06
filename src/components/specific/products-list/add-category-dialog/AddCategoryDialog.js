@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
   TextInput,
   TouchableNativeFeedback,
   StyleSheet,
+  ProgressBarAndroid,
 } from 'react-native';
 import {Dialog} from 'react-native-simple-dialogs';
 import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
@@ -14,12 +15,19 @@ import {useTranslation} from '../../../../utils/common/localization';
 
 const AddCategoryDialog = ({
   visible,
+  lastAddedCategory,
+  categoryAddInProgress,
   onTouchOutside,
   onAddPress,
   onCancelPress,
+  onCloseRequest,
 }) => {
   const [categoryName, setCategoryName] = useState('');
   const [selectedColorItem, setSelectedColorItem] = useState(null);
+
+  const [categoryAddWasInProgress, setCategoryAddWasInProgress] = useState(
+    false,
+  );
 
   const {t} = useTranslation();
 
@@ -66,6 +74,13 @@ const AddCategoryDialog = ({
     setCategoryName(text);
   };
 
+  // const progressIndicator = <View />;
+  const progressIndicator = categoryAddInProgress ? (
+    <ProgressBarAndroid styleAttr="Horizontal" color="#2196F3" />
+  ) : (
+    <View />
+  );
+
   const buttons = (
     <View style={styles.buttonsContainer}>
       <TouchableNativeFeedback
@@ -96,6 +111,17 @@ const AddCategoryDialog = ({
     </View>
   );
 
+  useEffect(() => {
+    if (!categoryAddInProgress && categoryAddWasInProgress) {
+      onCloseRequest({addedCategory: lastAddedCategory});
+    }
+
+    if (categoryAddInProgress) {
+      setCategoryAddWasInProgress(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryAddInProgress, categoryAddWasInProgress]);
+
   return (
     <Dialog
       dialogStyle={{borderRadius: 10}}
@@ -107,6 +133,15 @@ const AddCategoryDialog = ({
       <View style={styles.mainContainer}>
         <View style={styles.contentContainer}>
           <View style={styles.categoryColorContainer}>
+            <View
+              style={{
+                alignSelf: 'stretch',
+                height: 10,
+                backgroundColor: 'white',
+                justifyContent: 'center',
+              }}>
+              {progressIndicator}
+            </View>
             <CategoryColorsList
               selectedColorItem={selectedColorItem}
               onColorPress={colorPressHandler}
@@ -184,47 +219,3 @@ const styles = StyleSheet.create({
 });
 
 export default AddCategoryDialog;
-
-/*
-<View style={styles.categoryNameTitleContainer}>
-  <Text style={styles.categoryNameTitle}>Название</Text>
-  <View style={styles.categoryNameUnderline} />
-</View>
- */
-
-/*
-<View style={styles.categoryColorTitleContainer}>
-  <Text style={styles.categoryColorTitle}>Цвет</Text>
-  <View style={styles.categoryColorUnderline} />
-</View>
- */
-
-// categoryColorTitleContainer: {
-//   height: 20,
-//   alignSelf: 'stretch',
-//   backgroundColor: 'transparent',
-// },
-// categoryColorTitle: {
-//   color: 'grey',
-// },
-// categoryColorUnderline: {
-//   height: 1,
-//   alignSelf: 'stretch',
-//   backgroundColor: 'lightgrey',
-//   marginRight: 250,
-// },
-
-// categoryNameTitleContainer: {
-//   height: 20,
-//   alignSelf: 'stretch',
-//   backgroundColor: 'transparent',
-// },
-// categoryNameTitle: {
-//   color: 'grey',
-// },
-// categoryNameUnderline: {
-//   height: 1,
-//   alignSelf: 'stretch',
-//   backgroundColor: 'lightgrey',
-//   marginRight: 250,
-// },

@@ -35,6 +35,9 @@ const ProductsListView = ({styles, model, controller}) => {
     allCategoriesMap,
     smsShareSupported,
     whatsAppShareSupported,
+    categoryAddInProgress,
+    lastAddedCategoryId,
+    lastAddedCategory,
   } = model.data;
 
   const {
@@ -111,6 +114,7 @@ const ProductsListView = ({styles, model, controller}) => {
     addCategoryDialogTouchOutsideHandler,
     addCategoryDialogAddButtonHandler,
     addCategoryDialogCancelButtonHandler,
+    addCategoryDialogRequestCloseAfterCategoryAddedHandler,
   } = addCategoryDialogController;
 
   const {
@@ -319,9 +323,12 @@ const ProductsListView = ({styles, model, controller}) => {
   const addCategoryDialogComponent = (
     <AddCategoryDialog
       visible={addCategoryDialogVisible}
+      lastAddedCategory={lastAddedCategory}
+      categoryAddInProgress={categoryAddInProgress}
       onTouchOutside={addCategoryDialogTouchOutsideHandler}
       onAddPress={addCategoryDialogAddButtonHandler}
       onCancelPress={addCategoryDialogCancelButtonHandler}
+      onCloseRequest={addCategoryDialogRequestCloseAfterCategoryAddedHandler}
     />
   );
 

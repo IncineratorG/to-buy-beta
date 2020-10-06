@@ -25,6 +25,7 @@ import {
   SET_SHARE_PANEL_VISIBILITY,
   SET_USED_CATEGORIES,
 } from './types/productListActionTypes';
+import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
 function productListReducer(state, action) {
   switch (action.type) {
@@ -96,11 +97,20 @@ function productListReducer(state, action) {
     }
 
     case CLOSE_ADD_CATEGORY_DIALOG: {
+      const inputAreaState = {...state.inputArea.inputAreaState};
+      if (action.payload.addedCategory) {
+        let addedCategory = {...action.payload.addedCategory};
+        if (addedCategory) {
+          inputAreaState.currentInput.selectedCategory = {...addedCategory};
+        }
+      }
+
       return {
         ...state,
         inputArea: {
           ...state.inputArea,
           inputAreaVisible: true,
+          inputAreaState,
         },
         addCategoryDialog: {
           addCategoryDialogVisible: false,

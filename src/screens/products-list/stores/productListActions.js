@@ -78,10 +78,10 @@ export const pla_openAddCategoryDialog = ({productInputAreaState}) => {
   };
 };
 
-export const pla_closeAddCategoryDialog = () => {
+export const pla_closeAddCategoryDialog = ({addedCategory}) => {
   return {
     type: CLOSE_ADD_CATEGORY_DIALOG,
-    payload: undefined,
+    payload: {addedCategory},
   };
 };
 
