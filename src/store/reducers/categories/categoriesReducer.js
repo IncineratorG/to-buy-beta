@@ -31,6 +31,9 @@ const initialState = {
       description: '',
     },
     addCategory: {
+      inProgress: false,
+      categoryId: undefined,
+      category: undefined,
       error: {
         hasError: false,
         description: '',
@@ -138,6 +141,9 @@ export const categoriesReducer = (state = initialState, action) => {
           ...state.categories,
           addCategory: {
             ...state.categories.addCategory,
+            inProgress: true,
+            categoryId: undefined,
+            category: undefined,
             error: {
               hasError: false,
               description: '',
@@ -149,6 +155,8 @@ export const categoriesReducer = (state = initialState, action) => {
 
     case ADD_CATEGORY_FINISHED: {
       const category = {...action.payload.category};
+
+      SystemEventsHandler.onInfo({info: 'NEW_CATEGORY_ID: ' + category.id});
 
       const allCategoriesList = [...state.categories.all.list, category];
       const activeCategoriesList = allCategoriesList.filter((c) => !c.deleted);
@@ -180,6 +188,9 @@ export const categoriesReducer = (state = initialState, action) => {
           },
           addCategory: {
             ...state.categories.addCategory,
+            inProgress: false,
+            categoryId: category.id,
+            category: {...category},
             error: {
               hasError: false,
               description: '',
@@ -196,6 +207,9 @@ export const categoriesReducer = (state = initialState, action) => {
           ...state.categories,
           addCategory: {
             ...state.categories.addCategory,
+            inProgress: false,
+            categoryId: undefined,
+            category: undefined,
             error: {
               hasError: true,
               description: action.payload.error.description,

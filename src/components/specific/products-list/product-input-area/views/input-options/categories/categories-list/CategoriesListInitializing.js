@@ -64,13 +64,13 @@ const CategoriesListInitializing = ({
   }, [categoriesList]);
 
   useEffect(() => {
-    SystemEventsHandler.onInfo({
-      info:
-        'LAST_EFFECT: ' +
-        categoriesList.length +
-        ' - ' +
-        categoriesComponentsWidthsMap.size,
-    });
+    // SystemEventsHandler.onInfo({
+    //   info:
+    //     'LAST_EFFECT: ' +
+    //     categoriesList.length +
+    //     ' - ' +
+    //     categoriesComponentsWidthsMap.size,
+    // });
 
     if (categoriesComponentsWidthsMap.size >= categoriesList.length) {
       // eslint-disable-next-line react-hooks/exhaustive-deps

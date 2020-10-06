@@ -40,6 +40,15 @@ export const useProductsListModel = () => {
   const categoriesLoading = useSelector(
     (storeState) => storeState.categories.categories.loading,
   );
+  const categoryAddInProgress = useSelector(
+    (storeState) => storeState.categories.categories.addCategory.inProgress,
+  );
+  const lastAddedCategoryId = useSelector(
+    (storeState) => storeState.categories.categories.addCategory.categoryId,
+  );
+  const lastAddedCategory = useSelector(
+    (storeState) => storeState.categories.categories.addCategory.category,
+  );
   const listName = useSelector(
     (storeState) => storeState.productsList.productsList.name,
   );
@@ -225,6 +234,9 @@ export const useProductsListModel = () => {
       allCategoriesMap,
       smsShareSupported,
       whatsAppShareSupported,
+      categoryAddInProgress,
+      lastAddedCategoryId,
+      lastAddedCategory,
     },
     setters: {},
     navigation,

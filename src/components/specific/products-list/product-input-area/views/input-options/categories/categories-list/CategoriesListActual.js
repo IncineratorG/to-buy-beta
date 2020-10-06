@@ -49,24 +49,24 @@ const CategoriesListActual = ({
         (categoryItem) => categoryItem.id === selectedCategory.id,
       );
 
-      const itemWidth = categoriesListWithWidths[selectedCategoryIndex].width;
-      let itemOffset = 0;
-      for (let i = 0; i < selectedCategoryIndex; ++i) {
-        itemOffset =
-          itemOffset + categoriesListWithWidths[selectedCategoryIndex].width;
-      }
+      // const itemWidth = categoriesListWithWidths[selectedCategoryIndex].width;
+      // let itemOffset = 0;
+      // for (let i = 0; i < selectedCategoryIndex; ++i) {
+      //   itemOffset =
+      //     itemOffset + categoriesListWithWidths[selectedCategoryIndex].width;
+      // }
 
-      SystemEventsHandler.onInfo({
-        info: 'MOVING: ' + itemWidth + ' - ' + itemOffset,
-      });
+      // SystemEventsHandler.onInfo({
+      //   info: 'MOVING: ' + itemWidth + ' - ' + itemOffset,
+      // });
 
       if (selectedCategoryIndex >= 0) {
         setTimeout(() => {
-          const screenWidth = Math.ceil(width);
+          // const screenWidth = Math.ceil(width);
 
-          SystemEventsHandler.onInfo({info: ''});
-          SystemEventsHandler.onInfo({info: 'NOW_MOVING: ' + count});
-          SystemEventsHandler.onInfo({info: 'SCREEN_WIDTH: ' + screenWidth});
+          // SystemEventsHandler.onInfo({info: ''});
+          // SystemEventsHandler.onInfo({info: 'NOW_MOVING: ' + count});
+          // SystemEventsHandler.onInfo({info: 'SCREEN_WIDTH: ' + screenWidth});
 
           listRef.current.scrollToIndex({
             animated: true,
