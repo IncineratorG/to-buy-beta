@@ -2,7 +2,7 @@ import React from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
 
 const ListOfProductsLoading = () => {
-  const fakeItems = ['1', '2', '3', '4'];
+  const fakeItems = ['1', '2', '3', '4', '5'];
 
   const renderItem = () => {
     return (

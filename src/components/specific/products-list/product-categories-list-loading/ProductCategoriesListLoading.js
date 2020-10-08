@@ -5,7 +5,11 @@ const ProductCategoriesListLoading = () => {
   const fakeItems = ['1', '2', '3', '4'];
 
   const renderItem = () => {
-    return <View style={styles.listItemContainer} />;
+    return (
+      <View style={styles.listItemContainer}>
+        <View style={styles.listItemBodyContainer} />
+      </View>
+    );
   };
 
   return (
@@ -34,9 +38,17 @@ const styles = StyleSheet.create({
   listItemContainer: {
     flex: 1,
     width: 80,
-    backgroundColor: 'lightgrey',
+    backgroundColor: 'white',
     borderRadius: 10,
     margin: 4,
+    elevation: 3,
+  },
+  listItemBodyContainer: {
+    flex: 1,
+    alignSelf: 'stretch',
+    backgroundColor: 'lightgrey',
+    borderRadius: 10,
+    margin: 1,
   },
 });
 
