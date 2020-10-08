@@ -79,8 +79,6 @@ const ProductSuggestion = ({state, onSuggestionPress}) => {
   const separatorLineComponent =
     suggestions.length > 1 ? <View style={styles.separatorLine} /> : null;
 
-  // return <View style={styles.mainContainer}>{firstSuggestionComponent}</View>;
-
   return (
     <View style={styles.mainContainer}>
       {secondSuggestionComponent}
@@ -96,7 +94,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'stretch',
     height: 25,
-    width: 220,
+    // width: 220,
     backgroundColor: 'rgba(0,0,0,0.3)',
     borderRadius: 3,
   },
