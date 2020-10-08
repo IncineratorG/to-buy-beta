@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableWithoutFeedback} from 'react-native';
+import {TouchableWithoutFeedback, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {EmptyProductsListScreen} from '../../../components/specific/products-list/empty-products-list-screen/EmptyProductsListScreen';
 import AddButton from '../../../components/common/add-button/AddButton';
@@ -492,8 +492,7 @@ const ProductsListView = ({styles, model, controller}) => {
     </View>
   );
 
-  const activeComponent = dataLoading ? loadingComponent : loadedComponent;
-  return activeComponent;
+  return dataLoading ? loadingComponent : loadedComponent;
 };
 
 export default ProductsListView;

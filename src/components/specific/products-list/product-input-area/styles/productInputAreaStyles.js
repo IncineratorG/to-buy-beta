@@ -30,9 +30,10 @@ export const productInputAreaStyles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     left: 0,
-    // right: 0,
+    right: 0,
     marginBottom: 40,
     marginLeft: 50,
+    marginRight: 50,
     borderRadius: 3,
   },
 });

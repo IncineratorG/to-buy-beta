@@ -172,6 +172,12 @@ export const useProductInputAreaController = (model) => {
     model.dispatch(clearProductSuggestionsAction());
   };
 
+  // const categoriesListScrollHandler = useCallback((e) => {
+  //   // SystemEventsHandler.onInfo({
+  //   //   info: 'categoriesListScrollHandler: ' + e.nativeEvent.contentOffset.x,
+  //   // });
+  // }, []);
+
   return {
     productNameTypePressHandler,
     productQuantityTypePressHandler,

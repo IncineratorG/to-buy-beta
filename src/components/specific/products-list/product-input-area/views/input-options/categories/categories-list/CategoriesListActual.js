@@ -49,33 +49,17 @@ const CategoriesListActual = ({
         (categoryItem) => categoryItem.id === selectedCategory.id,
       );
 
-      // const itemWidth = categoriesListWithWidths[selectedCategoryIndex].width;
-      // let itemOffset = 0;
-      // for (let i = 0; i < selectedCategoryIndex; ++i) {
-      //   itemOffset =
-      //     itemOffset + categoriesListWithWidths[selectedCategoryIndex].width;
-      // }
-
-      // SystemEventsHandler.onInfo({
-      //   info: 'MOVING: ' + itemWidth + ' - ' + itemOffset,
-      // });
-
       if (selectedCategoryIndex >= 0) {
         setTimeout(() => {
-          // const screenWidth = Math.ceil(width);
-
-          // SystemEventsHandler.onInfo({info: ''});
-          // SystemEventsHandler.onInfo({info: 'NOW_MOVING: ' + count});
-          // SystemEventsHandler.onInfo({info: 'SCREEN_WIDTH: ' + screenWidth});
-
-          listRef.current.scrollToIndex({
-            animated: true,
-            index: selectedCategoryIndex,
-            viewOffset: count === 0 ? width / 2.5 : 0,
-            viewPosition: 0.5,
-          });
-
-          setCount(count + 1);
+          if (listRef && listRef.current) {
+            listRef.current.scrollToIndex({
+              animated: true,
+              index: selectedCategoryIndex,
+              viewOffset: count === 0 ? width / 2.5 : 0,
+              viewPosition: 0.5,
+            });
+            setCount(count + 1);
+          }
         }, 50);
       }
     }
@@ -99,7 +83,7 @@ const CategoriesListActual = ({
           getItemLayout={categoriesListWithWidths.length ? getItemLayout : null}
           snapToAlignment={'center'}
           initialNumToRender={categoriesListWithWidths.length}
-          // initialScrollIndex={initialListIndex}
+          // onScroll={onScroll}
         />
       </View>
     </View>
