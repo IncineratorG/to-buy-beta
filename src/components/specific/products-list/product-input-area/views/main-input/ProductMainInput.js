@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   View,
   TouchableHighlight,
@@ -47,6 +47,8 @@ const ProductMainInput = ({
     }
   }
 
+  const mainTextInputRef = useRef(null);
+
   const {t} = useTranslation();
 
   const onSubmitEditing = () => {
@@ -85,6 +87,22 @@ const ProductMainInput = ({
     }
   };
 
+  // ===
+  useEffect(() => {
+    SystemEventsHandler.onInfo({info: 'IN_HERE'});
+
+    if (mainTextInputRef != null) {
+      if (mainTextInputRef.current != null) {
+        mainTextInputRef.current.focus();
+      } else {
+        SystemEventsHandler.onInfo({info: '1'});
+      }
+    } else {
+      SystemEventsHandler.onInfo({info: '2'});
+    }
+  }, []);
+  // ===
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.iconContainer}>
@@ -94,8 +112,9 @@ const ProductMainInput = ({
       </View>
       <View style={styles.textInputContainer}>
         <TextInput
+          ref={mainTextInputRef}
           value={textInputValue}
-          autoFocus={true}
+          // autoFocus={true}
           keyboardType={keyboardType}
           blurOnSubmit={false}
           placeholder={t(placeholder)}
