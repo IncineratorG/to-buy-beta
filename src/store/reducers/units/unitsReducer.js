@@ -31,6 +31,8 @@ const initialState = {
       description: '',
     },
     addUnit: {
+      inProgress: false,
+      unit: undefined,
       error: {
         hasError: false,
         description: '',
@@ -138,6 +140,8 @@ export const unitsReducer = (state = initialState, action) => {
           ...state.units,
           addUnit: {
             ...state.units.addUnit,
+            inProgress: true,
+            unit: undefined,
             error: {
               hasError: false,
               description: '',
@@ -180,6 +184,8 @@ export const unitsReducer = (state = initialState, action) => {
           },
           addUnit: {
             ...state.units.addUnit,
+            inProgress: false,
+            unit: {...unit},
             error: {
               hasError: false,
               description: '',
@@ -196,6 +202,8 @@ export const unitsReducer = (state = initialState, action) => {
           ...state.units,
           addUnit: {
             ...state.units.addUnit,
+            inProgress: false,
+            unit: undefined,
             error: {
               hasError: true,
               description: action.payload.error.description,

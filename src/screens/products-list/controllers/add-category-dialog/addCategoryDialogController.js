@@ -22,9 +22,6 @@ export const useAddCategoryDialogController = (model) => {
 
   const addCategoryDialogRequestCloseAfterCategoryAddedHandler = useCallback(
     ({addedCategory}) => {
-      SystemEventsHandler.onInfo({
-        info: 'ADDED_CATEGORY_NAME: ' + addedCategory.name,
-      });
       setTimeout(() => {
         model.localDispatch(pla_closeAddCategoryDialog({addedCategory}));
       }, 50);

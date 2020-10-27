@@ -43,11 +43,14 @@ export const useProductsListModel = () => {
   const categoryAddInProgress = useSelector(
     (storeState) => storeState.categories.categories.addCategory.inProgress,
   );
-  const lastAddedCategoryId = useSelector(
-    (storeState) => storeState.categories.categories.addCategory.categoryId,
-  );
   const lastAddedCategory = useSelector(
     (storeState) => storeState.categories.categories.addCategory.category,
+  );
+  const unitAddInProgress = useSelector(
+    (storeState) => storeState.units.units.addUnit.inProgress,
+  );
+  const lastAddedUnit = useSelector(
+    (storeState) => storeState.units.units.addUnit.unit,
   );
   const listName = useSelector(
     (storeState) => storeState.productsList.productsList.name,
@@ -235,8 +238,9 @@ export const useProductsListModel = () => {
       smsShareSupported,
       whatsAppShareSupported,
       categoryAddInProgress,
-      lastAddedCategoryId,
       lastAddedCategory,
+      unitAddInProgress,
+      lastAddedUnit,
     },
     setters: {},
     navigation,

@@ -156,7 +156,7 @@ export const categoriesReducer = (state = initialState, action) => {
     case ADD_CATEGORY_FINISHED: {
       const category = {...action.payload.category};
 
-      SystemEventsHandler.onInfo({info: 'NEW_CATEGORY_ID: ' + category.id});
+      // SystemEventsHandler.onInfo({info: 'NEW_CATEGORY_ID: ' + category.id});
 
       const allCategoriesList = [...state.categories.all.list, category];
       const activeCategoriesList = allCategoriesList.filter((c) => !c.deleted);
