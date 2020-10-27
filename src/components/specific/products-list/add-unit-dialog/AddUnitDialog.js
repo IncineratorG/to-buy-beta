@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
   TextInput,
   TouchableNativeFeedback,
   StyleSheet,
+  ProgressBarAndroid,
 } from 'react-native';
 import {Dialog} from 'react-native-simple-dialogs';
 import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
@@ -12,11 +13,15 @@ import {useTranslation} from '../../../../utils/common/localization';
 
 const AddUnitDialog = ({
   visible,
+  lastAddedUnit,
+  unitAddInProgress,
   onTouchOutside,
   onAddPress,
   onCancelPress,
+  onCloseRequest,
 }) => {
   const [unitName, setUnitName] = useState('');
+  const [unitAddWasInProgress, setUnitAddWasInProgress] = useState(false);
 
   const {t} = useTranslation();
 
@@ -52,6 +57,12 @@ const AddUnitDialog = ({
     setUnitName(text);
   };
 
+  const progressIndicator = unitAddInProgress ? (
+    <ProgressBarAndroid styleAttr="Horizontal" color="#2196F3" />
+  ) : (
+    <View />
+  );
+
   const buttons = (
     <View style={styles.buttonsContainer}>
       <TouchableNativeFeedback
@@ -82,6 +93,23 @@ const AddUnitDialog = ({
     </View>
   );
 
+  useEffect(() => {
+    if (!unitAddInProgress && unitAddWasInProgress) {
+      if (onCloseRequest) {
+        onCloseRequest({addedUnit: lastAddedUnit});
+      } else {
+        SystemEventsHandler.onError({
+          err: 'AddUnitDialog->onCloseRequest_IS_NULL',
+        });
+      }
+    }
+
+    if (unitAddInProgress) {
+      setUnitAddWasInProgress(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [unitAddInProgress, unitAddWasInProgress]);
+
   return (
     <Dialog
       dialogStyle={{borderRadius: 10}}
@@ -91,6 +119,15 @@ const AddUnitDialog = ({
       onTouchOutside={touchOutsideHandler}>
       <View style={styles.mainContainer}>
         <View style={styles.unitNameContainer}>
+          <View
+            style={{
+              alignSelf: 'stretch',
+              height: 10,
+              backgroundColor: 'white',
+              justifyContent: 'center',
+            }}>
+            {progressIndicator}
+          </View>
           <TextInput
             value={unitName}
             autoCapitalize={'none'}

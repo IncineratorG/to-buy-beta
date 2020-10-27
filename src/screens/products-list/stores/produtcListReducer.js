@@ -162,11 +162,20 @@ function productListReducer(state, action) {
     }
 
     case CLOSE_ADD_UNIT_DIALOG: {
+      const inputAreaState = {...state.inputArea.inputAreaState};
+      if (action.payload.addedUnit) {
+        let addedUnit = {...action.payload.addedUnit};
+        if (addedUnit) {
+          inputAreaState.currentInput.selectedUnit = {...addedUnit};
+        }
+      }
+
       return {
         ...state,
         inputArea: {
           ...state.inputArea,
           inputAreaVisible: true,
+          inputAreaState,
         },
         addUnitDialog: {
           addUnitDialogVisible: false,

@@ -36,8 +36,9 @@ const ProductsListView = ({styles, model, controller}) => {
     smsShareSupported,
     whatsAppShareSupported,
     categoryAddInProgress,
-    lastAddedCategoryId,
     lastAddedCategory,
+    unitAddInProgress,
+    lastAddedUnit,
   } = model.data;
 
   const {
@@ -121,6 +122,7 @@ const ProductsListView = ({styles, model, controller}) => {
     addUnitDialogTouchOutsideHandler,
     addUnitDialogCancelButtonHandler,
     addUnitDialogAddButtonHandler,
+    addUnitDialogRequestCloseAfterUnitAddedHandler,
   } = addUnitDialogController;
 
   const {
@@ -302,9 +304,12 @@ const ProductsListView = ({styles, model, controller}) => {
   const addUnitDialogComponent = (
     <AddUnitDialog
       visible={addUnitDialogVisible}
+      lastAddedUnit={lastAddedUnit}
+      unitAddInProgress={unitAddInProgress}
       onTouchOutside={addUnitDialogTouchOutsideHandler}
       onAddPress={addUnitDialogAddButtonHandler}
       onCancelPress={addUnitDialogCancelButtonHandler}
+      onCloseRequest={addUnitDialogRequestCloseAfterUnitAddedHandler}
     />
   );
 

@@ -15,13 +15,24 @@ export const useAddUnitDialogController = (model) => {
 
   const addUnitDialogAddButtonHandler = useCallback(({name}) => {
     model.dispatch(addUnitAction({name}));
-    model.localDispatch(pla_closeAddUnitDialog());
+    // model.localDispatch(pla_closeAddUnitDialog());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const addUnitDialogRequestCloseAfterUnitAddedHandler = useCallback(
+    ({addedUnit}) => {
+      setTimeout(() => {
+        model.localDispatch(pla_closeAddUnitDialog({addedUnit}));
+      }, 50);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   return {
     addUnitDialogTouchOutsideHandler,
     addUnitDialogCancelButtonHandler,
     addUnitDialogAddButtonHandler,
+    addUnitDialogRequestCloseAfterUnitAddedHandler,
   };
 };

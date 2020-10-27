@@ -87,21 +87,21 @@ const ProductMainInput = ({
     }
   };
 
-  // ===
   useEffect(() => {
-    SystemEventsHandler.onInfo({info: 'IN_HERE'});
-
-    if (mainTextInputRef != null) {
-      if (mainTextInputRef.current != null) {
-        mainTextInputRef.current.focus();
-      } else {
-        SystemEventsHandler.onInfo({info: '1'});
-      }
+    if (mainTextInputRef != null && mainTextInputRef.current != null) {
+      mainTextInputRef.current.focus();
     } else {
-      SystemEventsHandler.onInfo({info: '2'});
+      if (mainTextInputRef == null) {
+        SystemEventsHandler.onError({
+          err: 'ProductMainInput->mainInputRef_IS_NULL',
+        });
+      } else if (mainTextInputRef.current == null) {
+        SystemEventsHandler.onError({
+          err: 'ProductMainInput->mainInputRef.current_IS_NULL',
+        });
+      }
     }
   }, []);
-  // ===
 
   return (
     <View style={styles.mainContainer}>

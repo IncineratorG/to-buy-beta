@@ -1,12 +1,12 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {View, FlatList, StyleSheet, useWindowDimensions} from 'react-native';
-import CategoriesListItem from './categories-list-item/CategoriesListItem';
+import UnitsListItem from './units-list-item/UnitsListItem';
 
-const CategoriesListActual = ({
-  categoriesListWithWidths,
-  selectedCategory,
-  onCategoryPress,
-  onCategoryLongPress,
+const UnitsListActual = ({
+  unitsListWithWidths,
+  selectedUnit,
+  onUnitPress,
+  onUnitLongPress,
 }) => {
   const width = useWindowDimensions().width;
   const listRef = useRef(null);
@@ -15,11 +15,11 @@ const CategoriesListActual = ({
 
   const renderItem = ({item}) => {
     return (
-      <CategoriesListItem
-        category={item}
-        selectedCategory={selectedCategory}
-        onCategoryPress={onCategoryPress}
-        onCategoryLongPress={onCategoryLongPress}
+      <UnitsListItem
+        unit={item}
+        selectedUnit={selectedUnit}
+        onUnitPress={onUnitPress}
+        onUnitLongPress={onUnitLongPress}
       />
     );
   };
@@ -39,21 +39,17 @@ const CategoriesListActual = ({
   };
 
   useEffect(() => {
-    if (
-      selectedCategory &&
-      listRef.current &&
-      categoriesListWithWidths.length
-    ) {
-      const selectedCategoryIndex = categoriesListWithWidths.findIndex(
-        (categoryItem) => categoryItem.id === selectedCategory.id,
+    if (selectedUnit && listRef.current && unitsListWithWidths.length) {
+      const selectedUnitIndex = unitsListWithWidths.findIndex(
+        (unitItem) => unitItem.id === selectedUnit.id,
       );
 
-      if (selectedCategoryIndex >= 0) {
+      if (selectedUnitIndex >= 0) {
         setTimeout(() => {
           if (listRef && listRef.current) {
             listRef.current.scrollToIndex({
               animated: true,
-              index: selectedCategoryIndex,
+              index: selectedUnitIndex,
               viewOffset: count === 0 ? width / 2.5 : 0,
               viewPosition: 0.5,
             });
@@ -63,7 +59,7 @@ const CategoriesListActual = ({
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoriesListWithWidths, selectedCategory, listRef]);
+  }, [unitsListWithWidths, selectedUnit, listRef]);
 
   return (
     <View style={styles.mainContainer}>
@@ -72,16 +68,16 @@ const CategoriesListActual = ({
           ref={listRef}
           style={styles.list}
           contentContainerStyle={styles.listContentContainer}
-          data={categoriesListWithWidths}
+          data={unitsListWithWidths}
           renderItem={renderItem}
           keyExtractor={(item) => item.id.toString()}
           horizontal={true}
           activeOpacity={1}
           showsHorizontalScrollIndicator={false}
           keyboardShouldPersistTaps="always"
-          getItemLayout={categoriesListWithWidths.length ? getItemLayout : null}
+          getItemLayout={unitsListWithWidths.length ? getItemLayout : null}
           snapToAlignment={'center'}
-          initialNumToRender={categoriesListWithWidths.length}
+          initialNumToRender={unitsListWithWidths.length}
           // onScroll={onScroll}
         />
       </View>
@@ -105,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CategoriesListActual;
+export default UnitsListActual;

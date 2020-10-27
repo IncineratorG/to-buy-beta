@@ -114,10 +114,10 @@ export const pla_openAddUnitDialog = ({productInputAreaState}) => {
   };
 };
 
-export const pla_closeAddUnitDialog = () => {
+export const pla_closeAddUnitDialog = ({addedUnit}) => {
   return {
     type: CLOSE_ADD_UNIT_DIALOG,
-    payload: undefined,
+    payload: {addedUnit},
   };
 };
 

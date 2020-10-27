@@ -10,6 +10,13 @@ const CategoriesList = ({
   onCategoryLongPress,
 }) => {
   const [categoriesListWithWidths, setCategoriesListWithWidths] = useState([]);
+  const [
+    initializingComponentStyles,
+    setInitializingComponentStyles,
+  ] = useState(styles.visibleComponentContainer);
+  const [actualComponentStyles, setActualComponentStyles] = useState(
+    styles.invisibleComponentContainer,
+  );
 
   const initializingComponent = (
     <CategoriesListInitializing
@@ -28,14 +35,6 @@ const CategoriesList = ({
       onCategoryPress={onCategoryPress}
       onCategoryLongPress={onCategoryLongPress}
     />
-  );
-
-  const [
-    initializingComponentStyles,
-    setInitializingComponentStyles,
-  ] = useState(styles.visibleComponentContainer);
-  const [actualComponentStyles, setActualComponentStyles] = useState(
-    styles.invisibleComponentContainer,
   );
 
   useEffect(() => {

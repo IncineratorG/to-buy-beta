@@ -74,7 +74,6 @@ const AddCategoryDialog = ({
     setCategoryName(text);
   };
 
-  // const progressIndicator = <View />;
   const progressIndicator = categoryAddInProgress ? (
     <ProgressBarAndroid styleAttr="Horizontal" color="#2196F3" />
   ) : (
@@ -113,7 +112,13 @@ const AddCategoryDialog = ({
 
   useEffect(() => {
     if (!categoryAddInProgress && categoryAddWasInProgress) {
-      onCloseRequest({addedCategory: lastAddedCategory});
+      if (onCloseRequest) {
+        onCloseRequest({addedCategory: lastAddedCategory});
+      } else {
+        SystemEventsHandler.onError({
+          err: 'AddCategoryDialog->onCloseRequest_IS_NULL',
+        });
+      }
     }
 
     if (categoryAddInProgress) {
