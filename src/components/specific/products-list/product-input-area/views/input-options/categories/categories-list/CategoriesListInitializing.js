@@ -1,5 +1,5 @@
-import React, {useRef, useState, useEffect, useLayoutEffect} from 'react';
-import {View, FlatList, StyleSheet, useWindowDimensions} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, FlatList, StyleSheet} from 'react-native';
 import CategoriesListItem from './categories-list-item/CategoriesListItem';
 import {SystemEventsHandler} from '../../../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
@@ -48,7 +48,7 @@ const CategoriesListInitializing = ({
         return (
           <View
             style={styles.categoriesArrayInvisibleContainer}
-            key={category.id}>
+            key={category.id.toString()}>
             <CategoriesListItem
               onLayout={listItemOnLayout}
               category={category}
@@ -64,16 +64,7 @@ const CategoriesListInitializing = ({
   }, [categoriesList]);
 
   useEffect(() => {
-    // SystemEventsHandler.onInfo({
-    //   info:
-    //     'LAST_EFFECT: ' +
-    //     categoriesList.length +
-    //     ' - ' +
-    //     categoriesComponentsWidthsMap.size,
-    // });
-
     if (categoriesComponentsWidthsMap.size >= categoriesList.length) {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       const categoriesListWithWidths = categoriesList.map(
         (categoryListItem) => {
           let categoryComponentWidth = categoriesComponentsWidthsMap.get(
@@ -114,7 +105,7 @@ const CategoriesListInitializing = ({
           activeOpacity={1}
           showsHorizontalScrollIndicator={false}
           keyboardShouldPersistTaps="always"
-          initialNumToRender={categoriesList.length}
+          // initialNumToRender={categoriesList.length}
         />
       </View>
     </View>

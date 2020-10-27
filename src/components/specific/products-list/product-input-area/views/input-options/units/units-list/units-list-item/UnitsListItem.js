@@ -3,7 +3,13 @@ import {View, StyleSheet, TouchableWithoutFeedback, Text} from 'react-native';
 import {SystemEventsHandler} from '../../../../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import {useTranslation} from '../../../../../../../../../utils/common/localization';
 
-const UnitsListItem = ({unit, selectedUnit, onUnitPress, onUnitLongPress}) => {
+const UnitsListItem = ({
+  onLayout,
+  unit,
+  selectedUnit,
+  onUnitPress,
+  onUnitLongPress,
+}) => {
   const {t} = useTranslation();
 
   const unitName = unit.translationMark ? t(unit.translationMark) : unit.name;
@@ -22,8 +28,15 @@ const UnitsListItem = ({unit, selectedUnit, onUnitPress, onUnitLongPress}) => {
     }
   };
 
+  const onLayoutHandler = (e) => {
+    if (onLayout) {
+      onLayout({event: e, unit});
+    }
+  };
+
   return (
     <TouchableWithoutFeedback
+      onLayout={onLayoutHandler}
       style={styles.touchable}
       onPress={unitPressHandler}
       onLongPress={unitLongPressHandler}>
