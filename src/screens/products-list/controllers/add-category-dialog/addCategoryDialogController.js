@@ -22,9 +22,7 @@ export const useAddCategoryDialogController = (model) => {
 
   const addCategoryDialogRequestCloseAfterCategoryAddedHandler = useCallback(
     ({addedCategory}) => {
-      setTimeout(() => {
-        model.localDispatch(pla_closeAddCategoryDialog({addedCategory}));
-      }, 50);
+      model.localDispatch(pla_closeAddCategoryDialog({addedCategory}));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
