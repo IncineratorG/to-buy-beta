@@ -7,7 +7,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import {icons} from '../../../../../../assets/icons';
-import {SystemEventsHandler} from '../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 import {useTranslation} from '../../../../../../utils/common/localization';
 import ProductInputType from '../../stores/types/productInputAreaProductInputTypes';
 
@@ -88,19 +87,11 @@ const ProductMainInput = ({
   };
 
   useEffect(() => {
-    if (mainTextInputRef != null && mainTextInputRef.current != null) {
-      mainTextInputRef.current.focus();
-    } else {
-      if (mainTextInputRef == null) {
-        SystemEventsHandler.onError({
-          err: 'ProductMainInput->mainInputRef_IS_NULL',
-        });
-      } else if (mainTextInputRef.current == null) {
-        SystemEventsHandler.onError({
-          err: 'ProductMainInput->mainInputRef.current_IS_NULL',
-        });
+    setTimeout(() => {
+      if (mainTextInputRef != null && mainTextInputRef.current != null) {
+        mainTextInputRef.current.focus();
       }
-    }
+    }, 500);
   }, []);
 
   return (

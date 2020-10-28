@@ -26,6 +26,7 @@ import {
   SET_USED_CATEGORIES,
 } from './types/productListActionTypes';
 import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {add} from 'react-native-reanimated';
 
 function productListReducer(state, action) {
   switch (action.type) {

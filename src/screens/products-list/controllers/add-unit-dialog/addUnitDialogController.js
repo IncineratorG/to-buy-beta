@@ -4,12 +4,12 @@ import {addUnitAction} from '../../../../store/actions/units/unitsActions';
 
 export const useAddUnitDialogController = (model) => {
   const addUnitDialogTouchOutsideHandler = useCallback(() => {
-    model.localDispatch(pla_closeAddUnitDialog());
+    model.localDispatch(pla_closeAddUnitDialog({addedUnit: undefined}));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addUnitDialogCancelButtonHandler = useCallback(() => {
-    model.localDispatch(pla_closeAddUnitDialog());
+    model.localDispatch(pla_closeAddUnitDialog({addedUnit: undefined}));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -21,9 +21,7 @@ export const useAddUnitDialogController = (model) => {
 
   const addUnitDialogRequestCloseAfterUnitAddedHandler = useCallback(
     ({addedUnit}) => {
-      setTimeout(() => {
-        model.localDispatch(pla_closeAddUnitDialog({addedUnit}));
-      }, 50);
+      model.localDispatch(pla_closeAddUnitDialog({addedUnit}));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
