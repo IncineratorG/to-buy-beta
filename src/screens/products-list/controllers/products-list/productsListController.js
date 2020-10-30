@@ -282,6 +282,7 @@ export const useProductsListController = (model) => {
 
   const findProductOnMapNearbyPress = useCallback((product) => {
     model.dispatch(locateProductAction({product}));
+    model.navigation.navigate('ProductsLocation');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -4,7 +4,7 @@ import {WebView} from 'react-native-webview';
 import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
 const ProductsLocationView = ({styles, model, controller}) => {
-  const {state} = model.data;
+  const {state, productsLocationUri} = model.data;
   const {locationPermissionsGranted, coords} = state;
   const {latitude, longitude} = coords;
 
@@ -21,7 +21,11 @@ const ProductsLocationView = ({styles, model, controller}) => {
   const uri2 =
     'https://www.google.ru/maps/search/%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%BD%D0%B8%D0%BA%D0%B0/@55.8582305,37.4200327,16z';
 
-  if (!locationPermissionsGranted) {
+  // if (!locationPermissionsGranted) {
+  //   return null;
+  // }
+
+  if (!productsLocationUri) {
     return null;
   }
 

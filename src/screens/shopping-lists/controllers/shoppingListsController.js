@@ -39,13 +39,8 @@ export const useShoppingListsController = (model) => {
   };
 
   const addButtonHandler = () => {
-    // ===
-    // SystemEventsHandler.onInfo({info: 'HERE_HERE'});
-    model.navigation.navigate('ProductsLocation');
-    // ===
-
-    // model.dispatch(resetCreateShoppingListStatusAction());
-    // model.navigation.navigate('CreateShoppingList');
+    model.dispatch(resetCreateShoppingListStatusAction());
+    model.navigation.navigate('CreateShoppingList');
   };
 
   const removeConfirmationDialogTouchOutsideHandler = () => {

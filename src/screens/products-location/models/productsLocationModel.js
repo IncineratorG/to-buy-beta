@@ -31,6 +31,11 @@ export const useProductsLocationModel = () => {
 
   const [permissionsResponse, setPermissionsResponse] = useState(null);
 
+  const productsLocationUri = useSelector(
+    (storeState) => storeState.productsLocation.productsLocation.locationUri,
+  );
+  SystemEventsHandler.onInfo({info: 'LOCATION_URI: ' + productsLocationUri});
+
   useEffect(() => {
     const requestLocationPermissions = async () => {
       try {
@@ -89,6 +94,7 @@ export const useProductsLocationModel = () => {
   return {
     data: {
       state,
+      productsLocationUri,
     },
     setters: {},
     navigation,

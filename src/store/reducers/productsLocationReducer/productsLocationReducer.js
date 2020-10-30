@@ -8,6 +8,14 @@ import {SystemEventsHandler} from '../../../utils/common/service-utils/system-ev
 const initialState = {
   productsLocation: {
     locationUri: undefined,
+    error: {
+      hasError: false,
+      description: '',
+    },
+    mapProviders: {
+      currentMapProvider: '',
+      availableMapProviders: [],
+    },
   },
 };
 
@@ -16,7 +24,17 @@ export const productsLocationReducer = (state = initialState, action) => {
     case LOCATE_PRODUCT_BEGIN: {
       SystemEventsHandler.onInfo({info: 'LOCATE_PRODUCT_BEGIN'});
 
-      return state;
+      return {
+        ...state,
+        productsLocation: {
+          ...state.productsLocation,
+          locationUri: undefined,
+          error: {
+            hasError: false,
+            description: '',
+          },
+        },
+      };
     }
 
     case LOCATE_PRODUCT_FINISHED: {
@@ -28,7 +46,17 @@ export const productsLocationReducer = (state = initialState, action) => {
     case LOCATE_PRODUCT_ERROR: {
       SystemEventsHandler.onInfo({info: 'LOCATE_PRODUCT_ERROR'});
 
-      return state;
+      return {
+        ...state,
+        productsLocation: {
+          ...state.productsLocation,
+          locationUri: undefined,
+          error: {
+            hasError: true,
+            description: action.payload.error.description,
+          },
+        },
+      };
     }
 
     default: {
