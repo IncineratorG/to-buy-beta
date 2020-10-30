@@ -122,6 +122,7 @@ export const en = {
   ProductNotCompleted_menuMarkUnspecified: 'Mark',
   ProductNotCompleted_menuEditOption: 'Edit',
   ProductNotCompleted_menuRemoveOption: 'Remove',
+  ProductNotCompleted_menuFindNearbyOnMap: 'Find nearby',
 
   ProductsListScreenMenuButton_menuRenameList: 'Rename',
   ProductsListScreenMenuButton_markAllAsBoughtOption: 'All purchased',

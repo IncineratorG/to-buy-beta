@@ -124,6 +124,7 @@ export const ru = {
   ProductNotCompleted_menuMarkUnspecified: 'Отметить',
   ProductNotCompleted_menuEditOption: 'Редактировать',
   ProductNotCompleted_menuRemoveOption: 'Удалить',
+  ProductNotCompleted_menuFindNearbyOnMap: 'Найти поблизости',
 
   ProductsListScreenMenuButton_menuRenameList: 'Переименовать',
   ProductsListScreenMenuButton_markAllAsBoughtOption: 'Всё куплено',

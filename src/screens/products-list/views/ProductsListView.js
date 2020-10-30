@@ -156,6 +156,7 @@ const ProductsListView = ({styles, model, controller}) => {
     shareButtonPressHandler,
     smsSharePressHandler,
     whatsAppSharePressHandler,
+    findProductOnMapNearbyPress,
   } = productsListController;
 
   const {
@@ -386,13 +387,14 @@ const ProductsListView = ({styles, model, controller}) => {
     <View style={styles.shoppingListContainer}>
       <ListOfProducts
         list={products}
+        unitsMap={allUnitsMap}
+        categoriesMap={allCategoriesMap}
+        selectedCategoryId={productsListSelectedCategoryId}
         onProductPress={productPressHandler}
         onStatusPress={statusPressHandler}
         onRemovePress={productRemoveHandler}
         onRenderCompleted={productsListRenderCompletedHandler}
-        unitsMap={allUnitsMap}
-        categoriesMap={allCategoriesMap}
-        selectedCategoryId={productsListSelectedCategoryId}
+        onFindNearbyOnMapPress={findProductOnMapNearbyPress}
       />
     </View>
   );

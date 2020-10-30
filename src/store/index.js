@@ -9,6 +9,7 @@ import {unitsReducer} from './reducers/units/unitsReducer';
 import {shareReducer} from './reducers/share/shareReducer';
 import {productSuggestionReducer} from './reducers/product-suggestion/productSuggestionReducer';
 import {systemReducer} from './reducers/system/systemReducer';
+import {productsLocationReducer} from './reducers/productsLocationReducer/productsLocationReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -21,6 +22,7 @@ const reducers = combineReducers({
   share: shareReducer,
   productSuggestion: productSuggestionReducer,
   system: systemReducer,
+  productsLocation: productsLocationReducer,
 });
 
 const store = createStore(reducers, applyMiddleware(sagaMiddleware));

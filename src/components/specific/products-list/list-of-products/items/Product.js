@@ -10,11 +10,12 @@ import {SystemEventsHandler} from '../../../../../utils/common/service-utils/sys
 
 const Product = ({
   product,
+  unitsMap,
+  categoriesMap,
   onProductPress,
   onProductLongPress,
   onStatusPress,
-  unitsMap,
-  categoriesMap,
+  onFindNearbyOnMapPress,
 }) => {
   const productNotCompleted = (
     <ProductNotCompleted
@@ -25,6 +26,7 @@ const Product = ({
       onProductPress={onProductPress}
       onProductLongPress={onProductLongPress}
       onStatusPress={onStatusPress}
+      onFindNearbyOnMapPress={onFindNearbyOnMapPress}
     />
   );
 

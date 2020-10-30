@@ -5,6 +5,7 @@ import ShoppingLists from '../../../screens/shopping-lists/ShoppingLists';
 import {useTranslation} from '../../../utils/common/localization';
 import CreateShoppingList from '../../../screens/create-shopping-list/CreateShoppingList';
 import ProductsList from '../../../screens/products-list/ProductsList';
+import ProductsLocation from '../../../screens/products-location/ProductsLocation';
 
 const MainStack = createStackNavigator();
 const ModalStack = createStackNavigator();
@@ -23,6 +24,11 @@ const AppNavigation = () => {
         <MainStack.Screen
           name={'ProductsList'}
           component={ProductsList}
+          options={{title: '', headerShown: true}}
+        />
+        <MainStack.Screen
+          name={'ProductsLocation'}
+          component={ProductsLocation}
           options={{title: '', headerShown: true}}
         />
       </MainStack.Navigator>
