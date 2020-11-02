@@ -1,16 +1,8 @@
 import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
 class LocationUriBuilder {
-  static async build({mapProvider, longitude, latitude}) {
-    SystemEventsHandler.onInfo({
-      info:
-        'LocationUriBuilder->build(): ' +
-        mapProvider.getType() +
-        ' - ' +
-        longitude +
-        ' - ' +
-        latitude,
-    });
+  static async build({mapProvider, productName, longitude, latitude}) {
+    return mapProvider.buildUri({longitude, latitude, productName});
   }
 }
 

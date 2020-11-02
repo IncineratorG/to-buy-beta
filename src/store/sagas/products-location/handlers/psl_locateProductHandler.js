@@ -21,11 +21,11 @@ function* psl_locateProductHandler(action) {
       Services.serviceTypes.PRODUCTS_LOCATION,
     );
 
-    const result = yield call(productsLocationService.locateProduct, {
+    const uri = yield call(productsLocationService.locateProduct, {
       productName: product.name,
     });
 
-    yield put(locateProductFinishedAction({product, locationUri: 'uri'}));
+    yield put(locateProductFinishedAction({product, locationUri: uri}));
   } catch (e) {
     SystemEventsHandler.onError({
       err: 'psl_locateProductHandler()->ERROR: ' + e,

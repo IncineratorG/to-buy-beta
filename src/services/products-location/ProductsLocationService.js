@@ -48,12 +48,15 @@ class ProductsLocationService {
       return;
     }
 
-    const currentProvider = await ProductsLocationService.#mapProviders.getCurrentProvider();
-    await LocationUriBuilder.build({
-      mapProvider: currentProvider,
+    const currentMapProvider = await ProductsLocationService.#mapProviders.getCurrentProvider();
+    const locationUri = await LocationUriBuilder.build({
+      mapProvider: currentMapProvider,
+      productName,
       latitude,
       longitude,
     });
+
+    return locationUri;
   }
 }
 

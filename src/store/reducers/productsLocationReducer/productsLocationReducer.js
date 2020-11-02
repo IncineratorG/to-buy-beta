@@ -40,7 +40,19 @@ export const productsLocationReducer = (state = initialState, action) => {
     case LOCATE_PRODUCT_FINISHED: {
       SystemEventsHandler.onInfo({info: 'LOCATE_PRODUCT_FINISHED'});
 
-      return state;
+      const {locationUri} = action.payload;
+
+      return {
+        ...state,
+        productsLocation: {
+          ...state.productsLocation,
+          locationUri: locationUri,
+          error: {
+            hasError: false,
+            description: '',
+          },
+        },
+      };
     }
 
     case LOCATE_PRODUCT_ERROR: {

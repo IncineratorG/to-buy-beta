@@ -6,8 +6,26 @@ class GoogleMapProvider {
     return MapProviderTypes.GOOGLE;
   }
 
-  static buildUri({longitude, latitude}) {
-    // SystemEventsHandler.onInfo({});
+  static buildUri({longitude, latitude, productName}) {
+    SystemEventsHandler.onInfo({
+      info:
+        'GoogleMapProvider->buildUri(): ' +
+        latitude +
+        ' - ' +
+        longitude +
+        ' - ' +
+        productName,
+    });
+
+    const mapsUri = 'https://www.google.ru/maps/';
+    const searchRequest = 'search/' + productName + '/';
+    const coordinates = '@' + latitude + ',' + longitude;
+    const scale = ',16z';
+
+    const uri = mapsUri + searchRequest + coordinates + scale;
+    return uri;
+
+    // return 'https://www.google.ru/maps/search/продукты/@55.8582305,37.4200327,16z';
   }
 }
 

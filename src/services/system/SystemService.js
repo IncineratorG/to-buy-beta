@@ -21,7 +21,7 @@ class SystemService {
   }
 
   static async updateSystemLanguageInfo() {
-    let systemLanguageCode = '';
+    let systemLanguageCode;
 
     const {
       languageCode: savedLanguageCode,

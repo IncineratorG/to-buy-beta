@@ -31,7 +31,7 @@ const ProductsLocationView = ({styles, model, controller}) => {
 
   return (
     <View style={styles.mainContainer}>
-      <WebView source={{uri: customUri}} />
+      <WebView source={{uri: productsLocationUri}} />
     </View>
   );
 };
