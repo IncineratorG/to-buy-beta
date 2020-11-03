@@ -2,12 +2,20 @@ import {SystemEventsHandler} from '../../utils/common/service-utils/system-event
 import GeolocationService from './geolocation/GeolocationService';
 import MapProviders from './map-providers/MapProviders';
 import LocationUriBuilder from './location-uri-builder/LocationUriBuilder';
+import {Notifier} from '../../utils/common/service-utils/notifier/Notifier';
+import ProductsLocationServiceEventTypes from './data/event-types/ProductsLocationServiceEventTypes';
 
 class ProductsLocationService {
+  static #notifier = new Notifier();
   static #mapProviders = MapProviders;
+
+  static subscribe({event, handler}) {
+    return ProductsLocationService.#notifier.subscribe({event, handler});
+  }
 
   static async init() {
     await ProductsLocationService.#mapProviders.init();
+    await ProductsLocationService.updateMapProviderType();
   }
 
   static async getMapProviderTypes() {
@@ -15,9 +23,38 @@ class ProductsLocationService {
     return providers.map((provider) => provider.getType());
   }
 
+  static async setMapProviderType({type}) {
+    SystemEventsHandler.onInfo({
+      info: 'ProductsLocationService->setMapProviderType(): ' + type,
+    });
+
+    const success = await ProductsLocationService.#mapProviders.setCurrentProvider(
+      {
+        providerType: type,
+      },
+    );
+
+    if (success) {
+      await ProductsLocationService.updateMapProviderType();
+    }
+  }
+
   static async getActiveMapProviderType() {
     const currentProvider = await ProductsLocationService.#mapProviders.getCurrentProvider();
     return currentProvider.getType();
+  }
+
+  static async updateMapProviderType() {
+    const currentMapProviderType = await ProductsLocationService.getActiveMapProviderType();
+    const availableMapProviderTypes = await ProductsLocationService.getMapProviderTypes();
+
+    ProductsLocationService.#notifier.notify({
+      event: ProductsLocationServiceEventTypes.MAP_PROVIDER_SET,
+      data: {
+        mapProviderType: currentMapProviderType,
+        availableMapProviderTypes,
+      },
+    });
   }
 
   static async locateProduct({productName}) {
@@ -54,6 +91,11 @@ class ProductsLocationService {
       productName,
       latitude,
       longitude,
+    });
+
+    ProductsLocationService.#notifier.notify({
+      event: ProductsLocationServiceEventTypes.LOCATION_URI_SET,
+      data: {locationUri},
     });
 
     return locationUri;

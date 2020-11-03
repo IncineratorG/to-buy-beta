@@ -36,6 +36,17 @@ export const useProductsLocationModel = () => {
   );
   SystemEventsHandler.onInfo({info: 'LOCATION_URI: ' + productsLocationUri});
 
+  const currentMapProviderType = useSelector(
+    (storeState) =>
+      storeState.productsLocation.productsLocation.mapProviders
+        .currentMapProviderType,
+  );
+  const availableMapProviderTypes = useSelector(
+    (storeState) =>
+      storeState.productsLocation.productsLocation.mapProviders
+        .availableMapProviderTypes,
+  );
+
   useEffect(() => {
     const requestLocationPermissions = async () => {
       try {
@@ -95,6 +106,8 @@ export const useProductsLocationModel = () => {
     data: {
       state,
       productsLocationUri,
+      currentMapProviderType,
+      availableMapProviderTypes,
     },
     setters: {},
     navigation,

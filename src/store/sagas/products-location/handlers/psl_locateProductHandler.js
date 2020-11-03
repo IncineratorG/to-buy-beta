@@ -3,7 +3,6 @@ import {SystemEventsHandler} from '../../../../utils/common/service-utils/system
 import {
   locateProductBeginAction,
   locateProductErrorAction,
-  locateProductFinishedAction,
 } from '../../../actions/products-location/productsLocationActions';
 import Services from '../../../../services/Services';
 
@@ -21,11 +20,9 @@ function* psl_locateProductHandler(action) {
       Services.serviceTypes.PRODUCTS_LOCATION,
     );
 
-    const uri = yield call(productsLocationService.locateProduct, {
+    yield call(productsLocationService.locateProduct, {
       productName: product.name,
     });
-
-    yield put(locateProductFinishedAction({product, locationUri: uri}));
   } catch (e) {
     SystemEventsHandler.onError({
       err: 'psl_locateProductHandler()->ERROR: ' + e,

@@ -2,6 +2,7 @@ import {
   LOCATE_PRODUCT_BEGIN,
   LOCATE_PRODUCT_ERROR,
   LOCATE_PRODUCT_FINISHED,
+  MAP_PROVIDER_SET,
 } from '../../types/products-location/productsLocationTypes';
 import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
 
@@ -13,14 +14,30 @@ const initialState = {
       description: '',
     },
     mapProviders: {
-      currentMapProvider: '',
-      availableMapProviders: [],
+      currentMapProviderType: '',
+      availableMapProviderTypes: [],
     },
   },
 };
 
 export const productsLocationReducer = (state = initialState, action) => {
   switch (action.type) {
+    case MAP_PROVIDER_SET: {
+      return {
+        ...state,
+        productsLocation: {
+          ...state.productsLocation,
+          mapProviders: {
+            ...state.productsLocation.mapProviders,
+            currentMapProviderType: action.payload.mapProviderType,
+            availableMapProviderTypes: [
+              ...action.payload.availableMapProviderTypes,
+            ],
+          },
+        },
+      };
+    }
+
     case LOCATE_PRODUCT_BEGIN: {
       SystemEventsHandler.onInfo({info: 'LOCATE_PRODUCT_BEGIN'});
 

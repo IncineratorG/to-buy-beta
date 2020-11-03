@@ -43,7 +43,25 @@ class MapProviders {
   }
 
   static async setCurrentProvider({providerType}) {
-    await MapProviders.#storage.setCurrentMapProviderType({providerType});
+    let providerAvailable = false;
+    for (let i = 0; i < MapProviders.#providers.length; ++i) {
+      if (MapProviders.#providers[i].getType() === providerType) {
+        providerAvailable = true;
+        break;
+      }
+    }
+
+    if (providerAvailable) {
+      await MapProviders.#storage.setCurrentMapProviderType({providerType});
+      return true;
+    } else {
+      SystemEventsHandler.onError({
+        err:
+          'MapProviders->setCurrentProvider()->BAD_PROVIDER_TYPE: ' +
+          providerType,
+      });
+      return false;
+    }
   }
 }
 

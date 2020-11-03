@@ -12,6 +12,7 @@ import productSuggestionSaga from './product-suggestion/productSuggestionSaga';
 import systemSaga from './system/systemSaga';
 import systemEventsSaga from './system/systemEventsSaga';
 import productsLocationSaga from './products-location/productsLocationSaga';
+import productsLocationEventsSaga from './products-location/productsLocationEventsSaga';
 
 function* rootSaga() {
   const sagas = [
@@ -27,6 +28,7 @@ function* rootSaga() {
     systemSaga,
     systemEventsSaga,
     productsLocationSaga,
+    productsLocationEventsSaga,
   ];
 
   yield all(

@@ -3,6 +3,7 @@ import {
   LOCATE_PRODUCT_BEGIN,
   LOCATE_PRODUCT_ERROR,
   LOCATE_PRODUCT_FINISHED,
+  MAP_PROVIDER_SET,
 } from '../../types/products-location/productsLocationTypes';
 
 export const locateProductAction = ({product}) => {
@@ -19,10 +20,10 @@ export const locateProductBeginAction = ({product}) => {
   };
 };
 
-export const locateProductFinishedAction = ({product, locationUri}) => {
+export const locateProductFinishedAction = ({locationUri}) => {
   return {
     type: LOCATE_PRODUCT_FINISHED,
-    payload: {product, locationUri},
+    payload: {locationUri},
   };
 };
 
@@ -30,5 +31,15 @@ export const locateProductErrorAction = ({product, description}) => {
   return {
     type: LOCATE_PRODUCT_ERROR,
     payload: {product, error: {description}},
+  };
+};
+
+export const mapProviderSetAction = ({
+  mapProviderType,
+  availableMapProviderTypes,
+}) => {
+  return {
+    type: MAP_PROVIDER_SET,
+    payload: {mapProviderType, availableMapProviderTypes},
   };
 };
