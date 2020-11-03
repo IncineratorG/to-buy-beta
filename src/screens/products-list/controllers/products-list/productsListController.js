@@ -25,6 +25,7 @@ import {
   shareProductsListViaSmsAction,
   shareProductsListViaWhatsAppAction,
 } from '../../../../store/actions/share/shareActions';
+import {locateProductAction} from '../../../../store/actions/products-location/productsLocationActions';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
@@ -279,6 +280,12 @@ export const useProductsListController = (model) => {
     model.localDispatch(pla_setSharePanelVisibility({visible: false}));
   };
 
+  const findProductOnMapNearbyPress = useCallback((product) => {
+    model.dispatch(locateProductAction({product}));
+    model.navigation.navigate('ProductsLocation');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return {
     backButtonPressHandler,
     productsListRenderCompletedHandler,
@@ -297,5 +304,6 @@ export const useProductsListController = (model) => {
     shareButtonPressHandler,
     smsSharePressHandler,
     whatsAppSharePressHandler,
+    findProductOnMapNearbyPress,
   };
 };

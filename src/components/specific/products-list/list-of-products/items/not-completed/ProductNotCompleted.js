@@ -24,6 +24,7 @@ const ProductNotCompleted = ({
   onStatusPress,
   onProductPress,
   onProductLongPress,
+  onFindNearbyOnMapPress,
 }) => {
   const {t} = useTranslation();
 
@@ -119,6 +120,17 @@ const ProductNotCompleted = ({
     setMenuVisible(false);
   };
 
+  const findNearbyOnMapPressHandler = () => {
+    if (awaitConfirmation) {
+      return;
+    }
+
+    if (onFindNearbyOnMapPress) {
+      onFindNearbyOnMapPress(product);
+    }
+    setMenuVisible(false);
+  };
+
   const noteExistComponent = (
     <View style={styles.noteContainer}>
       <Text style={styles.note}>{product.note}</Text>
@@ -174,6 +186,10 @@ const ProductNotCompleted = ({
         <MenuOption
           onSelect={removePressHandler}
           text={t('ProductNotCompleted_menuRemoveOption')}
+        />
+        <MenuOption
+          onSelect={findNearbyOnMapPressHandler}
+          text={t('ProductNotCompleted_menuFindNearbyOnMap')}
         />
       </MenuOptions>
     </Menu>

@@ -3,6 +3,10 @@ export const en = {
   ru: 'Русский',
   en: 'English',
 
+  locationMapProvider: 'Maps',
+  YANDEX: 'Yandex',
+  GOOGLE: 'Google',
+
   categories_other: 'Other',
   categories_products: 'Products',
   categories_toys: 'Toys',
@@ -122,6 +126,7 @@ export const en = {
   ProductNotCompleted_menuMarkUnspecified: 'Mark',
   ProductNotCompleted_menuEditOption: 'Edit',
   ProductNotCompleted_menuRemoveOption: 'Remove',
+  ProductNotCompleted_menuFindNearbyOnMap: 'Find nearby',
 
   ProductsListScreenMenuButton_menuRenameList: 'Rename',
   ProductsListScreenMenuButton_markAllAsBoughtOption: 'All purchased',

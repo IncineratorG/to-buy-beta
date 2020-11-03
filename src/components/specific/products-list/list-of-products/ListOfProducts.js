@@ -6,13 +6,14 @@ import {SystemEventsHandler} from '../../../../utils/common/service-utils/system
 
 const ListOfProducts = ({
   list,
+  unitsMap,
+  categoriesMap,
+  selectedCategoryId,
   onProductPress,
   onStatusPress,
   onRemovePress,
   onRenderCompleted,
-  unitsMap,
-  categoriesMap,
-  selectedCategoryId,
+  onFindNearbyOnMapPress,
 }) => {
   const innerList = list.filter((product) =>
     ProductRenderManager.canRender({product, selectedCategoryId}),
@@ -26,15 +27,23 @@ const ListOfProducts = ({
       return (
         <Product
           product={item}
+          unitsMap={unitsMap}
+          categoriesMap={categoriesMap}
           onProductPress={onProductPress}
           onProductLongPress={onRemovePress}
           onStatusPress={onStatusPress}
-          unitsMap={unitsMap}
-          categoriesMap={categoriesMap}
+          onFindNearbyOnMapPress={onFindNearbyOnMapPress}
         />
       );
     },
-    [onProductPress, onRemovePress, onStatusPress, unitsMap, categoriesMap],
+    [
+      onFindNearbyOnMapPress,
+      onProductPress,
+      onRemovePress,
+      onStatusPress,
+      unitsMap,
+      categoriesMap,
+    ],
   );
 
   const keyExtractor = useCallback((item) => item.id.toString(), []);
