@@ -1,4 +1,4 @@
-import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import {call, put, take, takeLatest} from '@redux-saga/core/effects';
 import {eventChannel} from 'redux-saga';
 import Services from '../../../services/Services';

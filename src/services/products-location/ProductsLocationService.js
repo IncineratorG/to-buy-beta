@@ -1,4 +1,4 @@
-import {SystemEventsHandler} from '../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../utils/common/system-events-handler/SystemEventsHandler';
 import GeolocationService from './geolocation/GeolocationService';
 import MapProviders from './map-providers/MapProviders';
 import LocationUriBuilder from './location-uri-builder/LocationUriBuilder';

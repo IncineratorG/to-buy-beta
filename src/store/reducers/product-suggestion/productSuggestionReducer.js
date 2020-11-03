@@ -4,7 +4,7 @@ import {
   SUGGEST_PRODUCTS_ERROR,
   SUGGEST_PRODUCTS_FINISHED,
 } from '../../types/product-suggestion/productSuggestionTypes';
-import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 
 const initialState = {
   productSuggestions: {

@@ -1,4 +1,4 @@
-import {SystemEventsHandler} from '../system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../system-events-handler/SystemEventsHandler';
 import {SqlStatementExecutor} from '../sql-statement-executor/SqlStatementExecutor';
 
 export class SqlGeneralInitManager {

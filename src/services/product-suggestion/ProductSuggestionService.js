@@ -1,4 +1,4 @@
-import {SystemEventsHandler} from '../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../utils/common/system-events-handler/SystemEventsHandler';
 import FuseProductsSuggester from './suggester/fuse-suggester/FuseProductsSuggester';
 import SqliteProductsSuggesterStorage from './storage/sqlite-storage/SqliteProductsSuggesterStorage';
 

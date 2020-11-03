@@ -2,7 +2,7 @@ import {useState, useEffect, useReducer} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from '../../../utils/common/localization';
-import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import {PermissionsAndroid} from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import productsLocationComponentReducer from '../stores/productsLocationComponentReducer';

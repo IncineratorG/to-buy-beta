@@ -1,5 +1,5 @@
 import {call, put} from '@redux-saga/core/effects';
-import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/system-events-handler/SystemEventsHandler';
 import Services from '../../../../services/Services';
 import {
   suggestProductsBeginAction,

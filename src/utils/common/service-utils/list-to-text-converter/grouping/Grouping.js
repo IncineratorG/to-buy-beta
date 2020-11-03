@@ -1,4 +1,4 @@
-import {SystemEventsHandler} from '../../system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../system-events-handler/SystemEventsHandler';
 
 class Grouping {
   static strategy = {

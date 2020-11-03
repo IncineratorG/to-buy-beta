@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View} from 'react-native';
 import {WebView} from 'react-native-webview';
-import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 
 const ProductsLocationView = ({styles, model, controller}) => {
   const {state, productsLocationUri} = model.data;

@@ -8,7 +8,7 @@ import {
   ProgressBarAndroid,
 } from 'react-native';
 import {Dialog} from 'react-native-simple-dialogs';
-import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/system-events-handler/SystemEventsHandler';
 import {useTranslation} from '../../../../utils/common/localization';
 
 const AddUnitDialog = ({

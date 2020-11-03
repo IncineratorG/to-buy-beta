@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {SystemEventsHandler} from '../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 class AsyncMapProvidersStorage {
   static #PROVIDER_TYPE_KEY = 'PROVIDER_TYPE_KEY';

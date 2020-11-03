@@ -1,5 +1,5 @@
 import {MapProviderTypes} from '../types/MapProvidresTypes';
-import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 class GoogleMapProvider {
   static getType() {

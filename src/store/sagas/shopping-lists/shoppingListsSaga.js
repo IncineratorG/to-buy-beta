@@ -7,7 +7,7 @@ import {
   RENAME_SHOPPING_LIST,
   UPDATE_SHOPPING_LISTS,
 } from '../../types/shopping-lists/shoppingListsTypes';
-import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import sls_createShoppingListHandler from './handlers/sls_createShoppingListHandler';
 import sls_loadShoppingListsHandler from './handlers/sls_loadShoppingListsHandler';
 import sls_removeShoppingListHandler from './handlers/sls_removeShoppingListHandler';

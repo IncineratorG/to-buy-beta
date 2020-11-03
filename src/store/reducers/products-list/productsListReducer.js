@@ -28,7 +28,7 @@ import {
   REMOVE_MULTIPLE_PRODUCTS_CONFIRMED,
   REMOVE_MULTIPLE_PRODUCTS_ERROR,
 } from '../../types/products-list/productsListTypes';
-import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import productsComparator from './helpers/productsComparator';
 import {RENAME_SHOPPING_LIST_FINISHED} from '../../types/shopping-lists/shoppingListsTypes';
 

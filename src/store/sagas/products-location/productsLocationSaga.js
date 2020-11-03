@@ -1,5 +1,5 @@
 import {takeLatest} from '@redux-saga/core/effects';
-import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import {
   LOCATE_PRODUCT,
   SET_MAP_PROVIDER,

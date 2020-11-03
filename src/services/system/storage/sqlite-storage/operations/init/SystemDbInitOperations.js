@@ -1,4 +1,4 @@
-import {SystemEventsHandler} from '../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../utils/common/system-events-handler/SystemEventsHandler';
 import sssDbUpgradeData from './initializer/init-scripts/sssDbUpgradeData';
 import {SqlGeneralInitManager} from '../../../../../../utils/common/service-utils/sql-general-init-manager/SqlGeneralInitManager';
 import {SqlGeneralUpgradeDataParser} from '../../../../../../utils/common/service-utils/sql-general-upgrade-data-parser/SqlGeneralUpgradeDataParser';

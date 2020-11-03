@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
 import ProductCategoryItem from './ProductCategoryItem';
-import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 const ProductCategoriesList = ({
   categories,

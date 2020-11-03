@@ -1,5 +1,5 @@
 import Fuse from 'fuse.js';
-import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 class FuseProductsSuggester {
   static #fuse;

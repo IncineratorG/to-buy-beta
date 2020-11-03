@@ -9,7 +9,7 @@ import {
   SHOPPING_LISTS_TABLE_ID,
 } from '../../tables/shoppingListsTable';
 import {SqlStatementExecutor} from '../../../../../utils/common/service-utils/sql-statement-executor/SqlStatementExecutor';
-import {SystemEventsHandler} from '../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 export class ShoppingListsTableOperations {
   static #className = 'ShoppingListsTableOperations';

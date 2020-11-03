@@ -4,7 +4,7 @@ import {
   LOCATE_PRODUCT_FINISHED,
   MAP_PROVIDER_SET,
 } from '../../types/products-location/productsLocationTypes';
-import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 
 const initialState = {
   productsLocation: {

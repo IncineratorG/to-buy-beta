@@ -4,7 +4,7 @@ import {
   SYSTEM_PREFERENCES_TABLE_LANGUAGE_CODE,
 } from '../../tables/systemPreferencesTable';
 import {SqlStatementExecutor} from '../../../../../../utils/common/service-utils/sql-statement-executor/SqlStatementExecutor';
-import {SystemEventsHandler} from '../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 class PreferencesTableOperations {
   static #className = 'PreferencesTableOperations';
