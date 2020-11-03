@@ -4,6 +4,7 @@ import {
   LOCATE_PRODUCT_ERROR,
   LOCATE_PRODUCT_FINISHED,
   MAP_PROVIDER_SET,
+  SET_MAP_PROVIDER,
 } from '../../types/products-location/productsLocationTypes';
 
 export const locateProductAction = ({product}) => {
@@ -31,6 +32,13 @@ export const locateProductErrorAction = ({product, description}) => {
   return {
     type: LOCATE_PRODUCT_ERROR,
     payload: {product, error: {description}},
+  };
+};
+
+export const setMapProviderAction = ({mapProviderType}) => {
+  return {
+    type: SET_MAP_PROVIDER,
+    payload: {mapProviderType},
   };
 };
 

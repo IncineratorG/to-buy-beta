@@ -8,6 +8,7 @@ import ProductsLocationServiceEventTypes from './data/event-types/ProductsLocati
 class ProductsLocationService {
   static #notifier = new Notifier();
   static #mapProviders = MapProviders;
+  static #lastLocatedProductName = undefined;
 
   static subscribe({event, handler}) {
     return ProductsLocationService.#notifier.subscribe({event, handler});
@@ -36,6 +37,11 @@ class ProductsLocationService {
 
     if (success) {
       await ProductsLocationService.updateMapProviderType();
+      if (ProductsLocationService.#lastLocatedProductName) {
+        await ProductsLocationService.locateProduct({
+          productName: ProductsLocationService.#lastLocatedProductName,
+        });
+      }
     }
   }
 
@@ -61,6 +67,8 @@ class ProductsLocationService {
     SystemEventsHandler.onInfo({
       info: 'ProductsLocationService->locateProduct(): ' + productName,
     });
+
+    ProductsLocationService.#lastLocatedProductName = productName;
 
     let latitude;
     let longitude;
