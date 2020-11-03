@@ -3,6 +3,10 @@ export const ru = {
   ru: 'Русский',
   en: 'English',
 
+  locationMapProvider: 'Карты',
+  YANDEX: 'Yandex',
+  GOOGLE: 'Google',
+
   categories_other: 'Другое',
   categories_products: 'Продукты',
   categories_toys: 'Игрушки',

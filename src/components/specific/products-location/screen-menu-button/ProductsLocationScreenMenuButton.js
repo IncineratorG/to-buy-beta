@@ -15,6 +15,8 @@ const ProductsLocationScreenMenuButton = ({
   currentMapProviderType,
   onMapProviderPress,
 }) => {
+  const {t} = useTranslation();
+
   const [menuVisible, setMenuVisible] = useState(false);
 
   const menuPressHandler = () => {
@@ -22,9 +24,9 @@ const ProductsLocationScreenMenuButton = ({
   };
 
   const mapProviderTypePressHandler = (mapProviderType) => {
-    SystemEventsHandler.onInfo({
-      info: 'mapProviderTypePressHandler(): ' + mapProviderType,
-    });
+    if (onMapProviderPress) {
+      onMapProviderPress({mapProviderType});
+    }
 
     setMenuVisible(false);
   };
@@ -32,8 +34,8 @@ const ProductsLocationScreenMenuButton = ({
   const noActionsHandler = () => {};
 
   const menuItems = availableMapProviderTypes.map((type) => {
-    const markedItem = '\u2713 ' + type;
-    const notMarkedItem = '     ' + type;
+    const markedItem = '\u2713 ' + t(type);
+    const notMarkedItem = '     ' + t(type);
     const menuItemText =
       type === currentMapProviderType ? markedItem : notMarkedItem;
 
@@ -53,7 +55,7 @@ const ProductsLocationScreenMenuButton = ({
         <MenuOption
           onSelect={noActionsHandler}
           disableTouchable={true}
-          text={'Type'}
+          text={t('locationMapProvider')}
         />
         {menuItems}
       </MenuOptions>

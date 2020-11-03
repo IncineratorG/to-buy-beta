@@ -3,6 +3,10 @@ export const en = {
   ru: 'Русский',
   en: 'English',
 
+  locationMapProvider: 'Maps',
+  YANDEX: 'Yandex',
+  GOOGLE: 'Google',
+
   categories_other: 'Other',
   categories_products: 'Products',
   categories_toys: 'Toys',
