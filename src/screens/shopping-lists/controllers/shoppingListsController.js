@@ -39,8 +39,10 @@ export const useShoppingListsController = (model) => {
   };
 
   const addButtonHandler = () => {
-    model.dispatch(resetCreateShoppingListStatusAction());
-    model.navigation.navigate('CreateShoppingList');
+    model.navigation.navigate('VoiceInputTest');
+
+    // model.dispatch(resetCreateShoppingListStatusAction());
+    // model.navigation.navigate('CreateShoppingList');
   };
 
   const removeConfirmationDialogTouchOutsideHandler = () => {
