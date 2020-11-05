@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, FlatList, StyleSheet} from 'react-native';
 import UnitsListItem from './units-list-item/UnitsListItem';
-import {SystemEventsHandler} from '../../../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 const UnitsListInitializing = ({
   unitsList,

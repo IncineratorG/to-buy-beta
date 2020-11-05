@@ -11,7 +11,7 @@ import {
 import {SqlStatementExecutor} from '../../../../../utils/common/service-utils/sql-statement-executor/SqlStatementExecutor';
 import categoriesTableInitialData from './initial-data/categoriesTableIntitialData';
 import {CategoriesTableInitialDataParser} from './initial-data/CategoriesTableInitialDataParser';
-import {SystemEventsHandler} from '../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 export class CategoriesTableOperations {
   static #className = 'CategoriesTableOperations';

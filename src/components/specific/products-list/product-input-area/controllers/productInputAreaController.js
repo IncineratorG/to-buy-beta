@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {SystemEventsHandler} from '../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../utils/common/system-events-handler/SystemEventsHandler';
 import {
   piaa_selectProductNameType,
   piaa_selectProductNoteType,

@@ -1,6 +1,6 @@
 import {call, put, take} from '@redux-saga/core/effects';
 import {eventChannel} from 'redux-saga';
-import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import {systemLanguageSetAction} from '../../actions/system/systemActions';
 import Services from '../../../services/Services';
 import SystemServiceEventTypes from '../../../services/system/data/event-types/SystemServiceEventTypes';

@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from '../../../utils/common/localization';
-import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import {loadProductsListAction} from '../../../store/actions/products-list/productsListActions';
 import {loadUnitsAction} from '../../../store/actions/units/unitsActions';
 import {loadCategoriesAction} from '../../../store/actions/categories/categoriesActions';

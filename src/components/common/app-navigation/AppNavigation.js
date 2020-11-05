@@ -6,6 +6,7 @@ import {useTranslation} from '../../../utils/common/localization';
 import CreateShoppingList from '../../../screens/create-shopping-list/CreateShoppingList';
 import ProductsList from '../../../screens/products-list/ProductsList';
 import ProductsLocation from '../../../screens/products-location/ProductsLocation';
+import VoiceInputTest from '../../../screens/voice-input-test/VoiceInputTest';
 
 const MainStack = createStackNavigator();
 const ModalStack = createStackNavigator();
@@ -30,6 +31,11 @@ const AppNavigation = () => {
           name={'ProductsLocation'}
           component={ProductsLocation}
           options={{title: '', headerShown: true}}
+        />
+        <MainStack.Screen
+          name={'VoiceInputTest'}
+          component={VoiceInputTest}
+          options={{title: 'Voice Input Test', headerShown: true}}
         />
       </MainStack.Navigator>
     );

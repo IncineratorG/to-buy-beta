@@ -11,7 +11,7 @@ import {
   piaa_setProductSuggestions,
   piaa_setUnit,
 } from '../stores/productInputAreaActions';
-import {SystemEventsHandler} from '../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../utils/common/system-events-handler/SystemEventsHandler';
 import {clearProductSuggestionsAction} from '../../../../../store/actions/product-suggestion/productSuggestionActions';
 
 export const useProductInputAreaModel = ({

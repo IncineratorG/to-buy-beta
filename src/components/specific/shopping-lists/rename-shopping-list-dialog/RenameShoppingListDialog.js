@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 import {ConfirmDialog} from 'react-native-simple-dialogs';
 import {useTranslation} from '../../../../utils/common/localization';
-import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 const RenameShoppingListDialog = ({
   visible,

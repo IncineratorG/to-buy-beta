@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, TouchableHighlight, Image} from 'react-native';
-import {SystemEventsHandler} from '../../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../../utils/common/system-events-handler/SystemEventsHandler';
 import UnitsList from './units-list/UnitsList';
 import {icons} from '../../../../../../../assets/icons';
 

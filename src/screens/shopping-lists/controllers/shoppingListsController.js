@@ -1,4 +1,4 @@
-import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import {
   copyShoppingListAction,
   removeShoppingListAction,
@@ -39,8 +39,10 @@ export const useShoppingListsController = (model) => {
   };
 
   const addButtonHandler = () => {
-    model.dispatch(resetCreateShoppingListStatusAction());
-    model.navigation.navigate('CreateShoppingList');
+    model.navigation.navigate('VoiceInputTest');
+
+    // model.dispatch(resetCreateShoppingListStatusAction());
+    // model.navigation.navigate('CreateShoppingList');
   };
 
   const removeConfirmationDialogTouchOutsideHandler = () => {

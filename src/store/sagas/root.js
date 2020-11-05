@@ -1,7 +1,7 @@
 import {all, spawn, call} from 'redux-saga/effects';
 import testSaga from './test/testSaga';
 import shoppingListsSaga from './shopping-lists/shoppingListsSaga';
-import {SystemEventsHandler} from '../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../utils/common/system-events-handler/SystemEventsHandler';
 import productsListSaga from './products-list/productsListSaga';
 import unitsSaga from './units/unitsSaga';
 import categoriesSaga from './categories/categoriesSaga';

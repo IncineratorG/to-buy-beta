@@ -25,7 +25,7 @@ import {
   SET_SHARE_PANEL_VISIBILITY,
   SET_USED_CATEGORIES,
 } from './types/productListActionTypes';
-import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 
 function productListReducer(state, action) {
   switch (action.type) {

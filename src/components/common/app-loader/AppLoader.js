@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 import AppNavigation from '../app-navigation/AppNavigation';
 import AppLoading from '../app-loading/AppLoading';
 import Services from '../../../services/Services';
-import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import wait from '../../../utils/common/service-utils/wait/wait';
 import {loadShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
 

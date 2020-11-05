@@ -1,6 +1,6 @@
 import Services from '../../../../services/Services';
 import {call} from '@redux-saga/core/effects';
-import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 function* psl_setMapProviderHandler(action) {
   const {mapProviderType} = action.payload;

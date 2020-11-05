@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, TouchableWithoutFeedback, Text} from 'react-native';
-import {SystemEventsHandler} from '../../../../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../../../../utils/common/system-events-handler/SystemEventsHandler';
 import {useTranslation} from '../../../../../../../../../utils/common/localization';
 
 const UnitsListItem = ({

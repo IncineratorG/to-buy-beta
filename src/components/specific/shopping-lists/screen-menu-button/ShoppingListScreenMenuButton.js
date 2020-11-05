@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TouchableNativeFeedback, Image} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TouchableNativeFeedback,
+  Image,
+  Linking,
+} from 'react-native';
 import {icons} from '../../../../assets/icons';
 import {
   Menu,
@@ -8,13 +14,16 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import {useTranslation} from '../../../../utils/common/localization';
-import {SystemEventsHandler} from '../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 const ShoppingListScreenMenuButton = ({
   availableLanguages,
   currentLanguage,
   onLanguagePress,
 }) => {
+  const privacyPolicyUrl =
+    'https://github.com/IncineratorG/to-buy-beta/blob/master/privacy_policy.md';
+
   const {t} = useTranslation();
 
   const [menuVisible, setMenuVisible] = useState(false);
@@ -31,6 +40,20 @@ const ShoppingListScreenMenuButton = ({
   };
 
   const noActionsHandler = () => {};
+
+  const privacyPolicyPressHandler = () => {
+    Linking.canOpenURL(privacyPolicyUrl).then((supported) => {
+      if (supported) {
+        Linking.openURL(privacyPolicyUrl);
+      } else {
+        SystemEventsHandler.onError({
+          err: "Don't know how to open URI: " + privacyPolicyUrl,
+        });
+      }
+    });
+
+    setMenuVisible(false);
+  };
 
   const menuItems = availableLanguages.map((language) => {
     const markedItem = '\u2713 ' + t(language);
@@ -57,6 +80,11 @@ const ShoppingListScreenMenuButton = ({
           text={t('language')}
         />
         {menuItems}
+        <MenuOption
+          onSelect={privacyPolicyPressHandler}
+          disableTouchable={false}
+          text={'Privacy policy'}
+        />
       </MenuOptions>
     </Menu>
   );

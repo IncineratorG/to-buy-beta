@@ -2,7 +2,7 @@ import GoogleMapProvider from './google/GoogleMapProvider';
 import YandexMapProvider from './yandex/YandexMapProvider';
 import AsyncMapProvidersStorage from './storage/async-storage/AsyncMapProvidersStorage';
 import {MapProviderTypes} from './types/MapProvidresTypes';
-import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 
 class MapProviders {
   static #providers = [GoogleMapProvider, YandexMapProvider];

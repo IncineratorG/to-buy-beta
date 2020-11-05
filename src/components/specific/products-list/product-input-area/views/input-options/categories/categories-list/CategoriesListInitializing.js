@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, FlatList, StyleSheet} from 'react-native';
 import CategoriesListItem from './categories-list-item/CategoriesListItem';
-import {SystemEventsHandler} from '../../../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 const CategoriesListInitializing = ({
   categoriesList,

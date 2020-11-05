@@ -1,5 +1,5 @@
 import {SLSqliteService} from './sqlite/SLSqliteService';
-import {SystemEventsHandler} from '../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../utils/common/system-events-handler/SystemEventsHandler';
 import {Notifier} from '../../utils/common/service-utils/notifier/Notifier';
 import ShoppingListServiceEvents from './data/event-types/ShoppingListServiceEvents';
 

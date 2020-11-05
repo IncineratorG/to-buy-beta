@@ -6,7 +6,7 @@ import {
   TouchableHighlight,
   Image,
 } from 'react-native';
-import {SystemEventsHandler} from '../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../utils/common/system-events-handler/SystemEventsHandler';
 import {icons} from '../../../../../../assets/icons';
 import {
   Menu,

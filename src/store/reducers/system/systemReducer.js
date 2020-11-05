@@ -1,5 +1,5 @@
 import {SYSTEM_LANGUAGE_SET} from '../../types/system/systemTypes';
-import {SystemEventsHandler} from '../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 
 const initialState = {
   system: {

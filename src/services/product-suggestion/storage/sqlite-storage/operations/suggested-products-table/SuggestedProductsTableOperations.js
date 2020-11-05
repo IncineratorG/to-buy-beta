@@ -8,7 +8,7 @@ import {
   SUGGESTED_PRODUCTS_TABLE_UPDATE_TIMESTAMP,
   SUGGESTED_PRODUCTS_TABLE_USAGE_COUNT,
 } from '../../tables/suggestedProductsTable';
-import {SystemEventsHandler} from '../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../utils/common/system-events-handler/SystemEventsHandler';
 import {SqlStatementExecutor} from '../../../../../../utils/common/service-utils/sql-statement-executor/SqlStatementExecutor';
 
 class SuggestedProductsTableOperations {

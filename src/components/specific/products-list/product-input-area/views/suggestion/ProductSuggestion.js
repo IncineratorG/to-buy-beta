@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableHighlight, StyleSheet} from 'react-native';
 import ProductInputType from '../../stores/types/productInputAreaProductInputTypes';
-import {SystemEventsHandler} from '../../../../../../utils/common/service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 const ProductSuggestion = ({state, onSuggestionPress}) => {
   const {type, productSuggestions} = state.currentInput;

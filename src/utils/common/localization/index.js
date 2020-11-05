@@ -1,6 +1,6 @@
 import {useSelector} from 'react-redux';
 import translations from '../../../assets/translations';
-import {SystemEventsHandler} from '../service-utils/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../system-events-handler/SystemEventsHandler';
 
 export const useTranslation = () => {
   const appTranslations = translations;
