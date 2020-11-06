@@ -1,29 +1,27 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import {icons} from '../../../../assets/icons';
+import ShareServiceAppTypes from '../../../../services/share/data/share-app-types/ShareServiceAppTypes';
 
 const SharePanel = ({
   visible,
-  smsShareSupported,
-  whatsAppShareSupported,
-  onWhatsAppPress,
-  onSmsPress,
+  shareServicesAvailabilityMap,
+  onShareServicePress,
 }) => {
+  const [smsShareSupported, setSmsShareSupported] = useState(false);
+  const [whatsAppShareSupported, setWhatsAppShareSupported] = useState(false);
+
   const whatsAppPressHandler = () => {
-    if (onWhatsAppPress) {
-      onWhatsAppPress();
+    if (onShareServicePress) {
+      onShareServicePress({serviceType: ShareServiceAppTypes.WHATS_APP});
     }
   };
 
   const smsPressHandler = () => {
-    if (onSmsPress) {
-      onSmsPress();
+    if (onShareServicePress) {
+      onShareServicePress({serviceType: ShareServiceAppTypes.SMS});
     }
   };
-
-  if (!visible) {
-    return null;
-  }
 
   let optionsCount = 2;
   if (whatsAppShareSupported && smsShareSupported) {
@@ -61,6 +59,19 @@ const SharePanel = ({
   ) : null;
 
   const spacer = <View style={styles.spacer} />;
+
+  useEffect(() => {
+    setSmsShareSupported(
+      shareServicesAvailabilityMap.get(ShareServiceAppTypes.SMS),
+    );
+    setWhatsAppShareSupported(
+      shareServicesAvailabilityMap.get(ShareServiceAppTypes.WHATS_APP),
+    );
+  }, [shareServicesAvailabilityMap]);
+
+  if (!visible) {
+    return null;
+  }
 
   return (
     <View

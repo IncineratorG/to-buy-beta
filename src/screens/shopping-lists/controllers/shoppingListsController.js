@@ -8,11 +8,9 @@ import {
 import {loadProductsListAction} from '../../../store/actions/products-list/productsListActions';
 import {loadCategoriesAction} from '../../../store/actions/categories/categoriesActions';
 import {loadUnitsAction} from '../../../store/actions/units/unitsActions';
-import {
-  shareProductsListViaSmsAction,
-  shareProductsListViaWhatsAppAction,
-} from '../../../store/actions/share/shareActions';
+import {shareProductsListViaAppAction} from '../../../store/actions/share/shareActions';
 import {setSystemLanguageAction} from '../../../store/actions/system/systemActions';
+import ShareServiceAppTypes from '../../../services/share/data/share-app-types/ShareServiceAppTypes';
 
 export const useShoppingListsController = (model) => {
   const listItemPressHandler = (listItemId) => {
@@ -39,10 +37,10 @@ export const useShoppingListsController = (model) => {
   };
 
   const addButtonHandler = () => {
-    model.navigation.navigate('VoiceInputTest');
+    // model.navigation.navigate('VoiceInputTest');
 
-    // model.dispatch(resetCreateShoppingListStatusAction());
-    // model.navigation.navigate('CreateShoppingList');
+    model.dispatch(resetCreateShoppingListStatusAction());
+    model.navigation.navigate('CreateShoppingList');
   };
 
   const removeConfirmationDialogTouchOutsideHandler = () => {
@@ -68,21 +66,39 @@ export const useShoppingListsController = (model) => {
     model.setters.setListToRemove(null);
   };
 
-  const selectListTypeHandler = (selectedType) => {
-    SystemEventsHandler.onInfo({
-      info: 'selectListTypeHandler(): ' + JSON.stringify(selectedType),
-    });
-  };
-
   const shareListHandler = (listId) => {
-    if (model.data.smsShareSupported && model.data.whatsAppShareSupported) {
-      model.setters.setListIdToShare(listId);
-      model.setters.setShareDialogVisible(true);
-    } else if (model.data.whatsAppShareSupported) {
-      model.dispatch(shareProductsListViaWhatsAppAction({id: listId}));
-    } else if (model.data.smsShareSupported) {
-      model.dispatch(shareProductsListViaSmsAction({id: listId}));
+    let availableServicesCount = 0;
+    let onlyAvailableServiceType = '';
+    model.data.shareServicesAvailabilityMap.forEach(
+      (isAvailable, serviceType) => {
+        if (isAvailable) {
+          ++availableServicesCount;
+          if (!onlyAvailableServiceType) {
+            onlyAvailableServiceType = serviceType;
+          }
+        }
+      },
+    );
+
+    if (availableServicesCount <= 0) {
+      SystemEventsHandler.onError({
+        err: 'shareListHandler()->NO_AVAILABLE_SHARE_SERVICES',
+      });
+      return;
     }
+
+    if (availableServicesCount === 1) {
+      model.dispatch(
+        shareProductsListViaAppAction({
+          appType: onlyAvailableServiceType,
+          shoppingListId: listId,
+        }),
+      );
+      return;
+    }
+
+    model.setters.setListIdToShare(listId);
+    model.setters.setShareDialogVisible(true);
   };
 
   const shareDialogTouchOutsidePressHandler = () => {
@@ -90,17 +106,12 @@ export const useShoppingListsController = (model) => {
     model.setters.setListIdToShare(-1);
   };
 
-  const shareDialogSmsOptionPressHandler = () => {
+  const shareDialogShareViaServicePressHandler = ({serviceType}) => {
     model.dispatch(
-      shareProductsListViaSmsAction({id: model.data.listIdToShare}),
-    );
-    model.setters.setShareDialogVisible(false);
-    model.setters.setListIdToShare(-1);
-  };
-
-  const shareDialogWhatsAppOptionPressHandler = () => {
-    model.dispatch(
-      shareProductsListViaWhatsAppAction({id: model.data.listIdToShare}),
+      shareProductsListViaAppAction({
+        appType: serviceType,
+        shoppingListId: model.data.listIdToShare,
+      }),
     );
     model.setters.setShareDialogVisible(false);
     model.setters.setListIdToShare(-1);
@@ -169,11 +180,9 @@ export const useShoppingListsController = (model) => {
     removeConfirmationDialogTouchOutsideHandler,
     removeConfirmationDialogRemoveHandler,
     removeConfirmationDialogCancelRemoveHandler,
-    selectListTypeHandler,
     shareListHandler,
     shareDialogTouchOutsidePressHandler,
-    shareDialogSmsOptionPressHandler,
-    shareDialogWhatsAppOptionPressHandler,
+    shareDialogShareViaServicePressHandler,
     shareDialogCancelPressHandler,
     renameDialogTouchOutsideHandler,
     renameDialogCancelPressHandler,

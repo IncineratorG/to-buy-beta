@@ -33,8 +33,7 @@ const ProductsListView = ({styles, model, controller}) => {
     categoriesMap,
     allCategoriesList,
     allCategoriesMap,
-    smsShareSupported,
-    whatsAppShareSupported,
+    shareServicesAvailabilityMap,
     categoryAddInProgress,
     lastAddedCategory,
     unitAddInProgress,
@@ -154,8 +153,7 @@ const ProductsListView = ({styles, model, controller}) => {
     inputAreaAddUnitPressHandler,
     inputAreaUnitLongPressHandler,
     shareButtonPressHandler,
-    smsSharePressHandler,
-    whatsAppSharePressHandler,
+    shareButtonShareViaServicePressHandler,
     findProductOnMapNearbyPress,
   } = productsListController;
 
@@ -421,10 +419,8 @@ const ProductsListView = ({styles, model, controller}) => {
     <View style={styles.sharePanel}>
       <SharePanel
         visible={sharePanelVisible}
-        smsShareSupported={smsShareSupported}
-        whatsAppShareSupported={whatsAppShareSupported}
-        onSmsPress={smsSharePressHandler}
-        onWhatsAppPress={whatsAppSharePressHandler}
+        shareServicesAvailabilityMap={shareServicesAvailabilityMap}
+        onShareServicePress={shareButtonShareViaServicePressHandler}
       />
     </View>
   );

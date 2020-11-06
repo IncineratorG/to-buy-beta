@@ -10,9 +10,11 @@ import {
   piaa_setPredefinedState,
   piaa_setProductSuggestions,
   piaa_setUnit,
+  piaa_setVoiceInputServiceAvailability,
 } from '../stores/productInputAreaActions';
 import {SystemEventsHandler} from '../../../../../utils/common/system-events-handler/SystemEventsHandler';
 import {clearProductSuggestionsAction} from '../../../../../store/actions/product-suggestion/productSuggestionActions';
+import Voice from '@react-native-community/voice';
 
 export const useProductInputAreaModel = ({
   onInputAreaHide,
@@ -160,6 +162,27 @@ export const useProductInputAreaModel = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unitsList]);
+
+  // useEffect(() => {
+  //   const getSpeechRecognitionServices = async () => {
+  //     const services = await Voice.getSpeechRecognitionServices();
+  //
+  //     let hasService = false;
+  //     for (let i = 0; i < services.length; ++i) {
+  //       const service = services[i];
+  //       if (service === 'com.google.android.googlequicksearchbox') {
+  //         hasService = true;
+  //         break;
+  //       }
+  //     }
+  //
+  //     localDispatch(
+  //       piaa_setVoiceInputServiceAvailability({isAvailable: hasService}),
+  //     );
+  //   };
+  //
+  //   getSpeechRecognitionServices();
+  // }, []);
 
   return {
     data: {

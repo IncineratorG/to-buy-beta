@@ -11,6 +11,7 @@ import {
   SET_PRODUCT_SUGGESTIONS,
   SET_QUANTITY,
   SET_UNIT,
+  SET_VOICE_INPUT_SERVICE_AVAILABILITY,
   SUBMIT_VALUES,
 } from './types/productInputAreaActionTypes';
 import {SystemEventsHandler} from '../../../../../utils/common/system-events-handler/SystemEventsHandler';
@@ -209,6 +210,19 @@ function productInputAreaReducer(state, action) {
           productSuggestions: {
             ...state.currentInput.productSuggestions,
             suggestions: [...action.payload.suggestions],
+          },
+        },
+      };
+    }
+
+    case SET_VOICE_INPUT_SERVICE_AVAILABILITY: {
+      return {
+        ...state,
+        currentInput: {
+          ...state.currentInput,
+          voiceInput: {
+            ...state.currentInput.voiceInput,
+            serviceAvailable: action.payload.isAvailable,
           },
         },
       };

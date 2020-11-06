@@ -104,17 +104,16 @@ public class PhoneMessagingModule extends ReactContextBaseJavaModule {
     }
 
     private Map<String, Boolean> hasApp(String appUri) {
+        //        Activity currentActivity = getCurrentActivity();
+        //        if (currentActivity == null) {
+        //            resultMap.put(ERROR_FIELD, true);
+        //            return resultMap;
+        //        }
+        //        PackageManager packageManager = currentActivity.getPackageManager();
+
         Map<String, Boolean> resultMap = new HashMap<>(2);
         resultMap.put(RESULT_FIELD, false);
         resultMap.put(ERROR_FIELD, false);
-
-//        Activity currentActivity = getCurrentActivity();
-//        if (currentActivity == null) {
-//            resultMap.put(ERROR_FIELD, true);
-//            return resultMap;
-//        }
-
-//        PackageManager packageManager = currentActivity.getPackageManager();
 
         PackageManager packageManager = getReactApplicationContext().getPackageManager();
 

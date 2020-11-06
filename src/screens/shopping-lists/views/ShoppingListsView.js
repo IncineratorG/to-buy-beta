@@ -25,8 +25,7 @@ const ShoppingListsView = ({styles, model, controller}) => {
     listToRemove,
     listToRename,
     listToCopy,
-    smsShareSupported,
-    whatsAppShareSupported,
+    shareServicesAvailabilityMap,
   } = model.data;
 
   const {
@@ -38,11 +37,9 @@ const ShoppingListsView = ({styles, model, controller}) => {
     removeConfirmationDialogTouchOutsideHandler,
     removeConfirmationDialogRemoveHandler,
     removeConfirmationDialogCancelRemoveHandler,
-    selectListTypeHandler,
     shareListHandler,
     shareDialogTouchOutsidePressHandler,
-    shareDialogSmsOptionPressHandler,
-    shareDialogWhatsAppOptionPressHandler,
+    shareDialogShareViaServicePressHandler,
     shareDialogCancelPressHandler,
     renameDialogTouchOutsideHandler,
     renameDialogCancelPressHandler,
@@ -77,12 +74,10 @@ const ShoppingListsView = ({styles, model, controller}) => {
   const shareDialogComponent = (
     <ShareShoppingListDialog
       visible={shareDialogVisible}
-      smsShareSupported={smsShareSupported}
-      whatsAppShareSupported={whatsAppShareSupported}
+      shareServicesAvailabilityMap={shareServicesAvailabilityMap}
       onTouchOutside={shareDialogTouchOutsidePressHandler}
       onCancelPress={shareDialogCancelPressHandler}
-      onSmsOptionPress={shareDialogSmsOptionPressHandler}
-      onWhatsAppOptionPress={shareDialogWhatsAppOptionPressHandler}
+      onShareServicePress={shareDialogShareViaServicePressHandler}
     />
   );
 

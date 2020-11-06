@@ -7,14 +7,10 @@ import ShareServiceEvents from '../../../services/share/data/event-types/ShareSe
 
 function shareEventsChannel() {
   return eventChannel((emit) => {
-    const availabilityChangedHandler = ({
-      smsSharingSupported,
-      whatsAppSharingSupported,
-    }) => {
+    const availabilityChangedHandler = ({shareServiceAvailabilityMap}) => {
       emit(
         setShareAvailabilityAction({
-          smsSharingSupported,
-          whatsAppSharingSupported,
+          shareServiceAvailabilityMap,
         }),
       );
     };

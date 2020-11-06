@@ -11,6 +11,7 @@ import {
   SET_PRODUCT_SUGGESTIONS,
   SET_QUANTITY,
   SET_UNIT,
+  SET_VOICE_INPUT_SERVICE_AVAILABILITY,
   SUBMIT_VALUES,
 } from './types/productInputAreaActionTypes';
 
@@ -108,5 +109,12 @@ export const piaa_setProductSuggestions = ({suggestions}) => {
   return {
     type: SET_PRODUCT_SUGGESTIONS,
     payload: {suggestions},
+  };
+};
+
+export const piaa_setVoiceInputServiceAvailability = ({isAvailable}) => {
+  return {
+    type: SET_VOICE_INPUT_SERVICE_AVAILABILITY,
+    payload: {isAvailable},
   };
 };

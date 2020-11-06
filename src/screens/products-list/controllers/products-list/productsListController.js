@@ -21,11 +21,9 @@ import {
   pla_setSharePanelVisibility,
 } from '../../stores/productListActions';
 import ProductStatus from '../../../../services/shopping-list/data/product-status/ProductStatus';
-import {
-  shareProductsListViaSmsAction,
-  shareProductsListViaWhatsAppAction,
-} from '../../../../store/actions/share/shareActions';
+import {shareProductsListViaAppAction} from '../../../../store/actions/share/shareActions';
 import {locateProductAction} from '../../../../store/actions/products-location/productsLocationActions';
+import ShareServiceAppTypes from '../../../../services/share/data/share-app-types/ShareServiceAppTypes';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
@@ -247,34 +245,49 @@ export const useProductsListController = (model) => {
   );
 
   const shareButtonPressHandler = () => {
-    if (model.data.smsShareSupported && model.data.whatsAppShareSupported) {
-      model.localDispatch(
-        pla_setSharePanelVisibility({
-          visible: !model.data.state.sharePanel.sharePanelVisible,
-        }),
-      );
-    } else if (model.data.whatsAppShareSupported) {
-      model.dispatch(
-        shareProductsListViaWhatsAppAction({id: model.data.shoppingListId}),
-      );
-    } else if (model.data.smsShareSupported) {
-      model.dispatch(
-        shareProductsListViaSmsAction({id: model.data.shoppingListId}),
-      );
-    }
-  };
-
-  const smsSharePressHandler = () => {
-    model.dispatch(
-      shareProductsListViaSmsAction({id: model.data.shoppingListId}),
+    let availableServicesCount = 0;
+    let onlyAvailableServiceType = '';
+    model.data.shareServicesAvailabilityMap.forEach(
+      (isAvailable, serviceType) => {
+        if (isAvailable) {
+          ++availableServicesCount;
+          if (!onlyAvailableServiceType) {
+            onlyAvailableServiceType = serviceType;
+          }
+        }
+      },
     );
 
-    model.localDispatch(pla_setSharePanelVisibility({visible: false}));
+    if (availableServicesCount <= 0) {
+      SystemEventsHandler.onError({
+        err: 'shareButtonPressHandler()->NO_AVAILABLE_SHARE_SERVICES',
+      });
+      return;
+    }
+
+    if (availableServicesCount === 1) {
+      model.dispatch(
+        shareProductsListViaAppAction({
+          appType: onlyAvailableServiceType,
+          shoppingListId: model.data.shoppingListId,
+        }),
+      );
+      return;
+    }
+
+    model.localDispatch(
+      pla_setSharePanelVisibility({
+        visible: !model.data.state.sharePanel.sharePanelVisible,
+      }),
+    );
   };
 
-  const whatsAppSharePressHandler = () => {
+  const shareButtonShareViaServicePressHandler = ({serviceType}) => {
     model.dispatch(
-      shareProductsListViaWhatsAppAction({id: model.data.shoppingListId}),
+      shareProductsListViaAppAction({
+        appType: serviceType,
+        shoppingListId: model.data.shoppingListId,
+      }),
     );
 
     model.localDispatch(pla_setSharePanelVisibility({visible: false}));
@@ -302,8 +315,7 @@ export const useProductsListController = (model) => {
     inputAreaAddUnitPressHandler,
     inputAreaUnitLongPressHandler,
     shareButtonPressHandler,
-    smsSharePressHandler,
-    whatsAppSharePressHandler,
+    shareButtonShareViaServicePressHandler,
     findProductOnMapNearbyPress,
   };
 };

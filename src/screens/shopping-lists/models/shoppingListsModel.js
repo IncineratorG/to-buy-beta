@@ -2,7 +2,6 @@ import {useState} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from '../../../utils/common/localization';
-import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import {clearProductsListCachedData} from '../../../store/actions/products-list/productsListActions';
 
 export const useShoppingListsModel = () => {
@@ -30,18 +29,14 @@ export const useShoppingListsModel = () => {
   const allShoppingLists = useSelector(
     (state) => state.shoppingLists.shoppingLists.allLists.lists,
   );
-  const smsShareSupported = useSelector(
-    (storeState) => storeState.share.share.availability.smsSharingSupported,
-  );
-  const whatsAppShareSupported = useSelector(
-    (storeState) =>
-      storeState.share.share.availability.whatsAppSharingSupported,
-  );
   const availableLanguages = useSelector(
     (state) => state.system.system.localization.availableLanguageCodes,
   );
   const currentLanguage = useSelector(
     (state) => state.system.system.localization.currentLanguageCode,
+  );
+  const shareServicesAvailabilityMap = useSelector(
+    (state) => state.share.share.availability.shareServiceAvailabilityMap,
   );
 
   // ===
@@ -68,8 +63,7 @@ export const useShoppingListsModel = () => {
       listToRename,
       listToCopy,
       listIdToShare,
-      smsShareSupported,
-      whatsAppShareSupported,
+      shareServicesAvailabilityMap,
       availableLanguages,
       currentLanguage,
     },
