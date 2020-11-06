@@ -11,6 +11,7 @@ import {useTranslation} from '../../../../../../utils/common/localization';
 import ProductInputType from '../../stores/types/productInputAreaProductInputTypes';
 import {SystemEventsHandler} from '../../../../../../utils/common/system-events-handler/SystemEventsHandler';
 import Voice from '@react-native-community/voice';
+import ProductMainInputButtons from './buttons/ProductMainInputButtons';
 
 const ProductMainInput = ({
   state,
@@ -20,6 +21,8 @@ const ProductMainInput = ({
   onChangeText,
   onMakeProductsSuggestion,
 }) => {
+  const [canShowVoiceInput, setCanShowVoiceInput] = useState(false);
+
   const {
     keyboardType,
     icon,
@@ -48,11 +51,18 @@ const ProductMainInput = ({
     }
   }
 
-  const voiceInputIconActive = icons.microphone_black;
-  const voiceInputIconNonActive = icons.microphone_grey;
+  // const voiceInputIconActive = icons.microphone_black;
+  // const voiceInputIconNonActive = icons.microphone_grey;
 
-  const [voiceInputIcon, setVoiceInputIcon] = useState(voiceInputIconNonActive);
-  const [voiceInputMode, setVoiceInputMode] = useState(false);
+  // const [voiceInputIcon, setVoiceInputIcon] = useState(voiceInputIconNonActive);
+  // const [voiceInputMode, setVoiceInputMode] = useState(false);
+  // const [hasAudioRecordPermission, setHasAudioRecordPermission] = useState(
+  //   false,
+  // );
+  // const [
+  //   hasSpeechRecognitionService,
+  //   setHasSpeechRecognitionService,
+  // ] = useState(false);
 
   const mainTextInputRef = useRef(null);
 
@@ -86,17 +96,17 @@ const ProductMainInput = ({
     }
   };
 
-  const voiceInputButtonPressHandler = () => {
-    // SystemEventsHandler.onInfo({info: 'voiceInputButtonPressHandler()'});
-
-    if (voiceInputMode) {
-      setVoiceInputMode(!voiceInputMode);
-      setVoiceInputIcon(voiceInputIconNonActive);
-    } else {
-      setVoiceInputMode(!voiceInputMode);
-      setVoiceInputIcon(voiceInputIconActive);
-    }
-  };
+  // const voiceInputButtonPressHandler = () => {
+  //   // SystemEventsHandler.onInfo({info: 'voiceInputButtonPressHandler()'});
+  //
+  //   if (voiceInputMode) {
+  //     setVoiceInputMode(!voiceInputMode);
+  //     setVoiceInputIcon(voiceInputIconNonActive);
+  //   } else {
+  //     setVoiceInputMode(!voiceInputMode);
+  //     setVoiceInputIcon(voiceInputIconActive);
+  //   }
+  // };
 
   const changeTextHandler = (text) => {
     if (onChangeText) {
@@ -108,6 +118,13 @@ const ProductMainInput = ({
     }
   };
 
+  const buttonsComponent = (
+    <ProductMainInputButtons
+      correctInput={values.acceptable}
+      canShowVoiceInput={canShowVoiceInput}
+    />
+  );
+
   useEffect(() => {
     setTimeout(() => {
       if (mainTextInputRef != null && mainTextInputRef.current != null) {
@@ -117,44 +134,61 @@ const ProductMainInput = ({
   }, []);
 
   useEffect(() => {
-    function onSpeechStart(e) {}
-    function onSpeechResults(e) {}
-    function onSpeechPartialResults(e) {}
-    function onSpeechEnd(e) {}
-    // function onSpeechError(e) {
-    // }
+    switch (type) {
+      case ProductInputType.PRODUCT_NAME: {
+        setCanShowVoiceInput(true);
+        break;
+      }
 
-    Voice.onSpeechEnd = onSpeechEnd;
-    // Voice.onSpeechError = onSpeechError;
-    Voice.onSpeechResults = onSpeechResults;
-    Voice.onSpeechPartialResults = onSpeechPartialResults;
+      case ProductInputType.QUANTITY: {
+        setCanShowVoiceInput(false);
+        break;
+      }
 
-    return () => {
-      Voice.destroy().then(Voice.removeAllListeners);
-    };
-  }, []);
+      case ProductInputType.NOTE: {
+        setCanShowVoiceInput(true);
+        break;
+      }
+    }
+  }, [type]);
 
-  return (
-    <View style={styles.mainContainer}>
-      <View style={styles.iconContainer}>
-        <View style={styles.iconWrapper}>
-          <Image style={styles.icon} source={icon} />
-        </View>
-      </View>
-      <View style={styles.textInputContainer}>
-        <TextInput
-          ref={mainTextInputRef}
-          value={textInputValue}
-          // autoFocus={true}
-          keyboardType={keyboardType}
-          blurOnSubmit={false}
-          placeholder={t(placeholder)}
-          fontSize={18}
-          onSubmitEditing={onSubmitEditing}
-          onChangeText={changeTextHandler}
-        />
-      </View>
-      <View style={styles.buttonsContainer}>
+  // useEffect(() => {
+  //   const getSpeechRecognitionServices = async () => {
+  //     const services = await Voice.getSpeechRecognitionServices();
+  //
+  //     let hasService = false;
+  //     for (let i = 0; i < services.length; ++i) {
+  //       const service = services[i];
+  //       if (service === 'com.google.android.googlequicksearchbox') {
+  //         setHasSpeechRecognitionService(true);
+  //         break;
+  //       }
+  //     }
+  //   };
+  //
+  //   getSpeechRecognitionServices();
+  // }, []);
+
+  // useEffect(() => {
+  //   function onSpeechStart(e) {}
+  //   function onSpeechResults(e) {}
+  //   function onSpeechPartialResults(e) {}
+  //   function onSpeechEnd(e) {}
+  //   // function onSpeechError(e) {
+  //   // }
+  //
+  //   Voice.onSpeechEnd = onSpeechEnd;
+  //   // Voice.onSpeechError = onSpeechError;
+  //   Voice.onSpeechResults = onSpeechResults;
+  //   Voice.onSpeechPartialResults = onSpeechPartialResults;
+  //
+  //   return () => {
+  //     Voice.destroy().then(Voice.removeAllListeners);
+  //   };
+  // }, []);
+
+  /*
+        <View style={styles.buttonsContainer}>
         <View style={styles.voiceInputButtonArea}>
           <View style={styles.voiceInputButtonContainer}>
             <TouchableHighlight
@@ -190,6 +224,29 @@ const ProductMainInput = ({
           </View>
         </View>
       </View>
+   */
+
+  return (
+    <View style={styles.mainContainer}>
+      <View style={styles.iconContainer}>
+        <View style={styles.iconWrapper}>
+          <Image style={styles.icon} source={icon} />
+        </View>
+      </View>
+      <View style={styles.textInputContainer}>
+        <TextInput
+          ref={mainTextInputRef}
+          value={textInputValue}
+          // autoFocus={true}
+          keyboardType={keyboardType}
+          blurOnSubmit={false}
+          placeholder={t(placeholder)}
+          fontSize={18}
+          onSubmitEditing={onSubmitEditing}
+          onChangeText={changeTextHandler}
+        />
+      </View>
+      {buttonsComponent}
     </View>
   );
 };
@@ -224,67 +281,67 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
-  buttonsContainer: {
-    width: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  voiceInputButtonArea: {
-    flex: 1,
-    alignSelf: 'stretch',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  voiceInputButtonContainer: {
-    width: 30,
-    height: 30,
-  },
-  voiceInputButtonTouchable: {
-    flex: 1,
-    alignSelf: 'stretch',
-    borderRadius: 15,
-  },
-  voiceInputButton: {
-    flex: 1,
-    alignSelf: 'stretch',
-    borderRadius: 15,
-  },
-  voiceInputButtonIcon: {
-    flex: 1,
-    width: undefined,
-    height: undefined,
-    resizeMode: 'contain',
-  },
-  confirmButtonArea: {
-    flex: 1,
-    alignSelf: 'stretch',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  confirmButtonContainer: {
-    width: 30,
-    height: 30,
-    borderRadius: 4,
-  },
-  confirmButtonTouchable: {
-    flex: 1,
-    alignSelf: 'stretch',
-    borderRadius: 4,
-  },
-  confirmButton: {
-    flex: 1,
-    alignSelf: 'stretch',
-    backgroundColor: '#19e680',
-    borderRadius: 4,
-    padding: 6,
-  },
-  confirmButtonIcon: {
-    flex: 1,
-    width: undefined,
-    height: undefined,
-    resizeMode: 'contain',
-  },
+  // buttonsContainer: {
+  //   width: 100,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   flexDirection: 'row',
+  // },
+  // voiceInputButtonArea: {
+  //   flex: 1,
+  //   alignSelf: 'stretch',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
+  // voiceInputButtonContainer: {
+  //   width: 30,
+  //   height: 30,
+  // },
+  // voiceInputButtonTouchable: {
+  //   flex: 1,
+  //   alignSelf: 'stretch',
+  //   borderRadius: 15,
+  // },
+  // voiceInputButton: {
+  //   flex: 1,
+  //   alignSelf: 'stretch',
+  //   borderRadius: 15,
+  // },
+  // voiceInputButtonIcon: {
+  //   flex: 1,
+  //   width: undefined,
+  //   height: undefined,
+  //   resizeMode: 'contain',
+  // },
+  // confirmButtonArea: {
+  //   flex: 1,
+  //   alignSelf: 'stretch',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
+  // confirmButtonContainer: {
+  //   width: 30,
+  //   height: 30,
+  //   borderRadius: 4,
+  // },
+  // confirmButtonTouchable: {
+  //   flex: 1,
+  //   alignSelf: 'stretch',
+  //   borderRadius: 4,
+  // },
+  // confirmButton: {
+  //   flex: 1,
+  //   alignSelf: 'stretch',
+  //   backgroundColor: '#19e680',
+  //   borderRadius: 4,
+  //   padding: 6,
+  // },
+  // confirmButtonIcon: {
+  //   flex: 1,
+  //   width: undefined,
+  //   height: undefined,
+  //   resizeMode: 'contain',
+  // },
 });
 
 export default ProductMainInput;
