@@ -8,11 +8,9 @@ import {
 import {loadProductsListAction} from '../../../store/actions/products-list/productsListActions';
 import {loadCategoriesAction} from '../../../store/actions/categories/categoriesActions';
 import {loadUnitsAction} from '../../../store/actions/units/unitsActions';
-import {
-  shareProductsListViaSmsAction,
-  shareProductsListViaWhatsAppAction,
-} from '../../../store/actions/share/shareActions';
+import {shareProductsListViaAppAction} from '../../../store/actions/share/shareActions';
 import {setSystemLanguageAction} from '../../../store/actions/system/systemActions';
+import ShareServiceAppTypes from '../../../services/share/data/share-app-types/ShareServiceAppTypes';
 
 export const useShoppingListsController = (model) => {
   const listItemPressHandler = (listItemId) => {
@@ -79,9 +77,19 @@ export const useShoppingListsController = (model) => {
       model.setters.setListIdToShare(listId);
       model.setters.setShareDialogVisible(true);
     } else if (model.data.whatsAppShareSupported) {
-      model.dispatch(shareProductsListViaWhatsAppAction({id: listId}));
+      model.dispatch(
+        shareProductsListViaAppAction({
+          appType: ShareServiceAppTypes.WHATS_APP,
+          shoppingListId: listId,
+        }),
+      );
     } else if (model.data.smsShareSupported) {
-      model.dispatch(shareProductsListViaSmsAction({id: listId}));
+      model.dispatch(
+        shareProductsListViaAppAction({
+          appType: ShareServiceAppTypes.SMS,
+          shoppingListId: listId,
+        }),
+      );
     }
   };
 
@@ -92,7 +100,10 @@ export const useShoppingListsController = (model) => {
 
   const shareDialogSmsOptionPressHandler = () => {
     model.dispatch(
-      shareProductsListViaSmsAction({id: model.data.listIdToShare}),
+      shareProductsListViaAppAction({
+        appType: ShareServiceAppTypes.SMS,
+        shoppingListId: model.data.listIdToShare,
+      }),
     );
     model.setters.setShareDialogVisible(false);
     model.setters.setListIdToShare(-1);
@@ -100,7 +111,10 @@ export const useShoppingListsController = (model) => {
 
   const shareDialogWhatsAppOptionPressHandler = () => {
     model.dispatch(
-      shareProductsListViaWhatsAppAction({id: model.data.listIdToShare}),
+      shareProductsListViaAppAction({
+        appType: ShareServiceAppTypes.WHATS_APP,
+        shoppingListId: model.data.listIdToShare,
+      }),
     );
     model.setters.setShareDialogVisible(false);
     model.setters.setListIdToShare(-1);

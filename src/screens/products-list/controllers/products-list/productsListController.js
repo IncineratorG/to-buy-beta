@@ -21,11 +21,9 @@ import {
   pla_setSharePanelVisibility,
 } from '../../stores/productListActions';
 import ProductStatus from '../../../../services/shopping-list/data/product-status/ProductStatus';
-import {
-  shareProductsListViaSmsAction,
-  shareProductsListViaWhatsAppAction,
-} from '../../../../store/actions/share/shareActions';
+import {shareProductsListViaAppAction} from '../../../../store/actions/share/shareActions';
 import {locateProductAction} from '../../../../store/actions/products-location/productsLocationActions';
+import ShareServiceAppTypes from '../../../../services/share/data/share-app-types/ShareServiceAppTypes';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
@@ -255,18 +253,27 @@ export const useProductsListController = (model) => {
       );
     } else if (model.data.whatsAppShareSupported) {
       model.dispatch(
-        shareProductsListViaWhatsAppAction({id: model.data.shoppingListId}),
+        shareProductsListViaAppAction({
+          appType: ShareServiceAppTypes.WHATS_APP,
+          shoppingListId: model.data.shoppingListId,
+        }),
       );
     } else if (model.data.smsShareSupported) {
       model.dispatch(
-        shareProductsListViaSmsAction({id: model.data.shoppingListId}),
+        shareProductsListViaAppAction({
+          appType: ShareServiceAppTypes.SMS,
+          shoppingListId: model.data.shoppingListId,
+        }),
       );
     }
   };
 
   const smsSharePressHandler = () => {
     model.dispatch(
-      shareProductsListViaSmsAction({id: model.data.shoppingListId}),
+      shareProductsListViaAppAction({
+        appType: ShareServiceAppTypes.SMS,
+        shoppingListId: model.data.shoppingListId,
+      }),
     );
 
     model.localDispatch(pla_setSharePanelVisibility({visible: false}));
@@ -274,7 +281,10 @@ export const useProductsListController = (model) => {
 
   const whatsAppSharePressHandler = () => {
     model.dispatch(
-      shareProductsListViaWhatsAppAction({id: model.data.shoppingListId}),
+      shareProductsListViaAppAction({
+        appType: ShareServiceAppTypes.WHATS_APP,
+        shoppingListId: model.data.shoppingListId,
+      }),
     );
 
     model.localDispatch(pla_setSharePanelVisibility({visible: false}));

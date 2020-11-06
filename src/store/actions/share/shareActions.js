@@ -3,23 +3,24 @@ import {
   CHECK_SHARE_AVAILABILITY_BEGIN,
   CHECK_SHARE_AVAILABILITY_ERROR,
   SET_SHARE_AVAILABILITY,
-  SHARE_PRODUCTS_LIST_VIA_SMS,
-  SHARE_PRODUCTS_LIST_VIA_SMS_BEGIN,
-  SHARE_PRODUCTS_LIST_VIA_SMS_ERROR,
-  SHARE_PRODUCTS_LIST_VIA_SMS_FINISHED,
-  SHARE_PRODUCTS_LIST_VIA_WHATS_APP,
-  SHARE_PRODUCTS_LIST_VIA_WHATS_APP_BEGIN,
-  SHARE_PRODUCTS_LIST_VIA_WHATS_APP_ERROR,
-  SHARE_PRODUCTS_LIST_VIA_WHATS_APP_FINISHED,
+  SHARE_PRODUCTS_LIST_VIA_APP,
+  SHARE_PRODUCTS_LIST_VIA_APP_BEGIN,
+  SHARE_PRODUCTS_LIST_VIA_APP_ERROR,
+  SHARE_PRODUCTS_LIST_VIA_APP_FINISHED,
 } from '../../types/share/shareTypes';
 
 export const setShareAvailabilityAction = ({
   smsSharingSupported,
   whatsAppSharingSupported,
+  shareServiceAvailabilityMap,
 }) => {
   return {
     type: SET_SHARE_AVAILABILITY,
-    payload: {smsSharingSupported, whatsAppSharingSupported},
+    payload: {
+      smsSharingSupported,
+      whatsAppSharingSupported,
+      shareServiceAvailabilityMap,
+    },
   };
 };
 
@@ -44,58 +45,30 @@ export const checkShareAvailabilityErrorAction = ({description}) => {
   };
 };
 
-export const shareProductsListViaSmsAction = ({id}) => {
+export const shareProductsListViaAppAction = ({appType, shoppingListId}) => {
   return {
-    type: SHARE_PRODUCTS_LIST_VIA_SMS,
-    payload: {id},
+    type: SHARE_PRODUCTS_LIST_VIA_APP,
+    payload: {appType, shoppingListId},
   };
 };
 
-export const shareProductsListViaSmsBeginAction = () => {
+export const shareProductsListViaAppBeginAction = () => {
   return {
-    type: SHARE_PRODUCTS_LIST_VIA_SMS_BEGIN,
+    type: SHARE_PRODUCTS_LIST_VIA_APP_BEGIN,
     payload: undefined,
   };
 };
 
-export const shareProductsListViaSmsFinishedAction = () => {
+export const shareProductsListViaAppFinishedAction = () => {
   return {
-    type: SHARE_PRODUCTS_LIST_VIA_SMS_FINISHED,
+    type: SHARE_PRODUCTS_LIST_VIA_APP_FINISHED,
     payload: undefined,
   };
 };
 
-export const shareProductsListViaSmsErrorAction = ({description}) => {
+export const shareProductsListViaAppErrorAction = ({description}) => {
   return {
-    type: SHARE_PRODUCTS_LIST_VIA_SMS_ERROR,
-    payload: {error: {description}},
-  };
-};
-
-export const shareProductsListViaWhatsAppAction = ({id}) => {
-  return {
-    type: SHARE_PRODUCTS_LIST_VIA_WHATS_APP,
-    payload: {id},
-  };
-};
-
-export const shareProductsListViaWhatsAppBeginAction = () => {
-  return {
-    type: SHARE_PRODUCTS_LIST_VIA_WHATS_APP_BEGIN,
-    payload: undefined,
-  };
-};
-
-export const shareProductsListViaWhatsAppFinishedAction = () => {
-  return {
-    type: SHARE_PRODUCTS_LIST_VIA_WHATS_APP_FINISHED,
-    payload: undefined,
-  };
-};
-
-export const shareProductsListViaWhatsAppErrorAction = ({description}) => {
-  return {
-    type: SHARE_PRODUCTS_LIST_VIA_WHATS_APP_ERROR,
+    type: SHARE_PRODUCTS_LIST_VIA_APP_ERROR,
     payload: {error: {description}},
   };
 };

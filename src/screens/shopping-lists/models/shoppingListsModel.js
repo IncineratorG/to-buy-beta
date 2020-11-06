@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from '../../../utils/common/localization';
 import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import {clearProductsListCachedData} from '../../../store/actions/products-list/productsListActions';
+import ShareServiceAppTypes from '../../../services/share/data/share-app-types/ShareServiceAppTypes';
 
 export const useShoppingListsModel = () => {
   const navigation = useNavigation();
@@ -30,18 +31,20 @@ export const useShoppingListsModel = () => {
   const allShoppingLists = useSelector(
     (state) => state.shoppingLists.shoppingLists.allLists.lists,
   );
-  const smsShareSupported = useSelector(
-    (storeState) => storeState.share.share.availability.smsSharingSupported,
-  );
-  const whatsAppShareSupported = useSelector(
-    (storeState) =>
-      storeState.share.share.availability.whatsAppSharingSupported,
-  );
   const availableLanguages = useSelector(
     (state) => state.system.system.localization.availableLanguageCodes,
   );
   const currentLanguage = useSelector(
     (state) => state.system.system.localization.currentLanguageCode,
+  );
+  const shareServicesAvailabilityMap = useSelector(
+    (state) => state.share.share.availability.shareServiceAvailabilityMap,
+  );
+  const smsShareSupported = shareServicesAvailabilityMap.get(
+    ShareServiceAppTypes.SMS,
+  );
+  const whatsAppShareSupported = shareServicesAvailabilityMap.get(
+    ShareServiceAppTypes.WHATS_APP,
   );
 
   // ===

@@ -1,30 +1,31 @@
 import {call, put} from '@redux-saga/core/effects';
 import {SystemEventsHandler} from '../../../../utils/common/system-events-handler/SystemEventsHandler';
 import Services from '../../../../services/Services';
-import {
-  shareProductsListViaSmsBeginAction,
-  shareProductsListViaSmsErrorAction,
-  shareProductsListViaSmsFinishedAction,
-} from '../../../actions/share/shareActions';
 import ListToTextConverter from '../../../../utils/common/service-utils/list-to-text-converter/ListToTextConverter';
+import {
+  shareProductsListViaAppBeginAction,
+  shareProductsListViaAppErrorAction,
+  shareProductsListViaAppFinishedAction,
+} from '../../../actions/share/shareActions';
 
-function* ss_shareProductsListViaSmsHandler(action) {
-  const {id} = action.payload;
+function* ss_shareProductsListViaAppHandler(action) {
+  const {appType, shoppingListId} = action.payload;
 
-  yield put(shareProductsListViaSmsBeginAction());
+  yield put(shareProductsListViaAppBeginAction());
 
   try {
     const shoppingListService = Services.get(
       Services.serviceTypes.SHOPPING_LIST,
     );
 
-    const productsList = yield call(shoppingListService.getProductsList, {id});
-    const categoriesList = yield call(shoppingListService.getCategories, {
-      shoppingListId: id,
+    const productsList = yield call(shoppingListService.getProductsList, {
+      id: shoppingListId,
     });
-
+    const categoriesList = yield call(shoppingListService.getCategories, {
+      shoppingListId,
+    });
     const unitsList = yield call(shoppingListService.getUnits, {
-      shoppingListId: id,
+      shoppingListId,
     });
 
     const categoriesMap = new Map();
@@ -46,15 +47,14 @@ function* ss_shareProductsListViaSmsHandler(action) {
 
     const shareService = Services.get(Services.serviceTypes.SHARE);
 
-    yield call(shareService.shareViaSms, {text: productsListTextForm});
-
-    yield put(shareProductsListViaSmsFinishedAction());
+    yield call(shareService.shareViaApp, {appType, text: productsListTextForm});
+    yield put(shareProductsListViaAppFinishedAction());
   } catch (e) {
     SystemEventsHandler.onError({
-      err: 'ss_shareProductsListViaSmsHandler()->ERROR: ' + e,
+      err: 'ss_shareProductsListViaAppHandler()->ERROR: ' + e,
     });
-    yield put(shareProductsListViaSmsErrorAction({description: e.toString()}));
+    yield put(shareProductsListViaAppErrorAction({description: e.toString()}));
   }
 }
 
-export default ss_shareProductsListViaSmsHandler;
+export default ss_shareProductsListViaAppHandler;

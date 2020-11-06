@@ -15,6 +15,7 @@ import ProductStatus from '../../../services/shopping-list/data/product-status/P
 import ProductInitialCategories from '../../../components/specific/products-list/product-initial-categories/ProductInitialCategories';
 import {checkShareAvailabilityAction} from '../../../store/actions/share/shareActions';
 import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
+import ShareServiceAppTypes from '../../../services/share/data/share-app-types/ShareServiceAppTypes';
 
 export const useProductsListModel = () => {
   const [state, localDispatch] = useReducer(
@@ -82,12 +83,15 @@ export const useProductsListModel = () => {
   const allCategoriesMap = useSelector(
     (storeState) => storeState.categories.categories.all.map,
   );
-  const smsShareSupported = useSelector(
-    (storeState) => storeState.share.share.availability.smsSharingSupported,
-  );
-  const whatsAppShareSupported = useSelector(
+  const shareServicesAvailabilityMap = useSelector(
     (storeState) =>
-      storeState.share.share.availability.whatsAppSharingSupported,
+      storeState.share.share.availability.shareServiceAvailabilityMap,
+  );
+  const smsShareSupported = shareServicesAvailabilityMap.get(
+    ShareServiceAppTypes.SMS,
+  );
+  const whatsAppShareSupported = shareServicesAvailabilityMap.get(
+    ShareServiceAppTypes.WHATS_APP,
   );
 
   useEffect(() => {

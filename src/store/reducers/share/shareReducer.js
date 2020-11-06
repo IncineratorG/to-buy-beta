@@ -13,8 +13,7 @@ const initialState = {
         hasError: false,
         description: '',
       },
-      smsSharingSupported: false,
-      whatsAppSharingSupported: false,
+      shareServiceAvailabilityMap: new Map(),
     },
   },
 };
@@ -33,8 +32,9 @@ export const shareReducer = (state = initialState, action) => {
               hasError: false,
               description: '',
             },
-            smsSharingSupported: action.payload.smsSharingSupported,
-            whatsAppSharingSupported: action.payload.whatsAppSharingSupported,
+            shareServiceAvailabilityMap: new Map(
+              action.payload.shareServiceAvailabilityMap,
+            ),
           },
         },
       };
