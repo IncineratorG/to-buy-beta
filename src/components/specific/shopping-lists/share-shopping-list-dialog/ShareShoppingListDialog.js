@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,27 +10,29 @@ import {
 import {Dialog} from 'react-native-simple-dialogs';
 import {useTranslation} from '../../../../utils/common/localization';
 import {icons} from '../../../../assets/icons';
+import ShareServiceAppTypes from '../../../../services/share/data/share-app-types/ShareServiceAppTypes';
 
 const ShareShoppingListDialog = ({
   visible,
-  smsShareSupported,
-  whatsAppShareSupported,
+  shareServicesAvailabilityMap,
   onTouchOutside,
   onCancelPress,
-  onSmsOptionPress,
-  onWhatsAppOptionPress,
+  onShareServicePress,
 }) => {
   const {t} = useTranslation();
 
+  const [smsShareSupported, setSmsShareSupported] = useState(false);
+  const [whatsAppShareSupported, setWhatsAppShareSupported] = useState(false);
+
   const smsOptionPressHandler = () => {
-    if (onSmsOptionPress) {
-      onSmsOptionPress();
+    if (onShareServicePress) {
+      onShareServicePress({serviceType: ShareServiceAppTypes.SMS});
     }
   };
 
   const whatsAppOptionPressHandler = () => {
-    if (onWhatsAppOptionPress) {
-      onWhatsAppOptionPress();
+    if (onShareServicePress) {
+      onShareServicePress({serviceType: ShareServiceAppTypes.WHATS_APP});
     }
   };
 
@@ -85,6 +87,15 @@ const ShareShoppingListDialog = ({
     smsShareSupported && whatsAppShareSupported ? (
       <View style={styles.spacer} />
     ) : null;
+
+  useEffect(() => {
+    setSmsShareSupported(
+      shareServicesAvailabilityMap.get(ShareServiceAppTypes.SMS),
+    );
+    setWhatsAppShareSupported(
+      shareServicesAvailabilityMap.get(ShareServiceAppTypes.WHATS_APP),
+    );
+  }, [shareServicesAvailabilityMap]);
 
   return (
     <Dialog

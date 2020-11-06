@@ -87,12 +87,12 @@ export const useProductsListModel = () => {
     (storeState) =>
       storeState.share.share.availability.shareServiceAvailabilityMap,
   );
-  const smsShareSupported = shareServicesAvailabilityMap.get(
-    ShareServiceAppTypes.SMS,
-  );
-  const whatsAppShareSupported = shareServicesAvailabilityMap.get(
-    ShareServiceAppTypes.WHATS_APP,
-  );
+  // const smsShareSupported = shareServicesAvailabilityMap.get(
+  //   ShareServiceAppTypes.SMS,
+  // );
+  // const whatsAppShareSupported = shareServicesAvailabilityMap.get(
+  //   ShareServiceAppTypes.WHATS_APP,
+  // );
 
   useEffect(() => {
     dispatch(checkShareAvailabilityAction());
@@ -239,8 +239,9 @@ export const useProductsListModel = () => {
       categoriesMap,
       allCategoriesList,
       allCategoriesMap,
-      smsShareSupported,
-      whatsAppShareSupported,
+      // smsShareSupported,
+      // whatsAppShareSupported,
+      shareServicesAvailabilityMap,
       categoryAddInProgress,
       lastAddedCategory,
       unitAddInProgress,

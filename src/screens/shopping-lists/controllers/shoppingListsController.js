@@ -66,31 +66,39 @@ export const useShoppingListsController = (model) => {
     model.setters.setListToRemove(null);
   };
 
-  const selectListTypeHandler = (selectedType) => {
-    SystemEventsHandler.onInfo({
-      info: 'selectListTypeHandler(): ' + JSON.stringify(selectedType),
-    });
-  };
-
   const shareListHandler = (listId) => {
-    if (model.data.smsShareSupported && model.data.whatsAppShareSupported) {
-      model.setters.setListIdToShare(listId);
-      model.setters.setShareDialogVisible(true);
-    } else if (model.data.whatsAppShareSupported) {
-      model.dispatch(
-        shareProductsListViaAppAction({
-          appType: ShareServiceAppTypes.WHATS_APP,
-          shoppingListId: listId,
-        }),
-      );
-    } else if (model.data.smsShareSupported) {
-      model.dispatch(
-        shareProductsListViaAppAction({
-          appType: ShareServiceAppTypes.SMS,
-          shoppingListId: listId,
-        }),
-      );
+    let availableServicesCount = 0;
+    let onlyAvailableServiceType = '';
+    model.data.shareServicesAvailabilityMap.forEach(
+      (isAvailable, serviceType) => {
+        if (isAvailable) {
+          ++availableServicesCount;
+          if (!onlyAvailableServiceType) {
+            onlyAvailableServiceType = serviceType;
+          }
+        }
+      },
+    );
+
+    if (availableServicesCount <= 0) {
+      SystemEventsHandler.onError({
+        err: 'shareListHandler()->NO_AVAILABLE_SHARE_SERVICES',
+      });
+      return;
     }
+
+    if (availableServicesCount === 1) {
+      model.dispatch(
+        shareProductsListViaAppAction({
+          appType: onlyAvailableServiceType,
+          shoppingListId: listId,
+        }),
+      );
+      return;
+    }
+
+    model.setters.setListIdToShare(listId);
+    model.setters.setShareDialogVisible(true);
   };
 
   const shareDialogTouchOutsidePressHandler = () => {
@@ -98,21 +106,10 @@ export const useShoppingListsController = (model) => {
     model.setters.setListIdToShare(-1);
   };
 
-  const shareDialogSmsOptionPressHandler = () => {
+  const shareDialogShareViaServicePressHandler = ({serviceType}) => {
     model.dispatch(
       shareProductsListViaAppAction({
-        appType: ShareServiceAppTypes.SMS,
-        shoppingListId: model.data.listIdToShare,
-      }),
-    );
-    model.setters.setShareDialogVisible(false);
-    model.setters.setListIdToShare(-1);
-  };
-
-  const shareDialogWhatsAppOptionPressHandler = () => {
-    model.dispatch(
-      shareProductsListViaAppAction({
-        appType: ShareServiceAppTypes.WHATS_APP,
+        appType: serviceType,
         shoppingListId: model.data.listIdToShare,
       }),
     );
@@ -183,11 +180,9 @@ export const useShoppingListsController = (model) => {
     removeConfirmationDialogTouchOutsideHandler,
     removeConfirmationDialogRemoveHandler,
     removeConfirmationDialogCancelRemoveHandler,
-    selectListTypeHandler,
     shareListHandler,
     shareDialogTouchOutsidePressHandler,
-    shareDialogSmsOptionPressHandler,
-    shareDialogWhatsAppOptionPressHandler,
+    shareDialogShareViaServicePressHandler,
     shareDialogCancelPressHandler,
     renameDialogTouchOutsideHandler,
     renameDialogCancelPressHandler,
