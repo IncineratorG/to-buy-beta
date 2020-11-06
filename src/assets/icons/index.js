@@ -16,6 +16,8 @@ const icons = {
   sms: require('./images/sms.png'),
   progress_grey: require('./images/progress_grey.png'),
   progress_white: require('./images/progress_white.png'),
+  microphone_black: require('./images/microphone_black.png'),
+  microphone_grey: require('./images/microphone_grey.png'),
 };
 
 export {icons};
