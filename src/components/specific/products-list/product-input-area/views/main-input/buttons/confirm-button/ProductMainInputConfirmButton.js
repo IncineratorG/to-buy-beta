@@ -1,11 +1,12 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React from 'react';
 import {View, TouchableHighlight, Image, StyleSheet} from 'react-native';
 import {icons} from '../../../../../../../../assets/icons';
-import {SystemEventsHandler} from '../../../../../../../../utils/common/system-events-handler/SystemEventsHandler';
 
-const ProductMainInputConfirmButton = ({correctInput}) => {
+const ProductMainInputConfirmButton = ({correctInput, onSubmitEditing}) => {
   const submitEditingHandler = () => {
-    SystemEventsHandler.onInfo({info: 'submitEditingHandler()'});
+    if (onSubmitEditing) {
+      onSubmitEditing();
+    }
   };
 
   return (

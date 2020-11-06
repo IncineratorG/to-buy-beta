@@ -18,6 +18,9 @@ const productInputAreaState = {
     productSuggestions: {
       suggestions: [],
     },
+    voiceInput: {
+      serviceAvailable: false,
+    },
   },
 };
 

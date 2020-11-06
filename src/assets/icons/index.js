@@ -2,6 +2,7 @@ const icons = {
   app_icon: require('./images/app_icon.png'),
   cart: require('./images/cart.png'),
   cross: require('./images/cross.png'),
+  cross_grey: require('./images/cross_grey.png'),
   menu_dotted: require('./images/menu_vertical.png'),
   menu_lined: require('./images/menu.png'),
   cart_with_arrow: require('./images/cart_with_arrow.png'),

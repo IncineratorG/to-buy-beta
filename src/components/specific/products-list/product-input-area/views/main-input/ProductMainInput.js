@@ -1,16 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {
-  View,
-  TouchableHighlight,
-  Image,
-  TextInput,
-  StyleSheet,
-} from 'react-native';
-import {icons} from '../../../../../../assets/icons';
+import {View, Image, TextInput, StyleSheet} from 'react-native';
 import {useTranslation} from '../../../../../../utils/common/localization';
 import ProductInputType from '../../stores/types/productInputAreaProductInputTypes';
-import {SystemEventsHandler} from '../../../../../../utils/common/system-events-handler/SystemEventsHandler';
-import Voice from '@react-native-community/voice';
 import ProductMainInputButtons from './buttons/ProductMainInputButtons';
 
 const ProductMainInput = ({
@@ -31,6 +22,7 @@ const ProductMainInput = ({
     values,
     selectedCategory,
     selectedUnit,
+    voiceInput,
   } = state.currentInput;
 
   let textInputValue = '';
@@ -51,26 +43,11 @@ const ProductMainInput = ({
     }
   }
 
-  // const voiceInputIconActive = icons.microphone_black;
-  // const voiceInputIconNonActive = icons.microphone_grey;
-
-  // const [voiceInputIcon, setVoiceInputIcon] = useState(voiceInputIconNonActive);
-  // const [voiceInputMode, setVoiceInputMode] = useState(false);
-  // const [hasAudioRecordPermission, setHasAudioRecordPermission] = useState(
-  //   false,
-  // );
-  // const [
-  //   hasSpeechRecognitionService,
-  //   setHasSpeechRecognitionService,
-  // ] = useState(false);
-
   const mainTextInputRef = useRef(null);
 
   const {t} = useTranslation();
 
   const onSubmitEditing = () => {
-    // SystemEventsHandler.onInfo({info: 'onSubmitEditing()'});
-
     if (values.acceptable && onConfirmPress) {
       const {productName, quantity: productQuantity, note} = values;
 
@@ -96,17 +73,9 @@ const ProductMainInput = ({
     }
   };
 
-  // const voiceInputButtonPressHandler = () => {
-  //   // SystemEventsHandler.onInfo({info: 'voiceInputButtonPressHandler()'});
-  //
-  //   if (voiceInputMode) {
-  //     setVoiceInputMode(!voiceInputMode);
-  //     setVoiceInputIcon(voiceInputIconNonActive);
-  //   } else {
-  //     setVoiceInputMode(!voiceInputMode);
-  //     setVoiceInputIcon(voiceInputIconActive);
-  //   }
-  // };
+  const clearInputHandler = () => {
+    changeTextHandler('');
+  };
 
   const changeTextHandler = (text) => {
     if (onChangeText) {
@@ -121,7 +90,9 @@ const ProductMainInput = ({
   const buttonsComponent = (
     <ProductMainInputButtons
       correctInput={values.acceptable}
-      canShowVoiceInput={canShowVoiceInput}
+      inputEmpty={textInputValue.length <= 0}
+      onSubmitEditing={onSubmitEditing}
+      onClearInput={clearInputHandler}
     />
   );
 
@@ -132,99 +103,6 @@ const ProductMainInput = ({
       }
     }, 500);
   }, []);
-
-  useEffect(() => {
-    switch (type) {
-      case ProductInputType.PRODUCT_NAME: {
-        setCanShowVoiceInput(true);
-        break;
-      }
-
-      case ProductInputType.QUANTITY: {
-        setCanShowVoiceInput(false);
-        break;
-      }
-
-      case ProductInputType.NOTE: {
-        setCanShowVoiceInput(true);
-        break;
-      }
-    }
-  }, [type]);
-
-  // useEffect(() => {
-  //   const getSpeechRecognitionServices = async () => {
-  //     const services = await Voice.getSpeechRecognitionServices();
-  //
-  //     let hasService = false;
-  //     for (let i = 0; i < services.length; ++i) {
-  //       const service = services[i];
-  //       if (service === 'com.google.android.googlequicksearchbox') {
-  //         setHasSpeechRecognitionService(true);
-  //         break;
-  //       }
-  //     }
-  //   };
-  //
-  //   getSpeechRecognitionServices();
-  // }, []);
-
-  // useEffect(() => {
-  //   function onSpeechStart(e) {}
-  //   function onSpeechResults(e) {}
-  //   function onSpeechPartialResults(e) {}
-  //   function onSpeechEnd(e) {}
-  //   // function onSpeechError(e) {
-  //   // }
-  //
-  //   Voice.onSpeechEnd = onSpeechEnd;
-  //   // Voice.onSpeechError = onSpeechError;
-  //   Voice.onSpeechResults = onSpeechResults;
-  //   Voice.onSpeechPartialResults = onSpeechPartialResults;
-  //
-  //   return () => {
-  //     Voice.destroy().then(Voice.removeAllListeners);
-  //   };
-  // }, []);
-
-  /*
-        <View style={styles.buttonsContainer}>
-        <View style={styles.voiceInputButtonArea}>
-          <View style={styles.voiceInputButtonContainer}>
-            <TouchableHighlight
-              style={styles.voiceInputButtonTouchable}
-              underlayColor={'lightgrey'}
-              onPress={voiceInputButtonPressHandler}>
-              <View style={styles.voiceInputButton}>
-                <Image
-                  style={styles.voiceInputButtonIcon}
-                  source={voiceInputIcon}
-                />
-              </View>
-            </TouchableHighlight>
-          </View>
-        </View>
-        <View style={styles.confirmButtonArea}>
-          <View style={styles.confirmButtonContainer}>
-            <TouchableHighlight
-              style={styles.confirmButtonTouchable}
-              onPress={values.acceptable ? onSubmitEditing : null}>
-              <View
-                style={[
-                  styles.confirmButton,
-                  // eslint-disable-next-line react-native/no-inline-styles
-                  {backgroundColor: values.acceptable ? '#17cf73' : '#CCCCCC'},
-                ]}>
-                <Image
-                  style={styles.confirmButtonIcon}
-                  source={icons.checkmark}
-                />
-              </View>
-            </TouchableHighlight>
-          </View>
-        </View>
-      </View>
-   */
 
   return (
     <View style={styles.mainContainer}>
@@ -281,67 +159,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
-  // buttonsContainer: {
-  //   width: 100,
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   flexDirection: 'row',
-  // },
-  // voiceInputButtonArea: {
-  //   flex: 1,
-  //   alignSelf: 'stretch',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
-  // voiceInputButtonContainer: {
-  //   width: 30,
-  //   height: 30,
-  // },
-  // voiceInputButtonTouchable: {
-  //   flex: 1,
-  //   alignSelf: 'stretch',
-  //   borderRadius: 15,
-  // },
-  // voiceInputButton: {
-  //   flex: 1,
-  //   alignSelf: 'stretch',
-  //   borderRadius: 15,
-  // },
-  // voiceInputButtonIcon: {
-  //   flex: 1,
-  //   width: undefined,
-  //   height: undefined,
-  //   resizeMode: 'contain',
-  // },
-  // confirmButtonArea: {
-  //   flex: 1,
-  //   alignSelf: 'stretch',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
-  // confirmButtonContainer: {
-  //   width: 30,
-  //   height: 30,
-  //   borderRadius: 4,
-  // },
-  // confirmButtonTouchable: {
-  //   flex: 1,
-  //   alignSelf: 'stretch',
-  //   borderRadius: 4,
-  // },
-  // confirmButton: {
-  //   flex: 1,
-  //   alignSelf: 'stretch',
-  //   backgroundColor: '#19e680',
-  //   borderRadius: 4,
-  //   padding: 6,
-  // },
-  // confirmButtonIcon: {
-  //   flex: 1,
-  //   width: undefined,
-  //   height: undefined,
-  //   resizeMode: 'contain',
-  // },
 });
 
 export default ProductMainInput;

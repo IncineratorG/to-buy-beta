@@ -10,29 +10,11 @@ import {SystemEventsHandler} from '../../../../../../../../utils/common/system-e
 import {icons} from '../../../../../../../../assets/icons';
 import Voice from '@react-native-community/voice';
 
-const ProductMainInputVoiceInputButton = ({
-  voiceInputAvailabilityChangeHandler,
-}) => {
+const ProductMainInputVoiceInputButton = () => {
   const voiceInputIconActive = icons.microphone_black;
   const voiceInputIconNonActive = icons.microphone_grey;
 
-  const [
-    hasSpeechRecognitionService,
-    setHasSpeechRecognitionService,
-  ] = useState(false);
   const [voiceInputActive, setVoiceInputActive] = useState(false);
-
-  const checkHasSpeechRecognitionService = async () => {
-    const services = await Voice.getSpeechRecognitionServices();
-
-    for (let i = 0; i < services.length; ++i) {
-      const service = services[i];
-      if (service === 'com.google.android.googlequicksearchbox') {
-        setHasSpeechRecognitionService(true);
-        break;
-      }
-    }
-  };
 
   const askForAudioRecordingPermission = async () => {
     const userResponse = await PermissionsAndroid.request(
@@ -96,18 +78,6 @@ const ProductMainInputVoiceInputButton = ({
       setVoiceInputActive(false);
     }
   };
-
-  useEffect(() => {
-    checkHasSpeechRecognitionService();
-  }, []);
-
-  useEffect(() => {
-    if (hasSpeechRecognitionService) {
-      voiceInputAvailabilityChangeHandler(true);
-    } else {
-      voiceInputAvailabilityChangeHandler(false);
-    }
-  }, [voiceInputAvailabilityChangeHandler, hasSpeechRecognitionService]);
 
   useEffect(() => {
     Voice.onSpeechStart = onSpeechStart;
