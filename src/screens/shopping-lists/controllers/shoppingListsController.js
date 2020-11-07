@@ -67,35 +67,35 @@ export const useShoppingListsController = (model) => {
   };
 
   const shareListHandler = (listId) => {
-    // let availableServicesCount = 0;
-    // let onlyAvailableServiceType = '';
-    // model.data.shareServicesAvailabilityMap.forEach(
-    //   (isAvailable, serviceType) => {
-    //     if (isAvailable) {
-    //       ++availableServicesCount;
-    //       if (!onlyAvailableServiceType) {
-    //         onlyAvailableServiceType = serviceType;
-    //       }
-    //     }
-    //   },
-    // );
-    //
-    // if (availableServicesCount <= 0) {
-    //   SystemEventsHandler.onError({
-    //     err: 'shareListHandler()->NO_AVAILABLE_SHARE_SERVICES',
-    //   });
-    //   return;
-    // }
-    //
-    // if (availableServicesCount === 1) {
-    //   model.dispatch(
-    //     shareProductsListViaAppAction({
-    //       appType: onlyAvailableServiceType,
-    //       shoppingListId: listId,
-    //     }),
-    //   );
-    //   return;
-    // }
+    let availableServicesCount = 0;
+    let onlyAvailableServiceType = '';
+    model.data.shareServicesAvailabilityMap.forEach(
+      (isAvailable, serviceType) => {
+        if (isAvailable) {
+          ++availableServicesCount;
+          if (!onlyAvailableServiceType) {
+            onlyAvailableServiceType = serviceType;
+          }
+        }
+      },
+    );
+
+    if (availableServicesCount <= 0) {
+      SystemEventsHandler.onError({
+        err: 'shareListHandler()->NO_AVAILABLE_SHARE_SERVICES',
+      });
+      return;
+    }
+
+    if (availableServicesCount === 1) {
+      model.dispatch(
+        shareProductsListViaAppAction({
+          appType: onlyAvailableServiceType,
+          shoppingListId: listId,
+        }),
+      );
+      return;
+    }
 
     model.setters.setListIdToShare(listId);
     model.setters.setShareDialogVisible(true);

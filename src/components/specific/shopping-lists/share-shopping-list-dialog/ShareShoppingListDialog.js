@@ -93,32 +93,53 @@ const ShareShoppingListDialog = ({
       <ScrollView
         contentContainerStyle={styles.mainContainer}
         horizontal={true}>
-        <View style={styles.smsIconArea}>
+        <View
+          style={[styles.smsIconArea, {elevation: smsShareSupported ? 4 : 0}]}>
           <TouchableHighlight
             style={styles.smsIconTouchable}
             onPress={smsShareSupported ? smsOptionPressHandler : null}
             underlayColor={'grey'}>
-            <View style={styles.smsIconContainer}>
+            <View
+              style={[
+                styles.smsIconContainer,
+                {opacity: smsShareSupported ? 1.0 : 0.15},
+              ]}>
               <Image style={styles.smsIcon} source={icons.sms} />
             </View>
           </TouchableHighlight>
         </View>
-        <View style={styles.whatsAppIconArea}>
+        <View
+          style={[
+            styles.whatsAppIconArea,
+            {elevation: whatsAppShareSupported ? 4 : 0},
+          ]}>
           <TouchableHighlight
             style={styles.whatsAppIconTouchable}
             onPress={whatsAppShareSupported ? whatsAppOptionPressHandler : null}
             underlayColor={'grey'}>
-            <View style={styles.whatsAppIconContainer}>
+            <View
+              style={[
+                styles.whatsAppIconContainer,
+                {opacity: whatsAppShareSupported ? 1.0 : 0.15},
+              ]}>
               <Image style={styles.whatsAppIcon} source={icons.whatsapp} />
             </View>
           </TouchableHighlight>
         </View>
-        <View style={styles.telegramIconArea}>
+        <View
+          style={[
+            styles.telegramIconArea,
+            {elevation: telegramShareSupported ? 4 : 0},
+          ]}>
           <TouchableHighlight
             style={styles.telegramIconTouchable}
             onPress={telegramShareSupported ? telegramOptionPressHandler : null}
             underlayColor={'grey'}>
-            <View style={styles.telegramIconContainer}>
+            <View
+              style={[
+                styles.telegramIconContainer,
+                {opacity: telegramShareSupported ? 1.0 : 0.15},
+              ]}>
               <Image style={styles.telegramIcon} source={icons.telegram} />
             </View>
           </TouchableHighlight>
