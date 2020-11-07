@@ -1,21 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, Image, TouchableHighlight} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {icons} from '../../../../assets/icons';
 import ShareServiceAppTypes from '../../../../services/share/data/share-app-types/ShareServiceAppTypes';
+import ShareOption from './ShareOption';
 
 const SharePanel = ({
   visible,
   shareServicesAvailabilityMap,
   onShareServicePress,
 }) => {
-  const [smsShareSupported, setSmsShareSupported] = useState(false);
-  const [whatsAppShareSupported, setWhatsAppShareSupported] = useState(false);
-
-  const whatsAppPressHandler = () => {
-    if (onShareServicePress) {
-      onShareServicePress({serviceType: ShareServiceAppTypes.WHATS_APP});
-    }
-  };
+  const [supportedOptionsCount, setSupportedOptionsCount] = useState(0);
+  const [smsShareSupported, setSmsShareSupported] = useState(true);
+  const [whatsAppShareSupported, setWhatsAppShareSupported] = useState(true);
+  const [telegramShareSupported, setTelegramShareSupported] = useState(true);
 
   const smsPressHandler = () => {
     if (onShareServicePress) {
@@ -23,49 +20,36 @@ const SharePanel = ({
     }
   };
 
-  let optionsCount = 2;
-  if (whatsAppShareSupported && smsShareSupported) {
-    optionsCount = 2;
-  } else if (whatsAppShareSupported || smsShareSupported) {
-    optionsCount = 1;
-  } else {
-    optionsCount = 0;
-  }
+  const whatsAppPressHandler = () => {
+    if (onShareServicePress) {
+      onShareServicePress({serviceType: ShareServiceAppTypes.WHATS_APP});
+    }
+  };
 
-  const whatsAppComponent = whatsAppShareSupported ? (
-    <View style={styles.whatsAppShareOptionsContainer}>
-      <TouchableHighlight
-        style={styles.whatsAppShareButtonTouchable}
-        underlayColor={'lightgrey'}
-        onPress={whatsAppPressHandler}>
-        <View style={styles.whatsAppShareButton}>
-          <Image style={styles.whatsAppIcon} source={icons.whatsapp} />
-        </View>
-      </TouchableHighlight>
-    </View>
-  ) : null;
-
-  const smsComponent = smsShareSupported ? (
-    <View style={styles.smsShareOptionContainer}>
-      <TouchableHighlight
-        style={styles.smsShareButtonTouchable}
-        underlayColor={'lightgrey'}
-        onPress={smsPressHandler}>
-        <View style={styles.smsShareButton}>
-          <Image style={styles.smsIcon} source={icons.sms} />
-        </View>
-      </TouchableHighlight>
-    </View>
-  ) : null;
-
-  const spacer = <View style={styles.spacer} />;
+  const telegramPressHandler = () => {
+    if (onShareServicePress) {
+      onShareServicePress({serviceType: ShareServiceAppTypes.TELEGRAM});
+    }
+  };
 
   useEffect(() => {
+    let availableServicesCount = 0;
+    shareServicesAvailabilityMap.forEach((isAvailable, serviceType) => {
+      if (isAvailable) {
+        ++availableServicesCount;
+      }
+    });
+
+    setSupportedOptionsCount(availableServicesCount);
+
     setSmsShareSupported(
       shareServicesAvailabilityMap.get(ShareServiceAppTypes.SMS),
     );
     setWhatsAppShareSupported(
       shareServicesAvailabilityMap.get(ShareServiceAppTypes.WHATS_APP),
+    );
+    setTelegramShareSupported(
+      shareServicesAvailabilityMap.get(ShareServiceAppTypes.TELEGRAM),
     );
   }, [shareServicesAvailabilityMap]);
 
@@ -73,13 +57,34 @@ const SharePanel = ({
     return null;
   }
 
+  const smsOptionComponent = smsShareSupported ? (
+    <ShareOption
+      icon={icons.sms}
+      iconStyles={styles.smsOptionIcon}
+      onOptionPress={smsPressHandler}
+    />
+  ) : null;
+  const whatsAppOptionComponent = whatsAppShareSupported ? (
+    <ShareOption
+      icon={icons.whatsapp}
+      iconStyles={styles.whatsAppOptionIcon}
+      onOptionPress={whatsAppPressHandler}
+    />
+  ) : null;
+  const telegramOptionComponent = telegramShareSupported ? (
+    <ShareOption
+      icon={icons.telegram}
+      iconStyles={styles.telegramOptionIcon}
+      onOptionPress={telegramPressHandler}
+    />
+  ) : null;
+
   return (
-    <View
-      style={[styles.mainContainer, {height: optionsCount === 2 ? 130 : 65}]}>
+    <View style={[styles.mainContainer, {height: 60 * supportedOptionsCount}]}>
       <View style={styles.shareOptionsContainer}>
-        {whatsAppComponent}
-        {spacer}
-        {smsComponent}
+        {smsOptionComponent}
+        {whatsAppOptionComponent}
+        {telegramOptionComponent}
       </View>
     </View>
   );
@@ -96,56 +101,16 @@ const styles = StyleSheet.create({
   shareOptionsContainer: {
     flex: 1,
     alignSelf: 'stretch',
+    flexDirection: 'column-reverse',
   },
-  whatsAppShareOptionsContainer: {
-    alignSelf: 'stretch',
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
+  smsOptionIcon: {
+    transform: [{scale: 0.9}],
   },
-  whatsAppShareButtonTouchable: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-  },
-  whatsAppShareButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 10,
-  },
-  whatsAppIcon: {
+  whatsAppOptionIcon: {
     transform: [{scale: 0.5}],
   },
-  spacer: {
-    flex: 1,
-    alignSelf: 'stretch',
-  },
-  smsShareOptionContainer: {
-    alignSelf: 'stretch',
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  smsShareButtonTouchable: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-  },
-  smsShareButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 10,
-    paddingTop: 7,
-    // backgroundColor: 'red',
-  },
-  smsIcon: {
-    transform: [{scale: 0.9}],
+  telegramOptionIcon: {
+    transform: [{scale: 0.5}],
   },
 });
 
