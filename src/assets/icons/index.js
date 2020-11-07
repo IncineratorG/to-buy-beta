@@ -15,6 +15,7 @@ const icons = {
   share: require('./images/share.png'),
   whatsapp: require('./images/whatsapp.png'),
   sms: require('./images/sms.png'),
+  telegram: require('./images/telegram.png'),
   progress_grey: require('./images/progress_grey.png'),
   progress_white: require('./images/progress_white.png'),
   microphone_black: require('./images/microphone_black.png'),
