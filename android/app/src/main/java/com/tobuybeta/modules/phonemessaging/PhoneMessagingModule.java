@@ -26,8 +26,10 @@ public class PhoneMessagingModule extends ReactContextBaseJavaModule {
 
     private static final String SMS = "sms";
     private static final String WHATS_APP = "whatsApp";
+    private static final String TELEGRAM = "telegram";
 
     private static final String WHATS_APP_URI = "com.whatsapp";
+    private static final String TELEGRAM_URI = "org.telegram.messenger";
 
     public PhoneMessagingModule(@NonNull ReactApplicationContext reactContext) {
         super(reactContext);
@@ -42,16 +44,22 @@ public class PhoneMessagingModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void checkServicesAvailability(Promise promise) {
         Map<String, Boolean> hasWhatsAppData = hasApp(WHATS_APP_URI);
+        Map<String, Boolean> hasTelegramData = hasApp(TELEGRAM_URI);
 
         boolean smsAvailable = true;
         boolean whatsAppAvailable = false;
         if (hasWhatsAppData.containsKey(RESULT_FIELD)) {
             whatsAppAvailable = hasWhatsAppData.get(RESULT_FIELD);
         }
+        boolean telegramAvailable = false;
+        if (hasTelegramData.containsKey(RESULT_FIELD)) {
+            telegramAvailable = hasTelegramData.get(RESULT_FIELD);
+        }
 
         WritableMap resultMap = new WritableNativeMap();
         resultMap.putBoolean(SMS, smsAvailable);
         resultMap.putBoolean(WHATS_APP, whatsAppAvailable);
+        resultMap.putBoolean(TELEGRAM, telegramAvailable);
 
         promise.resolve(resultMap);
     }
@@ -91,7 +99,31 @@ public class PhoneMessagingModule extends ReactContextBaseJavaModule {
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.setPackage("com.whatsapp");
+        intent.setPackage(WHATS_APP_URI);
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        if (intent.resolveActivity(packageManager) == null) {
+            result.reject("ERROR", "UNABLE_TO_RESOLVE_ACTIVITY");
+            return;
+        }
+
+        currentActivity.startActivity(intent);
+
+        result.resolve(null);
+    }
+
+    @ReactMethod
+    public void sendTelegramMessage(String text, Promise result) {
+        Activity currentActivity = getCurrentActivity();
+        if (currentActivity == null) {
+            result.reject("ERROR", "UNABLE_TO_ACQUIRE_CURRENT_ACTIVITY");
+            return;
+        }
+
+        PackageManager packageManager = getReactApplicationContext().getPackageManager();
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.setPackage(TELEGRAM_URI);
         intent.putExtra(Intent.EXTRA_TEXT, text);
         if (intent.resolveActivity(packageManager) == null) {
             result.reject("ERROR", "UNABLE_TO_RESOLVE_ACTIVITY");

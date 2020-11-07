@@ -27,7 +27,11 @@ export class ShareService {
   }
 
   static async checkAvailability() {
-    const {sms, whatsApp} = await PhoneMessaging.checkServicesAvailability();
+    const {
+      sms,
+      whatsApp,
+      telegram,
+    } = await PhoneMessaging.checkServicesAvailability();
 
     ShareService.#shareServicesAvailabilityMap.clear();
     ShareService.#shareServicesAvailabilityMap.set(
@@ -37,6 +41,10 @@ export class ShareService {
     ShareService.#shareServicesAvailabilityMap.set(
       ShareServiceAppTypes.WHATS_APP,
       whatsApp,
+    );
+    ShareService.#shareServicesAvailabilityMap.set(
+      ShareServiceAppTypes.TELEGRAM,
+      telegram,
     );
   }
 
@@ -76,6 +84,20 @@ export class ShareService {
             err:
               ShareService.#className +
               '->shareViaWhatsApp()->ERROR: ' +
+              e.toString(),
+          });
+        }
+        break;
+      }
+
+      case ShareServiceAppTypes.TELEGRAM: {
+        try {
+          await PhoneMessaging.sendTelegramMessage(text);
+        } catch (e) {
+          SystemEventsHandler.onError({
+            err:
+              ShareService.#className +
+              '->shareViaTelegram()->ERROR: ' +
               e.toString(),
           });
         }
