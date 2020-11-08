@@ -9,16 +9,10 @@ import {
   SHARE_PRODUCTS_LIST_VIA_APP_FINISHED,
 } from '../../types/share/shareTypes';
 
-export const setShareAvailabilityAction = ({
-  smsSharingSupported,
-  whatsAppSharingSupported,
-  shareServiceAvailabilityMap,
-}) => {
+export const setShareAvailabilityAction = ({shareServiceAvailabilityMap}) => {
   return {
     type: SET_SHARE_AVAILABILITY,
     payload: {
-      smsSharingSupported,
-      whatsAppSharingSupported,
       shareServiceAvailabilityMap,
     },
   };

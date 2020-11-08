@@ -10,7 +10,6 @@ import {loadCategoriesAction} from '../../../store/actions/categories/categories
 import {loadUnitsAction} from '../../../store/actions/units/unitsActions';
 import {shareProductsListViaAppAction} from '../../../store/actions/share/shareActions';
 import {setSystemLanguageAction} from '../../../store/actions/system/systemActions';
-import ShareServiceAppTypes from '../../../services/share/data/share-app-types/ShareServiceAppTypes';
 
 export const useShoppingListsController = (model) => {
   const listItemPressHandler = (listItemId) => {
