@@ -108,7 +108,7 @@ export class ShareService {
         SystemEventsHandler.onError({
           err:
             ShareService.#className +
-            '->shareViaWhatsApp()->ERROR->UNKNOWN_APP_TYPE: ' +
+            '->shareViaApp()->ERROR->UNKNOWN_APP_TYPE: ' +
             appType,
         });
       }

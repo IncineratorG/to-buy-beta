@@ -10,7 +10,7 @@ const AppLoading = () => {
           <Image
             style={styles.appIcon}
             // resizeMode="contain"
-            source={icons.app_icon}
+            source={icons.app_icon_v2}
           />
         </View>
       </View>
@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   iconInnerContainer: {
-    width: 100,
-    height: 100,
+    width: 90,
+    height: 90,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white',
@@ -44,9 +44,15 @@ const styles = StyleSheet.create({
     borderColor: '#c7ede6',
     borderWidth: 1,
     elevation: 4,
+    // paddingRight: 10,
+    // backgroundColor: '#c7ede6',
   },
   appIcon: {
-    transform: [{scale: 0.8}],
+    transform: [{scale: 0.55}],
+    // tintColor: 'yellow',
+    // borderRadius: 50,
+    // borderColor: 'green',
+    // borderWidth: 1,
   },
   nameOuterContainer: {
     height: 50,

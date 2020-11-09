@@ -23,7 +23,6 @@ import {
 import ProductStatus from '../../../../services/shopping-list/data/product-status/ProductStatus';
 import {shareProductsListViaAppAction} from '../../../../store/actions/share/shareActions';
 import {locateProductAction} from '../../../../store/actions/products-location/productsLocationActions';
-import ShareServiceAppTypes from '../../../../services/share/data/share-app-types/ShareServiceAppTypes';
 
 export const useProductsListController = (model) => {
   const backButtonPressHandler = () => {
