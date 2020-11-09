@@ -16,6 +16,7 @@ import {
   clearProductSuggestionsAction,
   suggestProductsAction,
 } from '../../../../../store/actions/product-suggestion/productSuggestionActions';
+import {TestProductSuggester} from './TestProductSuggester';
 
 export const useProductInputAreaController = (model) => {
   const productNameTypePressHandler = useCallback(() => {
@@ -70,6 +71,10 @@ export const useProductInputAreaController = (model) => {
       categoryId,
     });
     model.localDispatch(piaa_submitValues());
+
+    // ===
+    TestProductSuggester.suggest();
+    // ===
   };
 
   const changeInputTextHandler = useCallback(({text, inputType}) => {
