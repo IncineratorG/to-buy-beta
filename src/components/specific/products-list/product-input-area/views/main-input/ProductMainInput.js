@@ -119,7 +119,7 @@ const ProductMainInput = ({
           keyboardType={keyboardType}
           blurOnSubmit={false}
           placeholder={t(placeholder)}
-          fontSize={18}
+          fontSize={17}
           onSubmitEditing={onSubmitEditing}
           onChangeText={changeTextHandler}
         />

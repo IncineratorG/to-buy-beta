@@ -18,6 +18,12 @@ const productInputAreaState = {
     productSuggestions: {
       suggestions: [],
     },
+    suggestions: {
+      // productSuggestions: ['First', 'Second', 'Third'],
+      productSuggestions: [],
+      // noteSuggestions: ['Suggestion'],
+      noteSuggestions: [],
+    },
     voiceInput: {
       serviceAvailable: false,
     },
