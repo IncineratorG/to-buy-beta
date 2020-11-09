@@ -1,5 +1,6 @@
 const icons = {
   app_icon: require('./images/app_icon.png'),
+  app_icon_v2: require('./images/app_icon_v2.png'),
   cart: require('./images/cart.png'),
   cross: require('./images/cross.png'),
   cross_grey: require('./images/cross_grey.png'),
