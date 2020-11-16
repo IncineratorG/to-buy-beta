@@ -450,7 +450,7 @@ const ProductsListView = ({styles, model, controller}) => {
         unitsList={unitsList}
         unitsMap={unitsMap}
         allUnitsMap={allUnitsMap}
-        productsList={products}
+        // productsList={products}
       />
     </View>
   ) : null;

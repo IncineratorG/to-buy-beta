@@ -32,7 +32,7 @@ export const useProductInputAreaModel = ({
   unitsList,
   unitsMap,
   allUnitsMap,
-  productsList,
+  // productsList,
 }) => {
   const [extendedUnitsList, setExtendedUnitsList] = useState(null);
   const [extendedCategoriesList, setExtendedCategoriesList] = useState(null);
@@ -46,6 +46,9 @@ export const useProductInputAreaModel = ({
 
   const productSuggestions = useSelector(
     (appState) => appState.productSuggestion.productSuggestions.suggestions,
+  );
+  const productsList = useSelector(
+    (storeState) => storeState.productsList.productsList.products,
   );
 
   useEffect(() => {
@@ -168,6 +171,10 @@ export const useProductInputAreaModel = ({
   useEffect(() => {
     localDispatch(piaa_setCurrentProductsList({productsList}));
   }, [productsList]);
+
+  // useEffect(() => {
+  //   SystemEventsHandler.onInfo({info: 'WILL_ASK_FOR_SUGGESTIONS'});
+  // }, []);
 
   // useEffect(() => {
   //   const getSpeechRecognitionServices = async () => {

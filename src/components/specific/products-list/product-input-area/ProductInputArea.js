@@ -19,7 +19,7 @@ const ProductInputArea = ({
   unitsList,
   unitsMap,
   allUnitsMap,
-  productsList,
+  // productsList,
 }) => {
   const styles = productInputAreaStyles;
   const model = useProductInputAreaModel({
@@ -37,7 +37,7 @@ const ProductInputArea = ({
     unitsList,
     unitsMap,
     allUnitsMap,
-    productsList,
+    // productsList,
   });
   const controller = useProductInputAreaController(model);
 

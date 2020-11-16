@@ -12,10 +12,7 @@ import {
   piaa_submitValues,
 } from '../stores/productInputAreaActions';
 import ProductInputType from '../stores/types/productInputAreaProductInputTypes';
-import {
-  clearProductSuggestionsAction,
-  suggestProductsAction,
-} from '../../../../../store/actions/product-suggestion/productSuggestionActions';
+import {clearProductSuggestionsAction} from '../../../../../store/actions/product-suggestion/productSuggestionActions';
 import {TestProductSuggester} from './TestProductSuggester';
 
 export const useProductInputAreaController = (model) => {
