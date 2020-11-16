@@ -8,14 +8,14 @@ import Services from '../../../../services/Services';
 // } from '../../../actions/product-suggestion/productSuggestionActions';
 
 function* pss_suggestProductHandler(action) {
-  const {partialProductName, excludedProductNames} = action.payload;
+  const {partialProductName, excludedProductNamesSet} = action.payload;
 
   SystemEventsHandler.onInfo({
     info:
       'pss_suggestProductHandler(): ' +
       partialProductName +
       ' - ' +
-      excludedProductNames.length,
+      excludedProductNamesSet.size,
   });
 
   // yield put(suggestProductsBeginAction());

@@ -1,17 +1,6 @@
 import {
   CLEAR_PRODUCTS_SUGGESTIONS,
   SUGGEST_PRODUCTS,
-  SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST,
-  SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_BEGIN,
-  SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_ERROR,
-  SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_FINISHED,
-  SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT,
-  SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_BEGIN,
-  SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_ERROR,
-  SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_FINISHED,
-  SUGGEST_PRODUCTS_BEGIN,
-  SUGGEST_PRODUCTS_ERROR,
-  SUGGEST_PRODUCTS_FINISHED,
 } from '../../types/product-suggestion/productSuggestionTypes';
 
 export const clearProductSuggestionsAction = () => {
@@ -23,11 +12,11 @@ export const clearProductSuggestionsAction = () => {
 
 export const suggestProductsAction = ({
   partialProductName,
-  excludedProductNames,
+  excludedProductNamesSet,
 }) => {
   return {
     type: SUGGEST_PRODUCTS,
-    payload: {partialProductName, excludedProductNames},
+    payload: {partialProductName, excludedProductNamesSet},
   };
 };
 

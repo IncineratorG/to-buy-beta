@@ -33,6 +33,14 @@ class ProductSuggestionService {
       partialProductName,
     });
   }
+
+  // ===
+  static async makeSuggestion({partialProductName, excludedProductNamesSet}) {
+    SystemEventsHandler.onInfo({
+      info: 'ProductSuggestionService->makeSuggestion()',
+    });
+  }
+  // ===
 }
 
 export default ProductSuggestionService;
