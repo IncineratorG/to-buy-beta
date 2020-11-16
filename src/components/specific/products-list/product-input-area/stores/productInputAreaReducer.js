@@ -4,6 +4,7 @@ import {
   SELECT_PRODUCT_NOTE,
   SELECT_PRODUCT_QUANTITY,
   SET_CATEGORY,
+  SET_CURRENT_PRODUCTS_LIST,
   SET_NOTE,
   SET_PREDEFINED_DATA,
   SET_PREDEFINED_STATE,
@@ -46,6 +47,24 @@ function productInputAreaReducer(state, action) {
       return {...state, ...action.payload.state};
     }
 
+    case SET_CURRENT_PRODUCTS_LIST: {
+      const productsNamesSet = new Set();
+      action.payload.productsList.forEach((product) => {
+        productsNamesSet.add(product.name);
+      });
+
+      return {
+        ...state,
+        currentInput: {
+          ...state.currentInput,
+          productsList: action.payload.productsList
+            ? [...action.payload.productsList]
+            : [],
+          productsNamesSet,
+        },
+      };
+    }
+
     case SET_PREDEFINED_DATA: {
       const {name, quantity, note, unit, category} = action.payload;
 
@@ -62,6 +81,7 @@ function productInputAreaReducer(state, action) {
               productName: name,
               quantity,
               note,
+              productsNames: state.currentInput.productsNamesSet,
             }),
           },
           selectedCategory: {...category},
@@ -113,6 +133,7 @@ function productInputAreaReducer(state, action) {
       const productName = action.payload.name;
       const quantity = state.currentInput.values.quantity;
       const note = state.currentInput.values.note;
+      const productsNames = state.currentInput.productsNamesSet;
 
       return {
         ...state,
@@ -121,7 +142,12 @@ function productInputAreaReducer(state, action) {
           values: {
             ...state.currentInput.values,
             productName: action.payload.name,
-            acceptable: productInputAcceptable({productName, quantity, note}),
+            acceptable: productInputAcceptable({
+              productName,
+              quantity,
+              note,
+              productsNames,
+            }),
           },
         },
       };
@@ -131,6 +157,7 @@ function productInputAreaReducer(state, action) {
       const productName = state.currentInput.values.productName;
       const quantity = action.payload.quantity;
       const note = state.currentInput.values.note;
+      const productsNames = state.currentInput.productsNamesSet;
 
       return {
         ...state,
@@ -139,7 +166,12 @@ function productInputAreaReducer(state, action) {
           values: {
             ...state.currentInput.values,
             quantity: action.payload.quantity,
-            acceptable: productInputAcceptable({productName, quantity, note}),
+            acceptable: productInputAcceptable({
+              productName,
+              quantity,
+              note,
+              productsNames,
+            }),
           },
         },
       };
@@ -149,6 +181,7 @@ function productInputAreaReducer(state, action) {
       const productName = state.currentInput.values.productName;
       const quantity = state.currentInput.values.quantity;
       const note = action.payload.note;
+      const productsNames = state.currentInput.productsNamesSet;
 
       return {
         ...state,
@@ -157,7 +190,12 @@ function productInputAreaReducer(state, action) {
           values: {
             ...state.currentInput.values,
             note: action.payload.note,
-            acceptable: productInputAcceptable({productName, quantity, note}),
+            acceptable: productInputAcceptable({
+              productName,
+              quantity,
+              note,
+              productsNames,
+            }),
           },
         },
       };

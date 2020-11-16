@@ -7,6 +7,8 @@ const productInputAreaState = {
     keyboardType: 'default',
     icon: icons.title,
     placeholder: 'ProductMainInput_placeholderProductName',
+    productsList: [],
+    productsNamesSet: new Set(),
     values: {
       productName: '',
       quantity: '',
@@ -19,8 +21,8 @@ const productInputAreaState = {
       suggestions: [],
     },
     suggestions: {
-      // productSuggestions: ['First', 'Second', 'Third'],
-      productSuggestions: [],
+      productSuggestions: ['First', 'Second', 'Third'],
+      // productSuggestions: [],
       // noteSuggestions: ['Suggestion'],
       noteSuggestions: [],
     },

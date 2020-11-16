@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import ProductInputTypes from './input-types/ProductInputTypes';
 import ProductInputOptions from './input-options/ProductInputOptions';
 import ProductMainInput from './main-input/ProductMainInput';
 import {SystemEventsHandler} from '../../../../../utils/common/system-events-handler/SystemEventsHandler';
 import ProductInputType from '../stores/types/productInputAreaProductInputTypes';
-import ProductSuggestion from './suggestion/ProductSuggestion';
+// import ProductSuggestion from './suggestion/ProductSuggestion';
 import Suggestions from './suggestion/Suggestions';
 
 const ProductInputAreaView = ({styles, model, controller}) => {
@@ -32,9 +32,9 @@ const ProductInputAreaView = ({styles, model, controller}) => {
     unitPressHandler,
     unitLongPressHandler,
     addUnitPressHandler,
-    makeProductsSuggestion,
-    clearProductSuggestions,
-    productSuggestionPressHandler,
+    // makeProductsSuggestion,
+    // clearProductSuggestions,
+    // productSuggestionPressHandler,
   } = controller;
 
   const getExtraTopComponentHeight = () => {
@@ -70,6 +70,10 @@ const ProductInputAreaView = ({styles, model, controller}) => {
         } else {
           return 0;
         }
+      }
+
+      case ProductInputType.QUANTITY: {
+        return 0;
       }
 
       default: {
@@ -132,7 +136,7 @@ const ProductInputAreaView = ({styles, model, controller}) => {
         categoriesList={categoriesList}
         onConfirmPress={confirmInputButtonPressHandler}
         onChangeText={changeInputTextHandler}
-        onMakeProductsSuggestion={makeProductsSuggestion}
+        // onMakeProductsSuggestion={makeProductsSuggestion}
       />
     </View>
   );

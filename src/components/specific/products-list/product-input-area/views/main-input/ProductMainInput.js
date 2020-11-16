@@ -3,6 +3,7 @@ import {View, Image, TextInput, StyleSheet} from 'react-native';
 import {useTranslation} from '../../../../../../utils/common/localization';
 import ProductInputType from '../../stores/types/productInputAreaProductInputTypes';
 import ProductMainInputButtons from './buttons/ProductMainInputButtons';
+import {SystemEventsHandler} from '../../../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 const ProductMainInput = ({
   state,
@@ -10,7 +11,7 @@ const ProductMainInput = ({
   categoriesList,
   onConfirmPress,
   onChangeText,
-  onMakeProductsSuggestion,
+  // onMakeProductsSuggestion,
 }) => {
   const [canShowVoiceInput, setCanShowVoiceInput] = useState(false);
 
@@ -23,6 +24,7 @@ const ProductMainInput = ({
     selectedCategory,
     selectedUnit,
     voiceInput,
+    productsList,
   } = state.currentInput;
 
   let textInputValue = '';
@@ -82,9 +84,9 @@ const ProductMainInput = ({
       onChangeText({text, inputType: type});
     }
 
-    if (type === ProductInputType.PRODUCT_NAME) {
-      onMakeProductsSuggestion({partialProductName: text});
-    }
+    // if (type === ProductInputType.PRODUCT_NAME) {
+    //   onMakeProductsSuggestion({partialProductName: text});
+    // }
   };
 
   const buttonsComponent = (
@@ -103,6 +105,14 @@ const ProductMainInput = ({
       }
     }, 500);
   }, []);
+
+  // ===
+  useEffect(() => {
+    SystemEventsHandler.onInfo({
+      info: 'ProductMainInput->PRODUCTS_LIST_LENGTH: ' + productsList.length,
+    });
+  }, [productsList]);
+  // ===
 
   return (
     <View style={styles.mainContainer}>

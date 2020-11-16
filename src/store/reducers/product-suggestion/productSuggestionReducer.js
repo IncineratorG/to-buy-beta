@@ -1,5 +1,11 @@
 import {
   CLEAR_PRODUCTS_SUGGESTIONS,
+  SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_BEGIN,
+  SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_ERROR,
+  SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_FINISHED,
+  SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_BEGIN,
+  SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_ERROR,
+  SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_FINISHED,
   SUGGEST_PRODUCTS_BEGIN,
   SUGGEST_PRODUCTS_ERROR,
   SUGGEST_PRODUCTS_FINISHED,
@@ -85,6 +91,50 @@ export const productSuggestionReducer = (state = initialState, action) => {
         },
       };
     }
+
+    // ===
+    case SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_BEGIN: {
+      SystemEventsHandler.onInfo({
+        info: 'SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_BEGIN',
+      });
+      return state;
+    }
+
+    case SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_FINISHED: {
+      SystemEventsHandler.onInfo({
+        info: 'SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_FINISHED',
+      });
+      return state;
+    }
+
+    case SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_ERROR: {
+      SystemEventsHandler.onInfo({
+        info: 'SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_ERROR',
+      });
+      return state;
+    }
+
+    case SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_BEGIN: {
+      SystemEventsHandler.onInfo({
+        info: 'SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_BEGIN',
+      });
+      return state;
+    }
+
+    case SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_FINISHED: {
+      SystemEventsHandler.onInfo({
+        info: 'SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_FINISHED',
+      });
+      return state;
+    }
+
+    case SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_ERROR: {
+      SystemEventsHandler.onInfo({
+        info: 'SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_ERROR',
+      });
+      return state;
+    }
+    // ===
 
     default: {
       return state;

@@ -4,6 +4,7 @@ import {
   SELECT_PRODUCT_NOTE,
   SELECT_PRODUCT_QUANTITY,
   SET_CATEGORY,
+  SET_CURRENT_PRODUCTS_LIST,
   SET_NOTE,
   SET_PREDEFINED_DATA,
   SET_PREDEFINED_STATE,
@@ -19,6 +20,13 @@ export const piaa_hideInputArea = () => {
   return {
     type: HIDE_INPUT_AREA,
     payload: undefined,
+  };
+};
+
+export const piaa_setCurrentProductsList = ({productsList}) => {
+  return {
+    type: SET_CURRENT_PRODUCTS_LIST,
+    payload: {productsList},
   };
 };
 

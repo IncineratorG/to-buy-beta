@@ -73,7 +73,7 @@ export const useProductInputAreaController = (model) => {
     model.localDispatch(piaa_submitValues());
 
     // ===
-    TestProductSuggester.suggest();
+    // TestProductSuggester.suggest();
     // ===
   };
 
@@ -141,41 +141,49 @@ export const useProductInputAreaController = (model) => {
     });
   };
 
-  const makeProductsSuggestion = useCallback(({partialProductName}) => {
-    model.dispatch(suggestProductsAction({partialProductName}));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // const makeProductsSuggestion = useCallback(({partialProductName}) => {
+  //   model.dispatch(suggestProductsAction({partialProductName}));
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
-  const clearProductSuggestions = useCallback(() => {
-    model.dispatch(clearProductSuggestionsAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // const clearProductSuggestions = useCallback(() => {
+  //   model.dispatch(clearProductSuggestionsAction());
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
-  const productSuggestionPressHandler = ({suggestion}) => {
-    if (!suggestion) {
-      return;
-    }
+  // const productSuggestionPressHandler = ({suggestion}) => {
+  //   if (!suggestion) {
+  //     return;
+  //   }
+  //
+  //   const {productName, unitId, categoryId} = suggestion;
+  //
+  //   if (productName) {
+  //     model.localDispatch(piaa_setProductName({name: productName}));
+  //   }
+  //   if (unitId) {
+  //     const unit = model.data.unitsMap.get(unitId);
+  //     if (unit) {
+  //       model.localDispatch(piaa_setUnit({unit}));
+  //     }
+  //   }
+  //   if (categoryId) {
+  //     const category = model.data.categoriesMap.get(categoryId);
+  //     if (category) {
+  //       model.localDispatch(piaa_setCategory({category}));
+  //     }
+  //   }
+  //
+  //   model.dispatch(clearProductSuggestionsAction());
+  // };
 
-    const {productName, unitId, categoryId} = suggestion;
-
-    if (productName) {
-      model.localDispatch(piaa_setProductName({name: productName}));
-    }
-    if (unitId) {
-      const unit = model.data.unitsMap.get(unitId);
-      if (unit) {
-        model.localDispatch(piaa_setUnit({unit}));
-      }
-    }
-    if (categoryId) {
-      const category = model.data.categoriesMap.get(categoryId);
-      if (category) {
-        model.localDispatch(piaa_setCategory({category}));
-      }
-    }
-
-    model.dispatch(clearProductSuggestionsAction());
+  // ===
+  const suggestRandomProductsHandler = () => {
+    SystemEventsHandler.onInfo({info: 'suggestRandomProductsHandler()'});
   };
+
+  // const suggest
+  // ===
 
   // const categoriesListScrollHandler = useCallback((e) => {
   //   // SystemEventsHandler.onInfo({
@@ -195,8 +203,8 @@ export const useProductInputAreaController = (model) => {
     unitPressHandler,
     unitLongPressHandler,
     addUnitPressHandler,
-    makeProductsSuggestion,
-    clearProductSuggestions,
-    productSuggestionPressHandler,
+    // makeProductsSuggestion,
+    // clearProductSuggestions,
+    // productSuggestionPressHandler,
   };
 };

@@ -1,6 +1,15 @@
-const productInputAcceptable = ({productName, quantity, note}) => {
+const productInputAcceptable = ({
+  productName,
+  quantity,
+  note,
+  productsNames,
+}) => {
   if (productName && productName.length) {
-    return true;
+    if (productsNames) {
+      return !productsNames.has(productName);
+    } else {
+      return true;
+    }
   }
 
   return false;

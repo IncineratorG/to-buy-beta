@@ -1,6 +1,14 @@
 import {
   CLEAR_PRODUCTS_SUGGESTIONS,
   SUGGEST_PRODUCTS,
+  SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST,
+  SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_BEGIN,
+  SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_ERROR,
+  SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_FINISHED,
+  SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT,
+  SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_BEGIN,
+  SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_ERROR,
+  SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_FINISHED,
   SUGGEST_PRODUCTS_BEGIN,
   SUGGEST_PRODUCTS_ERROR,
   SUGGEST_PRODUCTS_FINISHED,
@@ -37,6 +45,73 @@ export const suggestProductsFinishedAction = ({suggestedProductsData}) => {
 export const suggestProductsErrorAction = ({description}) => {
   return {
     type: SUGGEST_PRODUCTS_ERROR,
+    payload: {error: {description}},
+  };
+};
+
+export const suggestProductsBasedOnCurrentProductsListAction = ({
+  productsList,
+}) => {
+  return {
+    type: SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST,
+    payload: {productsList},
+  };
+};
+
+export const suggestProductsBasedOnCurrentProductsListBeginAction = () => {
+  return {
+    type: SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_BEGIN,
+    payload: undefined,
+  };
+};
+
+export const suggestProductsBasedOnCurrentProductsListFinishedAction = ({
+  suggestedProductsData,
+}) => {
+  return {
+    type: SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_FINISHED,
+    payload: {suggestedProductsData},
+  };
+};
+
+export const suggestProductsBasedOnCurrentProductsListErrorAction = ({
+  description,
+}) => {
+  return {
+    type: SUGGEST_PRODUCTS_BASED_ON_CURRENT_PRODUCTS_LIST_ERROR,
+    payload: {error: {description}},
+  };
+};
+
+export const suggestProductsBasedOnPartialInputAction = ({
+  partialProductName,
+}) => {
+  return {
+    type: SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT,
+    payload: {partialProductName},
+  };
+};
+
+export const suggestProductsBasedOnPartialInputBeginAction = () => {
+  return {
+    type: SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_BEGIN,
+    payload: undefined,
+  };
+};
+
+export const suggestProductsBasedOnPartialInputFinishedAction = ({
+  suggestedProductsData,
+}) => {
+  return {
+    type: SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_FINISHED,
+    payload: {suggestedProductsData},
+  };
+};
+export const suggestProductsBasedOnPartialInputErrorAction = ({
+  description,
+}) => {
+  return {
+    type: SUGGEST_PRODUCTS_BASED_ON_PARTIAL_INPUT_ERROR,
     payload: {error: {description}},
   };
 };

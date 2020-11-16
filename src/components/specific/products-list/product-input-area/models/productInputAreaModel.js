@@ -6,6 +6,7 @@ import productInputAreaState from '../stores/productInputAreaState';
 import {
   piaa_hideInputArea,
   piaa_setCategory,
+  piaa_setCurrentProductsList,
   piaa_setPredefinedData,
   piaa_setPredefinedState,
   piaa_setProductSuggestions,
@@ -31,6 +32,7 @@ export const useProductInputAreaModel = ({
   unitsList,
   unitsMap,
   allUnitsMap,
+  productsList,
 }) => {
   const [extendedUnitsList, setExtendedUnitsList] = useState(null);
   const [extendedCategoriesList, setExtendedCategoriesList] = useState(null);
@@ -162,6 +164,10 @@ export const useProductInputAreaModel = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unitsList]);
+
+  useEffect(() => {
+    localDispatch(piaa_setCurrentProductsList({productsList}));
+  }, [productsList]);
 
   // useEffect(() => {
   //   const getSpeechRecognitionServices = async () => {
