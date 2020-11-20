@@ -37,28 +37,42 @@ class FuseProductsSuggester {
     this.#productsNameSet.add(productData.productName.toLowerCase());
   }
 
-  static async suggest({partialProductName}) {
-    const searchResult = this.#fuse.search(partialProductName);
-
-    if (!searchResult.length) {
-      return [];
-    }
-
+  static async suggest({partialProductName, excludedProductNamesSet}) {
     const suggestions = [];
-    if (
-      searchResult[0].item.productName.toLowerCase() ===
-      partialProductName.toLowerCase()
-    ) {
-      return suggestions;
-    }
+    // if (!partialProductName) {
+    //
+    // }
 
-    suggestions.push(searchResult[0].item);
-    if (searchResult.length > 1) {
-      suggestions.push(searchResult[1].item);
-    }
+    // SystemEventsHandler.onInfo({info: })
+    this.#productsDataArray.forEach((productData) => {
+      SystemEventsHandler.onInfo({info: JSON.stringify(productData)});
+    });
 
     return suggestions;
   }
+
+  // static async suggest({partialProductName}) {
+  //   const searchResult = this.#fuse.search(partialProductName);
+  //
+  //   if (!searchResult.length) {
+  //     return [];
+  //   }
+  //
+  //   const suggestions = [];
+  //   if (
+  //     searchResult[0].item.productName.toLowerCase() ===
+  //     partialProductName.toLowerCase()
+  //   ) {
+  //     return suggestions;
+  //   }
+  //
+  //   suggestions.push(searchResult[0].item);
+  //   if (searchResult.length > 1) {
+  //     suggestions.push(searchResult[1].item);
+  //   }
+  //
+  //   return suggestions;
+  // }
 }
 
 export default FuseProductsSuggester;

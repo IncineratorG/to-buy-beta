@@ -62,7 +62,9 @@ export const productSuggestionReducer = (state = initialState, action) => {
           ...state.productSuggestions,
           randomSuggestions: {
             ...state.productSuggestions.randomSuggestions,
-            suggestions: [...action.payload.suggestedProductsData],
+            suggestions: action.payload.suggestedProductsData
+              ? [...action.payload.suggestedProductsData]
+              : [],
             inProgress: false,
             error: {
               hasError: false,
@@ -119,7 +121,9 @@ export const productSuggestionReducer = (state = initialState, action) => {
           ...state.productSuggestions,
           currentInputSuggestions: {
             ...state.productSuggestions.currentInputSuggestions,
-            suggestions: [...action.payload.suggestedProductsData],
+            suggestions: action.payload.suggestedProductsData
+              ? [...action.payload.suggestedProductsData]
+              : [],
             inProgress: false,
             error: {
               hasError: false,

@@ -40,12 +40,6 @@ class ProductSuggestionService {
     });
   }
 
-  static async suggest({partialProductName}) {
-    return await ProductSuggestionService.#suggester.suggest({
-      partialProductName,
-    });
-  }
-
   // ===
   static async makeSuggestion({partialProductName, excludedProductNamesSet}) {
     SystemEventsHandler.onInfo({
@@ -53,12 +47,25 @@ class ProductSuggestionService {
         'ProductSuggestionService->makeSuggestion(): ' +
         partialProductName +
         ' - ' +
-        excludedProductNamesSet.size,
+        excludedProductNamesSet.size +
+        ' - ' +
+        !partialProductName,
+    });
+
+    await ProductSuggestionService.#suggester.suggest({
+      partialProductName,
+      excludedProductNamesSet,
     });
 
     return [];
   }
   // ===
+
+  static async suggest({partialProductName}) {
+    return await ProductSuggestionService.#suggester.suggest({
+      partialProductName,
+    });
+  }
 }
 
 export default ProductSuggestionService;
