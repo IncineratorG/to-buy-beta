@@ -58,7 +58,7 @@ export const useProductInputAreaController = (model) => {
       return;
     }
 
-    model.dispatch(clearProductSuggestionsAction());
+    // model.dispatch(clearProductSuggestionsAction());
 
     model.externalHandlers.onSubmit({
       productName,

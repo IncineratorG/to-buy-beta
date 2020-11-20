@@ -1,6 +1,13 @@
 import {
   CLEAR_PRODUCTS_SUGGESTIONS,
-  SUGGEST_PRODUCTS,
+  SUGGEST_PRODUCTS_BASED_ON_INPUT,
+  SUGGEST_PRODUCTS_BASED_ON_INPUT_BEGIN,
+  SUGGEST_PRODUCTS_BASED_ON_INPUT_ERROR,
+  SUGGEST_PRODUCTS_BASED_ON_INPUT_FINISHED,
+  SUGGEST_RANDOM_PRODUCTS,
+  SUGGEST_RANDOM_PRODUCTS_BEGIN,
+  SUGGEST_RANDOM_PRODUCTS_ERROR,
+  SUGGEST_RANDOM_PRODUCTS_FINISHED,
 } from '../../types/product-suggestion/productSuggestionTypes';
 
 export const clearProductSuggestionsAction = () => {
@@ -10,13 +17,66 @@ export const clearProductSuggestionsAction = () => {
   };
 };
 
-export const suggestProductsAction = ({
+export const suggestProductsBasedOnInputAction = ({
   partialProductName,
   excludedProductNamesSet,
 }) => {
   return {
-    type: SUGGEST_PRODUCTS,
+    type: SUGGEST_PRODUCTS_BASED_ON_INPUT,
     payload: {partialProductName, excludedProductNamesSet},
+  };
+};
+
+export const suggestProductsBasedOnInputBeginAction = () => {
+  return {
+    type: SUGGEST_PRODUCTS_BASED_ON_INPUT_BEGIN,
+    payload: undefined,
+  };
+};
+
+export const suggestProductsBasedOnInputFinishedAction = ({
+  suggestedProductsData,
+}) => {
+  return {
+    type: SUGGEST_PRODUCTS_BASED_ON_INPUT_FINISHED,
+    payload: {suggestedProductsData},
+  };
+};
+
+export const suggestProductsBasedOnInputErrorAction = ({description}) => {
+  return {
+    type: SUGGEST_PRODUCTS_BASED_ON_INPUT_ERROR,
+    payload: {error: {description}},
+  };
+};
+
+export const suggestRandomProductsAction = ({excludedProductNamesSet}) => {
+  return {
+    type: SUGGEST_RANDOM_PRODUCTS,
+    payload: {excludedProductNamesSet},
+  };
+};
+
+export const suggestRandomProductsBeginAction = () => {
+  return {
+    type: SUGGEST_RANDOM_PRODUCTS_BEGIN,
+    payload: undefined,
+  };
+};
+
+export const suggestRandomProductsFinishedAction = ({
+  suggestedProductsData,
+}) => {
+  return {
+    type: SUGGEST_RANDOM_PRODUCTS_FINISHED,
+    payload: {suggestedProductsData},
+  };
+};
+
+export const suggestRandomProductsErrorAction = ({description}) => {
+  return {
+    type: SUGGEST_RANDOM_PRODUCTS_ERROR,
+    payload: {error: {description}},
   };
 };
 

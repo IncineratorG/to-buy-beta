@@ -14,7 +14,10 @@ import {
   piaa_setVoiceInputServiceAvailability,
 } from '../stores/productInputAreaActions';
 import {SystemEventsHandler} from '../../../../../utils/common/system-events-handler/SystemEventsHandler';
-import {clearProductSuggestionsAction} from '../../../../../store/actions/product-suggestion/productSuggestionActions';
+import {
+  clearProductSuggestionsAction,
+  suggestRandomProductsAction,
+} from '../../../../../store/actions/product-suggestion/productSuggestionActions';
 import Voice from '@react-native-community/voice';
 
 export const useProductInputAreaModel = ({
@@ -44,15 +47,26 @@ export const useProductInputAreaModel = ({
 
   const dispatch = useDispatch();
 
-  const productSuggestions = useSelector(
-    (appState) => appState.productSuggestion.productSuggestions.suggestions,
+  const currentInputProductSuggestions = useSelector(
+    (appState) =>
+      appState.productSuggestion.productSuggestions.currentInputSuggestions
+        .suggestions,
   );
+  const randomProductSuggestions = useSelector(
+    (appState) =>
+      appState.productSuggestion.productSuggestions.randomSuggestions
+        .suggestions,
+  );
+
+  // const productSuggestions = useSelector(
+  //   (appState) => appState.productSuggestion.productSuggestions.suggestions,
+  // );
   const productsList = useSelector(
     (storeState) => storeState.productsList.productsList.products,
   );
 
   useEffect(() => {
-    dispatch(clearProductSuggestionsAction());
+    // dispatch(clearProductSuggestionsAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -142,11 +156,11 @@ export const useProductInputAreaModel = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [predefinedState, predefinedData]);
 
-  useEffect(() => {
-    localDispatch(
-      piaa_setProductSuggestions({suggestions: productSuggestions}),
-    );
-  }, [productSuggestions]);
+  // useEffect(() => {
+  //   localDispatch(
+  //     piaa_setProductSuggestions({suggestions: productSuggestions}),
+  //   );
+  // }, [productSuggestions]);
 
   useEffect(() => {
     if (extendedCategoriesList) {
@@ -171,6 +185,21 @@ export const useProductInputAreaModel = ({
   useEffect(() => {
     localDispatch(piaa_setCurrentProductsList({productsList}));
   }, [productsList]);
+
+  useEffect(() => {
+    const productsNamesSet = new Set();
+    productsList.forEach((product) => {
+      productsNamesSet.add(product.name);
+    });
+    dispatch(
+      suggestRandomProductsAction({excludedProductNamesSet: productsNamesSet}),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productsList]);
+
+  // useEffect(() => {
+  //   dispatch(suggestRandomProductsAction({excludedProductNamesSet: }))
+  // }, [])
 
   // useEffect(() => {
   //   SystemEventsHandler.onInfo({info: 'WILL_ASK_FOR_SUGGESTIONS'});
