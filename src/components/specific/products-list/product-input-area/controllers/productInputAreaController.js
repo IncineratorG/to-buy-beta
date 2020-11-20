@@ -12,7 +12,10 @@ import {
   piaa_submitValues,
 } from '../stores/productInputAreaActions';
 import ProductInputType from '../stores/types/productInputAreaProductInputTypes';
-import {clearProductSuggestionsAction} from '../../../../../store/actions/product-suggestion/productSuggestionActions';
+import {
+  clearProductSuggestionsAction,
+  suggestProductsBasedOnInputAction,
+} from '../../../../../store/actions/product-suggestion/productSuggestionActions';
 import {TestProductSuggester} from './TestProductSuggester';
 
 export const useProductInputAreaController = (model) => {
@@ -68,16 +71,19 @@ export const useProductInputAreaController = (model) => {
       categoryId,
     });
     model.localDispatch(piaa_submitValues());
-
-    // ===
-    // TestProductSuggester.suggest();
-    // ===
   };
 
   const changeInputTextHandler = useCallback(({text, inputType}) => {
     switch (inputType) {
       case ProductInputType.PRODUCT_NAME: {
         model.localDispatch(piaa_setProductName({name: text}));
+        model.dispatch(
+          suggestProductsBasedOnInputAction({
+            partialProductName: text,
+            excludedProductNamesSet:
+              model.data.state.currentInput.productsNamesSet,
+          }),
+        );
         break;
       }
 

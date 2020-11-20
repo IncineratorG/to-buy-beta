@@ -49,8 +49,14 @@ class ProductSuggestionService {
   // ===
   static async makeSuggestion({partialProductName, excludedProductNamesSet}) {
     SystemEventsHandler.onInfo({
-      info: 'ProductSuggestionService->makeSuggestion()',
+      info:
+        'ProductSuggestionService->makeSuggestion(): ' +
+        partialProductName +
+        ' - ' +
+        excludedProductNamesSet.size,
     });
+
+    return [];
   }
   // ===
 }

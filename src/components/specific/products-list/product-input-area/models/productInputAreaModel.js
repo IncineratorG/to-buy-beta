@@ -18,7 +18,6 @@ import {
   clearProductSuggestionsAction,
   suggestRandomProductsAction,
 } from '../../../../../store/actions/product-suggestion/productSuggestionActions';
-import Voice from '@react-native-community/voice';
 
 export const useProductInputAreaModel = ({
   onInputAreaHide,
