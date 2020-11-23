@@ -17,9 +17,9 @@ class ProductSuggestionService {
     const productsData = await ProductSuggestionService.#productsDataStorage.getProductsData();
 
     // ===
-    // productsData.forEach((productData) => {
-    //   SystemEventsHandler.onInfo({info: JSON.stringify(productData)});
-    // });
+    productsData.forEach((productData) => {
+      SystemEventsHandler.onInfo({info: JSON.stringify(productData)});
+    });
     // ===
 
     await ProductSuggestionService.#suggester.init({
@@ -61,11 +61,11 @@ class ProductSuggestionService {
   }
   // ===
 
-  static async suggest({partialProductName}) {
-    return await ProductSuggestionService.#suggester.suggest({
-      partialProductName,
-    });
-  }
+  // static async suggest({partialProductName}) {
+  //   return await ProductSuggestionService.#suggester.suggest({
+  //     partialProductName,
+  //   });
+  // }
 }
 
 export default ProductSuggestionService;

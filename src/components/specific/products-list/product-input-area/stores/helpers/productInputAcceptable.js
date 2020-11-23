@@ -1,3 +1,5 @@
+import {SystemEventsHandler} from '../../../../../../utils/common/system-events-handler/SystemEventsHandler';
+
 const productInputAcceptable = ({
   productName,
   quantity,

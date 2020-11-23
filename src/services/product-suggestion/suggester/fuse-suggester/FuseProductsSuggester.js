@@ -38,20 +38,117 @@ class FuseProductsSuggester {
   }
 
   static async suggest({partialProductName, excludedProductNamesSet}) {
-    const suggestions = [];
-    // if (!partialProductName) {
-    //
-    // }
+    let suggestions = [];
 
-    // SystemEventsHandler.onInfo({info: })
-    this.#productsDataArray.forEach((productData) => {
-      SystemEventsHandler.onInfo({info: JSON.stringify(productData)});
+    const filteredProductsDataArray = this.#productsDataArray.filter(
+      (productData) => !excludedProductNamesSet.has(productData.productName),
+    );
+
+    if (partialProductName) {
+      suggestions = this.suggestByPartialProductName({
+        partialProductName,
+        productsDataArray: filteredProductsDataArray,
+      });
+    } else {
+      suggestions = this.suggestRandomProducts({
+        productsDataArray: filteredProductsDataArray,
+        numberOfProductsToSuggest: 10,
+      });
+    }
+
+    SystemEventsHandler.onInfo({
+      info: 'SUGGESTIONS_LENGTH: ' + suggestions.length,
     });
 
     return suggestions;
   }
 
-  // static async suggest({partialProductName}) {
+  static suggestRandomProducts({productsDataArray, numberOfProductsToSuggest}) {
+    SystemEventsHandler.onInfo({info: 'suggestRandomProducts()'});
+
+    // if (numberOfProductsToSuggest >= productsDataArray.length) {
+    //   return productsDataArray;
+    // }
+
+    const incrementValue = ({currentValue, minValue, maxValue}) => {
+      if (currentValue >= maxValue) {
+        currentValue = minValue;
+      } else {
+        currentValue = currentValue + 1;
+      }
+
+      return currentValue;
+    };
+
+    const checkIsValueAlreadyUsed = ({value, alreadyUsedValuesSet}) => {
+      return !!alreadyUsedValuesSet.has(value);
+    };
+
+    const incrementAndCheck = ({
+      currentValue,
+      alreadyUsedValuesSet,
+      minValue,
+      maxValue,
+    }) => {
+      let value = currentValue;
+      let cycleBreakCounter = 0;
+      while (true) {
+        value = incrementValue({currentValue: value, minValue, maxValue});
+        if (!checkIsValueAlreadyUsed({value, alreadyUsedValuesSet})) {
+          break;
+        }
+
+        ++cycleBreakCounter;
+        if (cycleBreakCounter >= maxValue) {
+          value = -1;
+          break;
+        }
+      }
+
+      return value;
+    };
+
+    const generatedNumbersArray = [];
+    const generatedNumbersSet = new Set();
+    for (let i = 0; i < numberOfProductsToSuggest; ++i) {
+      if (generatedNumbersSet.size >= productsDataArray.length) {
+        break;
+      }
+
+      let randomNumber = Math.floor(Math.random() * productsDataArray.length);
+      if (!generatedNumbersSet.has(randomNumber)) {
+        generatedNumbersArray.push(randomNumber);
+        generatedNumbersSet.add(randomNumber);
+      } else {
+        randomNumber = incrementAndCheck({
+          currentValue: randomNumber,
+          alreadyUsedValuesSet: generatedNumbersSet,
+          minValue: 0,
+          maxValue: productsDataArray.length,
+        });
+
+        if (randomNumber < 0) {
+          break;
+        } else {
+          generatedNumbersArray.push(randomNumber);
+          generatedNumbersSet.add(randomNumber);
+        }
+      }
+    }
+
+    SystemEventsHandler.onInfo({info: generatedNumbersArray});
+
+    return [];
+  }
+
+  static suggestByPartialProductName({partialProductName, productsDataArray}) {
+    this.#fuse.setCollection(productsDataArray);
+    const searchResult = this.#fuse.search(partialProductName);
+
+    return searchResult.slice(0, 3);
+  }
+
+  // static async suggest_old({partialProductName}) {
   //   const searchResult = this.#fuse.search(partialProductName);
   //
   //   if (!searchResult.length) {
