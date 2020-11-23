@@ -13,10 +13,10 @@ import {
 } from '../stores/productInputAreaActions';
 import ProductInputType from '../stores/types/productInputAreaProductInputTypes';
 import {
+  clearInputBasedProductsSuggestionsAction,
   clearProductSuggestionsAction,
   suggestProductsBasedOnInputAction,
 } from '../../../../../store/actions/product-suggestion/productSuggestionActions';
-import {TestProductSuggester} from './TestProductSuggester';
 
 export const useProductInputAreaController = (model) => {
   const productNameTypePressHandler = useCallback(() => {
@@ -147,55 +147,31 @@ export const useProductInputAreaController = (model) => {
     });
   };
 
-  // const makeProductsSuggestion = useCallback(({partialProductName}) => {
-  //   model.dispatch(suggestProductsAction({partialProductName}));
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  const productSuggestionPressHandler = ({suggestion}) => {
+    if (!suggestion) {
+      return;
+    }
 
-  // const clearProductSuggestions = useCallback(() => {
-  //   model.dispatch(clearProductSuggestionsAction());
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+    const {productName, unitId, categoryId} = suggestion;
 
-  // const productSuggestionPressHandler = ({suggestion}) => {
-  //   if (!suggestion) {
-  //     return;
-  //   }
-  //
-  //   const {productName, unitId, categoryId} = suggestion;
-  //
-  //   if (productName) {
-  //     model.localDispatch(piaa_setProductName({name: productName}));
-  //   }
-  //   if (unitId) {
-  //     const unit = model.data.unitsMap.get(unitId);
-  //     if (unit) {
-  //       model.localDispatch(piaa_setUnit({unit}));
-  //     }
-  //   }
-  //   if (categoryId) {
-  //     const category = model.data.categoriesMap.get(categoryId);
-  //     if (category) {
-  //       model.localDispatch(piaa_setCategory({category}));
-  //     }
-  //   }
-  //
-  //   model.dispatch(clearProductSuggestionsAction());
-  // };
+    if (productName) {
+      model.localDispatch(piaa_setProductName({name: productName}));
+    }
+    if (unitId) {
+      const unit = model.data.unitsMap.get(unitId);
+      if (unit) {
+        model.localDispatch(piaa_setUnit({unit}));
+      }
+    }
+    if (categoryId) {
+      const category = model.data.categoriesMap.get(categoryId);
+      if (category) {
+        model.localDispatch(piaa_setCategory({category}));
+      }
+    }
 
-  // ===
-  const suggestRandomProductsHandler = () => {
-    SystemEventsHandler.onInfo({info: 'suggestRandomProductsHandler()'});
+    model.dispatch(clearInputBasedProductsSuggestionsAction());
   };
-
-  // const suggest
-  // ===
-
-  // const categoriesListScrollHandler = useCallback((e) => {
-  //   // SystemEventsHandler.onInfo({
-  //   //   info: 'categoriesListScrollHandler: ' + e.nativeEvent.contentOffset.x,
-  //   // });
-  // }, []);
 
   return {
     productNameTypePressHandler,
@@ -211,6 +187,6 @@ export const useProductInputAreaController = (model) => {
     addUnitPressHandler,
     // makeProductsSuggestion,
     // clearProductSuggestions,
-    // productSuggestionPressHandler,
+    productSuggestionPressHandler,
   };
 };

@@ -21,10 +21,10 @@ const productInputAreaState = {
       suggestions: [],
     },
     suggestions: {
-      productSuggestions: ['First', 'Second', 'Third'],
-      // productSuggestions: [],
-      // noteSuggestions: ['Suggestion'],
-      noteSuggestions: [],
+      productSuggestions: {
+        currentInputSuggestions: [],
+        randomSuggestions: [],
+      },
     },
     voiceInput: {
       serviceAvailable: false,

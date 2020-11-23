@@ -4,13 +4,14 @@ import {
   SELECT_PRODUCT_NOTE,
   SELECT_PRODUCT_QUANTITY,
   SET_CATEGORY,
+  SET_CURRENT_INPUT_PRODUCTS_SUGGESTIONS,
   SET_CURRENT_PRODUCTS_LIST,
   SET_NOTE,
   SET_PREDEFINED_DATA,
   SET_PREDEFINED_STATE,
   SET_PRODUCT_NAME,
-  SET_PRODUCT_SUGGESTIONS,
   SET_QUANTITY,
+  SET_RANDOM_PRODUCTS_SUGGESTIONS,
   SET_UNIT,
   SET_VOICE_INPUT_SERVICE_AVAILABILITY,
   SUBMIT_VALUES,
@@ -113,16 +114,30 @@ export const piaa_submitValues = () => {
   };
 };
 
-export const piaa_setProductSuggestions = ({suggestions}) => {
-  return {
-    type: SET_PRODUCT_SUGGESTIONS,
-    payload: {suggestions},
-  };
-};
+// export const piaa_setProductSuggestions = ({suggestions}) => {
+//   return {
+//     type: SET_PRODUCT_SUGGESTIONS,
+//     payload: {suggestions},
+//   };
+// };
 
 export const piaa_setVoiceInputServiceAvailability = ({isAvailable}) => {
   return {
     type: SET_VOICE_INPUT_SERVICE_AVAILABILITY,
     payload: {isAvailable},
+  };
+};
+
+export const piaa_setCurrentInputProductsSuggestions = ({suggestions}) => {
+  return {
+    type: SET_CURRENT_INPUT_PRODUCTS_SUGGESTIONS,
+    payload: {suggestions},
+  };
+};
+
+export const piaa_setRandomProductsSuggestions = ({suggestions}) => {
+  return {
+    type: SET_RANDOM_PRODUCTS_SUGGESTIONS,
+    payload: {suggestions},
   };
 };

@@ -6,12 +6,12 @@ import productInputAreaState from '../stores/productInputAreaState';
 import {
   piaa_hideInputArea,
   piaa_setCategory,
+  piaa_setCurrentInputProductsSuggestions,
   piaa_setCurrentProductsList,
   piaa_setPredefinedData,
   piaa_setPredefinedState,
-  piaa_setProductSuggestions,
+  piaa_setRandomProductsSuggestions,
   piaa_setUnit,
-  piaa_setVoiceInputServiceAvailability,
 } from '../stores/productInputAreaActions';
 import {SystemEventsHandler} from '../../../../../utils/common/system-events-handler/SystemEventsHandler';
 import {
@@ -57,20 +57,27 @@ export const useProductInputAreaModel = ({
         .suggestions,
   );
 
-  // const productSuggestions = useSelector(
-  //   (appState) => appState.productSuggestion.productSuggestions.suggestions,
-  // );
+  // SystemEventsHandler.onInfo({
+  //   info:
+  //     'currentInputProductSuggestions: ' +
+  //     currentInputProductSuggestions.length,
+  // });
+  // SystemEventsHandler.onInfo({
+  //   info: 'randomProductSuggestions: ' + randomProductSuggestions.length,
+  // });
+
   const productsList = useSelector(
     (storeState) => storeState.productsList.productsList.products,
   );
 
-  useEffect(() => {
-    // dispatch(clearProductSuggestionsAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   dispatch(clearProductSuggestionsAction());
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   useEffect(() => {
     const keyboardHideHandler = () => {
+      dispatch(clearProductSuggestionsAction());
       localDispatch(piaa_hideInputArea());
 
       if (onInputAreaHide) {
@@ -155,12 +162,6 @@ export const useProductInputAreaModel = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [predefinedState, predefinedData]);
 
-  // useEffect(() => {
-  //   localDispatch(
-  //     piaa_setProductSuggestions({suggestions: productSuggestions}),
-  //   );
-  // }, [productSuggestions]);
-
   useEffect(() => {
     if (extendedCategoriesList) {
       const extraCategory = extendedCategoriesList[0];
@@ -195,6 +196,22 @@ export const useProductInputAreaModel = ({
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productsList]);
+
+  useEffect(() => {
+    localDispatch(
+      piaa_setCurrentInputProductsSuggestions({
+        suggestions: currentInputProductSuggestions,
+      }),
+    );
+  }, [currentInputProductSuggestions]);
+
+  useEffect(() => {
+    localDispatch(
+      piaa_setRandomProductsSuggestions({
+        suggestions: randomProductSuggestions,
+      }),
+    );
+  }, [randomProductSuggestions]);
 
   // useEffect(() => {
   //   dispatch(suggestRandomProductsAction({excludedProductNamesSet: }))

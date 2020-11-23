@@ -9,7 +9,7 @@ import {
 
 function* pss_suggestRandomProductsHandler(action) {
   const {excludedProductNamesSet} = action.payload;
-  const partialProductName = '';
+  const numberOfProductsToSuggest = 10;
 
   yield put(suggestRandomProductsBeginAction());
 
@@ -19,10 +19,10 @@ function* pss_suggestRandomProductsHandler(action) {
     );
 
     const suggestedProductsData = yield call(
-      productSuggestionService.makeSuggestion,
+      productSuggestionService.suggestRandomProducts,
       {
-        partialProductName,
         excludedProductNamesSet,
+        numberOfProductsToSuggest,
       },
     );
 

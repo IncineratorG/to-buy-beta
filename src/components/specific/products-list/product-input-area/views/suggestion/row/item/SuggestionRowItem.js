@@ -1,10 +1,12 @@
 import React from 'react';
 import {View, Text, TouchableHighlight, StyleSheet} from 'react-native';
 
-const SuggestionItem = ({suggestion, onSuggestionPress}) => {
+const SuggestionRowItem = ({suggestion, onSuggestionPress}) => {
+  const suggestionText = suggestion.productName;
+
   const suggestionPressHandler = () => {
     if (onSuggestionPress) {
-      onSuggestionPress();
+      onSuggestionPress({suggestion});
     }
   };
 
@@ -19,7 +21,7 @@ const SuggestionItem = ({suggestion, onSuggestionPress}) => {
             style={styles.suggestionText}
             numberOfLines={1}
             ellipsizeMode={'middle'}>
-            {suggestion}
+            {suggestionText}
           </Text>
         </View>
       </TouchableHighlight>
@@ -52,4 +54,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SuggestionItem;
+export default SuggestionRowItem;

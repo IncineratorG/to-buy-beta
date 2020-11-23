@@ -1,5 +1,7 @@
 import {
+  CLEAR_INPUT_BASED_PRODUCTS_SUGGESTIONS,
   CLEAR_PRODUCTS_SUGGESTIONS,
+  CLEAR_RANDOM_PRODUCTS_SUGGESTIONS,
   SUGGEST_PRODUCTS_BASED_ON_INPUT_BEGIN,
   SUGGEST_PRODUCTS_BASED_ON_INPUT_ERROR,
   SUGGEST_PRODUCTS_BASED_ON_INPUT_FINISHED,
@@ -38,6 +40,69 @@ const initialState = {
 
 export const productSuggestionReducer = (state = initialState, action) => {
   switch (action.type) {
+    case CLEAR_PRODUCTS_SUGGESTIONS: {
+      return {
+        ...state,
+        productSuggestions: {
+          ...state.productSuggestions,
+          currentInputSuggestions: {
+            ...state.productSuggestions.currentInputSuggestions,
+            suggestions: [],
+            inProgress: false,
+            error: {
+              hasError: false,
+              description: '',
+            },
+          },
+          randomSuggestions: {
+            ...state.productSuggestions.randomSuggestions,
+            suggestions: [],
+            inProgress: false,
+            error: {
+              hasError: false,
+              description: '',
+            },
+          },
+        },
+      };
+    }
+
+    case CLEAR_INPUT_BASED_PRODUCTS_SUGGESTIONS: {
+      return {
+        ...state,
+        productSuggestions: {
+          ...state.productSuggestions,
+          currentInputSuggestions: {
+            ...state.productSuggestions.currentInputSuggestions,
+            suggestions: [],
+            inProgress: false,
+            error: {
+              hasError: false,
+              description: '',
+            },
+          },
+        },
+      };
+    }
+
+    case CLEAR_RANDOM_PRODUCTS_SUGGESTIONS: {
+      return {
+        ...state,
+        productSuggestions: {
+          ...state.productSuggestions,
+          randomSuggestions: {
+            ...state.productSuggestions.randomSuggestions,
+            suggestions: [],
+            inProgress: false,
+            error: {
+              hasError: false,
+              description: '',
+            },
+          },
+        },
+      };
+    }
+
     case SUGGEST_RANDOM_PRODUCTS_BEGIN: {
       return {
         ...state,

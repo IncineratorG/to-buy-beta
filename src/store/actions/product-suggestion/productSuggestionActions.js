@@ -1,5 +1,7 @@
 import {
+  CLEAR_INPUT_BASED_PRODUCTS_SUGGESTIONS,
   CLEAR_PRODUCTS_SUGGESTIONS,
+  CLEAR_RANDOM_PRODUCTS_SUGGESTIONS,
   SUGGEST_PRODUCTS_BASED_ON_INPUT,
   SUGGEST_PRODUCTS_BASED_ON_INPUT_BEGIN,
   SUGGEST_PRODUCTS_BASED_ON_INPUT_ERROR,
@@ -13,6 +15,20 @@ import {
 export const clearProductSuggestionsAction = () => {
   return {
     type: CLEAR_PRODUCTS_SUGGESTIONS,
+    payload: undefined,
+  };
+};
+
+export const clearInputBasedProductsSuggestionsAction = () => {
+  return {
+    type: CLEAR_INPUT_BASED_PRODUCTS_SUGGESTIONS,
+    payload: undefined,
+  };
+};
+
+export const clearRandomProductsSuggestionsAction = () => {
+  return {
+    type: CLEAR_RANDOM_PRODUCTS_SUGGESTIONS,
     payload: undefined,
   };
 };

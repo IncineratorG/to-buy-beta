@@ -17,9 +17,9 @@ class ProductSuggestionService {
     const productsData = await ProductSuggestionService.#productsDataStorage.getProductsData();
 
     // ===
-    productsData.forEach((productData) => {
-      SystemEventsHandler.onInfo({info: JSON.stringify(productData)});
-    });
+    // productsData.forEach((productData) => {
+    //   SystemEventsHandler.onInfo({info: JSON.stringify(productData)});
+    // });
     // ===
 
     await ProductSuggestionService.#suggester.init({
@@ -40,26 +40,46 @@ class ProductSuggestionService {
     });
   }
 
-  // ===
-  static async makeSuggestion({partialProductName, excludedProductNamesSet}) {
-    SystemEventsHandler.onInfo({
-      info:
-        'ProductSuggestionService->makeSuggestion(): ' +
-        partialProductName +
-        ' - ' +
-        excludedProductNamesSet.size +
-        ' - ' +
-        !partialProductName,
-    });
-
-    await ProductSuggestionService.#suggester.suggest({
-      partialProductName,
+  static async suggestRandomProducts({
+    excludedProductNamesSet,
+    numberOfProductsToSuggest,
+  }) {
+    return ProductSuggestionService.#suggester.suggestRandomProducts({
       excludedProductNamesSet,
+      numberOfProductsToSuggest,
     });
+  }
+
+  static async suggestProductByPartialProductName({
+    partialProductName,
+    excludedProductNamesSet,
+  }) {
+    return ProductSuggestionService.#suggester.suggestProductByPartialProductName(
+      {
+        partialProductName,
+        excludedProductNamesSet,
+      },
+    );
+  }
+
+  static async makeSuggestion({partialProductName, excludedProductNamesSet}) {
+    // SystemEventsHandler.onInfo({
+    //   info:
+    //     'ProductSuggestionService->makeSuggestion(): ' +
+    //     partialProductName +
+    //     ' - ' +
+    //     excludedProductNamesSet.size +
+    //     ' - ' +
+    //     !partialProductName,
+    // });
+
+    // return await ProductSuggestionService.#suggester.suggest({
+    //   partialProductName,
+    //   excludedProductNamesSet,
+    // });
 
     return [];
   }
-  // ===
 
   // static async suggest({partialProductName}) {
   //   return await ProductSuggestionService.#suggester.suggest({

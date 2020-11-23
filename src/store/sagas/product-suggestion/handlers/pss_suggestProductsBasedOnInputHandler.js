@@ -18,7 +18,7 @@ function* pss_suggestProductsBasedOnInputHandler(action) {
     );
 
     const suggestedProductsData = yield call(
-      productSuggestionService.makeSuggestion,
+      productSuggestionService.suggestProductByPartialProductName,
       {
         partialProductName,
         excludedProductNamesSet,

@@ -5,7 +5,6 @@ import ProductInputOptions from './input-options/ProductInputOptions';
 import ProductMainInput from './main-input/ProductMainInput';
 import {SystemEventsHandler} from '../../../../../utils/common/system-events-handler/SystemEventsHandler';
 import ProductInputType from '../stores/types/productInputAreaProductInputTypes';
-// import ProductSuggestion from './suggestion/ProductSuggestion';
 import Suggestions from './suggestion/Suggestions';
 
 const ProductInputAreaView = ({styles, model, controller}) => {
@@ -18,7 +17,8 @@ const ProductInputAreaView = ({styles, model, controller}) => {
   } = model.data;
 
   const {type, suggestions} = state.currentInput;
-  const {productSuggestions, noteSuggestions} = suggestions;
+  const {productSuggestions} = suggestions;
+  const {currentInputSuggestions, randomSuggestions} = productSuggestions;
 
   const {
     productNameTypePressHandler,
@@ -34,7 +34,7 @@ const ProductInputAreaView = ({styles, model, controller}) => {
     addUnitPressHandler,
     // makeProductsSuggestion,
     // clearProductSuggestions,
-    // productSuggestionPressHandler,
+    productSuggestionPressHandler,
   } = controller;
 
   const getExtraTopComponentHeight = () => {
@@ -57,7 +57,10 @@ const ProductInputAreaView = ({styles, model, controller}) => {
   const getSuggestionsComponentHeight = () => {
     switch (type) {
       case ProductInputType.PRODUCT_NAME: {
-        if (productSuggestions.length > 0) {
+        if (
+          currentInputSuggestions.length > 0 ||
+          randomSuggestions.length > 0
+        ) {
           return styles.suggestionsAreaContainer.height;
         } else {
           return 0;
@@ -65,11 +68,7 @@ const ProductInputAreaView = ({styles, model, controller}) => {
       }
 
       case ProductInputType.NOTE: {
-        if (noteSuggestions.length > 0) {
-          return styles.suggestionsAreaContainer.height;
-        } else {
-          return 0;
-        }
+        return 0;
       }
 
       case ProductInputType.QUANTITY: {
@@ -123,7 +122,11 @@ const ProductInputAreaView = ({styles, model, controller}) => {
         styles.suggestionsAreaContainer,
         {height: suggestionsComponentHeight},
       ]}>
-      <Suggestions state={state} wrapperHeight={suggestionsComponentHeight} />
+      <Suggestions
+        state={state}
+        wrapperHeight={suggestionsComponentHeight}
+        onSuggestionPress={productSuggestionPressHandler}
+      />
     </View>
   );
 

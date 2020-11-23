@@ -4,13 +4,14 @@ import {
   SELECT_PRODUCT_NOTE,
   SELECT_PRODUCT_QUANTITY,
   SET_CATEGORY,
+  SET_CURRENT_INPUT_PRODUCTS_SUGGESTIONS,
   SET_CURRENT_PRODUCTS_LIST,
   SET_NOTE,
   SET_PREDEFINED_DATA,
   SET_PREDEFINED_STATE,
   SET_PRODUCT_NAME,
-  SET_PRODUCT_SUGGESTIONS,
   SET_QUANTITY,
+  SET_RANDOM_PRODUCTS_SUGGESTIONS,
   SET_UNIT,
   SET_VOICE_INPUT_SERVICE_AVAILABILITY,
   SUBMIT_VALUES,
@@ -240,14 +241,50 @@ function productInputAreaReducer(state, action) {
       };
     }
 
-    case SET_PRODUCT_SUGGESTIONS: {
+    // case SET_PRODUCT_SUGGESTIONS: {
+    //   return {
+    //     ...state,
+    //     currentInput: {
+    //       ...state.currentInput,
+    //       productSuggestions: {
+    //         ...state.currentInput.productSuggestions,
+    //         suggestions: [...action.payload.suggestions],
+    //       },
+    //     },
+    //   };
+    // }
+
+    case SET_CURRENT_INPUT_PRODUCTS_SUGGESTIONS: {
       return {
         ...state,
         currentInput: {
           ...state.currentInput,
-          productSuggestions: {
-            ...state.currentInput.productSuggestions,
-            suggestions: [...action.payload.suggestions],
+          suggestions: {
+            ...state.currentInput.suggestions,
+            productSuggestions: {
+              ...state.currentInput.suggestions.productSuggestions,
+              currentInputSuggestions: action.payload.suggestions
+                ? [...action.payload.suggestions]
+                : [],
+            },
+          },
+        },
+      };
+    }
+
+    case SET_RANDOM_PRODUCTS_SUGGESTIONS: {
+      return {
+        ...state,
+        currentInput: {
+          ...state.currentInput,
+          suggestions: {
+            ...state.currentInput.suggestions,
+            productSuggestions: {
+              ...state.currentInput.suggestions.productSuggestions,
+              randomSuggestions: action.payload.suggestions
+                ? [...action.payload.suggestions]
+                : [],
+            },
           },
         },
       };
