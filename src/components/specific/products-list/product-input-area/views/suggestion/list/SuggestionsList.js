@@ -1,24 +1,21 @@
 import React, {useCallback} from 'react';
 import {View, FlatList, StyleSheet} from 'react-native';
 import {SystemEventsHandler} from '../../../../../../../utils/common/system-events-handler/SystemEventsHandler';
-import SuggestionRowItem from '../row/item/SuggestionRowItem';
+import SuggestionsListItem from './item/SuggestionsListItem';
 
 const SuggestionsList = ({suggestions, onSuggestionPress}) => {
   SystemEventsHandler.onInfo({
     info: 'SuggestionsList->SIZE: ' + suggestions.length,
   });
 
-  const renderItem = useCallback(
-    ({item}) => {
-      return (
-        <SuggestionRowItem
-          suggestion={item}
-          onSuggestionPress={onSuggestionPress}
-        />
-      );
-    },
-    [onSuggestionPress],
-  );
+  const renderItem = ({item}) => {
+    return (
+      <SuggestionsListItem
+        suggestion={item}
+        onSuggestionPress={onSuggestionPress}
+      />
+    );
+  };
 
   const keyExtractor = useCallback((suggestion) => {
     return suggestion.id.toString();
@@ -44,12 +41,14 @@ const SuggestionsList = ({suggestions, onSuggestionPress}) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    flexDirection: 'row',
+    // flexDirection: 'row',
     alignSelf: 'stretch',
     // backgroundColor: 'green',
   },
   listContainer: {
     flex: 1,
+    // backgroundColor: 'red',
+    // margin: 1,
     // backgroundColor: 'transparent',
   },
   list: {
