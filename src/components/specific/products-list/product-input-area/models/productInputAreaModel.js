@@ -6,15 +6,18 @@ import productInputAreaState from '../stores/productInputAreaState';
 import {
   piaa_hideInputArea,
   piaa_setCategory,
+  piaa_setCurrentInputProductsSuggestions,
+  piaa_setCurrentProductsList,
   piaa_setPredefinedData,
   piaa_setPredefinedState,
-  piaa_setProductSuggestions,
+  piaa_setRandomProductsSuggestions,
   piaa_setUnit,
-  piaa_setVoiceInputServiceAvailability,
 } from '../stores/productInputAreaActions';
 import {SystemEventsHandler} from '../../../../../utils/common/system-events-handler/SystemEventsHandler';
-import {clearProductSuggestionsAction} from '../../../../../store/actions/product-suggestion/productSuggestionActions';
-import Voice from '@react-native-community/voice';
+import {
+  clearProductSuggestionsAction,
+  suggestRandomProductsAction,
+} from '../../../../../store/actions/product-suggestion/productSuggestionActions';
 
 export const useProductInputAreaModel = ({
   onInputAreaHide,
@@ -31,6 +34,7 @@ export const useProductInputAreaModel = ({
   unitsList,
   unitsMap,
   allUnitsMap,
+  // productsList,
 }) => {
   const [extendedUnitsList, setExtendedUnitsList] = useState(null);
   const [extendedCategoriesList, setExtendedCategoriesList] = useState(null);
@@ -42,17 +46,38 @@ export const useProductInputAreaModel = ({
 
   const dispatch = useDispatch();
 
-  const productSuggestions = useSelector(
-    (appState) => appState.productSuggestion.productSuggestions.suggestions,
+  const currentInputProductSuggestions = useSelector(
+    (appState) =>
+      appState.productSuggestion.productSuggestions.currentInputSuggestions
+        .suggestions,
+  );
+  const randomProductSuggestions = useSelector(
+    (appState) =>
+      appState.productSuggestion.productSuggestions.randomSuggestions
+        .suggestions,
   );
 
-  useEffect(() => {
-    dispatch(clearProductSuggestionsAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // SystemEventsHandler.onInfo({
+  //   info:
+  //     'currentInputProductSuggestions: ' +
+  //     currentInputProductSuggestions.length,
+  // });
+  // SystemEventsHandler.onInfo({
+  //   info: 'randomProductSuggestions: ' + randomProductSuggestions.length,
+  // });
+
+  const productsList = useSelector(
+    (storeState) => storeState.productsList.productsList.products,
+  );
+
+  // useEffect(() => {
+  //   dispatch(clearProductSuggestionsAction());
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   useEffect(() => {
     const keyboardHideHandler = () => {
+      dispatch(clearProductSuggestionsAction());
       localDispatch(piaa_hideInputArea());
 
       if (onInputAreaHide) {
@@ -138,12 +163,6 @@ export const useProductInputAreaModel = ({
   }, [predefinedState, predefinedData]);
 
   useEffect(() => {
-    localDispatch(
-      piaa_setProductSuggestions({suggestions: productSuggestions}),
-    );
-  }, [productSuggestions]);
-
-  useEffect(() => {
     if (extendedCategoriesList) {
       const extraCategory = extendedCategoriesList[0];
       const customCategoriesList = [...categoriesList];
@@ -162,6 +181,45 @@ export const useProductInputAreaModel = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unitsList]);
+
+  useEffect(() => {
+    localDispatch(piaa_setCurrentProductsList({productsList}));
+  }, [productsList]);
+
+  useEffect(() => {
+    const productsNamesSet = new Set();
+    productsList.forEach((product) => {
+      productsNamesSet.add(product.name);
+    });
+    dispatch(
+      suggestRandomProductsAction({excludedProductNamesSet: productsNamesSet}),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productsList]);
+
+  useEffect(() => {
+    localDispatch(
+      piaa_setCurrentInputProductsSuggestions({
+        suggestions: currentInputProductSuggestions,
+      }),
+    );
+  }, [currentInputProductSuggestions]);
+
+  useEffect(() => {
+    localDispatch(
+      piaa_setRandomProductsSuggestions({
+        suggestions: randomProductSuggestions,
+      }),
+    );
+  }, [randomProductSuggestions]);
+
+  // useEffect(() => {
+  //   dispatch(suggestRandomProductsAction({excludedProductNamesSet: }))
+  // }, [])
+
+  // useEffect(() => {
+  //   SystemEventsHandler.onInfo({info: 'WILL_ASK_FOR_SUGGESTIONS'});
+  // }, []);
 
   // useEffect(() => {
   //   const getSpeechRecognitionServices = async () => {

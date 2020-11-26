@@ -13,8 +13,9 @@ import {
 } from '../stores/productInputAreaActions';
 import ProductInputType from '../stores/types/productInputAreaProductInputTypes';
 import {
+  clearInputBasedProductsSuggestionsAction,
   clearProductSuggestionsAction,
-  suggestProductsAction,
+  suggestProductsBasedOnInputAction,
 } from '../../../../../store/actions/product-suggestion/productSuggestionActions';
 
 export const useProductInputAreaController = (model) => {
@@ -60,7 +61,7 @@ export const useProductInputAreaController = (model) => {
       return;
     }
 
-    model.dispatch(clearProductSuggestionsAction());
+    // model.dispatch(clearProductSuggestionsAction());
 
     model.externalHandlers.onSubmit({
       productName,
@@ -72,33 +73,43 @@ export const useProductInputAreaController = (model) => {
     model.localDispatch(piaa_submitValues());
   };
 
-  const changeInputTextHandler = useCallback(({text, inputType}) => {
-    switch (inputType) {
-      case ProductInputType.PRODUCT_NAME: {
-        model.localDispatch(piaa_setProductName({name: text}));
-        break;
-      }
+  const changeInputTextHandler = useCallback(
+    ({text, inputType}) => {
+      switch (inputType) {
+        case ProductInputType.PRODUCT_NAME: {
+          model.localDispatch(piaa_setProductName({name: text}));
+          model.dispatch(
+            suggestProductsBasedOnInputAction({
+              partialProductName: text,
+              excludedProductNamesSet:
+                model.data.state.currentInput.productsNamesSet,
+            }),
+          );
+          break;
+        }
 
-      case ProductInputType.QUANTITY: {
-        model.localDispatch(piaa_setQuantity({quantity: text}));
-        break;
-      }
+        case ProductInputType.QUANTITY: {
+          model.localDispatch(piaa_setQuantity({quantity: text}));
+          break;
+        }
 
-      case ProductInputType.NOTE: {
-        model.localDispatch(piaa_setNote({note: text}));
-        break;
-      }
+        case ProductInputType.NOTE: {
+          model.localDispatch(piaa_setNote({note: text}));
+          break;
+        }
 
-      default: {
-        SystemEventsHandler.onError({
-          err:
-            'useProductInputAreaController()->changeInputTextHandler: BAD_INPUT_TYPE: ' +
-            inputType,
-        });
+        default: {
+          SystemEventsHandler.onError({
+            err:
+              'useProductInputAreaController()->changeInputTextHandler: BAD_INPUT_TYPE: ' +
+              inputType,
+          });
+        }
       }
-    }
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    [model.data.state.currentInput.productsNamesSet],
+  );
 
   const categoryPressHandler = useCallback(({category}) => {
     model.localDispatch(piaa_setCategory({category}));
@@ -136,16 +147,6 @@ export const useProductInputAreaController = (model) => {
     });
   };
 
-  const makeProductsSuggestion = useCallback(({partialProductName}) => {
-    model.dispatch(suggestProductsAction({partialProductName}));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const clearProductSuggestions = useCallback(() => {
-    model.dispatch(clearProductSuggestionsAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const productSuggestionPressHandler = ({suggestion}) => {
     if (!suggestion) {
       return;
@@ -169,14 +170,8 @@ export const useProductInputAreaController = (model) => {
       }
     }
 
-    model.dispatch(clearProductSuggestionsAction());
+    model.dispatch(clearInputBasedProductsSuggestionsAction());
   };
-
-  // const categoriesListScrollHandler = useCallback((e) => {
-  //   // SystemEventsHandler.onInfo({
-  //   //   info: 'categoriesListScrollHandler: ' + e.nativeEvent.contentOffset.x,
-  //   // });
-  // }, []);
 
   return {
     productNameTypePressHandler,
@@ -190,8 +185,8 @@ export const useProductInputAreaController = (model) => {
     unitPressHandler,
     unitLongPressHandler,
     addUnitPressHandler,
-    makeProductsSuggestion,
-    clearProductSuggestions,
+    // makeProductsSuggestion,
+    // clearProductSuggestions,
     productSuggestionPressHandler,
   };
 };

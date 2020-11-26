@@ -3,11 +3,13 @@ import {View, StyleSheet} from 'react-native';
 import ProductInputType from '../../stores/types/productInputAreaProductInputTypes';
 import CategoriesOption from './categories/CategoriesOption';
 import UnitsOption from './units/UnitsOption';
+import {SystemEventsHandler} from '../../../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 const ProductInputOptions = ({
   state,
   unitsList,
   categoriesList,
+  wrapperHeight,
   onCategoryPress,
   onCategoryLongPress,
   onAddCategoryPress,
@@ -44,6 +46,10 @@ const ProductInputOptions = ({
       );
       break;
     }
+  }
+
+  if (wrapperHeight <= 0) {
+    return null;
   }
 
   return <View style={styles.mainContainer}>{optionsComponent}</View>;

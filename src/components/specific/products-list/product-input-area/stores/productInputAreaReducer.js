@@ -4,12 +4,14 @@ import {
   SELECT_PRODUCT_NOTE,
   SELECT_PRODUCT_QUANTITY,
   SET_CATEGORY,
+  SET_CURRENT_INPUT_PRODUCTS_SUGGESTIONS,
+  SET_CURRENT_PRODUCTS_LIST,
   SET_NOTE,
   SET_PREDEFINED_DATA,
   SET_PREDEFINED_STATE,
   SET_PRODUCT_NAME,
-  SET_PRODUCT_SUGGESTIONS,
   SET_QUANTITY,
+  SET_RANDOM_PRODUCTS_SUGGESTIONS,
   SET_UNIT,
   SET_VOICE_INPUT_SERVICE_AVAILABILITY,
   SUBMIT_VALUES,
@@ -46,6 +48,24 @@ function productInputAreaReducer(state, action) {
       return {...state, ...action.payload.state};
     }
 
+    case SET_CURRENT_PRODUCTS_LIST: {
+      const productsNamesSet = new Set();
+      action.payload.productsList.forEach((product) => {
+        productsNamesSet.add(product.name);
+      });
+
+      return {
+        ...state,
+        currentInput: {
+          ...state.currentInput,
+          productsList: action.payload.productsList
+            ? [...action.payload.productsList]
+            : [],
+          productsNamesSet,
+        },
+      };
+    }
+
     case SET_PREDEFINED_DATA: {
       const {name, quantity, note, unit, category} = action.payload;
 
@@ -62,6 +82,7 @@ function productInputAreaReducer(state, action) {
               productName: name,
               quantity,
               note,
+              productsNames: state.currentInput.productsNamesSet,
             }),
           },
           selectedCategory: {...category},
@@ -113,6 +134,7 @@ function productInputAreaReducer(state, action) {
       const productName = action.payload.name;
       const quantity = state.currentInput.values.quantity;
       const note = state.currentInput.values.note;
+      const productsNames = state.currentInput.productsNamesSet;
 
       return {
         ...state,
@@ -121,7 +143,12 @@ function productInputAreaReducer(state, action) {
           values: {
             ...state.currentInput.values,
             productName: action.payload.name,
-            acceptable: productInputAcceptable({productName, quantity, note}),
+            acceptable: productInputAcceptable({
+              productName,
+              quantity,
+              note,
+              productsNames,
+            }),
           },
         },
       };
@@ -131,6 +158,7 @@ function productInputAreaReducer(state, action) {
       const productName = state.currentInput.values.productName;
       const quantity = action.payload.quantity;
       const note = state.currentInput.values.note;
+      const productsNames = state.currentInput.productsNamesSet;
 
       return {
         ...state,
@@ -139,7 +167,12 @@ function productInputAreaReducer(state, action) {
           values: {
             ...state.currentInput.values,
             quantity: action.payload.quantity,
-            acceptable: productInputAcceptable({productName, quantity, note}),
+            acceptable: productInputAcceptable({
+              productName,
+              quantity,
+              note,
+              productsNames,
+            }),
           },
         },
       };
@@ -149,6 +182,7 @@ function productInputAreaReducer(state, action) {
       const productName = state.currentInput.values.productName;
       const quantity = state.currentInput.values.quantity;
       const note = action.payload.note;
+      const productsNames = state.currentInput.productsNamesSet;
 
       return {
         ...state,
@@ -157,7 +191,12 @@ function productInputAreaReducer(state, action) {
           values: {
             ...state.currentInput.values,
             note: action.payload.note,
-            acceptable: productInputAcceptable({productName, quantity, note}),
+            acceptable: productInputAcceptable({
+              productName,
+              quantity,
+              note,
+              productsNames,
+            }),
           },
         },
       };
@@ -202,14 +241,50 @@ function productInputAreaReducer(state, action) {
       };
     }
 
-    case SET_PRODUCT_SUGGESTIONS: {
+    // case SET_PRODUCT_SUGGESTIONS: {
+    //   return {
+    //     ...state,
+    //     currentInput: {
+    //       ...state.currentInput,
+    //       productSuggestions: {
+    //         ...state.currentInput.productSuggestions,
+    //         suggestions: [...action.payload.suggestions],
+    //       },
+    //     },
+    //   };
+    // }
+
+    case SET_CURRENT_INPUT_PRODUCTS_SUGGESTIONS: {
       return {
         ...state,
         currentInput: {
           ...state.currentInput,
-          productSuggestions: {
-            ...state.currentInput.productSuggestions,
-            suggestions: [...action.payload.suggestions],
+          suggestions: {
+            ...state.currentInput.suggestions,
+            productSuggestions: {
+              ...state.currentInput.suggestions.productSuggestions,
+              currentInputSuggestions: action.payload.suggestions
+                ? [...action.payload.suggestions]
+                : [],
+            },
+          },
+        },
+      };
+    }
+
+    case SET_RANDOM_PRODUCTS_SUGGESTIONS: {
+      return {
+        ...state,
+        currentInput: {
+          ...state.currentInput,
+          suggestions: {
+            ...state.currentInput.suggestions,
+            productSuggestions: {
+              ...state.currentInput.suggestions.productSuggestions,
+              randomSuggestions: action.payload.suggestions
+                ? [...action.payload.suggestions]
+                : [],
+            },
           },
         },
       };

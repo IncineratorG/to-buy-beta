@@ -7,6 +7,8 @@ const productInputAreaState = {
     keyboardType: 'default',
     icon: icons.title,
     placeholder: 'ProductMainInput_placeholderProductName',
+    productsList: [],
+    productsNamesSet: new Set(),
     values: {
       productName: '',
       quantity: '',
@@ -17,6 +19,12 @@ const productInputAreaState = {
     selectedUnit: undefined,
     productSuggestions: {
       suggestions: [],
+    },
+    suggestions: {
+      productSuggestions: {
+        currentInputSuggestions: [],
+        randomSuggestions: [],
+      },
     },
     voiceInput: {
       serviceAvailable: false,

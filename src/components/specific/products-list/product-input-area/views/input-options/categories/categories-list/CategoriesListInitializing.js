@@ -115,8 +115,8 @@ const CategoriesListInitializing = ({
 const styles = StyleSheet.create({
   categoriesArrayInvisibleContainer: {
     position: 'absolute',
-    zIndex: -100,
-    bottom: -100,
+    zIndex: -200,
+    bottom: -200,
   },
   mainContainer: {
     flex: 1,

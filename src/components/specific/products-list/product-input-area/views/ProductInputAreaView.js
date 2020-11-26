@@ -5,7 +5,7 @@ import ProductInputOptions from './input-options/ProductInputOptions';
 import ProductMainInput from './main-input/ProductMainInput';
 import {SystemEventsHandler} from '../../../../../utils/common/system-events-handler/SystemEventsHandler';
 import ProductInputType from '../stores/types/productInputAreaProductInputTypes';
-import ProductSuggestion from './suggestion/ProductSuggestion';
+import Suggestions from './suggestion/Suggestions';
 
 const ProductInputAreaView = ({styles, model, controller}) => {
   const {
@@ -16,7 +16,9 @@ const ProductInputAreaView = ({styles, model, controller}) => {
     extendedUnitsList,
   } = model.data;
 
-  const {type} = state.currentInput;
+  const {type, suggestions} = state.currentInput;
+  const {productSuggestions} = suggestions;
+  const {currentInputSuggestions, randomSuggestions} = productSuggestions;
 
   const {
     productNameTypePressHandler,
@@ -30,23 +32,80 @@ const ProductInputAreaView = ({styles, model, controller}) => {
     unitPressHandler,
     unitLongPressHandler,
     addUnitPressHandler,
-    makeProductsSuggestion,
-    clearProductSuggestions,
+    // makeProductsSuggestion,
+    // clearProductSuggestions,
     productSuggestionPressHandler,
   } = controller;
 
+  const getExtraTopComponentHeight = () => {
+    if (type === ProductInputType.NOTE) {
+      return styles.extraTopComponent.height;
+    } else {
+      return 0;
+    }
+  };
+  const getInputOptionsComponentHeight = () => {
+    if (
+      type === ProductInputType.PRODUCT_NAME ||
+      type === ProductInputType.QUANTITY
+    ) {
+      return styles.topAreaContainer.height;
+    } else {
+      return 0;
+    }
+  };
+  const getSuggestionsComponentHeight = () => {
+    switch (type) {
+      case ProductInputType.PRODUCT_NAME: {
+        if (
+          currentInputSuggestions.length > 0 ||
+          randomSuggestions.length > 0
+        ) {
+          return styles.suggestionsAreaContainer.height;
+        } else {
+          return 0;
+        }
+      }
+
+      case ProductInputType.NOTE: {
+        return 0;
+      }
+
+      case ProductInputType.QUANTITY: {
+        return 0;
+      }
+
+      default: {
+        SystemEventsHandler.onError({
+          err: 'ProductInputAreaView->UNKNOWN_TYPE: ' + type,
+        });
+        return 0;
+      }
+    }
+  };
+
+  const extraTopComponentHeight = getExtraTopComponentHeight();
+  const inputOptionsComponentHeight = getInputOptionsComponentHeight();
+  const suggestionsComponentHeight = getSuggestionsComponentHeight();
+  const mainInputComponentHeight = styles.middleAreaContainer.height;
+  const inputTypesComponentHeight = styles.bottomAreaContainer.height;
+  const productInputAreaViewHeight =
+    extraTopComponentHeight +
+    inputOptionsComponentHeight +
+    suggestionsComponentHeight +
+    mainInputComponentHeight +
+    inputTypesComponentHeight;
+
   const inputOptionsComponent = (
     <View
-      style={[
-        styles.topAreaContainer,
-        {height: type === ProductInputType.NOTE ? 0 : 50},
-      ]}>
+      style={[styles.topAreaContainer, {height: inputOptionsComponentHeight}]}>
       <ProductInputOptions
         state={state}
         unitsList={extendedUnitsList ? extendedUnitsList : unitsList}
         categoriesList={
           extendedCategoriesList ? extendedCategoriesList : categoriesList
         }
+        wrapperHeight={inputOptionsComponentHeight}
         onCategoryPress={categoryPressHandler}
         onCategoryLongPress={categoryLongPressHandler}
         onAddCategoryPress={addCategoryPressHandler}
@@ -57,21 +116,37 @@ const ProductInputAreaView = ({styles, model, controller}) => {
     </View>
   );
 
+  const inputSuggestionsComponent = (
+    <View
+      style={[
+        styles.suggestionsAreaContainer,
+        {height: suggestionsComponentHeight},
+      ]}>
+      <Suggestions
+        state={state}
+        wrapperHeight={suggestionsComponentHeight}
+        onSuggestionPress={productSuggestionPressHandler}
+      />
+    </View>
+  );
+
   const mainInputComponent = (
-    <View style={styles.middleAreaContainer}>
+    <View
+      style={[styles.middleAreaContainer, {height: mainInputComponentHeight}]}>
       <ProductMainInput
         state={state}
         unitsList={unitsList}
         categoriesList={categoriesList}
         onConfirmPress={confirmInputButtonPressHandler}
         onChangeText={changeInputTextHandler}
-        onMakeProductsSuggestion={makeProductsSuggestion}
+        // onMakeProductsSuggestion={makeProductsSuggestion}
       />
     </View>
   );
 
   const inputTypesComponent = (
-    <View style={styles.bottomAreaContainer}>
+    <View
+      style={[styles.bottomAreaContainer, {height: inputTypesComponentHeight}]}>
       <ProductInputTypes
         onProductNamePress={productNameTypePressHandler}
         onProductQuantityPress={productQuantityTypePressHandler}
@@ -80,25 +155,19 @@ const ProductInputAreaView = ({styles, model, controller}) => {
     </View>
   );
 
-  const inputSuggestionComponent = (
-    <View style={styles.suggestionContainer}>
-      <ProductSuggestion
-        state={state}
-        onSuggestionPress={productSuggestionPressHandler}
-      />
-    </View>
+  const extraTopComponent = (
+    <View
+      style={[styles.extraTopComponent, {height: extraTopComponentHeight}]}
+    />
   );
 
   return (
-    <View
-      style={[
-        styles.mainContainer,
-        {height: type === ProductInputType.NOTE ? 100 : 150},
-      ]}>
+    <View style={[styles.mainContainer, {height: productInputAreaViewHeight}]}>
+      {extraTopComponent}
       {inputOptionsComponent}
+      {inputSuggestionsComponent}
       {mainInputComponent}
       {inputTypesComponent}
-      {inputSuggestionComponent}
     </View>
   );
 };
