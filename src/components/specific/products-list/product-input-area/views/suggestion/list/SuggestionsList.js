@@ -5,9 +5,9 @@ import SuggestionsListItem from './item/SuggestionsListItem';
 import LinearGradient from 'react-native-linear-gradient';
 
 const SuggestionsList = ({suggestions, onSuggestionPress}) => {
-  SystemEventsHandler.onInfo({
-    info: 'SuggestionsList->SIZE: ' + suggestions.length,
-  });
+  // SystemEventsHandler.onInfo({
+  //   info: 'SuggestionsList->SIZE: ' + suggestions.length,
+  // });
 
   const innerSuggestionsList = suggestions.filter((suggestion) => suggestion);
   if (innerSuggestionsList.length) {
@@ -68,12 +68,14 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flex: 1,
+    marginLeft: 5,
     // backgroundColor: 'red',
     // margin: 1,
     // backgroundColor: 'transparent',
   },
   list: {
     flex: 1,
+    // backgroundColor: 'green',
   },
 
   gradientRightSide: {

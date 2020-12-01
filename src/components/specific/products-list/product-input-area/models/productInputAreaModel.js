@@ -39,6 +39,8 @@ export const useProductInputAreaModel = ({
   const [extendedUnitsList, setExtendedUnitsList] = useState(null);
   const [extendedCategoriesList, setExtendedCategoriesList] = useState(null);
 
+  const [prevProductsListLength, setPrevProductsListLength] = useState(-1);
+
   const [state, localDispatch] = useReducer(
     productInputAreaReducer,
     productInputAreaState,
@@ -187,15 +189,21 @@ export const useProductInputAreaModel = ({
   }, [productsList]);
 
   useEffect(() => {
-    const productsNamesSet = new Set();
-    productsList.forEach((product) => {
-      productsNamesSet.add(product.name);
-    });
-    dispatch(
-      suggestRandomProductsAction({excludedProductNamesSet: productsNamesSet}),
-    );
+    if (prevProductsListLength !== productsList.length) {
+      const productsNamesSet = new Set();
+      productsList.forEach((product) => {
+        productsNamesSet.add(product.name);
+      });
+      dispatch(
+        suggestRandomProductsAction({
+          excludedProductNamesSet: productsNamesSet,
+        }),
+      );
+
+      setPrevProductsListLength(productsList.length);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productsList]);
+  }, [productsList, prevProductsListLength]);
 
   useEffect(() => {
     localDispatch(

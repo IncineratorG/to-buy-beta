@@ -19,6 +19,13 @@ const Suggestions = ({state, wrapperHeight, onSuggestionPress}) => {
         onSuggestionPress={onSuggestionPress}
       />
     );
+  } else if (randomSuggestions.length <= 3) {
+    return (
+      <SuggestionsRow
+        suggestions={randomSuggestions}
+        onSuggestionPress={onSuggestionPress}
+      />
+    );
   } else {
     return (
       <SuggestionsList
@@ -27,6 +34,22 @@ const Suggestions = ({state, wrapperHeight, onSuggestionPress}) => {
       />
     );
   }
+
+  // if (currentInputSuggestions.length) {
+  //   return (
+  //     <SuggestionsRow
+  //       suggestions={currentInputSuggestions}
+  //       onSuggestionPress={onSuggestionPress}
+  //     />
+  //   );
+  // } else {
+  //   return (
+  //     <SuggestionsList
+  //       suggestions={randomSuggestions}
+  //       onSuggestionPress={onSuggestionPress}
+  //     />
+  //   );
+  // }
 };
 
 export default Suggestions;
