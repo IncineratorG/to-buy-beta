@@ -16,7 +16,7 @@ function* productSuggestionSaga() {
   SystemEventsHandler.onInfo({info: 'productSuggestionSaga()'});
 
   yield debounce(
-    150,
+    50,
     SUGGEST_PRODUCTS_BASED_ON_INPUT,
     pss_suggestProductsBasedOnInputHandler,
   );

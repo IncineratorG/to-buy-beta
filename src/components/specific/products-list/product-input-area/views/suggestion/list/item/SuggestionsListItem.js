@@ -27,9 +27,14 @@ const SuggestionsListItem = ({
         underlayColor={'transparent'}>
         <View style={styles.innerContainer}>
           <View style={styles.textContainer}>
-            <Text style={styles.text}>{suggestionText}</Text>
+            <Text
+              style={styles.text}
+              numberOfLines={1}
+              ellipsizeMode={'middle'}>
+              {suggestionText}
+            </Text>
           </View>
-          <View style={styles.rightSeparatorLine} />
+          {separatorLineComponent}
         </View>
       </TouchableHighlight>
     </View>
@@ -40,6 +45,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     minWidth: 75,
+    maxWidth: 120,
     // backgroundColor: 'cyan',
   },
   touchable: {
@@ -72,8 +78,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightgrey',
     // flex: 1,
     alignSelf: 'stretch',
-    marginTop: 2,
-    marginBottom: 2,
+    marginTop: 8,
+    marginBottom: 8,
   },
 });
 

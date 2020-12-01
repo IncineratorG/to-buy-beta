@@ -58,7 +58,7 @@ export const productsListViewStyles = StyleSheet.create({
   },
   inputAreaContainer: {
     alignSelf: 'stretch',
-    height: 150,
+    height: 160,
     position: 'absolute',
     bottom: 0,
     left: 0,
