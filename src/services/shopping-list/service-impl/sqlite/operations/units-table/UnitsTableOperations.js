@@ -7,10 +7,10 @@ import {
   UNITS_TABLE_UNIT_NAME,
   UNITS_TABLE_UPDATE_TIMESTAMP,
 } from '../../tables/unitsTable';
-import {SqlStatementExecutor} from '../../../../../utils/common/service-utils/sql-statement-executor/SqlStatementExecutor';
+import {SqlStatementExecutor} from '../../../../../../utils/common/service-utils/sql-statement-executor/SqlStatementExecutor';
 import unitsTableInitialData from './initial-data/unitsTableInitialData';
 import {UnitsTableInitialDataParser} from './initial-data/UnitsTableInitialDataParser';
-import {SystemEventsHandler} from '../../../../../utils/common/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 export class UnitsTableOperations {
   static #className = 'UnitsTableOperations';

@@ -5,7 +5,9 @@ export class MyClass extends InterfaceClass {
     super();
   }
 
-  async func_1({one, two}) {}
+  async func_1({one, two}: {one: *, two: *}): Promise<{one: *, two: *}> {
+    return {one: '0', two: 't'};
+  }
 
   static async func_2({three}) {}
 

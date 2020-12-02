@@ -1,16 +1,17 @@
 import {SLInitOperations} from './operations/init/SLInitOperations';
 import {CategoriesTableOperations} from './operations/categories-table/CategoriesTableOperations';
 import {UnitsTableOperations} from './operations/units-table/UnitsTableOperations';
-import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
+import {SystemEventsHandler} from '../../../../utils/common/system-events-handler/SystemEventsHandler';
 import {ShoppingListsTableOperations} from './operations/shopping-lists-table/ShoppingListsTableOperations';
 import {ProductsTableOperations} from './operations/products-table/ProductsTableOperations';
-import ProductStatus from '../data/product-status/ProductStatus';
+import ProductStatus from '../../data/product-status/ProductStatus';
+import {SLService} from '../SLService';
 
 const DB_NAME = 'tobuy_shopping_list.db';
 
 const SQlite = require('react-native-sqlite-storage');
 
-export class SLSqliteService {
+export class SLSqliteService extends SLService{
   #className = 'SLSqliteService';
   #db;
 

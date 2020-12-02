@@ -1,7 +1,7 @@
 import dbUpgradeData from './initializer/init-scripts/dbUpgradeData';
-import {SystemEventsHandler} from '../../../../../utils/common/system-events-handler/SystemEventsHandler';
-import {SqlGeneralInitManager} from '../../../../../utils/common/service-utils/sql-general-init-manager/SqlGeneralInitManager';
-import {SqlGeneralUpgradeDataParser} from '../../../../../utils/common/service-utils/sql-general-upgrade-data-parser/SqlGeneralUpgradeDataParser';
+import {SystemEventsHandler} from '../../../../../../utils/common/system-events-handler/SystemEventsHandler';
+import {SqlGeneralInitManager} from '../../../../../../utils/common/service-utils/sql-general-init-manager/SqlGeneralInitManager';
+import {SqlGeneralUpgradeDataParser} from '../../../../../../utils/common/service-utils/sql-general-upgrade-data-parser/SqlGeneralUpgradeDataParser';
 
 export class SLInitOperations {
   static #initManager = new SqlGeneralInitManager({
