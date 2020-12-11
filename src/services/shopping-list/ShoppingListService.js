@@ -2,11 +2,12 @@ import {SLSqliteService} from './service-impl/sqlite/SLSqliteService';
 import {SystemEventsHandler} from '../../utils/common/system-events-handler/SystemEventsHandler';
 import {Notifier} from '../../utils/common/service-utils/notifier/Notifier';
 import ShoppingListServiceEvents from './data/event-types/ShoppingListServiceEvents';
-import {SLServiceReturnedDataChecker} from './data-checker/returned-data/SLServiceReturnedDataChecker';
+import {SLServiceDataValidatorWrapper} from './data-validator/SLServiceDataValidatorWrapper';
+import slSqliteFunctionsService from './service-impl/sqlite/slSqliteFunctionsService';
 
 export class ShoppingListService {
   static #notifier = new Notifier();
-  static #serviceImpl = new SLSqliteService();
+  static #serviceImpl = slSqliteFunctionsService();
   static #checkReturnedObjectsStructure = false;
 
   static subscribe({event, handler}) {
@@ -21,17 +22,37 @@ export class ShoppingListService {
     // } catch (e) {
     //   SystemEventsHandler.onError({err: 'MY_CLASS_ERR: ' + e.toString()});
     // }
+
+    // =====
+    // const testClass = new TestClass();
+    //
+    // const validator = TestValidator;
+    // const checker = new Checker(validator);
+    // const result = await checker.call(testClass.func_2, {a: 1, b: 2});
+
+    // SystemEventsHandler.onInfo({
+    //   info: 'ShoppingListService->init()->RESULT: ' + JSON.stringify(result),
+    // });
+    // testChecker.check(testClass.func);
+    // =====
     // ===
 
     if (checkReturnedObjectsStructure) {
-      ShoppingListService.#serviceImpl = new SLServiceReturnedDataChecker(
-        new SLSqliteService(),
+      ShoppingListService.#serviceImpl = new SLServiceDataValidatorWrapper(
+        slSqliteFunctionsService(),
       );
     } else {
-      ShoppingListService.#serviceImpl = new SLSqliteService();
+      ShoppingListService.#serviceImpl = slSqliteFunctionsService();
     }
 
-    this.#checkReturnedObjectsStructure = true;
+    // ShoppingListService.#serviceImpl = slSqliteFunctionsService();
+    // try {
+    //   await ShoppingListService.#serviceImpl.init();
+    // } catch (e) {
+    //   SystemEventsHandler.onInfo({info: 'HERE_ERROR: ' + e.toString()});
+    // }
+
+    ShoppingListService.#checkReturnedObjectsStructure = true;
     await ShoppingListService.#serviceImpl.init();
   }
 

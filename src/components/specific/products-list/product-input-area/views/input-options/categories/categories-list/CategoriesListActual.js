@@ -48,22 +48,56 @@ const CategoriesListActual = ({
         (categoryItem) => categoryItem.id === selectedCategory.id,
       );
 
+      let xOffset = 0;
+      let selectedCategoryWidth = 0;
+      for (let i = 0; i < categoriesListWithWidths.length; ++i) {
+        if (categoriesListWithWidths[i].id === selectedCategory.id) {
+          selectedCategoryWidth = categoriesListWithWidths[i].width;
+          break;
+        }
+
+        xOffset = xOffset + categoriesListWithWidths[i].width;
+      }
+      xOffset = xOffset - width / 4;
+
       if (selectedCategoryIndex >= 0) {
         setTimeout(() => {
-          if (listRef && listRef.current) {
-            listRef.current.scrollToIndex({
-              animated: true,
-              index: selectedCategoryIndex,
-              viewOffset: count === 0 ? width / 2.5 : 0,
-              viewPosition: 0.5,
+          if (listRef.current) {
+            listRef.current.scrollToOffset({
+              offset: xOffset,
             });
-            setCount(count + 1);
           }
-        }, 50);
+        }, 75);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoriesListWithWidths, selectedCategory, listRef]);
+  // useEffect(() => {
+  //   if (
+  //     selectedCategory &&
+  //     listRef.current &&
+  //     categoriesListWithWidths.length
+  //   ) {
+  //     const selectedCategoryIndex = categoriesListWithWidths.findIndex(
+  //       (categoryItem) => categoryItem.id === selectedCategory.id,
+  //     );
+  //
+  //     if (selectedCategoryIndex >= 0) {
+  //       setTimeout(() => {
+  //         if (listRef && listRef.current) {
+  //           listRef.current.scrollToIndex({
+  //             animated: true,
+  //             index: selectedCategoryIndex,
+  //             viewOffset: count === 0 ? width / 2.5 : 0,
+  //             viewPosition: 0.5,
+  //           });
+  //           setCount(count + 1);
+  //         }
+  //       }, 50);
+  //     }
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [categoriesListWithWidths, selectedCategory, listRef]);
 
   return (
     <View style={styles.mainContainer}>

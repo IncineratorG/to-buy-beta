@@ -1,21 +1,21 @@
-import {SLService} from '../../service-impl/SLService';
-import {SLCategoriesListChecker} from './handlers/categories-list/SLCategoriesListChecker';
-import {SLUnitsListChecker} from './handlers/units-list/SLUnitsListChecker';
+import {SLService} from '../service-impl/SLService';
+import {ObjectsValidator} from '../../../utils/common/service-utils/objects-validator/ObjectsValidator';
+import SLServiceMethodResultValidators from './validators/returned-objects/SLServiceMethodResultValidators';
+import {TestClass} from './test-classes/TestClass';
 
-export class SLServiceReturnedDataChecker extends SLService {
+export class SLServiceDataValidatorWrapper extends SLService {
   #shoppingListService;
-  #checkers = {};
-  #types = {
-    CATEGORIES_LIST: 'CATEGORIES_LIST',
-    UNITS_LIST: 'UNITS_LIST',
-  };
+  #serviceDataValidator;
+  // #testClass;
 
   constructor(shoppingListService) {
     super();
     this.#shoppingListService = shoppingListService;
 
-    this.#checkers[this.#types.CATEGORIES_LIST] = new SLCategoriesListChecker();
-    this.#checkers[this.#types.UNITS_LIST] = new SLUnitsListChecker();
+    const serviceResultValidators = SLServiceMethodResultValidators;
+    this.#serviceDataValidator = new ObjectsValidator(serviceResultValidators);
+
+    // this.#testClass = new TestClass();
   }
 
   async init(): Promise<*> {
@@ -23,8 +23,11 @@ export class SLServiceReturnedDataChecker extends SLService {
   }
 
   async getCategories(): Promise<*> {
-    return this.#checkers[this.#types.CATEGORIES_LIST].check(
-      await this.#shoppingListService.getCategories(),
+    // await this.#serviceDataValidator.validateMethod(this.#testClass.func_3);
+
+    // return await this.#shoppingListService.getCategories();
+    return await this.#serviceDataValidator.validateMethod(
+      this.#shoppingListService.getCategories,
     );
   }
 
@@ -49,9 +52,7 @@ export class SLServiceReturnedDataChecker extends SLService {
   }
 
   async getUnits(): Promise<*> {
-    return this.#checkers[this.#types.UNITS_LIST].check(
-      await this.#shoppingListService.getUnits(),
-    );
+    return await this.#shoppingListService.getUnits();
   }
 
   async addUnit({name}: {name: *}): Promise<*> {

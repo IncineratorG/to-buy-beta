@@ -30,7 +30,7 @@ class ServicesInstance {
 
   async init() {
     await this.#systemService.init();
-    await this.#shoppingListService.init(true);
+    await this.#shoppingListService.init(false);
     await this.#shareService.init();
     await this.#productSuggestionService.init();
     await this.#productsLocationService.init();

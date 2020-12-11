@@ -11,7 +11,7 @@ const DB_NAME = 'tobuy_shopping_list.db';
 
 const SQlite = require('react-native-sqlite-storage');
 
-export class SLSqliteService extends SLService{
+export class SLSqliteService extends SLService {
   #className = 'SLSqliteService';
   #db;
 
