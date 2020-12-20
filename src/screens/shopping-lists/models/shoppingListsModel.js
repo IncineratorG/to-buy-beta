@@ -1,8 +1,10 @@
-import {useState} from 'react';
+import {NativeEventEmitter, NativeModules} from 'react-native';
+import {useState, useEffect} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from '../../../utils/common/localization';
 import {clearProductsListCachedData} from '../../../store/actions/products-list/productsListActions';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 
 export const useShoppingListsModel = () => {
   const navigation = useNavigation();
@@ -48,6 +50,25 @@ export const useShoppingListsModel = () => {
   useFocusEffect(() => {
     dispatch(clearProductsListCachedData());
   }, []);
+
+  // ===
+  // =====
+  useEffect(() => {
+    SystemEventsHandler.onInfo({info: 'EVENT_LISTENER_REGISTERED'});
+
+    const eventEmitter = new NativeEventEmitter(NativeModules.SharedStorage);
+
+    const eventListener = eventEmitter.addListener('EventReminder', (event) => {
+      SystemEventsHandler.onInfo({info: 'EVENT: ' + event.eventProperty});
+      // console.log(event.eventProperty); // "someValue"
+    });
+
+    return () => {
+      eventListener.remove();
+    };
+  }, []);
+  // =====
+  // ===
 
   return {
     data: {

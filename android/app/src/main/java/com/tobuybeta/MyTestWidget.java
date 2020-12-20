@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.tobuybeta.modules.shared_storage.SharedStorage;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -116,8 +118,16 @@ public class MyTestWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         if (MyOnClick1.equals(intent.getAction())){
+            SharedStorage sharedStorage = SharedStorage.get(null);
+            if (sharedStorage == null) {
+                Toast.makeText(context, "NULL", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            sharedStorage.testSend();
+
             //your onClick action is here
-            Toast.makeText(context, "Button1", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Button1", Toast.LENGTH_SHORT).show();
         }
     };
 

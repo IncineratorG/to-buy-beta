@@ -9,11 +9,13 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.tobuybeta.MyTestWidget;
 
@@ -22,11 +24,28 @@ import com.tobuybeta.MyTestWidget;
  */
 
 public class SharedStorage extends ReactContextBaseJavaModule {
-    ReactApplicationContext context;
+    private static SharedStorage mInstance;
+    private ReactApplicationContext mContext;
 
-    public SharedStorage(ReactApplicationContext reactContext) {
+    private SharedStorage(ReactApplicationContext reactContext) {
         super(reactContext);
-        context = reactContext;
+        mContext = reactContext;
+    }
+
+    public static SharedStorage get(ReactApplicationContext reactContext) {
+        if (reactContext == null) {
+            if (mInstance == null) {
+                return null;
+            } else {
+                return mInstance;
+            }
+        }
+
+        if (mInstance == null) {
+            mInstance = new SharedStorage(reactContext);
+        }
+
+        return mInstance;
     }
 
     @NonNull
@@ -37,7 +56,7 @@ public class SharedStorage extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void set(String message) {
-        SharedPreferences.Editor editor = context.getSharedPreferences("DATA", Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = mContext.getSharedPreferences("DATA", Context.MODE_PRIVATE).edit();
         editor.putString("appData", message);
         editor.commit();
 
@@ -56,6 +75,13 @@ public class SharedStorage extends ReactContextBaseJavaModule {
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         getCurrentActivity().getApplicationContext().sendBroadcast(intent);
 
+    }
+
+    public void testSend() {
+        WritableMap params = new WritableNativeMap();
+        params.putString("eventProperty", "someValue");
+
+        sendEvent(mContext, "EventReminder", params);
     }
 
     private void sendEvent(ReactContext reactContext,

@@ -20,7 +20,7 @@ public class SharedStoragePackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
-        modules.add(new SharedStorage(reactContext));
+        modules.add(SharedStorage.get(reactContext));
         return modules;
     }
 
