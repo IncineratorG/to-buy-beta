@@ -19,6 +19,22 @@ import org.json.JSONObject;
 public class MyTestWidget extends AppWidgetProvider {
     private static final String MyOnClick1 = "myOnClickTag1";
 
+//    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+//
+//        try {
+//            SharedPreferences sharedPref = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
+//            String appString = sharedPref.getString("appData", "{\"text\":'no data'}");
+//            JSONObject appData = new JSONObject(appString);
+//            // Construct the RemoteViews object
+//            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
+//            views.setTextViewText(R.id.appwidget_text, appData.getString("text"));
+//            // Instruct the widget manager to update the widget
+//            appWidgetManager.updateAppWidget(appWidgetId, views);
+//        }catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         try {
             SharedPreferences sharedPref = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
@@ -26,7 +42,16 @@ public class MyTestWidget extends AppWidgetProvider {
             JSONObject appData = new JSONObject(appString);
             // Construct the RemoteViews object
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_test_widget);
+
+//            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.my_test_widget);
+//            remoteViews.setOnClickPendingIntent(R.id.test_button, getPendingSelfIntent(context, MyOnClick1));
+
             views.setTextViewText(R.id.appwidget_text, appData.getString("text"));
+
+            // ===
+            views.setOnClickPendingIntent(R.id.test_button, getPendingSelfIntent(context, MyOnClick1));
+            // ===
+
             // Instruct the widget manager to update the widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }catch (JSONException e) {
@@ -49,21 +74,33 @@ public class MyTestWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.my_test_widget);
+//            int widgetId = appWidgetIds[appWidgetId];
 
-            remoteViews.setOnClickPendingIntent(R.id.test_button, getPendingSelfIntent(context, MyOnClick1));
+//            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.my_test_widget);
+
+//            remoteViews.setOnClickPendingIntent(R.id.test_button, getPendingSelfIntent(context, MyOnClick1));
 //            remoteViews.setOnClickPendingIntent(R.id.widget_button_awayarm, getPendingSelfIntent(context, MyOnClick2));
 //            remoteViews.setOnClickPendingIntent(R.id.widget_button_dissarm, getPendingSelfIntent(context, MyOnClick3));
 
 //            remoteViews.setTextViewText(R.id.widget_textview_gpscoords, "gps cords");
 
 
-//            updateAppWidget(context, appWidgetManager, appWidgetId);
+            updateAppWidget(context, appWidgetManager, appWidgetId);
 
-            ComponentName myWidget = new ComponentName(context, MyTestWidget.class);
-            appWidgetManager.updateAppWidget(myWidget, remoteViews);
+//            ComponentName myWidget = new ComponentName(context, MyTestWidget.class);
+//            appWidgetManager.updateAppWidget(myWidget, remoteViews);
+
+//            appWidgetManager.updateAppWidget(widgetId, remoteViews);
         }
     }
+
+//    @Override
+//    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+//        // There may be multiple widgets active, so update all of them
+//        for (int appWidgetId : appWidgetIds) {
+//            updateAppWidget(context, appWidgetManager, appWidgetId);
+//        }
+//    }
 
     @Override
     public void onEnabled(Context context) {
@@ -84,8 +121,8 @@ public class MyTestWidget extends AppWidgetProvider {
         }
     };
 
-    protected PendingIntent getPendingSelfIntent(Context context, String action) {
-        Intent intent = new Intent(context, getClass());
+    static protected PendingIntent getPendingSelfIntent(Context context, String action) {
+        Intent intent = new Intent(context, MyTestWidget.class);
         intent.setAction(action);
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
