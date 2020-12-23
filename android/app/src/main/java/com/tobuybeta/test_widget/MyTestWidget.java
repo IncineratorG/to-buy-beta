@@ -7,9 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.tobuybeta.MainActivity;
 import com.tobuybeta.R;
 import com.tobuybeta.modules.shared_storage.SharedStorage;
 
@@ -18,6 +21,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Implementation of App Widget functionality.
@@ -26,6 +30,7 @@ public class MyTestWidget extends AppWidgetProvider {
     private static final String MyOnClick1 = "myOnClickTag1";
 
     final String ACTION_ON_CLICK = "ru.startandroid.develop.p1211listwidget.itemonclick";
+    final String BUTTON_CLICK = "ru.startandroid.develop.p1211listwidget.buttonclick";
     final static String ITEM_POSITION = "item_position";
 
     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -63,10 +68,9 @@ public class MyTestWidget extends AppWidgetProvider {
                 R.layout.my_test_widget);
 
         setUpdateTV(rv, context, appWidgetId);
-
         setList(rv, context, appWidgetId);
-
         setListClick(rv, context, appWidgetId);
+        setButtonClick(rv, context, appWidgetId);
 
         appWidgetManager.updateAppWidget(appWidgetId, rv);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId,
@@ -101,6 +105,58 @@ public class MyTestWidget extends AppWidgetProvider {
         rv.setPendingIntentTemplate(R.id.lvList, listClickPIntent);
     }
 
+    void setButtonClick(RemoteViews rv, Context context, int appWidgetId) {
+        // =====
+        // =======
+        Intent activityIntent = new Intent(context, MyTestWidget.class);
+        activityIntent.setAction(BUTTON_CLICK);
+        PendingIntent resultsPendingIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
+
+        Intent voiceIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        voiceIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        voiceIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speech recognition demo");
+        voiceIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        voiceIntent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, resultsPendingIntent);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, voiceIntent, 0);
+        rv.setOnClickPendingIntent(R.id.button, pendingIntent);
+        // =======
+        // =====
+
+
+
+
+//        Intent buttonClickListener = new Intent(context, MyTestWidget.class);
+//        buttonClickListener.setAction(BUTTON_CLICK);
+//
+//        PendingIntent buttonClickPendingIntent = PendingIntent.
+//                getBroadcast(context, 0, buttonClickListener, 0);
+//
+//        rv.setOnClickPendingIntent(R.id.button, buttonClickPendingIntent);
+
+
+
+
+
+        // ===
+        // this intent points to activity that should handle results
+//        Intent activityIntent = new Intent(context, ResultsActivity.class);
+//// this intent wraps results activity intent
+//        PendingIntent resultsPendingIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
+//
+//// this intent calls the speech recognition
+//        Intent voiceIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+//        voiceIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+//        voiceIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speech recognition demo");
+//        voiceIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        voiceIntent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, resultsPendingIntent);
+//
+//// this intent wraps voice recognition intent
+//        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, voiceIntent, 0);
+//        rv.setOnClickPendingIntent(R.id.btn, pendingIntent);
+        // ===
+    }
+
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
@@ -123,11 +179,46 @@ public class MyTestWidget extends AppWidgetProvider {
 
             sharedStorage.testSend();
         } else if (intent.getAction().equalsIgnoreCase(ACTION_ON_CLICK)) {
-            int itemPos = intent.getIntExtra(ITEM_POSITION, -1);
-            if (itemPos != -1) {
-                Toast.makeText(context, "Clicked on item " + itemPos,
-                        Toast.LENGTH_SHORT).show();
+//            int itemPos = intent.getIntExtra(ITEM_POSITION, -1);
+//            if (itemPos != -1) {
+//                Toast.makeText(context, "Clicked on item " + itemPos,
+//                        Toast.LENGTH_SHORT).show();
+//            }
+
+            // ===
+            SharedStorage sharedStorage = SharedStorage.get(null);
+            if (sharedStorage == null) {
+                Toast.makeText(context, "NULL", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+//            Intent configIntent = new Intent(context, MainActivity.class);
+//            PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
+
+            sharedStorage.testSend();
+            // ===
+        } else if (intent.getAction().equalsIgnoreCase(BUTTON_CLICK)) {
+            Toast.makeText(context, "BUTTON_CLICK", Toast.LENGTH_SHORT).show();
+
+//            intent.getExtras().getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
+            Bundle extras = intent.getExtras();
+            if (extras == null) {
+                Toast.makeText(context, "EXTRAS_IS_NULL", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            List<String> resultsList = extras.getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
+            if (resultsList == null) {
+                Toast.makeText(context, "RESULTS_LIST_IS_NULL", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            StringBuilder resultsString = new StringBuilder();
+            for (String result : resultsList) {
+                resultsString.append("\n ").append(result);
+            }
+
+            Toast.makeText(context, "RESULT: " + resultsString.toString(), Toast.LENGTH_SHORT).show();
         }
     };
 
