@@ -10,6 +10,7 @@ import {shareReducer} from './reducers/share/shareReducer';
 import {productSuggestionReducer} from './reducers/product-suggestion/productSuggestionReducer';
 import {systemReducer} from './reducers/system/systemReducer';
 import {productsLocationReducer} from './reducers/productsLocationReducer/productsLocationReducer';
+import {appWidgetReducer} from './reducers/app-widget/appWidgetReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -23,6 +24,7 @@ const reducers = combineReducers({
   productSuggestion: productSuggestionReducer,
   system: systemReducer,
   productsLocation: productsLocationReducer,
+  appWidget: appWidgetReducer,
 });
 
 const store = createStore(reducers, applyMiddleware(sagaMiddleware));

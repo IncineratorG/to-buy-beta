@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class MyTestWidget extends AppWidgetProvider {
 
     final String ACTION_ON_CLICK = "ru.startandroid.develop.p1211listwidget.itemonclick";
     final String BUTTON_CLICK = "ru.startandroid.develop.p1211listwidget.buttonclick";
+    final String RECOGNIZE_SPEECH_CLICK = "ru.startandroid.develop.p1211listwidget.recognizeSpeech";
     final static String ITEM_POSITION = "item_position";
 
     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -106,11 +108,17 @@ public class MyTestWidget extends AppWidgetProvider {
     }
 
     void setButtonClick(RemoteViews rv, Context context, int appWidgetId) {
+//        Intent activityIntent = new Intent(context, MyTestWidget.class);
+//        activityIntent.setAction(RECOGNIZE_SPEECH_CLICK);
+//        PendingIntent resultsPendingIntent = PendingIntent.getBroadcast(context, 0, activityIntent, 0);
+//
+//        rv.setOnClickPendingIntent(R.id.button, resultsPendingIntent);
+
         // =====
         // =======
         Intent activityIntent = new Intent(context, MyTestWidget.class);
-        activityIntent.setAction(BUTTON_CLICK);
-        PendingIntent resultsPendingIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
+        activityIntent.setAction(RECOGNIZE_SPEECH_CLICK);
+        PendingIntent resultsPendingIntent = PendingIntent.getBroadcast(context, 0, activityIntent, 0);
 
         Intent voiceIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         voiceIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -179,7 +187,7 @@ public class MyTestWidget extends AppWidgetProvider {
 
             sharedStorage.testSend();
         } else if (intent.getAction().equalsIgnoreCase(ACTION_ON_CLICK)) {
-//            int itemPos = intent.getIntExtra(ITEM_POSITION, -1);
+            int itemPos = intent.getIntExtra(ITEM_POSITION, -1);
 //            if (itemPos != -1) {
 //                Toast.makeText(context, "Clicked on item " + itemPos,
 //                        Toast.LENGTH_SHORT).show();
@@ -192,13 +200,16 @@ public class MyTestWidget extends AppWidgetProvider {
                 return;
             }
 
+            Toast.makeText(context, "Clicked on item " + itemPos,
+                    Toast.LENGTH_SHORT).show();
+
 //            Intent configIntent = new Intent(context, MainActivity.class);
 //            PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
 
             sharedStorage.testSend();
             // ===
         } else if (intent.getAction().equalsIgnoreCase(BUTTON_CLICK)) {
-            Toast.makeText(context, "BUTTON_CLICK", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "IN_BUTTON_CLICK", Toast.LENGTH_SHORT).show();
 
 //            intent.getExtras().getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
             Bundle extras = intent.getExtras();
@@ -219,14 +230,35 @@ public class MyTestWidget extends AppWidgetProvider {
             }
 
             Toast.makeText(context, "RESULT: " + resultsString.toString(), Toast.LENGTH_SHORT).show();
+        } else if (intent.getAction().equalsIgnoreCase(RECOGNIZE_SPEECH_CLICK)) {
+            Toast.makeText(context, "IN_RECOGNIZE_SPEECH_CLICK", Toast.LENGTH_SHORT).show();
+
+            SharedStorage sharedStorage = SharedStorage.get(null);
+            if (sharedStorage == null) {
+                return;
+            }
+            sharedStorage.testSend();
+
+            Bundle extras = intent.getExtras();
+            if (extras == null) {
+                Toast.makeText(context, "EXTRAS_IS_NULL", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            List<String> resultsList = extras.getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
+            if (resultsList == null) {
+                Toast.makeText(context, "RESULTS_LIST_IS_NULL", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            StringBuilder resultsString = new StringBuilder();
+            for (String result : resultsList) {
+                resultsString.append("\n ").append(result);
+            }
+
+            Toast.makeText(context, "RESULT: " + resultsString.toString(), Toast.LENGTH_SHORT).show();
         }
     };
-
-    static protected PendingIntent getPendingSelfIntent(Context context, String action) {
-        Intent intent = new Intent(context, MyTestWidget.class);
-        intent.setAction(action);
-        return PendingIntent.getBroadcast(context, 0, intent, 0);
-    }
 }
 
 

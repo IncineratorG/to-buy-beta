@@ -11,6 +11,7 @@ const ListOfShoppingLists = ({
   onSharePress,
   onRenamePress,
   onCopyPress,
+  onSendToWidgetPress,
 }) => {
   const innerList = [...list];
   if (innerList.length) {
@@ -28,6 +29,7 @@ const ListOfShoppingLists = ({
         onSharePress={onSharePress}
         onRenamePress={onRenamePress}
         onCopyPress={onCopyPress}
+        onSendToWidgetPress={onSendToWidgetPress}
       />
     );
   };

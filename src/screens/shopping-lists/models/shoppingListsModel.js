@@ -41,6 +41,15 @@ export const useShoppingListsModel = () => {
     (state) => state.share.share.availability.shareServiceAvailabilityMap,
   );
 
+  // =====
+  const widgetShoppingListId = useSelector(
+    (state) => state.appWidget.appWidget.shoppingListId,
+  );
+  SystemEventsHandler.onInfo({
+    info: 'WIDGET_SHOPPING_LIST_ID: ' + widgetShoppingListId,
+  });
+  // =====
+
   // ===
   const online = false;
   const currentEmail = '';
@@ -50,25 +59,6 @@ export const useShoppingListsModel = () => {
   useFocusEffect(() => {
     dispatch(clearProductsListCachedData());
   }, []);
-
-  // ===
-  // =====
-  useEffect(() => {
-    SystemEventsHandler.onInfo({info: 'EVENT_LISTENER_REGISTERED'});
-
-    const eventEmitter = new NativeEventEmitter(NativeModules.SharedStorage);
-
-    const eventListener = eventEmitter.addListener('EventReminder', (event) => {
-      SystemEventsHandler.onInfo({info: 'EVENT: ' + event.eventProperty});
-      // console.log(event.eventProperty); // "someValue"
-    });
-
-    return () => {
-      eventListener.remove();
-    };
-  }, []);
-  // =====
-  // ===
 
   return {
     data: {

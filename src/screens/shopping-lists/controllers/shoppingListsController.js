@@ -10,6 +10,7 @@ import {loadCategoriesAction} from '../../../store/actions/categories/categories
 import {loadUnitsAction} from '../../../store/actions/units/unitsActions';
 import {shareProductsListViaAppAction} from '../../../store/actions/share/shareActions';
 import {setSystemLanguageAction} from '../../../store/actions/system/systemActions';
+import {setWidgetShoppingListAction} from '../../../store/actions/app-widget/appWidgetActions';
 
 export const useShoppingListsController = (model) => {
   const listItemPressHandler = (listItemId) => {
@@ -33,6 +34,10 @@ export const useShoppingListsController = (model) => {
   const listItemCopyHandler = (listItem) => {
     model.setters.setListToCopy(listItem);
     model.setters.setCopyDialogVisible(true);
+  };
+
+  const listItemSendToWidgetPressHandler = (listItem) => {
+    model.dispatch(setWidgetShoppingListAction({shoppingListId: listItem.id}));
   };
 
   const addButtonHandler = () => {
@@ -175,6 +180,7 @@ export const useShoppingListsController = (model) => {
     listItemRemoveHandler,
     listItemRenameHandler,
     listItemCopyHandler,
+    listItemSendToWidgetPressHandler,
     addButtonHandler,
     removeConfirmationDialogTouchOutsideHandler,
     removeConfirmationDialogRemoveHandler,

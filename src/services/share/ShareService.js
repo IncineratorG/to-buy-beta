@@ -4,7 +4,7 @@ import ShareServiceEvents from './data/event-types/ShareServiceEvents';
 import PhoneMessaging from './libs/phone-messaging/PhoneMessaging';
 import TestWidget from './libs/test-widget/TestWidget';
 import ShareServiceAppTypes from './data/share-app-types/ShareServiceAppTypes';
-import {NativeEventEmitter, NativeModules} from 'react-native';
+// import {NativeEventEmitter, NativeModules} from 'react-native';
 
 export class ShareService {
   static #className = 'ShareService';

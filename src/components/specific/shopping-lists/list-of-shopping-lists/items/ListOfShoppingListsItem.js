@@ -13,6 +13,7 @@ const ListOfShoppingListsItem = ({
   onSharePress,
   onRenamePress,
   onCopyPress,
+  onSendToWidgetPress,
 }) => {
   const generalItemStyles = listOfShoppingListsItemStylesGeneral;
   const extraItemStyles = listOfShoppingListsItemStylesExtra;
@@ -28,6 +29,7 @@ const ListOfShoppingListsItem = ({
       onSharedPress={onSharePress}
       onRenamePress={onRenamePress}
       onCopyPress={onCopyPress}
+      onSendToWidgetPress={onSendToWidgetPress}
     />
   );
 

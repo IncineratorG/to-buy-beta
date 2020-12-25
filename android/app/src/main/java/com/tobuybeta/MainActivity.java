@@ -1,12 +1,11 @@
 package com.tobuybeta;
 
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.facebook.react.ReactActivity;
 
-import java.util.ArrayList;
 
 public class MainActivity extends ReactActivity {
 
@@ -19,16 +18,15 @@ public class MainActivity extends ReactActivity {
     return "ToBuyBeta";
   }
 
-  // ===
 
+  // ===
 //  @Override
 //  protected void onCreate(Bundle savedInstanceState) {
 //    super.onCreate(savedInstanceState);
 //
-//    Toast.makeText(this, "IN_RESULTS_ACTIVITY", Toast.LENGTH_SHORT).show();
+//    Toast.makeText(this, "IN_MAIN_ACTIVITY", Toast.LENGTH_SHORT).show();
 //
 ////    ArrayList<String> voiceResults = this.getIntent().getExtras().getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
 //  }
-
   // ===
 }
