@@ -78,29 +78,19 @@ public class MyTestWidget extends AppWidgetProvider {
         setButtonClick(rv, context, appWidgetId);
 
         // =====
-        SharedPreferences sharedPreferences = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
-        Set<String> productsSet = sharedPreferences.getStringSet("products", new HashSet<>());
-
-        List<String> productsList = new ArrayList<>(productsSet);
-
-        String productsString = "";
-        for (int i = 0; i < productsList.size(); ++i) {
-            String productString = productsList.get(i);
-
-            String productId = productString.substring(0, productString.indexOf(" "));
-            String productName = productString.substring(productString.indexOf(" " ) + 1);
-
-            productsString = productsString + productId + " - " + productName + "\n";
-        }
-
-
-//        SharedPreferences sharedPref = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
-//        String appString = sharedPref.getString("appData", "{\"text\":'no data'}");
-//        try {
-//            JSONObject appData = new JSONObject(appString);
-//            appData.getString("text");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
+//        SharedPreferences sharedPreferences = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
+//        Set<String> productsSet = sharedPreferences.getStringSet("products", new HashSet<>());
+//
+//        List<String> productsList = new ArrayList<>(productsSet);
+//
+//        String productsString = "";
+//        for (int i = 0; i < productsList.size(); ++i) {
+//            String productString = productsList.get(i);
+//
+//            String productId = productString.substring(0, productString.indexOf(" "));
+//            String productName = productString.substring(productString.indexOf(" " ) + 1);
+//
+//            productsString = productsString + productId + " - " + productName + "\n";
 //        }
         // =====
 
@@ -108,7 +98,7 @@ public class MyTestWidget extends AppWidgetProvider {
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId,
                 R.id.lvList);
 
-        Toast.makeText(context, "updateWidget(): " + productsString, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "updateWidget(): " + productsString, Toast.LENGTH_SHORT).show();
     }
 
     void setUpdateTV(RemoteViews rv, Context context, int appWidgetId) {
@@ -159,7 +149,7 @@ public class MyTestWidget extends AppWidgetProvider {
         voiceIntent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, resultsPendingIntent);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, voiceIntent, 0);
-        rv.setOnClickPendingIntent(R.id.button, pendingIntent);
+//        rv.setOnClickPendingIntent(R.id.button, pendingIntent);
         // =======
         // =====
 

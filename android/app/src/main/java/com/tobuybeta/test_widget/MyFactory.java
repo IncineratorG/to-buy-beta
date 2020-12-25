@@ -41,20 +41,22 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onCreate() {
-        mProducts.clear();
+        mProducts = AppWidgetSharedShoppingList.get().getProductsList(context);
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
-        Set<String> productsSet = sharedPreferences.getStringSet("products", new HashSet<>());
+//        SharedPreferences sharedPreferences = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
+//        Set<String> productsSet = sharedPreferences.getStringSet("products", new HashSet<>());
+//
+//        List<String> productsList = new ArrayList<>(productsSet);
+//        for (int i = 0; i < productsList.size(); ++i) {
+//            String productString = productsList.get(i);
+//
+//            String productId = productString.substring(0, productString.indexOf(" "));
+//            String productName = productString.substring(productString.indexOf(" " ) + 1);
+//
+//            mProducts.add(new Product(productId, productName));
+//        }
 
-        List<String> productsList = new ArrayList<>(productsSet);
-        for (int i = 0; i < productsList.size(); ++i) {
-            String productString = productsList.get(i);
 
-            String productId = productString.substring(0, productString.indexOf(" "));
-            String productName = productString.substring(productString.indexOf(" " ) + 1);
-
-            mProducts.add(new Product(productId, productName));
-        }
 
 //        data = new ArrayList<String>();
 ////        data.clear();
@@ -110,20 +112,25 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
-        mProducts.clear();
+        mProducts = AppWidgetSharedShoppingList.get().getProductsList(context);
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
-        Set<String> productsSet = sharedPreferences.getStringSet("products", new HashSet<>());
+//        mProducts.clear();
+//
+//        SharedPreferences sharedPreferences = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
+//        Set<String> productsSet = sharedPreferences.getStringSet("products", new HashSet<>());
+//
+//        List<String> productsList = new ArrayList<>(productsSet);
+//        for (int i = 0; i < productsList.size(); ++i) {
+//            String productString = productsList.get(i);
+//
+//            String productId = productString.substring(0, productString.indexOf(" "));
+//            String productName = productString.substring(productString.indexOf(" " ) + 1);
+//
+//            mProducts.add(new Product(productId, productName));
+//        }
 
-        List<String> productsList = new ArrayList<>(productsSet);
-        for (int i = 0; i < productsList.size(); ++i) {
-            String productString = productsList.get(i);
 
-            String productId = productString.substring(0, productString.indexOf(" "));
-            String productName = productString.substring(productString.indexOf(" " ) + 1);
 
-            mProducts.add(new Product(productId, productName));
-        }
 
 //        data.clear();
 
