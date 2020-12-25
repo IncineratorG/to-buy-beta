@@ -2,7 +2,7 @@ import {Notifier} from '../../utils/common/service-utils/notifier/Notifier';
 import {SystemEventsHandler} from '../../utils/common/system-events-handler/SystemEventsHandler';
 import ShareServiceEvents from './data/event-types/ShareServiceEvents';
 import PhoneMessaging from './libs/phone-messaging/PhoneMessaging';
-import TestWidget from './libs/test-widget/TestWidget';
+// import TestWidget from './libs/test-widget/TestWidget';
 import ShareServiceAppTypes from './data/share-app-types/ShareServiceAppTypes';
 // import {NativeEventEmitter, NativeModules} from 'react-native';
 
@@ -70,66 +70,66 @@ export class ShareService {
     };
   }
 
-  static async shareViaApp({appType, text}) {
-    SystemEventsHandler.onInfo({info: 'shareViaApp()'});
-    TestWidget.set(
-      JSON.stringify({text: 'This is data from the React Native app'}),
-    );
-  }
   // static async shareViaApp({appType, text}) {
-  //   switch (appType) {
-  //     case ShareServiceAppTypes.SMS: {
-  //       try {
-  //         await PhoneMessaging.sendSmsMessage(text);
-  //       } catch (e) {
-  //         SystemEventsHandler.onError({
-  //           err:
-  //             ShareService.#className +
-  //             '->shareViaApp()->APP_TYPE: ' +
-  //             appType +
-  //             '; ERROR: ' +
-  //             e.toString(),
-  //         });
-  //       }
-  //       break;
-  //     }
-  //
-  //     case ShareServiceAppTypes.WHATS_APP: {
-  //       try {
-  //         await PhoneMessaging.sendWhatsAppMessage(text);
-  //       } catch (e) {
-  //         SystemEventsHandler.onError({
-  //           err:
-  //             ShareService.#className +
-  //             '->shareViaWhatsApp()->ERROR: ' +
-  //             e.toString(),
-  //         });
-  //       }
-  //       break;
-  //     }
-  //
-  //     case ShareServiceAppTypes.TELEGRAM: {
-  //       try {
-  //         await PhoneMessaging.sendTelegramMessage(text);
-  //       } catch (e) {
-  //         SystemEventsHandler.onError({
-  //           err:
-  //             ShareService.#className +
-  //             '->shareViaTelegram()->ERROR: ' +
-  //             e.toString(),
-  //         });
-  //       }
-  //       break;
-  //     }
-  //
-  //     default: {
-  //       SystemEventsHandler.onError({
-  //         err:
-  //           ShareService.#className +
-  //           '->shareViaApp()->ERROR->UNKNOWN_APP_TYPE: ' +
-  //           appType,
-  //       });
-  //     }
-  //   }
+  //   SystemEventsHandler.onInfo({info: 'shareViaApp()'});
+  //   TestWidget.set(
+  //     JSON.stringify({text: 'This is data from the React Native app'}),
+  //   );
   // }
+  static async shareViaApp({appType, text}) {
+    switch (appType) {
+      case ShareServiceAppTypes.SMS: {
+        try {
+          await PhoneMessaging.sendSmsMessage(text);
+        } catch (e) {
+          SystemEventsHandler.onError({
+            err:
+              ShareService.#className +
+              '->shareViaApp()->APP_TYPE: ' +
+              appType +
+              '; ERROR: ' +
+              e.toString(),
+          });
+        }
+        break;
+      }
+
+      case ShareServiceAppTypes.WHATS_APP: {
+        try {
+          await PhoneMessaging.sendWhatsAppMessage(text);
+        } catch (e) {
+          SystemEventsHandler.onError({
+            err:
+              ShareService.#className +
+              '->shareViaWhatsApp()->ERROR: ' +
+              e.toString(),
+          });
+        }
+        break;
+      }
+
+      case ShareServiceAppTypes.TELEGRAM: {
+        try {
+          await PhoneMessaging.sendTelegramMessage(text);
+        } catch (e) {
+          SystemEventsHandler.onError({
+            err:
+              ShareService.#className +
+              '->shareViaTelegram()->ERROR: ' +
+              e.toString(),
+          });
+        }
+        break;
+      }
+
+      default: {
+        SystemEventsHandler.onError({
+          err:
+            ShareService.#className +
+            '->shareViaApp()->ERROR->UNKNOWN_APP_TYPE: ' +
+            appType,
+        });
+      }
+    }
+  }
 }

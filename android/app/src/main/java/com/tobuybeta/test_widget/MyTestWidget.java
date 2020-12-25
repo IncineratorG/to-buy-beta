@@ -21,8 +21,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Implementation of App Widget functionality.
@@ -74,9 +77,38 @@ public class MyTestWidget extends AppWidgetProvider {
         setListClick(rv, context, appWidgetId);
         setButtonClick(rv, context, appWidgetId);
 
+        // =====
+        SharedPreferences sharedPreferences = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
+        Set<String> productsSet = sharedPreferences.getStringSet("products", new HashSet<>());
+
+        List<String> productsList = new ArrayList<>(productsSet);
+
+        String productsString = "";
+        for (int i = 0; i < productsList.size(); ++i) {
+            String productString = productsList.get(i);
+
+            String productId = productString.substring(0, productString.indexOf(" "));
+            String productName = productString.substring(productString.indexOf(" " ) + 1);
+
+            productsString = productsString + productId + " - " + productName + "\n";
+        }
+
+
+//        SharedPreferences sharedPref = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
+//        String appString = sharedPref.getString("appData", "{\"text\":'no data'}");
+//        try {
+//            JSONObject appData = new JSONObject(appString);
+//            appData.getString("text");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+        // =====
+
         appWidgetManager.updateAppWidget(appWidgetId, rv);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId,
                 R.id.lvList);
+
+        Toast.makeText(context, "updateWidget(): " + productsString, Toast.LENGTH_SHORT).show();
     }
 
     void setUpdateTV(RemoteViews rv, Context context, int appWidgetId) {

@@ -11,22 +11,19 @@ function* aws_setWidgetShoppingListHandler(action) {
   });
 
   const shoppingListService = Services.get(Services.serviceTypes.SHOPPING_LIST);
+  const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);
 
   const shoppingListData = yield call(shoppingListService.getProductsList, {
     id: shoppingListId,
   });
 
-  SystemEventsHandler.onInfo({info: ''});
-  SystemEventsHandler.onInfo({info: shoppingListData.name});
-  SystemEventsHandler.onInfo({info: shoppingListData.products.length});
-  shoppingListData.products.forEach((product) => {
-    SystemEventsHandler.onInfo({
-      info: 'PRODUCT: ' + product.id + ' - ' + product.name,
-    });
+  yield call(appWidgetService.setWidgetShoppingList, {
+    listId: shoppingListData.id,
+    listName: shoppingListData.name,
+    productsList: shoppingListData.products,
   });
-  SystemEventsHandler.onInfo({info: ''});
 
-  yield put(widgetShoppingListSetAction({shoppingListId}));
+  // yield put(widgetShoppingListSetAction({shoppingListId}));
 
   // const {partialProductName, excludedProductNamesSet} = action.payload;
   //
