@@ -1,4 +1,4 @@
-package com.tobuybeta.modules.shared_storage;
+package com.tobuybeta.modules.app_widget;
 
 import androidx.annotation.NonNull;
 
@@ -15,12 +15,12 @@ import java.util.List;
  * TODO: Add a class header comment
  */
 
-public class SharedStoragePackage implements ReactPackage {
+public class AppWidgetPackage implements ReactPackage {
     @NonNull
     @Override
     public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
-        modules.add(SharedStorageModule.get(reactContext));
+        modules.add(new AppWidgetModule(reactContext));
         return modules;
     }
 

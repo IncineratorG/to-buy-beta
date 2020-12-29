@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,31 +14,26 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
-import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.ReadableNativeArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.tobuybeta.test_widget.AppWidgetSharedShoppingList;
 import com.tobuybeta.test_widget.MyTestWidget;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * TODO: Add a class header comment
  */
 
-public class SharedStorage extends ReactContextBaseJavaModule {
-    private static SharedStorage mInstance;
+public class SharedStorageModule extends ReactContextBaseJavaModule {
+    private static SharedStorageModule mInstance;
     private ReactApplicationContext mContext;
 
-    private SharedStorage(ReactApplicationContext reactContext) {
+    private SharedStorageModule(ReactApplicationContext reactContext) {
         super(reactContext);
         mContext = reactContext;
     }
 
-    public static SharedStorage get(ReactApplicationContext reactContext) {
+    public static SharedStorageModule get(ReactApplicationContext reactContext) {
         if (reactContext == null) {
             if (mInstance == null) {
                 return null;
@@ -49,7 +43,7 @@ public class SharedStorage extends ReactContextBaseJavaModule {
         }
 
         if (mInstance == null) {
-            mInstance = new SharedStorage(reactContext);
+            mInstance = new SharedStorageModule(reactContext);
         }
 
         return mInstance;

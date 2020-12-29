@@ -9,6 +9,7 @@ import android.widget.RemoteViewsService;
 import android.widget.Toast;
 
 import com.tobuybeta.R;
+import com.tobuybeta.modules.app_widget.storage.Storage;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onCreate() {
-        mProducts = AppWidgetSharedShoppingList.get().getProductsList(context);
+        mProducts = Storage.get().getProductsList(context);
 
 //        SharedPreferences sharedPreferences = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
 //        Set<String> productsSet = sharedPreferences.getStringSet("products", new HashSet<>());
@@ -112,7 +113,7 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
-        mProducts = AppWidgetSharedShoppingList.get().getProductsList(context);
+        mProducts = Storage.get().getProductsList(context);
 
 //        mProducts.clear();
 //

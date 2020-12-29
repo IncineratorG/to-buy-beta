@@ -8,24 +8,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.tobuybeta.MainActivity;
 import com.tobuybeta.R;
-import com.tobuybeta.modules.shared_storage.SharedStorage;
+import com.tobuybeta.modules.app_widget.storage.Storage;
+import com.tobuybeta.modules.shared_storage.SharedStorageModule;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Implementation of App Widget functionality.
@@ -190,18 +186,23 @@ public class MyTestWidget extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
+
+        Storage.get().setWidgetActive(context, true);
     }
 
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+
+        Storage.get().clear(context);
+        Storage.get().setWidgetActive(context, false);
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         if (MyOnClick1.equals(intent.getAction())){
-            SharedStorage sharedStorage = SharedStorage.get(null);
+            SharedStorageModule sharedStorage = SharedStorageModule.get(null);
             if (sharedStorage == null) {
                 Toast.makeText(context, "NULL", Toast.LENGTH_SHORT).show();
                 return;
@@ -216,7 +217,7 @@ public class MyTestWidget extends AppWidgetProvider {
 //            }
 
             // ===
-            SharedStorage sharedStorage = SharedStorage.get(null);
+            SharedStorageModule sharedStorage = SharedStorageModule.get(null);
             if (sharedStorage == null) {
                 Toast.makeText(context, "NULL", Toast.LENGTH_SHORT).show();
                 return;
@@ -255,7 +256,7 @@ public class MyTestWidget extends AppWidgetProvider {
         } else if (intent.getAction().equalsIgnoreCase(RECOGNIZE_SPEECH_CLICK)) {
             Toast.makeText(context, "IN_RECOGNIZE_SPEECH_CLICK", Toast.LENGTH_SHORT).show();
 
-            SharedStorage sharedStorage = SharedStorage.get(null);
+            SharedStorageModule sharedStorage = SharedStorageModule.get(null);
             if (sharedStorage == null) {
                 return;
             }

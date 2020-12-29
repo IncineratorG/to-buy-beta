@@ -37,21 +37,21 @@ const ShoppingLists = () => {
 
   // ===
   // =====
-  useEffect(() => {
-    SystemEventsHandler.onInfo({info: 'EVENT_LISTENER_REGISTERED'});
-
-    const eventEmitter = new NativeEventEmitter(NativeModules.SharedStorage);
-
-    const eventListener = eventEmitter.addListener('EventReminder', (event) => {
-      SystemEventsHandler.onInfo({info: 'EVENT: ' + event.eventProperty});
-      showToastWithGravityAndOffset();
-      // console.log(event.eventProperty); // "someValue"
-    });
-
-    return () => {
-      eventListener.remove();
-    };
-  }, []);
+  // useEffect(() => {
+  //   SystemEventsHandler.onInfo({info: 'EVENT_LISTENER_REGISTERED'});
+  //
+  //   const eventEmitter = new NativeEventEmitter(NativeModules.SharedStorage);
+  //
+  //   const eventListener = eventEmitter.addListener('EventReminder', (event) => {
+  //     SystemEventsHandler.onInfo({info: 'EVENT: ' + event.eventProperty});
+  //     showToastWithGravityAndOffset();
+  //     // console.log(event.eventProperty); // "someValue"
+  //   });
+  //
+  //   return () => {
+  //     eventListener.remove();
+  //   };
+  // }, []);
   // =====
   // ===
 

@@ -42,11 +42,19 @@ export const useShoppingListsModel = () => {
   );
 
   // =====
+  const widgetIsActive = useSelector(
+    (state) => state.appWidget.appWidget.isActive,
+  );
   const widgetShoppingListId = useSelector(
     (state) => state.appWidget.appWidget.shoppingListId,
   );
+
   SystemEventsHandler.onInfo({
-    info: 'WIDGET_SHOPPING_LIST_ID: ' + widgetShoppingListId,
+    info:
+      'WIDGET_SHOPPING_LIST_ID: ' +
+      widgetShoppingListId +
+      ' - ' +
+      widgetIsActive,
   });
   // =====
 
