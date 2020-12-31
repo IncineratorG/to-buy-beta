@@ -42,12 +42,14 @@ import java.util.Map;
 
 public class AppWidgetModule extends ReactContextBaseJavaModule {
     private ReactApplicationContext mContext;
+    private Storage mStorage;
     private static final String IS_WIDGET_ACTIVE_FIELD = "isActive";
     private static final String SHOPPING_LIST_ID_FIELD = "shoppingListId";
 
     public AppWidgetModule(@NonNull ReactApplicationContext reactContext) {
         super(reactContext);
         mContext = reactContext;
+        mStorage = Storage.get();
 
 //        Storage storage = Storage.get();
 //
@@ -119,13 +121,12 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
 
         switch (type) {
             case (AppWidgetActionTypes.GET_WIDGET_STATUS): {
-                ActionResult actionResult = new ActionResult();
-                Action storageAction = StorageActionCreators.
-                        getWidgetActiveAction(mContext, actionResult);
+                Action storageAction = StorageActionCreators.getWidgetActiveAction(mContext);
 
-                Storage.get().execute(storageAction);
+                mStorage.execute(storageAction);
 
-                boolean isActive = StorageActionResults.getWidgetActiveActionResult(actionResult.get());
+                boolean isActive = StorageActionResults
+                        .getWidgetActiveActionResult(storageAction.result().get());
 
                 WritableMap resultMap = new WritableNativeMap();
                 resultMap.putBoolean("isActive", isActive);

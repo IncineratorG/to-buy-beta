@@ -16,13 +16,13 @@ public class StorageActionCreators {
         payload.set("context", context);
         payload.set("isActive", isActive);
 
-        return new Action(StorageActionTypes.SET_WIDGET_ACTIVE, payload, null);
+        return new Action(StorageActionTypes.SET_WIDGET_ACTIVE, payload);
     }
 
-    public static Action getWidgetActiveAction(Context context, ActionResult result) {
+    public static Action getWidgetActiveAction(Context context) {
         ActionPayload payload = new ActionPayload();
         payload.set("context", context);
 
-        return new Action(StorageActionTypes.GET_WIDGET_ACTIVE, payload, result);
+        return new Action(StorageActionTypes.GET_WIDGET_ACTIVE, payload);
     }
 }

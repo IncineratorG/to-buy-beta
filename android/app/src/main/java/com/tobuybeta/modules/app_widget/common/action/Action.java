@@ -15,21 +15,14 @@ public class Action {
     public Action(String type) {
         mType = type;
         mPayload = null;
-        mResult = null;
+        mResult = new ActionResult();
         mUuid = UUID.randomUUID();
     }
 
-//    public Action(String type, ActionResult result) {
-//        mType = type;
-//        mPayload = null;
-//        mResult = result;
-//        mUuid = UUID.randomUUID();
-//    }
-
-    public Action(String type, ActionPayload payload, ActionResult result) {
+    public Action(String type, ActionPayload payload) {
         mType = type;
         mPayload = payload;
-        mResult = result;
+        mResult = new ActionResult();
         mUuid = UUID.randomUUID();
     }
 
