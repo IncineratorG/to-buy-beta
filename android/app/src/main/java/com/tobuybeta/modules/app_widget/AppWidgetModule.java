@@ -3,6 +3,7 @@ package com.tobuybeta.modules.app_widget;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,10 +14,21 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableNativeArray;
+import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.tobuybeta.modules.app_widget.common.action.Action;
+import com.tobuybeta.modules.app_widget.common.action.ActionResult;
+import com.tobuybeta.modules.app_widget.common.error.Error;
+import com.tobuybeta.modules.app_widget.module_actions.AppWidgetActionTypes;
+import com.tobuybeta.modules.app_widget.module_errors.AppWidgetErrors;
 import com.tobuybeta.modules.app_widget.storage.Storage;
+import com.tobuybeta.modules.app_widget.storage.actions.StorageActionCreators;
+import com.tobuybeta.modules.app_widget.storage.actions.StorageActionResults;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEvents;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEventsResultValues;
 import com.tobuybeta.test_widget.MyTestWidget;
@@ -37,25 +49,25 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
         super(reactContext);
         mContext = reactContext;
 
-        Storage storage = Storage.get();
-
-        storage.subscribe(StorageEvents.WIDGET_ACTIVE_CHANGED, (value) -> {
-            boolean isActive = StorageEventsResultValues.widgetActiveChangedEventResult(value);
-
-            WritableMap params = new WritableNativeMap();
-            params.putBoolean(IS_WIDGET_ACTIVE_FIELD, isActive);
-
-            emitEvent(mContext, StorageEvents.WIDGET_ACTIVE_CHANGED, params);
-        });
-
-        storage.subscribe(StorageEvents.SHOPPING_LIST_SET, (value) -> {
-            String shoppingListId = StorageEventsResultValues.shoppingListSetEventResult(value);
-
-            WritableMap params = new WritableNativeMap();
-            params.putString(SHOPPING_LIST_ID_FIELD, shoppingListId);
-
-            emitEvent(mContext, StorageEvents.SHOPPING_LIST_SET, params);
-        });
+//        Storage storage = Storage.get();
+//
+//        storage.subscribe(StorageEvents.WIDGET_ACTIVE_CHANGED, (value) -> {
+//            boolean isActive = StorageEventsResultValues.widgetActiveChangedEventResult(value);
+//
+//            WritableMap params = new WritableNativeMap();
+//            params.putBoolean(IS_WIDGET_ACTIVE_FIELD, isActive);
+//
+//            emitEvent(mContext, StorageEvents.WIDGET_ACTIVE_CHANGED, params);
+//        });
+//
+//        storage.subscribe(StorageEvents.SHOPPING_LIST_SET, (value) -> {
+//            String shoppingListId = StorageEventsResultValues.shoppingListSetEventResult(value);
+//
+//            WritableMap params = new WritableNativeMap();
+//            params.putString(SHOPPING_LIST_ID_FIELD, shoppingListId);
+//
+//            emitEvent(mContext, StorageEvents.SHOPPING_LIST_SET, params);
+//        });
     }
 
     @NonNull
@@ -68,35 +80,108 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
     @Override
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
-        constants.put(StorageEvents.WIDGET_ACTIVE_CHANGED, StorageEvents.WIDGET_ACTIVE_CHANGED);
-        constants.put(StorageEvents.SHOPPING_LIST_SET, StorageEvents.SHOPPING_LIST_SET);
+//        constants.put(StorageEvents.WIDGET_ACTIVE_CHANGED, StorageEvents.WIDGET_ACTIVE_CHANGED);
+//        constants.put(StorageEvents.SHOPPING_LIST_SET, StorageEvents.SHOPPING_LIST_SET);
+//
+//        WritableMap map = new WritableNativeMap();
+//        map.putString("ONE", "one");
+//        map.putString("TWO", "two");
+//
+//        constants.put("MAP", map);
+
+//        WritableMap eventConstants = new WritableNativeMap();
+//        eventConstants.putString(StorageEvents.WIDGET_ACTIVE_CHANGED, StorageEvents.WIDGET_ACTIVE_CHANGED);
+//
+//        constants.put("events", eventConstants);
+
+        WritableMap actionTypesConstants = new WritableNativeMap();
+        actionTypesConstants.putString(AppWidgetActionTypes.GET_WIDGET_STATUS, AppWidgetActionTypes.GET_WIDGET_STATUS);
+
+        constants.put("actionTypes", actionTypesConstants);
+
         return constants;
     }
 
     @ReactMethod
-    public void getWidgetStatus(Promise promise) {
-        Storage storage = Storage.get();
+    public void execute(ReadableMap action, Promise result) {
+        if (action == null) {
+            Error error = AppWidgetErrors.badAction();
+            result.reject(error.code(), error.message());
+            return;
+        }
 
-        boolean isWidgetActive = storage.isWidgetActive(mContext);
-        String currentShoppingListId = storage.getShoppingListId(mContext);
+        final String type = action.getString("type");
+        if (type == null) {
+            Error error = AppWidgetErrors.badActionType();
+            result.reject(error.code(), error.message());
+            return;
+        }
+
+        switch (type) {
+            case (AppWidgetActionTypes.GET_WIDGET_STATUS): {
+                ActionResult actionResult = new ActionResult();
+                Action storageAction = StorageActionCreators.
+                        getWidgetActiveAction(mContext, actionResult);
+
+                Storage.get().execute(storageAction);
+
+                boolean isActive = StorageActionResults.getWidgetActiveActionResult(actionResult.get());
+
+                WritableMap resultMap = new WritableNativeMap();
+                resultMap.putBoolean("isActive", isActive);
+
+                result.resolve(resultMap);
+                break;
+            }
+
+            default: {
+                Error error = AppWidgetErrors.unknownActionType();
+                result.reject(error.code(), error.message());
+            }
+        }
+
+//        String type = action.getString("type");
+//        ReadableMap payload = action.getMap("payload");
+//        if (payload == null) {
+//            return;
+//        }
+//
+//        String one = payload.getString("one");
+//        String two = payload.getString("two");
+//
+//        Toast.makeText(mContext, type + " - " + one + " - " + two, Toast.LENGTH_LONG).show();
+//
+//        WritableMap resultMap = new WritableNativeMap();
+//        resultMap.putInt("resOne", 1);
+//        resultMap.putBoolean("resTwo", true);
+//
+//        result.resolve(resultMap);
+    }
+
+    @ReactMethod
+    public void getWidgetStatus(Promise promise) {
+//        Storage storage = Storage.get();
+//
+//        boolean isWidgetActive = storage.isWidgetActive(mContext);
+//        String currentShoppingListId = storage.getShoppingListId(mContext);
 
         WritableMap resultMap = new WritableNativeMap();
-        resultMap.putBoolean(IS_WIDGET_ACTIVE_FIELD, isWidgetActive);
-        resultMap.putString(SHOPPING_LIST_ID_FIELD, currentShoppingListId);
+        resultMap.putBoolean(IS_WIDGET_ACTIVE_FIELD, false);
+        resultMap.putString(SHOPPING_LIST_ID_FIELD, "-1");
 
         promise.resolve(resultMap);
     }
 
     @ReactMethod
     public void setShoppingList(String listId, String listName, ReadableArray productsList) {
-        Storage.get().setShoppingList(mContext, listId, listName, productsList);
-
-        Intent intent = new Intent(mContext, MyTestWidget.class);
-        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        int[] ids = AppWidgetManager.getInstance(mContext).
-                getAppWidgetIds(new ComponentName(mContext, MyTestWidget.class));
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-        mContext.sendBroadcast(intent);
+//        Storage.get().setShoppingList(mContext, listId, listName, productsList);
+//
+//        Intent intent = new Intent(mContext, MyTestWidget.class);
+//        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+//        int[] ids = AppWidgetManager.getInstance(mContext).
+//                getAppWidgetIds(new ComponentName(mContext, MyTestWidget.class));
+//        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+//        mContext.sendBroadcast(intent);
     }
 
     private void emitEvent(ReactContext reactContext,

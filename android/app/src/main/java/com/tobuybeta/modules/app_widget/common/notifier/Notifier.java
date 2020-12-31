@@ -1,8 +1,8 @@
-package com.tobuybeta.modules.app_widget.notifier;
+package com.tobuybeta.modules.app_widget.common.notifier;
 
-import com.tobuybeta.modules.app_widget.notifier.event_handler.EventHandler;
-import com.tobuybeta.modules.app_widget.notifier.subscription.Subscription;
-import com.tobuybeta.modules.app_widget.notifier.unsubscribe_handler.UnsubscribeHandler;
+import com.tobuybeta.modules.app_widget.common.notifier.event_handler.EventHandler;
+import com.tobuybeta.modules.app_widget.common.notifier.subscription.Subscription;
+import com.tobuybeta.modules.app_widget.common.notifier.unsubscribe_handler.UnsubscribeHandler;
 
 import java.util.ArrayList;
 import java.util.List;

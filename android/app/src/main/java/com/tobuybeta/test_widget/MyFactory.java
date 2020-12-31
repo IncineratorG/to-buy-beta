@@ -42,7 +42,9 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onCreate() {
-        mProducts = Storage.get().getProductsList(context);
+//        mProducts = Storage.get().getProductsList(context);
+
+
 
 //        SharedPreferences sharedPreferences = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
 //        Set<String> productsSet = sharedPreferences.getStringSet("products", new HashSet<>());
@@ -113,7 +115,9 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
-        mProducts = Storage.get().getProductsList(context);
+//        mProducts = Storage.get().getProductsList(context);
+
+
 
 //        mProducts.clear();
 //

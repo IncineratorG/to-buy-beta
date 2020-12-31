@@ -326,7 +326,7 @@ const slSqliteFunctionsService = () => {
       return result;
     }
 
-    result.shoppingList = await this.getProductsList({id: copiedListId});
+    result.shoppingList = await getProductsList({id: copiedListId});
     return result;
   };
 

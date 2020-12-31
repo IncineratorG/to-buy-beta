@@ -1,6 +1,6 @@
-package com.tobuybeta.modules.app_widget.notifier.subscription;
+package com.tobuybeta.modules.app_widget.common.notifier.subscription;
 
-import com.tobuybeta.modules.app_widget.notifier.event_handler.EventHandler;
+import com.tobuybeta.modules.app_widget.common.notifier.event_handler.EventHandler;
 
 public class Subscription {
     private int mId;
