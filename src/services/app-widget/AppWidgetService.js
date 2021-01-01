@@ -1,50 +1,15 @@
 import {Notifier} from '../../utils/common/service-utils/notifier/Notifier';
 import {SystemEventsHandler} from '../../utils/common/system-events-handler/SystemEventsHandler';
-import AppWidget from './libs/app-widget/AppWidget';
-import {NativeEventEmitter, NativeModules} from 'react-native';
 import AppWidgetServiceEventTypes from './data/event-types/AppWidgetServiceEventTypes';
+import NativeWidget from './native-widget/NativeWidget';
 
 const AppWidgetService = () => {
-  // const {WIDGET_ACTIVE_CHANGED, SHOPPING_LIST_SET} = AppWidget.getConstants();
   const notifier = new Notifier();
 
   const init = async () => {
     SystemEventsHandler.onInfo({info: 'AppWidgetService->init()'});
-
-    const {
-      actionTypes: {GET_WIDGET_STATUS},
-    } = AppWidget.getConstants();
-
-    const getWidgetStatusAction = {
-      type: GET_WIDGET_STATUS,
-    };
-
-    const result = await AppWidget.execute(getWidgetStatusAction);
+    const result = await NativeWidget.getWidgetStatus();
     SystemEventsHandler.onInfo({info: 'RESULT: ' + JSON.stringify(result)});
-
-    // SystemEventsHandler.onInfo({info: GET_WIDGET_STATUS});
-    //
-    // const action = {
-    //   type: 'TestType',
-    //   payload: {
-    //     one: 'MyOne',
-    //     two: 'MyTwo',
-    //   },
-    // };
-    // const result = await AppWidget.execute(action);
-    // SystemEventsHandler.onInfo({info: 'RESULT: ' + JSON.stringify(result)});
-
-    // ===
-    // const action = {
-    //   type: 'TestType',
-    //   payload: {
-    //     one: 'MyOne',
-    //     two: 'MyTwo',
-    //   },
-    // };
-    // const result = await AppWidget.execute(action);
-    // SystemEventsHandler.onInfo({info: 'RESULT: ' + JSON.stringify(result)});
-    // ===
 
     // ===
     // const {

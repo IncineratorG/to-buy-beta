@@ -1,10 +1,5 @@
 package com.tobuybeta.modules.app_widget;
 
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -15,23 +10,18 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.ReadableNativeArray;
-import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.tobuybeta.modules.app_widget.common.action.Action;
-import com.tobuybeta.modules.app_widget.common.action.ActionResult;
 import com.tobuybeta.modules.app_widget.common.error.Error;
-import com.tobuybeta.modules.app_widget.module_actions.AppWidgetActionTypes;
+import com.tobuybeta.modules.app_widget.module_actions.payloads.AppWidgetActionPayloads;
+import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetShoppingListPayload;
+import com.tobuybeta.modules.app_widget.module_actions.types.AppWidgetActionTypes;
 import com.tobuybeta.modules.app_widget.module_errors.AppWidgetErrors;
 import com.tobuybeta.modules.app_widget.storage.Storage;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActionCreators;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActionResults;
-import com.tobuybeta.modules.app_widget.storage.events.StorageEvents;
-import com.tobuybeta.modules.app_widget.storage.events.StorageEventsResultValues;
-import com.tobuybeta.test_widget.MyTestWidget;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +33,10 @@ import java.util.Map;
 public class AppWidgetModule extends ReactContextBaseJavaModule {
     private ReactApplicationContext mContext;
     private Storage mStorage;
+
+    private static final String ACTION_TYPE = "type";
+    private static final String ACTION_PAYLOAD = "payload";
+
     private static final String IS_WIDGET_ACTIVE_FIELD = "isActive";
     private static final String SHOPPING_LIST_ID_FIELD = "shoppingListId";
 
@@ -98,6 +92,7 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
 
         WritableMap actionTypesConstants = new WritableNativeMap();
         actionTypesConstants.putString(AppWidgetActionTypes.GET_WIDGET_STATUS, AppWidgetActionTypes.GET_WIDGET_STATUS);
+        actionTypesConstants.putString(AppWidgetActionTypes.SET_SHOPPING_LIST, AppWidgetActionTypes.SET_SHOPPING_LIST);
 
         constants.put("actionTypes", actionTypesConstants);
 
@@ -112,7 +107,7 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
             return;
         }
 
-        final String type = action.getString("type");
+        final String type = action.getString(ACTION_TYPE);
         if (type == null) {
             Error error = AppWidgetErrors.badActionType();
             result.reject(error.code(), error.message());
@@ -132,6 +127,19 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                 resultMap.putBoolean("isActive", isActive);
 
                 result.resolve(resultMap);
+                break;
+            }
+
+            case (AppWidgetActionTypes.SET_SHOPPING_LIST): {
+                ReadableMap payloadMap = action.getMap(ACTION_PAYLOAD);
+                if (payloadMap == null) {
+                    Error error = AppWidgetErrors.badPayload();
+                    result.reject(error.code(), error.message());
+                    return;
+                }
+
+                SetShoppingListPayload payload = AppWidgetActionPayloads.setShoppingListPayload(payloadMap);
+
                 break;
             }
 

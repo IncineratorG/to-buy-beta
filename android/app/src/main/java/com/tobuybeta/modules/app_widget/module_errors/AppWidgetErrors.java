@@ -18,4 +18,8 @@ public class AppWidgetErrors {
     public static Error unknownActionType() {
         return new Error("3", "UNKNOWN_ACTION_TYPE");
     }
+
+    public static Error badPayload() {
+        return new Error("4", "BAD_PAYLOAD");
+    }
 }
