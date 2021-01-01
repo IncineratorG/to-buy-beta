@@ -5,32 +5,36 @@ import NativeWidget from './native-widget/NativeWidget';
 
 const AppWidgetService = () => {
   const notifier = new Notifier();
+  const widget = NativeWidget;
 
   const init = async () => {
-    SystemEventsHandler.onInfo({info: 'AppWidgetService->init()'});
-    const result = await NativeWidget.getWidgetStatus();
-    SystemEventsHandler.onInfo({info: 'RESULT: ' + JSON.stringify(result)});
-
-    // ===
-    // const {
-    //   WIDGET_ACTIVE_CHANGED,
-    //   SHOPPING_LIST_SET,
-    //   MAP: {ONE, TWO},
-    // } = AppWidget.getConstants();
-    //
-    // SystemEventsHandler.onInfo({
-    //   info: 'AppWidgetService->init(): ' + ONE + ' - ' + TWO,
-    // });
-    // ===
+    // SystemEventsHandler.onInfo({info: 'AppWidgetService->init()'});
+    const result = await widget.getWidgetStatus();
+    // SystemEventsHandler.onInfo({info: 'RESULT: ' + JSON.stringify(result)});
   };
 
   const subscribe = ({event, handler}) => {
     return notifier.subscribe({event, handler});
   };
 
+  const setShoppingList = async ({listId, listName, productsList}) => {
+    SystemEventsHandler.onInfo({
+      info:
+        'AppWidgetService->SystemEventsHandler(): ' +
+        listId +
+        ' - ' +
+        listName +
+        ' - ' +
+        productsList.length,
+    });
+
+    return await widget.setShoppingList({listId, listName, productsList});
+  };
+
   return {
     init,
     subscribe,
+    setShoppingList,
   };
 };
 

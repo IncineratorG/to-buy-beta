@@ -1,5 +1,7 @@
 package com.tobuybeta.modules.app_widget;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -139,7 +141,30 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                 }
 
                 SetShoppingListPayload payload = AppWidgetActionPayloads.setShoppingListPayload(payloadMap);
+                if (!payload.isValid()) {
+                    Error error = AppWidgetErrors.badPayload();
+                    result.reject(error.code(), error.message());
+                    return;
+                }
 
+                // ===
+                Toast.makeText(
+                        mContext,
+                        payload.listId() + " - " + payload.listName() + " - " + payload.productsList().size(),
+                        Toast.LENGTH_LONG
+                ).show();
+                // ===
+
+                mStorage.execute(
+                        StorageActionCreators.setShoppingList(
+                                mContext,
+                                payload.listId(),
+                                payload.listName(),
+                                payload.productsList()
+                        )
+                );
+
+                result.resolve(true);
                 break;
             }
 

@@ -5,6 +5,9 @@ import android.content.Context;
 import com.tobuybeta.modules.app_widget.common.action.Action;
 import com.tobuybeta.modules.app_widget.common.action.ActionPayload;
 import com.tobuybeta.modules.app_widget.common.action.ActionResult;
+import com.tobuybeta.modules.app_widget.common.product.Product;
+
+import java.util.List;
 
 /**
  * TODO: Add a class header comment
@@ -24,5 +27,18 @@ public class StorageActionCreators {
         payload.set("context", context);
 
         return new Action(StorageActionTypes.GET_WIDGET_ACTIVE, payload);
+    }
+
+    public static Action setShoppingList(Context context,
+                                         String listId,
+                                         String listName,
+                                         List<Product> productsList) {
+        ActionPayload payload = new ActionPayload();
+        payload.set("context", context);
+        payload.set("listId", listId);
+        payload.set("listName", listName);
+        payload.set("productsList", productsList);
+
+        return new Action(StorageActionTypes.SET_SHOPPING_LIST, payload);
     }
 }

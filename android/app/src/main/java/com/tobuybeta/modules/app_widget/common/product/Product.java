@@ -1,4 +1,4 @@
-package com.tobuybeta.test_widget;
+package com.tobuybeta.modules.app_widget.common.product;
 
 /**
  * TODO: Add a class header comment

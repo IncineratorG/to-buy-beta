@@ -3,20 +3,15 @@ package com.tobuybeta.test_widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-import android.widget.Toast;
 
 import com.tobuybeta.R;
-import com.tobuybeta.modules.app_widget.storage.Storage;
+import com.tobuybeta.modules.app_widget.common.product.Product;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * TODO: Add a class header comment

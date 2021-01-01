@@ -7,8 +7,18 @@ const NativeWidget = () => {
     return await AppWidget.execute(action);
   };
 
+  const setShoppingList = async ({listId, listName, productsList}) => {
+    const action = NativeWidgetActions.setShoppingListAction({
+      listId,
+      listName,
+      productsList,
+    });
+    return await AppWidget.execute(action);
+  };
+
   return {
     getWidgetStatus,
+    setShoppingList,
   };
 };
 

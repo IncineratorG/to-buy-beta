@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.tobuybeta.modules.app_widget.common.product.Product;
 
 import java.util.ArrayList;
 import java.util.HashSet;

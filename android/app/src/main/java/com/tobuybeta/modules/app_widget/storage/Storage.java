@@ -63,6 +63,12 @@ public class Storage {
                 break;
             }
 
+            case (StorageActionTypes.SET_SHOPPING_LIST): {
+
+
+                break;
+            }
+
             default: {
 
             }
@@ -83,7 +89,7 @@ public class Storage {
 //import com.tobuybeta.modules.app_widget.common.notifier.unsubscribe_handler.UnsubscribeHandler;
 //import com.tobuybeta.modules.app_widget.storage.events.StorageEvents;
 //import com.tobuybeta.modules.app_widget.storage.events.StorageEventsInputValues;
-//import com.tobuybeta.test_widget.Product;
+//import com.tobuybeta.modules.app_widget.common.product.Product;
 //
 //import java.util.ArrayList;
 //import java.util.HashSet;
