@@ -148,11 +148,11 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                 }
 
                 // ===
-                Toast.makeText(
-                        mContext,
-                        payload.listId() + " - " + payload.listName() + " - " + payload.productsList().size(),
-                        Toast.LENGTH_LONG
-                ).show();
+//                Toast.makeText(
+//                        mContext,
+//                        payload.listId() + " - " + payload.listName() + " - " + payload.productsList().size(),
+//                        Toast.LENGTH_LONG
+//                ).show();
                 // ===
 
                 mStorage.execute(

@@ -6,10 +6,13 @@ import com.tobuybeta.modules.app_widget.common.action.Action;
 import com.tobuybeta.modules.app_widget.common.notifier.Notifier;
 import com.tobuybeta.modules.app_widget.common.notifier.event_handler.EventHandler;
 import com.tobuybeta.modules.app_widget.common.notifier.unsubscribe_handler.UnsubscribeHandler;
+import com.tobuybeta.modules.app_widget.common.product.Product;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActionTypes;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEvents;
 import com.tobuybeta.modules.app_widget.storage.handlers.StorageHandlers;
 import com.tobuybeta.modules.app_widget.storage.handlers.handlers.SetWidgetActiveHandler;
+
+import java.util.List;
 
 /**
  * TODO: Add a class header comment
@@ -64,6 +67,10 @@ public class Storage {
             }
 
             case (StorageActionTypes.SET_SHOPPING_LIST): {
+                Context context = (Context) action.payload().get("context");
+                String listId = (String) action.payload().get("listId");
+                String listName = (String) action.payload().get("listName");
+                List<Product> productsList = (List<Product>) action.payload().get("productsList");
 
 
                 break;
