@@ -10,7 +10,9 @@ const AppWidgetService = () => {
   const init = async () => {
     // SystemEventsHandler.onInfo({info: 'AppWidgetService->init()'});
     const result = await widget.getWidgetStatus();
-    // SystemEventsHandler.onInfo({info: 'RESULT: ' + JSON.stringify(result)});
+    SystemEventsHandler.onInfo({
+      info: 'WIDGET_ACTIVE: ' + JSON.stringify(result),
+    });
   };
 
   const subscribe = ({event, handler}) => {

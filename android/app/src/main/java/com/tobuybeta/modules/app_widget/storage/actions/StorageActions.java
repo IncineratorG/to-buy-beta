@@ -13,7 +13,7 @@ import java.util.List;
  * TODO: Add a class header comment
  */
 
-public class StorageActionCreators {
+public class StorageActions {
     public static Action setWidgetActiveAction(Context context, boolean isActive) {
         ActionPayload payload = new ActionPayload();
         payload.set("context", context);
@@ -29,10 +29,10 @@ public class StorageActionCreators {
         return new Action(StorageActionTypes.GET_WIDGET_ACTIVE, payload);
     }
 
-    public static Action setShoppingList(Context context,
-                                         String listId,
-                                         String listName,
-                                         List<Product> productsList) {
+    public static Action setShoppingListAction(Context context,
+                                               String listId,
+                                               String listName,
+                                               List<Product> productsList) {
         ActionPayload payload = new ActionPayload();
         payload.set("context", context);
         payload.set("listId", listId);
@@ -40,5 +40,20 @@ public class StorageActionCreators {
         payload.set("productsList", productsList);
 
         return new Action(StorageActionTypes.SET_SHOPPING_LIST, payload);
+    }
+
+    public static Action getShoppingListsAction(Context context) {
+        ActionPayload payload = new ActionPayload();
+        payload.set("context", context);
+
+        return new Action(StorageActionTypes.GET_SHOPPING_LISTS, payload);
+    }
+
+    public static Action getProductsListAction(Context context, String listId) {
+        ActionPayload payload = new ActionPayload();
+        payload.set("context", context);
+        payload.set("listId", listId);
+
+        return new Action(StorageActionTypes.GET_PRODUCTS_LIST, payload);
     }
 }

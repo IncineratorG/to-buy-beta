@@ -17,12 +17,13 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.tobuybeta.modules.app_widget.common.action.Action;
 import com.tobuybeta.modules.app_widget.common.error.Error;
+import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.AppWidgetActionPayloads;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetShoppingListPayload;
 import com.tobuybeta.modules.app_widget.module_actions.types.AppWidgetActionTypes;
 import com.tobuybeta.modules.app_widget.module_errors.AppWidgetErrors;
 import com.tobuybeta.modules.app_widget.storage.Storage;
-import com.tobuybeta.modules.app_widget.storage.actions.StorageActionCreators;
+import com.tobuybeta.modules.app_widget.storage.actions.StorageActions;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActionResults;
 
 import java.util.HashMap;
@@ -118,7 +119,7 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
 
         switch (type) {
             case (AppWidgetActionTypes.GET_WIDGET_STATUS): {
-                Action storageAction = StorageActionCreators.getWidgetActiveAction(mContext);
+                Action storageAction = StorageActions.getWidgetActiveAction(mContext);
 
                 mStorage.execute(storageAction);
 
@@ -156,13 +157,30 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                 // ===
 
                 mStorage.execute(
-                        StorageActionCreators.setShoppingList(
+                        StorageActions.setShoppingListAction(
                                 mContext,
                                 payload.listId(),
                                 payload.listName(),
                                 payload.productsList()
                         )
                 );
+
+                // ===
+                // =====
+                Action getShoppingListsAction = StorageActions.getShoppingListsAction(mContext);
+                mStorage.execute(getShoppingListsAction);
+                GeneralizedList shoppingLists = StorageActionResults
+                        .getShoppingListsActionResult(getShoppingListsAction.result().get());
+
+                String savedShoppingLists = "";
+                for (int i = 0; i < shoppingLists.size(); ++i) {
+                    String listDescription = shoppingLists.id(i) + " - " + shoppingLists.name(i);
+                    savedShoppingLists = savedShoppingLists + listDescription + "\n";
+                }
+
+                Toast.makeText(mContext, String.valueOf(shoppingLists.size()), Toast.LENGTH_LONG).show();
+                // =====
+                // ===
 
                 result.resolve(true);
                 break;

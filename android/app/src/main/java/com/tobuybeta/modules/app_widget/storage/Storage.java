@@ -3,14 +3,15 @@ package com.tobuybeta.modules.app_widget.storage;
 import android.content.Context;
 
 import com.tobuybeta.modules.app_widget.common.action.Action;
+import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.common.notifier.Notifier;
 import com.tobuybeta.modules.app_widget.common.notifier.event_handler.EventHandler;
 import com.tobuybeta.modules.app_widget.common.notifier.unsubscribe_handler.UnsubscribeHandler;
 import com.tobuybeta.modules.app_widget.common.product.Product;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActionTypes;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEvents;
-import com.tobuybeta.modules.app_widget.storage.handlers.StorageHandlers;
-import com.tobuybeta.modules.app_widget.storage.handlers.handlers.SetWidgetActiveHandler;
+import com.tobuybeta.modules.app_widget.storage.storages.shopping_list_storage.ShoppingListStorage;
+import com.tobuybeta.modules.app_widget.storage.storages.widget_storage.WidgetStorage;
 
 import java.util.List;
 
@@ -21,9 +22,13 @@ import java.util.List;
 public class Storage {
     private static Storage mInstance;
     private Notifier mNotifier;
+    private WidgetStorage mWidgetStorage;
+    private ShoppingListStorage mShoppingListStorage;
 
     private Storage() {
         mNotifier = new Notifier();
+        mWidgetStorage = new WidgetStorage();
+        mShoppingListStorage = new ShoppingListStorage();
     }
 
     public static synchronized Storage get() {
@@ -48,21 +53,20 @@ public class Storage {
                 Context context = (Context) action.payload().get("context");
                 boolean isActive = (boolean) action.payload().get("isActive");
 
-                StorageHandlers.setWidgetActiveHandler(context, isActive).handle();
+                boolean success = mWidgetStorage.setWidgetActive(context, isActive);
 
-                mNotifier.notify(StorageEvents.WIDGET_ACTIVE_CHANGED, isActive);
+                if (success) {
+                    mNotifier.notify(StorageEvents.WIDGET_ACTIVE_CHANGED, isActive);
+                }
                 break;
             }
 
             case (StorageActionTypes.GET_WIDGET_ACTIVE): {
                 Context context = (Context) action.payload().get("context");
 
-                boolean isActive = StorageHandlers.getWidgetActiveHandlerResult(
-                        StorageHandlers.getWidgetActiveHandler(context).handle()
-                );
+                boolean isActive = mWidgetStorage.getWidgetActive(context);
 
                 action.complete(isActive);
-
                 break;
             }
 
@@ -72,7 +76,26 @@ public class Storage {
                 String listName = (String) action.payload().get("listName");
                 List<Product> productsList = (List<Product>) action.payload().get("productsList");
 
+                boolean success = mShoppingListStorage
+                        .setShoppingList(context, listId, listName, productsList);
 
+                if (success) {
+                    mNotifier.notify(StorageEvents.SHOPPING_LIST_SET, listId);
+                }
+                break;
+            }
+
+            case (StorageActionTypes.GET_SHOPPING_LISTS): {
+                Context context = (Context) action.payload().get("context");
+                action.complete(mShoppingListStorage.getShoppingLists(context));
+                break;
+            }
+
+            case (StorageActionTypes.GET_PRODUCTS_LIST): {
+                Context context = (Context) action.payload().get("context");
+                String listId = (String) action.payload().get("listId");
+
+                action.complete(mShoppingListStorage.getProductsList(context, listId));
                 break;
             }
 

@@ -2,19 +2,17 @@ package com.tobuybeta.modules.app_widget.module_actions.payloads.payloads;
 
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
-import com.tobuybeta.modules.app_widget.common.Payload;
+import com.tobuybeta.modules.app_widget.common.js_payload.JSPayload;
 import com.tobuybeta.modules.app_widget.common.product.Product;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * TODO: Add a class header comment
  */
 
-public class SetShoppingListPayload implements Payload {
+public class SetShoppingListPayload implements JSPayload {
     private String LIST_ID_FIELD = "listId";
     private String LIST_NAME_FIELD = "listName";
     private String PRODUCTS_LIST_FIELD = "productsList";

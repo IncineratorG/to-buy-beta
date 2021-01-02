@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.tobuybeta.R;
 import com.tobuybeta.modules.app_widget.storage.Storage;
-import com.tobuybeta.modules.app_widget.storage.actions.StorageActionCreators;
+import com.tobuybeta.modules.app_widget.storage.actions.StorageActions;
 import com.tobuybeta.modules.shared_storage.SharedStorageModule;
 
 import org.json.JSONException;
@@ -189,7 +189,7 @@ public class MyTestWidget extends AppWidgetProvider {
         // Enter relevant functionality for when the first widget is created
 
         Storage.get().execute(
-                StorageActionCreators.setWidgetActiveAction(context, true)
+                StorageActions.setWidgetActiveAction(context, true)
         );
 
 //        Storage.get().setWidgetActive(context, true);
@@ -200,7 +200,7 @@ public class MyTestWidget extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
 
         Storage.get().execute(
-                StorageActionCreators.setWidgetActiveAction(context, false)
+                StorageActions.setWidgetActiveAction(context, false)
         );
 
 //        Storage.get().clear(context);
