@@ -7,7 +7,10 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.tobuybeta.R;
+import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.common.product.Product;
+import com.tobuybeta.modules.app_widget.widget_models.WidgetModels;
+import com.tobuybeta.modules.app_widget.widget_models.model.WidgetModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +29,9 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private List<Product> mProducts;
 
+    private WidgetModel model;
+    private GeneralizedList mItemsList;
+
     MyFactory(Context ctx, Intent intent) {
         context = ctx;
         sdf = new SimpleDateFormat("HH:mm:ss");
@@ -33,6 +39,9 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
                 AppWidgetManager.INVALID_APPWIDGET_ID);
 
         mProducts = new ArrayList<>();
+
+        model = WidgetModels.get().getOrCreate(context, widgetID);
+        mItemsList = model.list();
     }
 
     @Override
@@ -71,7 +80,7 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getCount() {
-        return mProducts.size();
+        return mItemsList.size();
     }
 
     @Override
@@ -89,7 +98,8 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
         RemoteViews rView = new RemoteViews(context.getPackageName(),
                 R.layout.item);
 //        rView.setTextViewText(R.id.tvItemText, data.get(position));
-        rView.setTextViewText(R.id.tvItemText, mProducts.get(position).getName());
+//        rView.setTextViewText(R.id.tvItemText, mProducts.get(position).getName());
+        rView.setTextViewText(R.id.tvItemText, mItemsList.name(position));
 
         Intent clickIntent = new Intent();
         clickIntent.putExtra(MyTestWidget.ITEM_POSITION, position);

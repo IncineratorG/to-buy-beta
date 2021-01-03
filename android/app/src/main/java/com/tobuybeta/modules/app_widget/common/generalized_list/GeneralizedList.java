@@ -10,6 +10,11 @@ import java.util.List;
  */
 
 public class GeneralizedList {
+    public static final String UNKNOWN = "UNKNOWN";
+    public static final String ALL_SHOPPING_LISTS = "ALL_SHOPPING_LISTS";
+    public static final String PRODUCTS_LIST = "PRODUCTS_LIST";
+
+    private String mListType;
     private String mTitle;
     private List<String> mList;
     private Function<String, String> mItemIdExtractor;
@@ -22,10 +27,12 @@ public class GeneralizedList {
         mItemIdExtractor = (description) -> "";
         mItemNameExtractor = (description) -> "";
         mIsEmpty = true;
+        mListType = UNKNOWN;
     }
 
     public GeneralizedList(String title,
                            List<String> list,
+                           String listType,
                            Function<String, String> itemIdExtractor,
                            Function<String, String> itemNameExtractor) {
         mTitle = title;
@@ -33,6 +40,11 @@ public class GeneralizedList {
         mItemIdExtractor = itemIdExtractor;
         mItemNameExtractor = itemNameExtractor;
         mIsEmpty = false;
+        if (listType.equalsIgnoreCase(ALL_SHOPPING_LISTS) || listType.equalsIgnoreCase(PRODUCTS_LIST)) {
+            mListType = listType;
+        } else {
+            mListType = UNKNOWN;
+        }
     }
 
     public boolean isEmpty() {
@@ -41,6 +53,10 @@ public class GeneralizedList {
 
     public int size() {
         return mList.size();
+    }
+
+    public String listType() {
+        return mListType;
     }
 
     public String title() {

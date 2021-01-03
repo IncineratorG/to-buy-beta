@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.tobuybeta.R;
 import com.tobuybeta.modules.app_widget.storage.Storage;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActions;
+import com.tobuybeta.modules.app_widget.widget_models.WidgetModels;
+import com.tobuybeta.modules.app_widget.widget_models.model.WidgetModel;
 import com.tobuybeta.modules.shared_storage.SharedStorageModule;
 
 import org.json.JSONException;
@@ -36,6 +38,12 @@ public class MyTestWidget extends AppWidgetProvider {
     final static String ITEM_POSITION = "item_position";
 
     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
+    private WidgetModels mModels;
+
+    public MyTestWidget() {
+        mModels = WidgetModels.get();
+    }
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         try {
@@ -99,6 +107,11 @@ public class MyTestWidget extends AppWidgetProvider {
     }
 
     void setUpdateTV(RemoteViews rv, Context context, int appWidgetId) {
+        // ===
+//        WidgetModel model = WidgetModels.get().getOrCreate(context, appWidgetId);
+//        Toast.makeText(context, model.title(), Toast.LENGTH_LONG).show();
+        // ===
+
         rv.setTextViewText(R.id.tvUpdate,
                 sdf.format(new Date(System.currentTimeMillis())));
         Intent updIntent = new Intent(context, MyTestWidget.class);
@@ -202,6 +215,8 @@ public class MyTestWidget extends AppWidgetProvider {
         Storage.get().execute(
                 StorageActions.setWidgetActiveAction(context, false)
         );
+
+        mModels.clear();
 
 //        Storage.get().clear(context);
 //        Storage.get().setWidgetActive(context, false);

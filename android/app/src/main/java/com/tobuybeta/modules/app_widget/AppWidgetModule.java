@@ -180,7 +180,7 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
 //                    savedShoppingLists = savedShoppingLists + listDescription + "\n";
 //                }
 //
-//                Toast.makeText(mContext, String.valueOf(shoppingLists.size()), Toast.LENGTH_LONG).show();
+//                Toast.makeText(mContext, savedShoppingLists, Toast.LENGTH_LONG).show();
                 // =====
                 // ===
 
