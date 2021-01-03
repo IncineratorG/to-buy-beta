@@ -16,9 +16,15 @@ const NativeWidget = () => {
     return await AppWidget.execute(action);
   };
 
+  const removeShoppingList = async ({listId}) => {
+    const action = NativeWidgetActions.removeShoppingListAction({listId});
+    return await AppWidget.execute(action);
+  };
+
   return {
     getWidgetStatus,
     setShoppingList,
+    removeShoppingList,
   };
 };
 

@@ -42,6 +42,14 @@ public class StorageActions {
         return new Action(StorageActionTypes.SET_SHOPPING_LIST, payload);
     }
 
+    public static Action removeShoppingListAction(Context context, String listId) {
+        ActionPayload payload = new ActionPayload();
+        payload.set("context", context);
+        payload.set("listId", listId);
+
+        return new Action(StorageActionTypes.REMOVE_SHOPPING_LIST, payload);
+    }
+
     public static Action getShoppingListsAction(Context context) {
         ActionPayload payload = new ActionPayload();
         payload.set("context", context);

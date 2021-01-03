@@ -27,9 +27,9 @@ public class ShoppingListStorage {
                                    List<Product> productsList) {
         if (context == null) {
             return false;
-        } else if (listId == null || listId.equalsIgnoreCase("")) {
+        } else if (listId == null || listId.isEmpty()) {
             return false;
-        } else if (listName == null || listName.equalsIgnoreCase("")) {
+        } else if (listName == null || listName.isEmpty()) {
             return false;
         }
 
@@ -80,12 +80,56 @@ public class ShoppingListStorage {
 
         editor.commit();
 
-        return false;
+        return true;
+    }
+
+    public boolean removeShoppingList(Context context, String listId) {
+        if (context == null) {
+            return false;
+        } else if (listId == null || listId.isEmpty()) {
+            return false;
+        }
+
+        SharedPreferences sharedPreferences = context
+                .getSharedPreferences(LIST_DATA_FIELD, Context.MODE_PRIVATE);
+        Set<String> existedShoppingListDescriptionsSet = sharedPreferences
+                .getStringSet(SHOPPING_LISTS_FIELD, new HashSet<>());
+//        Set<String> productListDescriptionSet = sharedPreferences
+//                .getStringSet(listId, new HashSet<>());
+
+        List<String> existedShoppingListDescriptionsList = new ArrayList<>(existedShoppingListDescriptionsSet);
+        String removedShoppingListDescription = null;
+        for (int i = 0; i < existedShoppingListDescriptionsList.size(); ++i) {
+            String shoppingListDescription = existedShoppingListDescriptionsList.get(i);
+            String shoppingListId = shoppingListDescription.substring(0, shoppingListDescription.indexOf(" "));
+
+            if (shoppingListId.equalsIgnoreCase(listId)) {
+                removedShoppingListDescription = shoppingListDescription;
+                break;
+            }
+        }
+        if (removedShoppingListDescription == null) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.remove(listId);
+            editor.commit();
+            return false;
+        }
+
+        existedShoppingListDescriptionsSet.remove(removedShoppingListDescription);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putStringSet(SHOPPING_LISTS_FIELD, existedShoppingListDescriptionsSet);
+        editor.remove(listId);
+
+        editor.commit();
+
+        return true;
     }
 
     public GeneralizedList getShoppingLists(Context context) {
         if (context == null) {
-            return null;
+            return new GeneralizedList();
         }
 
         SharedPreferences sharedPreferences = context
@@ -108,7 +152,9 @@ public class ShoppingListStorage {
 
     public GeneralizedList getProductsList(Context context, String id) {
         if (context == null) {
-            return null;
+            return new GeneralizedList();
+        } else if (id == null || id.isEmpty()) {
+            return new GeneralizedList();
         }
 
         SharedPreferences sharedPreferences = context

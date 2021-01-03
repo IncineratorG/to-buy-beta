@@ -231,16 +231,31 @@ const slSqliteFunctionsService = () => {
     return shoppingLists;
   };
 
-  const getProductsList = async ({id}) => {
+  const getProductsList = async ({id, productStatus}) => {
     const {shoppingList} = await ShoppingListsTableOperations.getShoppingList({
       db: db,
       id,
     });
 
-    const {products} = await ProductsTableOperations.getShoppingListProducts({
-      db: db,
-      listId: id,
-    });
+    let products = [];
+    if (!productStatus) {
+      const result = await ProductsTableOperations.getShoppingListProducts({
+        db: db,
+        listId: id,
+      });
+      products = result.products;
+    } else {
+      const result = await ProductsTableOperations.getListProductsWithStatus({
+        db: db,
+        shoppingListId: id,
+        status: productStatus,
+      });
+      products = result.products;
+    }
+    // const {products} = await ProductsTableOperations.getShoppingListProducts({
+    //   db: db,
+    //   listId: id,
+    // });
 
     shoppingList.products = products;
 

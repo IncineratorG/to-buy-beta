@@ -2,6 +2,7 @@ package com.tobuybeta.modules.app_widget.common.generalized_list;
 
 import androidx.arch.core.util.Function;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +14,15 @@ public class GeneralizedList {
     private List<String> mList;
     private Function<String, String> mItemIdExtractor;
     private Function<String, String> mItemNameExtractor;
+    private boolean mIsEmpty;
+
+    public GeneralizedList() {
+        mTitle = "";
+        mList = new ArrayList<>();
+        mItemIdExtractor = (description) -> "";
+        mItemNameExtractor = (description) -> "";
+        mIsEmpty = true;
+    }
 
     public GeneralizedList(String title,
                            List<String> list,
@@ -22,6 +32,11 @@ public class GeneralizedList {
         mList = list;
         mItemIdExtractor = itemIdExtractor;
         mItemNameExtractor = itemNameExtractor;
+        mIsEmpty = false;
+    }
+
+    public boolean isEmpty() {
+        return mIsEmpty;
     }
 
     public int size() {

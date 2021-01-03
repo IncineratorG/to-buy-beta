@@ -22,7 +22,7 @@ const AppWidgetService = () => {
   const setShoppingList = async ({listId, listName, productsList}) => {
     SystemEventsHandler.onInfo({
       info:
-        'AppWidgetService->SystemEventsHandler(): ' +
+        'AppWidgetService->setShoppingList(): ' +
         listId +
         ' - ' +
         listName +
@@ -33,10 +33,19 @@ const AppWidgetService = () => {
     return await widget.setShoppingList({listId, listName, productsList});
   };
 
+  const removeShoppingList = async ({listId}) => {
+    SystemEventsHandler.onInfo({
+      info: 'AppWidgetService->removeShoppingList(): ' + listId,
+    });
+
+    return await widget.removeShoppingList({listId});
+  };
+
   return {
     init,
     subscribe,
     setShoppingList,
+    removeShoppingList,
   };
 };
 

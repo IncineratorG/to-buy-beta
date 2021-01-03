@@ -19,6 +19,7 @@ import com.tobuybeta.modules.app_widget.common.action.Action;
 import com.tobuybeta.modules.app_widget.common.error.Error;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.AppWidgetActionPayloads;
+import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.RemoveShoppingListPayload;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetShoppingListPayload;
 import com.tobuybeta.modules.app_widget.module_actions.types.AppWidgetActionTypes;
 import com.tobuybeta.modules.app_widget.module_errors.AppWidgetErrors;
@@ -96,6 +97,7 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
         WritableMap actionTypesConstants = new WritableNativeMap();
         actionTypesConstants.putString(AppWidgetActionTypes.GET_WIDGET_STATUS, AppWidgetActionTypes.GET_WIDGET_STATUS);
         actionTypesConstants.putString(AppWidgetActionTypes.SET_SHOPPING_LIST, AppWidgetActionTypes.SET_SHOPPING_LIST);
+        actionTypesConstants.putString(AppWidgetActionTypes.REMOVE_SHOPPING_LIST, AppWidgetActionTypes.REMOVE_SHOPPING_LIST);
 
         constants.put("actionTypes", actionTypesConstants);
 
@@ -167,20 +169,41 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
 
                 // ===
                 // =====
-                Action getShoppingListsAction = StorageActions.getShoppingListsAction(mContext);
-                mStorage.execute(getShoppingListsAction);
-                GeneralizedList shoppingLists = StorageActionResults
-                        .getShoppingListsActionResult(getShoppingListsAction.result().get());
-
-                String savedShoppingLists = "";
-                for (int i = 0; i < shoppingLists.size(); ++i) {
-                    String listDescription = shoppingLists.id(i) + " - " + shoppingLists.name(i);
-                    savedShoppingLists = savedShoppingLists + listDescription + "\n";
-                }
-
-                Toast.makeText(mContext, String.valueOf(shoppingLists.size()), Toast.LENGTH_LONG).show();
+//                Action getShoppingListsAction = StorageActions.getShoppingListsAction(mContext);
+//                mStorage.execute(getShoppingListsAction);
+//                GeneralizedList shoppingLists = StorageActionResults
+//                        .getShoppingListsActionResult(getShoppingListsAction.result().get());
+//
+//                String savedShoppingLists = "";
+//                for (int i = 0; i < shoppingLists.size(); ++i) {
+//                    String listDescription = shoppingLists.id(i) + " - " + shoppingLists.name(i);
+//                    savedShoppingLists = savedShoppingLists + listDescription + "\n";
+//                }
+//
+//                Toast.makeText(mContext, String.valueOf(shoppingLists.size()), Toast.LENGTH_LONG).show();
                 // =====
                 // ===
+
+                result.resolve(true);
+                break;
+            }
+
+            case (AppWidgetActionTypes.REMOVE_SHOPPING_LIST): {
+                ReadableMap payloadMap = action.getMap(ACTION_PAYLOAD);
+                if (payloadMap == null) {
+                    Error error = AppWidgetErrors.badPayload();
+                    result.reject(error.code(), error.message());
+                    return;
+                }
+
+                RemoveShoppingListPayload payload = AppWidgetActionPayloads.removeShoppingListPayload(payloadMap);
+                if (!payload.isValid()) {
+                    Error error = AppWidgetErrors.badPayload();
+                    result.reject(error.code(), error.message());
+                    return;
+                }
+
+                mStorage.execute(StorageActions.removeShoppingListAction(mContext, payload.listId()));
 
                 result.resolve(true);
                 break;

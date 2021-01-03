@@ -85,6 +85,17 @@ public class Storage {
                 break;
             }
 
+            case (StorageActionTypes.REMOVE_SHOPPING_LIST): {
+                Context context = (Context) action.payload().get("context");
+                String listId = (String) action.payload().get("listId");
+
+                boolean success = mShoppingListStorage.removeShoppingList(context, listId);
+                if (success) {
+                    mNotifier.notify(StorageEvents.SHOPPING_LIST_REMOVED, listId);
+                }
+                break;
+            }
+
             case (StorageActionTypes.GET_SHOPPING_LISTS): {
                 Context context = (Context) action.payload().get("context");
                 action.complete(mShoppingListStorage.getShoppingLists(context));
