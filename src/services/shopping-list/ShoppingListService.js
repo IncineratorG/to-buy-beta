@@ -1,76 +1,128 @@
-import {SLSqliteService} from './sqlite/SLSqliteService';
+import {SLSqliteService} from './service-impl/sqlite/SLSqliteService';
 import {SystemEventsHandler} from '../../utils/common/system-events-handler/SystemEventsHandler';
 import {Notifier} from '../../utils/common/service-utils/notifier/Notifier';
 import ShoppingListServiceEvents from './data/event-types/ShoppingListServiceEvents';
+import {SLServiceDataValidatorWrapper} from './data-validator/SLServiceDataValidatorWrapper';
+import slSqliteFunctionsService from './service-impl/sqlite/slSqliteFunctionsService';
 
 export class ShoppingListService {
   static #notifier = new Notifier();
+  static #serviceImpl = slSqliteFunctionsService();
+  static #checkReturnedObjectsStructure = false;
 
   static subscribe({event, handler}) {
     return this.#notifier.subscribe({event, handler});
   }
 
-  static async init() {
-    await SLSqliteService.init();
+  static async init(checkReturnedObjectsStructure) {
+    // ===
+    // try {
+    //   const myClass = new MyClass();
+    //   await myClass.func_1({one: 'one', two: 'two'});
+    // } catch (e) {
+    //   SystemEventsHandler.onError({err: 'MY_CLASS_ERR: ' + e.toString()});
+    // }
+
+    // =====
+    // const testClass = new TestClass();
+    //
+    // const validator = TestValidator;
+    // const checker = new Checker(validator);
+    // const result = await checker.call(testClass.func_2, {a: 1, b: 2});
+
+    // SystemEventsHandler.onInfo({
+    //   info: 'ShoppingListService->init()->RESULT: ' + JSON.stringify(result),
+    // });
+    // testChecker.check(testClass.func);
+    // =====
+    // ===
+
+    if (checkReturnedObjectsStructure) {
+      ShoppingListService.#serviceImpl = new SLServiceDataValidatorWrapper(
+        slSqliteFunctionsService(),
+      );
+    } else {
+      ShoppingListService.#serviceImpl = slSqliteFunctionsService();
+    }
+
+    // ShoppingListService.#serviceImpl = slSqliteFunctionsService();
+    // try {
+    //   await ShoppingListService.#serviceImpl.init();
+    // } catch (e) {
+    //   SystemEventsHandler.onInfo({info: 'HERE_ERROR: ' + e.toString()});
+    // }
+
+    ShoppingListService.#checkReturnedObjectsStructure = true;
+    await ShoppingListService.#serviceImpl.init();
   }
 
   static async getCategories({shoppingListId}) {
-    return await SLSqliteService.getCategories();
+    return await ShoppingListService.#serviceImpl.getCategories();
   }
 
   static async addCategory({name, color}) {
-    return await SLSqliteService.addCategory({name, color});
+    return await ShoppingListService.#serviceImpl.addCategory({name, color});
   }
 
   static async updateCategory({id, name, color}) {
-    return await SLSqliteService.updateCategory({id, name, color});
+    return await ShoppingListService.#serviceImpl.updateCategory({
+      id,
+      name,
+      color,
+    });
   }
 
   static async removeCategory({id}) {
-    return await SLSqliteService.removeCategory({id});
+    return await ShoppingListService.#serviceImpl.removeCategory({id});
   }
 
   static async getUnits({shoppingListId}) {
-    return await SLSqliteService.getUnits();
+    return await ShoppingListService.#serviceImpl.getUnits();
   }
 
   static async addUnit({name}) {
-    return await SLSqliteService.addUnit({name});
+    return await ShoppingListService.#serviceImpl.addUnit({name});
   }
 
   static async updateUnit({id, name}) {
-    return await SLSqliteService.updateUnit({id, name});
+    return await ShoppingListService.#serviceImpl.updateUnit({id, name});
   }
 
   static async removeUnit({id}) {
-    return await SLSqliteService.removeUnit({id});
+    return await ShoppingListService.#serviceImpl.removeUnit({id});
   }
 
   static async createShoppingList({listName, creator}) {
-    return await SLSqliteService.createShoppingList({
+    return await ShoppingListService.#serviceImpl.createShoppingList({
       listName,
       creator,
     });
   }
 
   static async removeShoppingList({id}) {
-    return await SLSqliteService.removeShoppingList({id});
+    return await ShoppingListService.#serviceImpl.removeShoppingList({id});
   }
 
   static async renameShoppingList({id, newName}) {
-    return await SLSqliteService.renameShoppingList({id, newName});
+    return await ShoppingListService.#serviceImpl.renameShoppingList({
+      id,
+      newName,
+    });
   }
 
   static async getShoppingLists() {
-    return await SLSqliteService.getShoppingLists();
+    return await ShoppingListService.#serviceImpl.getShoppingLists();
   }
 
-  static async getProductsList({id}) {
-    return await SLSqliteService.getProductsList({id});
+  static async getProductsList({id, productStatus}) {
+    return await ShoppingListService.#serviceImpl.getProductsList({
+      id,
+      productStatus,
+    });
   }
 
   static async copyShoppingList({shoppingListId, copiedListName}) {
-    return await SLSqliteService.copyShoppingList({
+    return await ShoppingListService.#serviceImpl.copyShoppingList({
       shoppingListId,
       copiedListName,
     });
@@ -102,7 +154,7 @@ export class ShoppingListService {
       });
     };
 
-    await SLSqliteService.addProduct({
+    await ShoppingListService.#serviceImpl.addProduct({
       shoppingListId,
       name,
       quantity,
@@ -142,7 +194,7 @@ export class ShoppingListService {
       });
     };
 
-    await SLSqliteService.updateProduct({
+    await ShoppingListService.#serviceImpl.updateProduct({
       shoppingListId,
       productId,
       name,
@@ -175,7 +227,7 @@ export class ShoppingListService {
       });
     };
 
-    await SLSqliteService.changeProductStatus({
+    await ShoppingListService.#serviceImpl.changeProductStatus({
       shoppingListId,
       productId,
       status,
@@ -219,7 +271,7 @@ export class ShoppingListService {
       });
     };
 
-    await SLSqliteService.changeMultipleProductsStatus({
+    await ShoppingListService.#serviceImpl.changeMultipleProductsStatus({
       shoppingListId,
       productsIdsArray,
       status,
@@ -248,7 +300,7 @@ export class ShoppingListService {
       });
     };
 
-    await SLSqliteService.removeProduct({
+    await ShoppingListService.#serviceImpl.removeProduct({
       shoppingListId,
       productId,
       onRemoved,
@@ -280,7 +332,7 @@ export class ShoppingListService {
       });
     };
 
-    await SLSqliteService.removeMultipleProducts({
+    await ShoppingListService.#serviceImpl.removeMultipleProducts({
       shoppingListId,
       productsIdsArray,
       onRemoved,

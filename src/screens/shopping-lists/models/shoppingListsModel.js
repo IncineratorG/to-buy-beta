@@ -1,8 +1,10 @@
-import {useState} from 'react';
+import {NativeEventEmitter, NativeModules} from 'react-native';
+import {useState, useEffect} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from '../../../utils/common/localization';
 import {clearProductsListCachedData} from '../../../store/actions/products-list/productsListActions';
+import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 
 export const useShoppingListsModel = () => {
   const navigation = useNavigation();
@@ -38,6 +40,23 @@ export const useShoppingListsModel = () => {
   const shareServicesAvailabilityMap = useSelector(
     (state) => state.share.share.availability.shareServiceAvailabilityMap,
   );
+
+  // =====
+  // const widgetIsActive = useSelector(
+  //   (state) => state.appWidget.appWidget.isActive,
+  // );
+  // const widgetShoppingListId = useSelector(
+  //   (state) => state.appWidget.appWidget.shoppingListId,
+  // );
+  //
+  // SystemEventsHandler.onInfo({
+  //   info:
+  //     'WIDGET_SHOPPING_LIST_ID: ' +
+  //     widgetShoppingListId +
+  //     ' - ' +
+  //     widgetIsActive,
+  // });
+  // =====
 
   // ===
   const online = false;

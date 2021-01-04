@@ -8,6 +8,7 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import {useTranslation} from '../../../../../../utils/common/localization';
+import {SystemEventsHandler} from '../../../../../../utils/common/system-events-handler/SystemEventsHandler';
 
 const ListOfShoppingListsItemGeneral = ({
   styles,
@@ -19,6 +20,7 @@ const ListOfShoppingListsItemGeneral = ({
   onSharedPress,
   onRenamePress,
   onCopyPress,
+  onSendToWidgetPress,
 }) => {
   const {t} = useTranslation();
 
@@ -96,6 +98,14 @@ const ListOfShoppingListsItemGeneral = ({
     setMenuVisible(false);
   };
 
+  const onSendToWidgetPressHandler = () => {
+    SystemEventsHandler.onInfo({info: 'onSendToWidgetPressHandler()'});
+    if (onSendToWidgetPress) {
+      onSendToWidgetPress(listItem);
+    }
+    setMenuVisible(false);
+  };
+
   const onMenuPressHandler = () => {
     setMenuVisible(!menuVisible);
   };
@@ -130,6 +140,10 @@ const ListOfShoppingListsItemGeneral = ({
         <MenuOption
           onSelect={onRemovePressHandler}
           text={t('ListOfShoppingListsItemGeneral_menuRemoveOption')}
+        />
+        <MenuOption
+          onSelect={onSendToWidgetPressHandler}
+          text={'Отправить в виджет'}
         />
       </MenuOptions>
     </Menu>

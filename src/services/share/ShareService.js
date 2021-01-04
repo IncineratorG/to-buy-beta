@@ -2,7 +2,9 @@ import {Notifier} from '../../utils/common/service-utils/notifier/Notifier';
 import {SystemEventsHandler} from '../../utils/common/system-events-handler/SystemEventsHandler';
 import ShareServiceEvents from './data/event-types/ShareServiceEvents';
 import PhoneMessaging from './libs/phone-messaging/PhoneMessaging';
+// import TestWidget from './libs/test-widget/TestWidget';
 import ShareServiceAppTypes from './data/share-app-types/ShareServiceAppTypes';
+// import {NativeEventEmitter, NativeModules} from 'react-native';
 
 export class ShareService {
   static #className = 'ShareService';
@@ -24,6 +26,16 @@ export class ShareService {
         ),
       },
     });
+
+    // ===
+    // SystemEventsHandler.onInfo({info: 'ADDING_LISTENER_FROM_SERVICE'});
+    // const eventEmitter = new NativeEventEmitter(NativeModules.SharedStorage);
+    // const eventListener = eventEmitter.addListener('EventReminder', (event) => {
+    //   SystemEventsHandler.onInfo({
+    //     info: 'EVENT_FROM_SERVICE: ' + event.eventProperty,
+    //   });
+    // });
+    // ===
   }
 
   static async checkAvailability() {
@@ -58,6 +70,12 @@ export class ShareService {
     };
   }
 
+  // static async shareViaApp({appType, text}) {
+  //   SystemEventsHandler.onInfo({info: 'shareViaApp()'});
+  //   TestWidget.set(
+  //     JSON.stringify({text: 'This is data from the React Native app'}),
+  //   );
+  // }
   static async shareViaApp({appType, text}) {
     switch (appType) {
       case ShareServiceAppTypes.SMS: {

@@ -2,12 +2,15 @@ package com.tobuybeta;
 
 import android.app.Application;
 import android.content.Context;
+
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.tobuybeta.modules.app_widget.AppWidgetPackage;
 import com.tobuybeta.modules.phonemessaging.PhoneMessagingPackage;
+import com.tobuybeta.modules.shared_storage.SharedStoragePackage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -28,6 +31,8 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           packages.add(new PhoneMessagingPackage());
+          packages.add(new SharedStoragePackage());
+          packages.add(new AppWidgetPackage());
           return packages;
         }
 

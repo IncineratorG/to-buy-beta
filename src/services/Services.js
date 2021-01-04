@@ -3,6 +3,7 @@ import {ShareService} from './share/ShareService';
 import ProductSuggestionService from './product-suggestion/ProductSuggestionService';
 import SystemService from './system/SystemService';
 import ProductsLocationService from './products-location/ProductsLocationService';
+import AppWidgetService from './app-widget/AppWidgetService';
 
 class ServicesInstance {
   serviceTypes = {
@@ -11,6 +12,7 @@ class ServicesInstance {
     PRODUCT_SUGGESTION: 'PRODUCT_SUGGESTION',
     SYSTEM: 'SYSTEM',
     PRODUCTS_LOCATION: 'PRODUCTS_LOCATION',
+    APP_WIDGET: 'APP_WIDGET',
   };
 
   #shoppingListService;
@@ -18,6 +20,7 @@ class ServicesInstance {
   #productSuggestionService;
   #systemService;
   #productsLocationService;
+  #appWidgetService;
   #className = 'ServicesInstance';
 
   constructor() {
@@ -26,14 +29,16 @@ class ServicesInstance {
     this.#productSuggestionService = ProductSuggestionService;
     this.#systemService = SystemService;
     this.#productsLocationService = ProductsLocationService;
+    this.#appWidgetService = AppWidgetService();
   }
 
   async init() {
     await this.#systemService.init();
-    await this.#shoppingListService.init();
+    await this.#shoppingListService.init(false);
     await this.#shareService.init();
     await this.#productSuggestionService.init();
     await this.#productsLocationService.init();
+    await this.#appWidgetService.init();
   }
 
   get(serviceType) {
@@ -56,6 +61,10 @@ class ServicesInstance {
 
       case this.serviceTypes.PRODUCTS_LOCATION: {
         return this.#productsLocationService;
+      }
+
+      case this.serviceTypes.APP_WIDGET: {
+        return this.#appWidgetService;
       }
 
       default: {

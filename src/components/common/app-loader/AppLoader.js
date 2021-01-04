@@ -14,7 +14,7 @@ const AppLoader = () => {
 
   useEffect(() => {
     const initFunc = async () => {
-      await wait(1000);
+      // await wait(1);
 
       try {
         await Services.init();
