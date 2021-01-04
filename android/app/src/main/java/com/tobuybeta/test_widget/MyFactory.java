@@ -29,8 +29,8 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private List<Product> mProducts;
 
-    private WidgetModel model;
-    private GeneralizedList mItemsList;
+    private static WidgetModel model;
+    private static GeneralizedList mItemsList;
 
     MyFactory(Context ctx, Intent intent) {
         context = ctx;
@@ -40,13 +40,14 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 
         mProducts = new ArrayList<>();
 
-        model = WidgetModels.get().getOrCreate(context, widgetID);
+//        model = WidgetModels.get().getOrCreate(context, widgetID);
 //        mItemsList = model.list();
     }
 
     @Override
     public void onCreate() {
-        mItemsList = model.list();
+        mItemsList = WidgetModels.get().getOrCreate(context, widgetID).list();
+//        mItemsList = model.list();
 
 
 //        mProducts = Storage.get().getProductsList(context);
@@ -102,11 +103,16 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
                 R.layout.item);
 //        rView.setTextViewText(R.id.tvItemText, data.get(position));
 //        rView.setTextViewText(R.id.tvItemText, mProducts.get(position).getName());
-        rView.setTextViewText(R.id.tvItemText, mItemsList.name(position));
+        rView.setTextViewText(R.id.tvItemText, WidgetModels.get().getOrCreate(context, widgetID).list().name(position));
+
+        String itemId = "-1";
+        if (mItemsList != null) {
+            itemId = mItemsList.id(position);
+        }
 
         Intent clickIntent = new Intent();
         clickIntent.putExtra(MyTestWidget.ITEM_POSITION, position);
-        clickIntent.putExtra(MyTestWidget.CLICKED_LIST_ID, mItemsList.id(position));
+        clickIntent.putExtra(MyTestWidget.CLICKED_LIST_ID, itemId);
         clickIntent.putExtra(MyTestWidget.WIDGET_ID, widgetID);
         rView.setOnClickFillInIntent(R.id.tvItemText, clickIntent);
 
@@ -125,7 +131,7 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
-        mItemsList = model.list();
+        mItemsList = WidgetModels.get().getOrCreate(context, widgetID).list();
 
 
 //        mProducts = Storage.get().getProductsList(context);

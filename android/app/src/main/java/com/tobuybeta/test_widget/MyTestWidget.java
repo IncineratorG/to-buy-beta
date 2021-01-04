@@ -20,7 +20,9 @@ import com.tobuybeta.modules.app_widget.widget_models.WidgetModels;
 import com.tobuybeta.modules.app_widget.widget_models.model.WidgetModel;
 import com.tobuybeta.modules.shared_storage.SharedStorageModule;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -41,10 +43,12 @@ public class MyTestWidget extends AppWidgetProvider {
 
     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
-    private WidgetModels mModels;
+//    private static Storage mStorage = Storage.get();
+    private WidgetModels mModels = WidgetModels.get();
+    private static int val = 0;
 
     public MyTestWidget() {
-        mModels = WidgetModels.get();
+
     }
 
 //    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
@@ -87,7 +91,25 @@ public class MyTestWidget extends AppWidgetProvider {
     }
 
     void setUpdateTV(RemoteViews rv, Context context, int appWidgetId) {
-        rv.setTextViewText(R.id.tvUpdate, "Back");
+        WidgetModel model = mModels.getOrCreate(context, appWidgetId);
+
+//        String backText = "U";
+        String titleText = "ToBuy";
+        int imageId = R.drawable.app_icon;
+        if (model.list().listType().equalsIgnoreCase(GeneralizedList.ALL_SHOPPING_LISTS)) {
+            imageId = R.drawable.app_icon;
+//            backText = "I";
+        } else if (model.list().listType().equalsIgnoreCase(GeneralizedList.PRODUCTS_LIST)) {
+            imageId = R.drawable.arrow_back;
+//            backText = "B";
+            titleText = model.list().title();
+        } else {
+//            backText = "U";
+        }
+
+        rv.setTextViewText(R.id.titleText, titleText);
+        rv.setImageViewResource(R.id.imageView, imageId);
+//        rv.setTextViewText(R.id.backText, backText);
 
         Intent backButtonClickIntent = new Intent(context, MyTestWidget.class);
         backButtonClickIntent.setAction(BACK_BUTTON_CLICK);
@@ -99,7 +121,7 @@ public class MyTestWidget extends AppWidgetProvider {
         PendingIntent updPIntent = PendingIntent
                 .getBroadcast(context, appWidgetId, backButtonClickIntent, 0);
 
-        rv.setOnClickPendingIntent(R.id.tvUpdate, updPIntent);
+        rv.setOnClickPendingIntent(R.id.imageView, updPIntent);
 
 //        rv.setTextViewText(R.id.tvUpdate,
 //                sdf.format(new Date(System.currentTimeMillis())));
@@ -111,6 +133,31 @@ public class MyTestWidget extends AppWidgetProvider {
 //                appWidgetId, updIntent, 0);
 //        rv.setOnClickPendingIntent(R.id.tvUpdate, updPIntent);
     }
+//    void setUpdateTV(RemoteViews rv, Context context, int appWidgetId) {
+//        rv.setTextViewText(R.id.tvUpdate, "Back");
+//
+//        Intent backButtonClickIntent = new Intent(context, MyTestWidget.class);
+//        backButtonClickIntent.setAction(BACK_BUTTON_CLICK);
+//        backButtonClickIntent.putExtra(WIDGET_ID, appWidgetId);
+//        backButtonClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
+//        Uri data = Uri.parse(backButtonClickIntent.toUri(Intent.URI_INTENT_SCHEME));
+//        backButtonClickIntent.setData(data);
+//
+//        PendingIntent updPIntent = PendingIntent
+//                .getBroadcast(context, appWidgetId, backButtonClickIntent, 0);
+//
+//        rv.setOnClickPendingIntent(R.id.tvUpdate, updPIntent);
+//
+////        rv.setTextViewText(R.id.tvUpdate,
+////                sdf.format(new Date(System.currentTimeMillis())));
+////        Intent updIntent = new Intent(context, MyTestWidget.class);
+////        updIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+////        updIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
+////                new int[] { appWidgetId });
+////        PendingIntent updPIntent = PendingIntent.getBroadcast(context,
+////                appWidgetId, updIntent, 0);
+////        rv.setOnClickPendingIntent(R.id.tvUpdate, updPIntent);
+//    }
 
     void setList(RemoteViews rv, Context context, int appWidgetId) {
         Intent adapter = new Intent(context, MyService.class);
@@ -154,7 +201,7 @@ public class MyTestWidget extends AppWidgetProvider {
         Storage.get().execute(
                 StorageActions.setWidgetActiveAction(context, false)
         );
-        mModels.clear();
+//        mModels.clear();
     }
 
     @Override
@@ -171,11 +218,12 @@ public class MyTestWidget extends AppWidgetProvider {
         } else if (intent.getAction().equalsIgnoreCase(ACTION_ON_CLICK)) {
 
 //            int itemPos = intent.getIntExtra(ITEM_POSITION, -1);
+//            Toast.makeText(context, "ON_CLICK", Toast.LENGTH_SHORT).show();
 
             String clickedListId = intent.getStringExtra(CLICKED_LIST_ID);
             int widgetId = intent.getIntExtra(WIDGET_ID, -1);
 
-            WidgetModel model = mModels.getOrNull(widgetId);
+            WidgetModel model = mModels.getOrCreate(context, widgetId);
             if (model.list().listType().equalsIgnoreCase(GeneralizedList.PRODUCTS_LIST)) {
                 Toast.makeText(context, "PRODUCTS_LIST->DO_NOTHING", Toast.LENGTH_SHORT).show();
                 return;
@@ -183,12 +231,18 @@ public class MyTestWidget extends AppWidgetProvider {
 
             model.loadProductsList(context, clickedListId);
 
+//            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+//            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
+//            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lvList);
+
+            // ===
             Intent updateListIntent = new Intent(context, MyTestWidget.class);
             updateListIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
             int[] ids = AppWidgetManager.getInstance(context).
                     getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
             updateListIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
             context.sendBroadcast(updateListIntent);
+            // ===
 
 //            String listName = "Unknown";
 //            if (model != null) {
@@ -202,17 +256,22 @@ public class MyTestWidget extends AppWidgetProvider {
 //            ).show();
 
         }  else if (intent.getAction().equalsIgnoreCase(BACK_BUTTON_CLICK)) {
+//            Toast.makeText(context, String.valueOf(val), Toast.LENGTH_SHORT).show();
+//            val = val + 1;
+//
+//            Intent updateIntent = new Intent(context, MyTestWidget.class);
+//            updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+//            int[] ids = AppWidgetManager.getInstance(context).
+//                    getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
+//            updateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+//            context.sendBroadcast(updateIntent);
+
             int widgetId = intent.getIntExtra(WIDGET_ID, -1);
 
-//            Toast.makeText(
-//                    context,
-//                    "BACK_BUTTON_CLICK" + " -> " + String.valueOf(widgetId),
-//                    Toast.LENGTH_SHORT
-//            ).show();
-
-            WidgetModel model = mModels.getOrNull(widgetId);
+//            WidgetModel model = mModels.getOrNull(widgetId);
+            WidgetModel model = mModels.getOrCreate(context, widgetId);
             if (model == null) {
-                Toast.makeText(context, "MODEL_IS_NULL->DO_NOTHING", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "MODEL_IS_NULL->DO_NOTHING: " + String.valueOf(widgetId), Toast.LENGTH_SHORT).show();
                 return;
             }
             if (model.list().listType().equalsIgnoreCase(GeneralizedList.ALL_SHOPPING_LISTS)) {
