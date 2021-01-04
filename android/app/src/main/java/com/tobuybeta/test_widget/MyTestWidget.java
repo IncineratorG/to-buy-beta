@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -21,11 +20,7 @@ import com.tobuybeta.modules.app_widget.widget_models.WidgetModels;
 import com.tobuybeta.modules.app_widget.widget_models.model.WidgetModel;
 import com.tobuybeta.modules.shared_storage.SharedStorageModule;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,7 +37,7 @@ public class MyTestWidget extends AppWidgetProvider {
     final static String BACK_BUTTON_CLICK = "back_button_click";
 
     final static String CLICKED_LIST_ID = "clicked_list_id";
-    final static String CLICKED_LIST_WIDGET_ID = "clicked_list_widget_id";
+    final static String WIDGET_ID = "widget_id";
 
     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
@@ -96,7 +91,10 @@ public class MyTestWidget extends AppWidgetProvider {
 
         Intent backButtonClickIntent = new Intent(context, MyTestWidget.class);
         backButtonClickIntent.setAction(BACK_BUTTON_CLICK);
-        backButtonClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[] { appWidgetId });
+        backButtonClickIntent.putExtra(WIDGET_ID, appWidgetId);
+        backButtonClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
+        Uri data = Uri.parse(backButtonClickIntent.toUri(Intent.URI_INTENT_SCHEME));
+        backButtonClickIntent.setData(data);
 
         PendingIntent updPIntent = PendingIntent
                 .getBroadcast(context, appWidgetId, backButtonClickIntent, 0);
@@ -175,7 +173,7 @@ public class MyTestWidget extends AppWidgetProvider {
 //            int itemPos = intent.getIntExtra(ITEM_POSITION, -1);
 
             String clickedListId = intent.getStringExtra(CLICKED_LIST_ID);
-            int widgetId = intent.getIntExtra(CLICKED_LIST_WIDGET_ID, -1);
+            int widgetId = intent.getIntExtra(WIDGET_ID, -1);
 
             WidgetModel model = mModels.getOrNull(widgetId);
             if (model.list().listType().equalsIgnoreCase(GeneralizedList.PRODUCTS_LIST)) {
@@ -204,7 +202,32 @@ public class MyTestWidget extends AppWidgetProvider {
 //            ).show();
 
         }  else if (intent.getAction().equalsIgnoreCase(BACK_BUTTON_CLICK)) {
-            Toast.makeText(context, "BACK_BUTTON_CLICK", Toast.LENGTH_SHORT).show();
+            int widgetId = intent.getIntExtra(WIDGET_ID, -1);
+
+//            Toast.makeText(
+//                    context,
+//                    "BACK_BUTTON_CLICK" + " -> " + String.valueOf(widgetId),
+//                    Toast.LENGTH_SHORT
+//            ).show();
+
+            WidgetModel model = mModels.getOrNull(widgetId);
+            if (model == null) {
+                Toast.makeText(context, "MODEL_IS_NULL->DO_NOTHING", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (model.list().listType().equalsIgnoreCase(GeneralizedList.ALL_SHOPPING_LISTS)) {
+                Toast.makeText(context, "ALL_SHOPPING_LISTS->DO_NOTHING", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            model.loadAllShoppingLists(context);
+
+            Intent updateListIntent = new Intent(context, MyTestWidget.class);
+            updateListIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            int[] ids = AppWidgetManager.getInstance(context).
+                    getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
+            updateListIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+            context.sendBroadcast(updateListIntent);
         } else if (intent.getAction().equalsIgnoreCase(BUTTON_CLICK)) {
             Toast.makeText(context, "IN_BUTTON_CLICK", Toast.LENGTH_SHORT).show();
 

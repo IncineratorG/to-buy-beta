@@ -107,7 +107,7 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
         Intent clickIntent = new Intent();
         clickIntent.putExtra(MyTestWidget.ITEM_POSITION, position);
         clickIntent.putExtra(MyTestWidget.CLICKED_LIST_ID, mItemsList.id(position));
-        clickIntent.putExtra(MyTestWidget.CLICKED_LIST_WIDGET_ID, widgetID);
+        clickIntent.putExtra(MyTestWidget.WIDGET_ID, widgetID);
         rView.setOnClickFillInIntent(R.id.tvItemText, clickIntent);
 
         return rView;
