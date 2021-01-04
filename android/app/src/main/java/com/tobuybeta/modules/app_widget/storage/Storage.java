@@ -9,6 +9,7 @@ import com.tobuybeta.modules.app_widget.common.notifier.event_handler.EventHandl
 import com.tobuybeta.modules.app_widget.common.notifier.unsubscribe_handler.UnsubscribeHandler;
 import com.tobuybeta.modules.app_widget.common.product.Product;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActionTypes;
+import com.tobuybeta.modules.app_widget.storage.events.StorageEventPayloads;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEvents;
 import com.tobuybeta.modules.app_widget.storage.storages.shopping_list_storage.ShoppingListStorage;
 import com.tobuybeta.modules.app_widget.storage.storages.widget_storage.WidgetStorage;
@@ -56,7 +57,10 @@ public class Storage {
                 boolean success = mWidgetStorage.setWidgetActive(context, isActive);
 
                 if (success) {
-                    mNotifier.notify(StorageEvents.WIDGET_ACTIVE_CHANGED, isActive);
+                    mNotifier.notify(
+                            StorageEvents.WIDGET_ACTIVE_CHANGED,
+                            StorageEventPayloads.widgetActiveChangedEventPayload(context, isActive)
+                    );
                 }
                 break;
             }
@@ -80,7 +84,10 @@ public class Storage {
                         .setShoppingList(context, listId, listName, productsList);
 
                 if (success) {
-                    mNotifier.notify(StorageEvents.SHOPPING_LIST_SET, listId);
+                    mNotifier.notify(
+                            StorageEvents.SHOPPING_LIST_SET,
+                            StorageEventPayloads.shoppingListSetEventPayload(context, listId)
+                    );
                 }
                 break;
             }
@@ -91,7 +98,10 @@ public class Storage {
 
                 boolean success = mShoppingListStorage.removeShoppingList(context, listId);
                 if (success) {
-                    mNotifier.notify(StorageEvents.SHOPPING_LIST_REMOVED, listId);
+                    mNotifier.notify(
+                            StorageEvents.SHOPPING_LIST_REMOVED,
+                            StorageEventPayloads.shoppingListRemovedEventPayload(context, listId)
+                    );
                 }
                 break;
             }

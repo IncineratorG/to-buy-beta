@@ -41,11 +41,14 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
         mProducts = new ArrayList<>();
 
         model = WidgetModels.get().getOrCreate(context, widgetID);
-        mItemsList = model.list();
+//        mItemsList = model.list();
     }
 
     @Override
     public void onCreate() {
+        mItemsList = model.list();
+
+
 //        mProducts = Storage.get().getProductsList(context);
 
 
@@ -103,6 +106,8 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 
         Intent clickIntent = new Intent();
         clickIntent.putExtra(MyTestWidget.ITEM_POSITION, position);
+        clickIntent.putExtra(MyTestWidget.CLICKED_LIST_ID, mItemsList.id(position));
+        clickIntent.putExtra(MyTestWidget.CLICKED_LIST_WIDGET_ID, widgetID);
         rView.setOnClickFillInIntent(R.id.tvItemText, clickIntent);
 
         return rView;
@@ -120,6 +125,9 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
+        mItemsList = model.list();
+
+
 //        mProducts = Storage.get().getProductsList(context);
 
 

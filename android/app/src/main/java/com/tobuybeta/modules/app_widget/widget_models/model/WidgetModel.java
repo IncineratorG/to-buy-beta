@@ -25,6 +25,33 @@ public class WidgetModel {
                 .getShoppingListsActionResult(getShoppingListsAction.result().get());
     }
 
+    public void update(Context context) {
+        if (mCurrentList.listType().equalsIgnoreCase(GeneralizedList.ALL_SHOPPING_LISTS)) {
+            loadAllShoppingLists(context);
+        } else if (mCurrentList.listType().equalsIgnoreCase(GeneralizedList.PRODUCTS_LIST)) {
+            String currentListId = mCurrentList.listId();
+            loadProductsList(context, currentListId);
+        }
+    }
+
+    public boolean loadAllShoppingLists(Context context) {
+        Action getShoppingListsAction = StorageActions.getShoppingListsAction(context);
+        mStorage.execute(getShoppingListsAction);
+        mCurrentList = StorageActionResults
+                .getShoppingListsActionResult(getShoppingListsAction.result().get());
+
+        return true;
+    }
+
+    public boolean loadProductsList(Context context, String listId) {
+        Action getProductsListAction = StorageActions.getProductsListAction(context, listId);
+        mStorage.execute(getProductsListAction);
+        mCurrentList = StorageActionResults
+                .getProductsListActionResult(getProductsListAction.result().get());
+
+        return true;
+    }
+
     public String title() {
         return mCurrentList.title();
     }

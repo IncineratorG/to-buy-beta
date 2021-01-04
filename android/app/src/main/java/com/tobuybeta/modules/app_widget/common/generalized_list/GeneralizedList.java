@@ -15,6 +15,7 @@ public class GeneralizedList {
     public static final String PRODUCTS_LIST = "PRODUCTS_LIST";
 
     private String mListType;
+    private String mListId;
     private String mTitle;
     private List<String> mList;
     private Function<String, String> mItemIdExtractor;
@@ -30,11 +31,13 @@ public class GeneralizedList {
         mListType = UNKNOWN;
     }
 
-    public GeneralizedList(String title,
+    public GeneralizedList(String listId,
+                           String title,
                            List<String> list,
                            String listType,
                            Function<String, String> itemIdExtractor,
                            Function<String, String> itemNameExtractor) {
+        mListId = listId;
         mTitle = title;
         mList = list;
         mItemIdExtractor = itemIdExtractor;
@@ -57,6 +60,10 @@ public class GeneralizedList {
 
     public String listType() {
         return mListType;
+    }
+
+    public String listId() {
+        return mListId;
     }
 
     public String title() {

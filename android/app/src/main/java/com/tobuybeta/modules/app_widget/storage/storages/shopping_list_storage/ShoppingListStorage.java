@@ -144,6 +144,7 @@ public class ShoppingListStorage {
 
         return new GeneralizedList(
                 "",
+                "",
                 new ArrayList<>(existedShoppingListDescriptionsSet),
                 GeneralizedList.ALL_SHOPPING_LISTS,
                 itemIdExtractor,
@@ -179,6 +180,7 @@ public class ShoppingListStorage {
                 (itemDescription) -> itemDescription.substring(itemDescription.indexOf(" ") + 1);
 
         return new GeneralizedList(
+                id,
                 title,
                 new ArrayList<>(productListDescriptionSet),
                 GeneralizedList.PRODUCTS_LIST,
