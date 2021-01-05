@@ -3,6 +3,7 @@ package com.tobuybeta.test_widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -21,20 +22,20 @@ import java.util.List;
  */
 
 public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
-    ArrayList<String> data;
+//    ArrayList<String> data;
     Context context;
-    SimpleDateFormat sdf;
+//    SimpleDateFormat sdf;
     int widgetID;
-    int counter;
+//    int counter;
 
     private List<Product> mProducts;
 
-    private static WidgetModel model;
+//    private static WidgetModel model;
     private static GeneralizedList mItemsList;
 
     MyFactory(Context ctx, Intent intent) {
         context = ctx;
-        sdf = new SimpleDateFormat("HH:mm:ss");
+//        sdf = new SimpleDateFormat("HH:mm:ss");
         widgetID = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
 
@@ -84,7 +85,7 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getCount() {
-        return mItemsList.size();
+        return WidgetModels.get().getOrCreate(context, widgetID).list().size();
     }
 
     @Override
@@ -104,17 +105,32 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 //        rView.setTextViewText(R.id.tvItemText, data.get(position));
 //        rView.setTextViewText(R.id.tvItemText, mProducts.get(position).getName());
         rView.setTextViewText(R.id.tvItemText, WidgetModels.get().getOrCreate(context, widgetID).list().name(position));
+        rView.setImageViewResource(R.id.itemImageView, R.drawable.app_icon);
 
-        String itemId = "-1";
-        if (mItemsList != null) {
-            itemId = mItemsList.id(position);
+        if (WidgetModels.get().getOrCreate(context, widgetID).list().listType().equalsIgnoreCase(GeneralizedList.PRODUCTS_LIST)) {
+            rView.setViewVisibility(R.id.itemImageView, View.VISIBLE);
+        } else {
+            rView.setViewVisibility(R.id.itemImageView, View.GONE);
         }
 
-        Intent clickIntent = new Intent();
-        clickIntent.putExtra(MyTestWidget.ITEM_POSITION, position);
-        clickIntent.putExtra(MyTestWidget.CLICKED_LIST_ID, itemId);
-        clickIntent.putExtra(MyTestWidget.WIDGET_ID, widgetID);
-        rView.setOnClickFillInIntent(R.id.tvItemText, clickIntent);
+        String itemId = WidgetModels.get().getOrCreate(context, widgetID).list().id(position);
+
+        Intent itemClickIntent = new Intent();
+        itemClickIntent.putExtra(MyTestWidget.ITEM_POSITION, position);
+        itemClickIntent.putExtra(MyTestWidget.CLICKED_LIST_ID, itemId);
+        itemClickIntent.putExtra(MyTestWidget.WIDGET_ID, widgetID);
+
+        rView.setOnClickFillInIntent(R.id.tvItemText, itemClickIntent);
+
+        // ===
+        Intent itemImageClickIntent = new Intent();
+        itemImageClickIntent.putExtra(MyTestWidget.ITEM_POSITION, position);
+        itemImageClickIntent.putExtra(MyTestWidget.CLICKED_LIST_ID, itemId);
+        itemImageClickIntent.putExtra(MyTestWidget.WIDGET_ID, widgetID);
+        itemImageClickIntent.putExtra(MyTestWidget.ITEM_IMAGE_CLICK, "TRUE");
+
+        rView.setOnClickFillInIntent(R.id.itemImageView, itemImageClickIntent);
+        // ===
 
         return rView;
     }

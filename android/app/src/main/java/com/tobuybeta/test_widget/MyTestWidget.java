@@ -12,6 +12,8 @@ import android.speech.RecognizerIntent;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.tobuybeta.MainActivity;
+import com.tobuybeta.MainApplication;
 import com.tobuybeta.R;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.storage.Storage;
@@ -40,12 +42,9 @@ public class MyTestWidget extends AppWidgetProvider {
 
     final static String CLICKED_LIST_ID = "clicked_list_id";
     final static String WIDGET_ID = "widget_id";
+    final static String ITEM_IMAGE_CLICK = "item_image_click";
 
-    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-
-//    private static Storage mStorage = Storage.get();
     private WidgetModels mModels = WidgetModels.get();
-    private static int val = 0;
 
     public MyTestWidget() {
 
@@ -93,35 +92,34 @@ public class MyTestWidget extends AppWidgetProvider {
     void setUpdateTV(RemoteViews rv, Context context, int appWidgetId) {
         WidgetModel model = mModels.getOrCreate(context, appWidgetId);
 
-//        String backText = "U";
         String titleText = "ToBuy";
         int imageId = R.drawable.app_icon;
         if (model.list().listType().equalsIgnoreCase(GeneralizedList.ALL_SHOPPING_LISTS)) {
             imageId = R.drawable.app_icon;
-//            backText = "I";
         } else if (model.list().listType().equalsIgnoreCase(GeneralizedList.PRODUCTS_LIST)) {
             imageId = R.drawable.arrow_back;
-//            backText = "B";
             titleText = model.list().title();
-        } else {
-//            backText = "U";
         }
 
         rv.setTextViewText(R.id.titleText, titleText);
         rv.setImageViewResource(R.id.imageView, imageId);
-//        rv.setTextViewText(R.id.backText, backText);
 
-        Intent backButtonClickIntent = new Intent(context, MyTestWidget.class);
-        backButtonClickIntent.setAction(BACK_BUTTON_CLICK);
-        backButtonClickIntent.putExtra(WIDGET_ID, appWidgetId);
-        backButtonClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
-        Uri data = Uri.parse(backButtonClickIntent.toUri(Intent.URI_INTENT_SCHEME));
-        backButtonClickIntent.setData(data);
+        Intent backButtonIntent = new Intent(context, MyTestWidget.class);
+        backButtonIntent.setAction(BACK_BUTTON_CLICK);
+        backButtonIntent.putExtra(WIDGET_ID, appWidgetId);
+        backButtonIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
+        Uri data = Uri.parse(backButtonIntent.toUri(Intent.URI_INTENT_SCHEME));
+        backButtonIntent.setData(data);
 
-        PendingIntent updPIntent = PendingIntent
-                .getBroadcast(context, appWidgetId, backButtonClickIntent, 0);
+        Intent openAppIntent = new Intent(context, MainActivity.class);
 
-        rv.setOnClickPendingIntent(R.id.imageView, updPIntent);
+        PendingIntent backButtonPendingIntentIntent = PendingIntent
+                .getBroadcast(context, appWidgetId, backButtonIntent, 0);
+
+        PendingIntent openAppPendingIntent = PendingIntent.getActivity(context, 0, openAppIntent, 0);
+
+        rv.setOnClickPendingIntent(R.id.imageView, backButtonPendingIntentIntent);
+        rv.setOnClickPendingIntent(R.id.titleText, openAppPendingIntent);
 
 //        rv.setTextViewText(R.id.tvUpdate,
 //                sdf.format(new Date(System.currentTimeMillis())));
@@ -222,6 +220,11 @@ public class MyTestWidget extends AppWidgetProvider {
 
             String clickedListId = intent.getStringExtra(CLICKED_LIST_ID);
             int widgetId = intent.getIntExtra(WIDGET_ID, -1);
+
+            // ===
+            String itemImageClick = intent.getStringExtra(ITEM_IMAGE_CLICK);
+            Toast.makeText(context, "ITEM_IMAGE_CLICK->" + itemImageClick, Toast.LENGTH_SHORT).show();
+            // ===
 
             WidgetModel model = mModels.getOrCreate(context, widgetId);
             if (model.list().listType().equalsIgnoreCase(GeneralizedList.PRODUCTS_LIST)) {
