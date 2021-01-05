@@ -97,6 +97,7 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
         WritableMap actionTypesConstants = new WritableNativeMap();
         actionTypesConstants.putString(AppWidgetActionTypes.GET_WIDGET_STATUS, AppWidgetActionTypes.GET_WIDGET_STATUS);
         actionTypesConstants.putString(AppWidgetActionTypes.SET_SHOPPING_LIST, AppWidgetActionTypes.SET_SHOPPING_LIST);
+        actionTypesConstants.putString(AppWidgetActionTypes.SET_MULTIPLE_SHOPPING_LISTS, AppWidgetActionTypes.SET_MULTIPLE_SHOPPING_LISTS);
         actionTypesConstants.putString(AppWidgetActionTypes.REMOVE_SHOPPING_LIST, AppWidgetActionTypes.REMOVE_SHOPPING_LIST);
 
         constants.put("actionTypes", actionTypesConstants);
@@ -150,14 +151,6 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                     return;
                 }
 
-                // ===
-//                Toast.makeText(
-//                        mContext,
-//                        payload.listId() + " - " + payload.listName() + " - " + payload.productsList().size(),
-//                        Toast.LENGTH_LONG
-//                ).show();
-                // ===
-
                 mStorage.execute(
                         StorageActions.setShoppingListAction(
                                 mContext,
@@ -167,23 +160,11 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                         )
                 );
 
-                // ===
-                // =====
-//                Action getShoppingListsAction = StorageActions.getShoppingListsAction(mContext);
-//                mStorage.execute(getShoppingListsAction);
-//                GeneralizedList shoppingLists = StorageActionResults
-//                        .getShoppingListsActionResult(getShoppingListsAction.result().get());
-//
-//                String savedShoppingLists = "";
-//                for (int i = 0; i < shoppingLists.size(); ++i) {
-//                    String listDescription = shoppingLists.id(i) + " - " + shoppingLists.name(i);
-//                    savedShoppingLists = savedShoppingLists + listDescription + "\n";
-//                }
-//
-//                Toast.makeText(mContext, savedShoppingLists, Toast.LENGTH_LONG).show();
-                // =====
-                // ===
+                result.resolve(true);
+                break;
+            }
 
+            case (AppWidgetActionTypes.SET_MULTIPLE_SHOPPING_LISTS): {
                 result.resolve(true);
                 break;
             }

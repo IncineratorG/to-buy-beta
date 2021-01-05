@@ -28,10 +28,10 @@
 
         <ImageView
             android:id="@+id/itemImageView"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:clickable="true"
-            app:srcCompat="@drawable/app_icon" />
+            app:srcCompat="@drawable/checkmark_v2" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -105,7 +105,7 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
 //        rView.setTextViewText(R.id.tvItemText, data.get(position));
 //        rView.setTextViewText(R.id.tvItemText, mProducts.get(position).getName());
         rView.setTextViewText(R.id.tvItemText, WidgetModels.get().getOrCreate(context, widgetID).list().name(position));
-        rView.setImageViewResource(R.id.itemImageView, R.drawable.app_icon);
+        rView.setImageViewResource(R.id.itemImageView, R.drawable.checkmark_v2);
 
         if (WidgetModels.get().getOrCreate(context, widgetID).list().listType().equalsIgnoreCase(GeneralizedList.PRODUCTS_LIST)) {
             rView.setViewVisibility(R.id.itemImageView, View.VISIBLE);

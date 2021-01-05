@@ -38,6 +38,8 @@ class ServicesInstance {
     await this.#shareService.init();
     await this.#productSuggestionService.init();
     await this.#productsLocationService.init();
+
+    // const shoppingListsNoProducts = await this.#shoppingListService.getShoppingLists();
     await this.#appWidgetService.init();
   }
 

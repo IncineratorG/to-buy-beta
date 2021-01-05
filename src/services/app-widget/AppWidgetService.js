@@ -13,6 +13,10 @@ const AppWidgetService = () => {
     SystemEventsHandler.onInfo({
       info: 'WIDGET_ACTIVE: ' + JSON.stringify(result),
     });
+
+    // shoppingLists.forEach((shoppingList) => {
+    //   SystemEventsHandler.onInfo({info: JSON.stringify(shoppingList)});
+    // });
   };
 
   const subscribe = ({event, handler}) => {

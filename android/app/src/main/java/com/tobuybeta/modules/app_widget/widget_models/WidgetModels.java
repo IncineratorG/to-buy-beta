@@ -10,6 +10,7 @@ import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.storage.Storage;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEventPayloads;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEvents;
+import com.tobuybeta.modules.app_widget.storage.events.payloads.ShoppingListRemovedEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.ShoppingListSetEventPayload;
 import com.tobuybeta.modules.app_widget.widget_models.model.WidgetModel;
 import com.tobuybeta.test_widget.MyTestWidget;
@@ -34,20 +35,20 @@ public class WidgetModels {
                 entry.getValue().update(context);
             }
 
-            // ===
-//            for (Map.Entry<Integer, WidgetModel> entry : mModels.entrySet()) {
-//                GeneralizedList list = entry.getValue().list();
-//
-//                String strs = "";
-//                for (int i = 0; i < list.size(); ++i) {
-//                    strs = strs + "\n" + list.name(i);
-//                }
-//
-//                Toast.makeText(context, strs, Toast.LENGTH_LONG).show();
-//            }
+            Intent intent = new Intent(context, MyTestWidget.class);
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            int[] ids = AppWidgetManager.getInstance(context).
+                    getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+            context.sendBroadcast(intent);
+        });
+        mStorage.subscribe(StorageEvents.SHOPPING_LIST_REMOVED, (value) -> {
+            ShoppingListRemovedEventPayload payload = StorageEventPayloads.toShoppingListRemovedEventPayload(value);
+            Context context = payload.context();
 
-//            Toast.makeText(context, String.valueOf(mModels.size()), Toast.LENGTH_LONG).show();
-            // ===
+            for (Map.Entry<Integer, WidgetModel> entry : mModels.entrySet()) {
+                entry.getValue().update(context);
+            }
 
             Intent intent = new Intent(context, MyTestWidget.class);
             intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);

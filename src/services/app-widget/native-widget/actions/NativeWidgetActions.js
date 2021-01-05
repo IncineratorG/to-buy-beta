@@ -2,7 +2,12 @@ import NativeWidgetConstants from '../constants/NativeWidgetConstants';
 
 const NativeWidgetActions = () => {
   const {
-    actionTypes: {GET_WIDGET_STATUS, SET_SHOPPING_LIST, REMOVE_SHOPPING_LIST},
+    actionTypes: {
+      GET_WIDGET_STATUS,
+      SET_SHOPPING_LIST,
+      SET_MULTIPLE_SHOPPING_LISTS,
+      REMOVE_SHOPPING_LIST,
+    },
   } = NativeWidgetConstants;
 
   const getWidgetStatusAction = () => {
@@ -22,6 +27,15 @@ const NativeWidgetActions = () => {
     };
   };
 
+  const setMultipleShoppingListsAction = ({shoppingLists}) => {
+    return {
+      type: SET_MULTIPLE_SHOPPING_LISTS,
+      payload: {
+        shoppingLists,
+      },
+    };
+  };
+
   const removeShoppingListAction = ({listId}) => {
     return {
       type: REMOVE_SHOPPING_LIST,
@@ -34,6 +48,7 @@ const NativeWidgetActions = () => {
   return {
     getWidgetStatusAction,
     setShoppingListAction,
+    setMultipleShoppingListsAction,
     removeShoppingListAction,
   };
 };

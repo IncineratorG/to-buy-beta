@@ -9,6 +9,9 @@ import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.common.product.Product;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +28,23 @@ public class ShoppingListStorage {
                                    String listId,
                                    String listName,
                                    List<Product> productsList) {
+//        Collections.sort(productsList, new Comparator<Product>() {
+//            @Override
+//            public int compare(Product product1, Product product2) {
+//                return product2.getIntId() - product1.getIntId();
+//            }
+//        });
+
+        // ===
+//        int[] data = new int[] { 5, 4, 2, 1, 3 };
+//        Arrays.sort(data, new Comparator<Integer>() {
+//            public int compare(Integer o1, Integer o2) {
+//                // Intentional: Reverse order for this demo
+//                return o2.compareTo(o1);
+//            }
+//        });
+        // ===
+
         if (context == null) {
             return false;
         } else if (listId == null || listId.isEmpty()) {

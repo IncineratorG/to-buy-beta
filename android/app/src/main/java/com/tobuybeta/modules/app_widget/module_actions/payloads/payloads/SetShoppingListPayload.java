@@ -37,10 +37,11 @@ public class SetShoppingListPayload implements JSPayload {
         for (int i = 0; i < productsList.size(); ++i) {
             ReadableMap productMap = productsList.getMap(i);
             if (productMap != null) {
-                String productId = String.valueOf(productMap.getInt(PRODUCT_ID_FIELD));
+                int productIntId = productMap.getInt(PRODUCT_ID_FIELD);
+                String productId = String.valueOf(productIntId);
                 String productName = productMap.getString(PRODUCT_NAME_FIELD);
 
-                mProductsList.add(new Product(productId, productName));
+                mProductsList.add(new Product(productId, productIntId, productName));
             }
         }
 
