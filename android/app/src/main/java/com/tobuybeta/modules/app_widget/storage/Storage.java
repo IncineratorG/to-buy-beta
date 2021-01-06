@@ -120,6 +120,32 @@ public class Storage {
                 break;
             }
 
+            case (StorageActionTypes.SET_WIDGET_LIST_INFO): {
+                Context context = (Context) action.payload().get("context");
+                int widgetId = (int) action.payload().get("widgetId");
+                String listId = (String) action.payload().get("listId");
+                String listType = (String) action.payload().get("listType");
+
+                mWidgetStorage.setWidgetListInfo(context, widgetId, listId, listType);
+                break;
+            }
+
+            case (StorageActionTypes.REMOVE_WIDGET_LIST_INFO): {
+                Context context = (Context) action.payload().get("context");
+                int widgetId = (int) action.payload().get("widgetId");
+
+                mWidgetStorage.removeWidgetListInfo(context, widgetId);
+                break;
+            }
+
+            case (StorageActionTypes.GET_WIDGET_LIST_INFO): {
+                Context context = (Context) action.payload().get("context");
+                int widgetId = (int) action.payload().get("widgetId");
+
+                action.complete(mWidgetStorage.getWidgetListInfo(context, widgetId));
+                break;
+            }
+
             default: {
 
             }

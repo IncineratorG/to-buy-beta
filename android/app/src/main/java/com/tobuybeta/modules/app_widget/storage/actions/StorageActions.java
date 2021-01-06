@@ -64,4 +64,33 @@ public class StorageActions {
 
         return new Action(StorageActionTypes.GET_PRODUCTS_LIST, payload);
     }
+
+    public static Action setWidgetListInfoAction(Context context,
+                                                 int widgetId,
+                                                 String listId,
+                                                 String listType) {
+        ActionPayload payload = new ActionPayload();
+        payload.set("context", context);
+        payload.set("widgetId", widgetId);
+        payload.set("listId", listId);
+        payload.set("listType", listType);
+
+        return new Action(StorageActionTypes.SET_WIDGET_LIST_INFO, payload);
+    }
+
+    public static Action removeWidgetListInfoAction(Context context, int widgetId) {
+        ActionPayload payload = new ActionPayload();
+        payload.set("context", context);
+        payload.set("widgetId", widgetId);
+
+        return new Action(StorageActionTypes.REMOVE_WIDGET_LIST_INFO, payload);
+    }
+
+    public static Action getWidgetListInfoAction(Context context, int widgetId) {
+        ActionPayload payload = new ActionPayload();
+        payload.set("context", context);
+        payload.set("widgetId", widgetId);
+
+        return new Action(StorageActionTypes.GET_WIDGET_LIST_INFO, payload);
+    }
 }

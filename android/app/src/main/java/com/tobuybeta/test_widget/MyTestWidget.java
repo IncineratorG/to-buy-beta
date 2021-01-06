@@ -41,6 +41,7 @@ public class MyTestWidget extends AppWidgetProvider {
     final static String BACK_BUTTON_CLICK = "back_button_click";
 
     final static String CLICKED_LIST_ID = "clicked_list_id";
+    final static String CLICKED_LIST_TYPE = "clicked_list_type";
     final static String WIDGET_ID = "widget_id";
     final static String ITEM_IMAGE_CLICK = "item_image_click";
 
@@ -195,11 +196,19 @@ public class MyTestWidget extends AppWidgetProvider {
     }
 
     @Override
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        for (int appWidgetId : appWidgetIds) {
+            Storage.get().execute(
+                    StorageActions.removeWidgetListInfoAction(context, appWidgetId)
+            );
+        }
+    }
+
+    @Override
     public void onDisabled(Context context) {
         Storage.get().execute(
                 StorageActions.setWidgetActiveAction(context, false)
         );
-//        mModels.clear();
     }
 
     @Override
@@ -223,11 +232,20 @@ public class MyTestWidget extends AppWidgetProvider {
 
             // ===
             String itemImageClick = intent.getStringExtra(ITEM_IMAGE_CLICK);
-            Toast.makeText(context, "ITEM_IMAGE_CLICK->" + itemImageClick, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "ITEM_IMAGE_CLICK->" + itemImageClick, Toast.LENGTH_SHORT).show();
             // ===
 
+            // =====
+            String clickedListType = intent.getStringExtra(CLICKED_LIST_TYPE);
+            Toast.makeText(context, "LIST_TYPE->" + clickedListType, Toast.LENGTH_SHORT).show();
+            // =====
+
             WidgetModel model = mModels.getOrCreate(context, widgetId);
-            if (model.list().listType().equalsIgnoreCase(GeneralizedList.PRODUCTS_LIST)) {
+            if (clickedListType == null) {
+                Toast.makeText(context, "LIST_TYPE_IS_NULL->DO_NOTHING", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (clickedListType.equalsIgnoreCase(GeneralizedList.PRODUCTS_LIST)) {
                 Toast.makeText(context, "PRODUCTS_LIST->DO_NOTHING", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -277,10 +295,10 @@ public class MyTestWidget extends AppWidgetProvider {
                 Toast.makeText(context, "MODEL_IS_NULL->DO_NOTHING: " + String.valueOf(widgetId), Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (model.list().listType().equalsIgnoreCase(GeneralizedList.ALL_SHOPPING_LISTS)) {
-                Toast.makeText(context, "ALL_SHOPPING_LISTS->DO_NOTHING", Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if (model.list().listType().equalsIgnoreCase(GeneralizedList.ALL_SHOPPING_LISTS)) {
+//                Toast.makeText(context, "ALL_SHOPPING_LISTS->DO_NOTHING", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
 
             model.loadAllShoppingLists(context);
 
