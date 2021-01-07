@@ -116,6 +116,7 @@ public class MyTestWidget extends AppWidgetProvider {
         backButtonIntent.setData(data);
 
         Intent openAppIntent = new Intent(context, MainActivity.class);
+        openAppIntent.putExtra("TEST_STRING", "TestString");
 
         PendingIntent backButtonPendingIntentIntent = PendingIntent
                 .getBroadcast(context, appWidgetId, backButtonIntent, 0);

@@ -1,10 +1,12 @@
 package com.tobuybeta;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.facebook.react.ReactActivity;
+import com.facebook.react.ReactActivityDelegate;
 
 
 public class MainActivity extends ReactActivity {
@@ -18,6 +20,15 @@ public class MainActivity extends ReactActivity {
     return "ToBuyBeta";
   }
 
+//  @Override
+//  protected ReactActivityDelegate createReactActivityDelegate() {
+//      return new ReactNativeActivityDelegate(this, getMainComponentName());
+//  }
+
+  //  @Override
+//  public void onNewIntent(Intent intent) {
+//    super.onNewIntent(intent);
+//  }
 
   // ===
 //  @Override
