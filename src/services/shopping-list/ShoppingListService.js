@@ -114,6 +114,12 @@ export class ShoppingListService {
     return await ShoppingListService.#serviceImpl.getShoppingLists();
   }
 
+  static async getShoppingListsWithProducts({productsStatus}) {
+    return await ShoppingListService.#serviceImpl.getShoppingListsWithProducts({
+      productsStatus,
+    });
+  }
+
   static async getProductsList({id, productStatus}) {
     return await ShoppingListService.#serviceImpl.getProductsList({
       id,

@@ -8,19 +8,19 @@ import {MenuProvider} from 'react-native-popup-menu';
 import {SystemEventsHandler} from './src/utils/common/system-events-handler/SystemEventsHandler';
 
 const App = () => {
-  const appState = useRef(AppState.currentState);
-
-  useEffect(() => {
-    const appStateChangeHandler = (nextAppState) => {
-      SystemEventsHandler.onInfo({info: 'AppState: ' + nextAppState});
-    };
-
-    AppState.addEventListener('change', appStateChangeHandler);
-
-    return () => {
-      AppState.removeEventListener('change', appStateChangeHandler);
-    };
-  }, []);
+  // const appState = useRef(AppState.currentState);
+  //
+  // useEffect(() => {
+  //   const appStateChangeHandler = (nextAppState) => {
+  //     SystemEventsHandler.onInfo({info: 'AppState: ' + nextAppState});
+  //   };
+  //
+  //   AppState.addEventListener('change', appStateChangeHandler);
+  //
+  //   return () => {
+  //     AppState.removeEventListener('change', appStateChangeHandler);
+  //   };
+  // }, []);
 
   return (
     <MenuProvider>

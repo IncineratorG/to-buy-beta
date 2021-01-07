@@ -231,6 +231,18 @@ const slSqliteFunctionsService = () => {
     return shoppingLists;
   };
 
+  const getShoppingListsWithProducts = async ({productsStatus}) => {
+    const shoppingLists = await getShoppingLists();
+    return await Promise.all(
+      shoppingLists.map(async (shoppingList) => {
+        return await getProductsList({
+          id: shoppingList.id,
+          productStatus: productsStatus,
+        });
+      }),
+    );
+  };
+
   const getProductsList = async ({id, productStatus}) => {
     const {shoppingList} = await ShoppingListsTableOperations.getShoppingList({
       db: db,
@@ -797,6 +809,7 @@ const slSqliteFunctionsService = () => {
     removeShoppingList,
     renameShoppingList,
     getShoppingLists,
+    getShoppingListsWithProducts,
     getProductsList,
     copyShoppingList,
     addProduct,

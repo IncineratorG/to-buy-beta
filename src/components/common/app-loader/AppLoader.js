@@ -6,6 +6,7 @@ import Services from '../../../services/Services';
 import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import wait from '../../../utils/common/service-utils/wait/wait';
 import {loadShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
+import {AppState} from 'react-native';
 
 const AppLoader = () => {
   const [ready, setReady] = useState(false);
@@ -28,6 +29,18 @@ const AppLoader = () => {
 
     initFunc();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const appStateChangeHandler = (nextAppState) => {
+      SystemEventsHandler.onInfo({info: 'AppState: ' + nextAppState});
+    };
+
+    AppState.addEventListener('change', appStateChangeHandler);
+
+    return () => {
+      AppState.removeEventListener('change', appStateChangeHandler);
+    };
   }, []);
 
   if (ready) {
