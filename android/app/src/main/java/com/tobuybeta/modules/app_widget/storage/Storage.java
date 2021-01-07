@@ -1,6 +1,7 @@
 package com.tobuybeta.modules.app_widget.storage;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.tobuybeta.modules.app_widget.common.action.Action;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;

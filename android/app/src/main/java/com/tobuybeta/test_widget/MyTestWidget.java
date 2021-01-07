@@ -15,8 +15,11 @@ import android.widget.Toast;
 import com.tobuybeta.MainActivity;
 import com.tobuybeta.MainApplication;
 import com.tobuybeta.R;
+import com.tobuybeta.modules.app_widget.common.action.Action;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
+import com.tobuybeta.modules.app_widget.common.widget_list_info.WidgetListInfo;
 import com.tobuybeta.modules.app_widget.storage.Storage;
+import com.tobuybeta.modules.app_widget.storage.actions.StorageActionResults;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActions;
 import com.tobuybeta.modules.app_widget.widget_models.WidgetModels;
 import com.tobuybeta.modules.app_widget.widget_models.model.WidgetModel;
@@ -223,21 +226,17 @@ public class MyTestWidget extends AppWidgetProvider {
 
             sharedStorage.testSend();
         } else if (intent.getAction().equalsIgnoreCase(ACTION_ON_CLICK)) {
-
-//            int itemPos = intent.getIntExtra(ITEM_POSITION, -1);
-//            Toast.makeText(context, "ON_CLICK", Toast.LENGTH_SHORT).show();
-
             String clickedListId = intent.getStringExtra(CLICKED_LIST_ID);
             int widgetId = intent.getIntExtra(WIDGET_ID, -1);
 
             // ===
-            String itemImageClick = intent.getStringExtra(ITEM_IMAGE_CLICK);
-//            Toast.makeText(context, "ITEM_IMAGE_CLICK->" + itemImageClick, Toast.LENGTH_SHORT).show();
+            boolean itemImageClick = intent.getBooleanExtra(ITEM_IMAGE_CLICK, false);
+            Toast.makeText(context, "ITEM_IMAGE_CLICK->" + itemImageClick, Toast.LENGTH_SHORT).show();
             // ===
 
             // =====
             String clickedListType = intent.getStringExtra(CLICKED_LIST_TYPE);
-            Toast.makeText(context, "LIST_TYPE->" + clickedListType, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "LIST_TYPE->" + clickedListType, Toast.LENGTH_SHORT).show();
             // =====
 
             WidgetModel model = mModels.getOrCreate(context, widgetId);
@@ -264,41 +263,14 @@ public class MyTestWidget extends AppWidgetProvider {
             updateListIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
             context.sendBroadcast(updateListIntent);
             // ===
-
-//            String listName = "Unknown";
-//            if (model != null) {
-//                listName = model.list().name(itemPos);
-//            }
-//
-//            Toast.makeText(
-//                    context,
-//                    "LIST_ID " + clickedListId + " - " + String.valueOf(widgetId) + " - " + listName,
-//                    Toast.LENGTH_SHORT
-//            ).show();
-
         }  else if (intent.getAction().equalsIgnoreCase(BACK_BUTTON_CLICK)) {
-//            Toast.makeText(context, String.valueOf(val), Toast.LENGTH_SHORT).show();
-//            val = val + 1;
-//
-//            Intent updateIntent = new Intent(context, MyTestWidget.class);
-//            updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-//            int[] ids = AppWidgetManager.getInstance(context).
-//                    getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
-//            updateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-//            context.sendBroadcast(updateIntent);
-
             int widgetId = intent.getIntExtra(WIDGET_ID, -1);
 
-//            WidgetModel model = mModels.getOrNull(widgetId);
             WidgetModel model = mModels.getOrCreate(context, widgetId);
             if (model == null) {
                 Toast.makeText(context, "MODEL_IS_NULL->DO_NOTHING: " + String.valueOf(widgetId), Toast.LENGTH_SHORT).show();
                 return;
             }
-//            if (model.list().listType().equalsIgnoreCase(GeneralizedList.ALL_SHOPPING_LISTS)) {
-//                Toast.makeText(context, "ALL_SHOPPING_LISTS->DO_NOTHING", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
 
             model.loadAllShoppingLists(context);
 

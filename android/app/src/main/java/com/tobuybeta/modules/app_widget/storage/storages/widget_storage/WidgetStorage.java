@@ -2,6 +2,7 @@ package com.tobuybeta.modules.app_widget.storage.storages.widget_storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.tobuybeta.modules.app_widget.common.widget_list_info.WidgetListInfo;
 
@@ -99,8 +100,30 @@ public class WidgetStorage {
         String widgetListInfoDescription = widgetListInfoDescriptionList.get(0);
 
         String listId = widgetListInfoDescription.substring(0, widgetListInfoDescription.indexOf(" "));
-        String listType = widgetListInfoDescription.substring(widgetListInfoDescription.indexOf(" " + 1));
+        String listType = widgetListInfoDescription.substring(widgetListInfoDescription.indexOf(" ") + 1);
 
         return new WidgetListInfo(widgetId, listId, listType);
     }
+//    public WidgetListInfo getWidgetListInfo(Context context, int widgetId) {
+//        if (context == null) {
+//            return new WidgetListInfo();
+//        }
+//
+//        SharedPreferences sharedPreferences = context
+//                .getSharedPreferences(WIDGET_DATA_FIELD, Context.MODE_PRIVATE);
+//        Set<String> widgetListInfoDescriptionSet = sharedPreferences
+//                .getStringSet(String.valueOf(widgetId), new HashSet<>());
+//
+//        if (widgetListInfoDescriptionSet.size() <= 0) {
+//            return new WidgetListInfo();
+//        }
+//
+//        List<String> widgetListInfoDescriptionList = new ArrayList<>(widgetListInfoDescriptionSet);
+//        String widgetListInfoDescription = widgetListInfoDescriptionList.get(0);
+//
+//        String listId = widgetListInfoDescription.substring(0, widgetListInfoDescription.indexOf(" "));
+//        String listType = widgetListInfoDescription.substring(widgetListInfoDescription.indexOf(" " + 1));
+//
+//        return new WidgetListInfo(widgetId, listId, listType);
+//    }
 }

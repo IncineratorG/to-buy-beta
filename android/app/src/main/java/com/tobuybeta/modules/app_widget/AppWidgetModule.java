@@ -1,5 +1,8 @@
 package com.tobuybeta.modules.app_widget;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +29,7 @@ import com.tobuybeta.modules.app_widget.module_errors.AppWidgetErrors;
 import com.tobuybeta.modules.app_widget.storage.Storage;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActions;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActionResults;
+import com.tobuybeta.test_widget.MyTestWidget;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -196,31 +200,16 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
             }
         }
 
-//        String type = action.getString("type");
-//        ReadableMap payload = action.getMap("payload");
-//        if (payload == null) {
-//            return;
-//        }
-//
-//        String one = payload.getString("one");
-//        String two = payload.getString("two");
-//
-//        Toast.makeText(mContext, type + " - " + one + " - " + two, Toast.LENGTH_LONG).show();
-//
-//        WritableMap resultMap = new WritableNativeMap();
-//        resultMap.putInt("resOne", 1);
-//        resultMap.putBoolean("resTwo", true);
-//
-//        result.resolve(resultMap);
+        Intent intent = new Intent(mContext, MyTestWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = AppWidgetManager.getInstance(mContext).
+                getAppWidgetIds(new ComponentName(mContext, MyTestWidget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        mContext.sendBroadcast(intent);
     }
 
     @ReactMethod
     public void getWidgetStatus(Promise promise) {
-//        Storage storage = Storage.get();
-//
-//        boolean isWidgetActive = storage.isWidgetActive(mContext);
-//        String currentShoppingListId = storage.getShoppingListId(mContext);
-
         WritableMap resultMap = new WritableNativeMap();
         resultMap.putBoolean(IS_WIDGET_ACTIVE_FIELD, false);
         resultMap.putString(SHOPPING_LIST_ID_FIELD, "-1");

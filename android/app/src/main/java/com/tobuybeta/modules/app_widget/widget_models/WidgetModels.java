@@ -72,7 +72,7 @@ public class WidgetModels {
         if (mModels.containsKey(appWidgetId)) {
             model = mModels.get(appWidgetId);
         } else {
-            model = new WidgetModel(context);
+            model = new WidgetModel(context, appWidgetId);
             mModels.put(appWidgetId, model);
         }
 
