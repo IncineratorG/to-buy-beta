@@ -7,6 +7,7 @@ const NativeWidgetActions = () => {
       SET_SHOPPING_LIST,
       SET_MULTIPLE_SHOPPING_LISTS,
       REMOVE_SHOPPING_LIST,
+      GET_WIDGET_REQUESTS,
     },
   } = NativeWidgetConstants;
 
@@ -45,11 +46,18 @@ const NativeWidgetActions = () => {
     };
   };
 
+  const getWidgetRequestsAction = () => {
+    return {
+      type: GET_WIDGET_REQUESTS,
+    };
+  };
+
   return {
     getWidgetStatusAction,
     setShoppingListAction,
     setMultipleShoppingListsAction,
     removeShoppingListAction,
+    getWidgetRequestsAction,
   };
 };
 

@@ -41,9 +41,9 @@ class ServicesInstance {
     await this.#productsLocationService.init();
 
     // ===
-    const shoppingListsWithProducts = await this.#shoppingListService.getShoppingListsWithProducts(
-      {productsStatus: ProductStatus.NOT_COMPLETED},
-    );
+    // const shoppingListsWithProducts = await this.#shoppingListService.getShoppingListsWithProducts(
+    //   {productsStatus: ProductStatus.NOT_COMPLETED},
+    // );
     // ===
     // const shoppingListsNoProducts = await this.#shoppingListService.getShoppingLists();
     await this.#appWidgetService.init();

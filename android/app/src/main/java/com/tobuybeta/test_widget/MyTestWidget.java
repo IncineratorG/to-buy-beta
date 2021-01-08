@@ -18,6 +18,7 @@ import com.tobuybeta.R;
 import com.tobuybeta.modules.app_widget.common.action.Action;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.common.widget_list_info.WidgetListInfo;
+import com.tobuybeta.modules.app_widget.module_requests.requests.OpenShoppingListRequest;
 import com.tobuybeta.modules.app_widget.storage.Storage;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActionResults;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActions;
@@ -42,6 +43,7 @@ public class MyTestWidget extends AppWidgetProvider {
     final static String ITEM_POSITION = "item_position";
 
     final static String BACK_BUTTON_CLICK = "back_button_click";
+    final static String TITLE_CLICK = "title_click";
 
     final static String CLICKED_LIST_ID = "clicked_list_id";
     final static String CLICKED_LIST_TYPE = "clicked_list_type";
@@ -112,20 +114,28 @@ public class MyTestWidget extends AppWidgetProvider {
         backButtonIntent.setAction(BACK_BUTTON_CLICK);
         backButtonIntent.putExtra(WIDGET_ID, appWidgetId);
         backButtonIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
-        Uri data = Uri.parse(backButtonIntent.toUri(Intent.URI_INTENT_SCHEME));
-        backButtonIntent.setData(data);
-
-        Intent openAppIntent = new Intent(context, MainActivity.class);
-        openAppIntent.putExtra("TEST_STRING", "TestString");
+        Uri backButtonIntentData = Uri.parse(backButtonIntent.toUri(Intent.URI_INTENT_SCHEME));
+        backButtonIntent.setData(backButtonIntentData);
 
         PendingIntent backButtonPendingIntentIntent = PendingIntent
                 .getBroadcast(context, appWidgetId, backButtonIntent, 0);
 
-        PendingIntent openAppPendingIntent = PendingIntent.getActivity(context, 0, openAppIntent, 0);
-
         rv.setOnClickPendingIntent(R.id.imageView, backButtonPendingIntentIntent);
+
+        Intent openAppIntent = new Intent(context, MyTestWidget.class);
+        openAppIntent.setAction(TITLE_CLICK);
+        openAppIntent.putExtra(WIDGET_ID, appWidgetId);
+        openAppIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
+        Uri openAppIntentData = Uri.parse(backButtonIntent.toUri(Intent.URI_INTENT_SCHEME));
+        backButtonIntent.setData(openAppIntentData);
+//        PendingIntent openAppPendingIntent = PendingIntent.getActivity(context, 0, openAppIntent, 0);
+
+        PendingIntent openAppPendingIntent = PendingIntent.getBroadcast(context, appWidgetId, openAppIntent, 0);
+
         rv.setOnClickPendingIntent(R.id.titleText, openAppPendingIntent);
 
+        // ===
+        // =====
 //        rv.setTextViewText(R.id.tvUpdate,
 //                sdf.format(new Date(System.currentTimeMillis())));
 //        Intent updIntent = new Intent(context, MyTestWidget.class);
@@ -135,6 +145,8 @@ public class MyTestWidget extends AppWidgetProvider {
 //        PendingIntent updPIntent = PendingIntent.getBroadcast(context,
 //                appWidgetId, updIntent, 0);
 //        rv.setOnClickPendingIntent(R.id.tvUpdate, updPIntent);
+        // =====
+        // ===
     }
 //    void setUpdateTV(RemoteViews rv, Context context, int appWidgetId) {
 //        rv.setTextViewText(R.id.tvUpdate, "Back");
@@ -226,6 +238,29 @@ public class MyTestWidget extends AppWidgetProvider {
             }
 
             sharedStorage.testSend();
+        } else if (intent.getAction().equalsIgnoreCase(TITLE_CLICK)) {
+            int widgetId = intent.getIntExtra(WIDGET_ID, -1);
+            if (widgetId < 0) {
+                Toast.makeText(context, "BAD_TITLE_ID->" + String.valueOf(widgetId), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            WidgetModel model = WidgetModels.get().getOrCreate(context, widgetId);
+            String listId = model.list().listId();
+
+            OpenShoppingListRequest request = new OpenShoppingListRequest(listId);
+            Storage.get().execute(StorageActions.setWidgetRequestAction(context, request));
+
+//            Toast.makeText(context, "TITLE_CLICK->" + model.list().listId(), Toast.LENGTH_SHORT).show();
+
+            Intent openAppIntent = new Intent(context, MainActivity.class);
+            PendingIntent openAppPendingIntent = PendingIntent.getActivity(context, 0, openAppIntent, 0);
+            try {
+                openAppPendingIntent.send();
+            } catch (PendingIntent.CanceledException e) {
+                Toast.makeText(context, "TITLE_CLICK->ERROR", Toast.LENGTH_SHORT).show();
+            }
+
         } else if (intent.getAction().equalsIgnoreCase(ACTION_ON_CLICK)) {
             String clickedListId = intent.getStringExtra(CLICKED_LIST_ID);
             int widgetId = intent.getIntExtra(WIDGET_ID, -1);

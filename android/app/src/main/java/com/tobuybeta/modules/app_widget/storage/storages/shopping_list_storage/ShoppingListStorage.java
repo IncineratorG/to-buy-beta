@@ -98,9 +98,7 @@ public class ShoppingListStorage {
         editor.putStringSet(listId, productDescriptionsSet);
         editor.putStringSet(SHOPPING_LISTS_FIELD, existedShoppingListDescriptionsSet);
 
-        editor.commit();
-
-        return true;
+        return editor.commit();
     }
 
     public boolean removeShoppingList(Context context, String listId) {
@@ -142,9 +140,7 @@ public class ShoppingListStorage {
         editor.putStringSet(SHOPPING_LISTS_FIELD, existedShoppingListDescriptionsSet);
         editor.remove(listId);
 
-        editor.commit();
-
-        return true;
+        return editor.commit();
     }
 
     public GeneralizedList getShoppingLists(Context context) {

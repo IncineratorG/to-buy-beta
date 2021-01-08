@@ -45,11 +45,20 @@ const AppWidgetService = () => {
     return await widget.removeShoppingList({listId});
   };
 
+  const getWidgetRequests = async () => {
+    SystemEventsHandler.onInfo({
+      info: 'AppWidgetService->getWidgetRequests()',
+    });
+
+    return await widget.getWidgetRequests();
+  };
+
   return {
     init,
     subscribe,
     setShoppingList,
     removeShoppingList,
+    getWidgetRequests,
   };
 };
 

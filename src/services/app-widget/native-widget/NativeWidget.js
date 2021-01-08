@@ -28,11 +28,17 @@ const NativeWidget = () => {
     return await AppWidget.execute(action);
   };
 
+  const getWidgetRequests = async () => {
+    const action = NativeWidgetActions.getWidgetRequestsAction();
+    return await AppWidget.execute(action);
+  };
+
   return {
     getWidgetStatus,
     setShoppingList,
     setMultipleShoppingLists,
     removeShoppingList,
+    getWidgetRequests,
   };
 };
 

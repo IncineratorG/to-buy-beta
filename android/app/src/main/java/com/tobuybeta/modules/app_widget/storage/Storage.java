@@ -9,6 +9,7 @@ import com.tobuybeta.modules.app_widget.common.notifier.Notifier;
 import com.tobuybeta.modules.app_widget.common.notifier.event_handler.EventHandler;
 import com.tobuybeta.modules.app_widget.common.notifier.unsubscribe_handler.UnsubscribeHandler;
 import com.tobuybeta.modules.app_widget.common.product.Product;
+import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActionTypes;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEventPayloads;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEvents;
@@ -144,6 +145,28 @@ public class Storage {
                 int widgetId = (int) action.payload().get("widgetId");
 
                 action.complete(mWidgetStorage.getWidgetListInfo(context, widgetId));
+                break;
+            }
+
+            case (StorageActionTypes.SET_WIDGET_REQUEST): {
+                Context context = (Context) action.payload().get("context");
+                WidgetRequest widgetRequest = (WidgetRequest) action.payload().get("widgetRequest");
+
+                mWidgetStorage.setWidgetRequest(context, widgetRequest);
+                break;
+            }
+
+            case (StorageActionTypes.REMOVE_ALL_WIDGET_REQUESTS): {
+                Context context = (Context) action.payload().get("context");
+
+                mWidgetStorage.removeAllWidgetRequests(context);
+                break;
+            }
+
+            case (StorageActionTypes.GET_ALL_WIDGET_REQUESTS): {
+                Context context = (Context) action.payload().get("context");
+
+                action.complete(mWidgetStorage.getAllWidgetRequests(context));
                 break;
             }
 

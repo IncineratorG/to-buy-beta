@@ -7,16 +7,16 @@ import {SystemEventsHandler} from '../../../utils/common/system-events-handler/S
 import wait from '../../../utils/common/service-utils/wait/wait';
 import {loadShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
 import {AppState} from 'react-native';
+import awaitAsyncGenerator from '@babel/runtime/helpers/esm/awaitAsyncGenerator';
 
 const AppLoader = () => {
-  const [ready, setReady] = useState(false);
+  const [appInitialized, setAppInitialized] = useState(false);
+  const [appInForeground, setAppInForeground] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     const initFunc = async () => {
-      // await wait(1);
-
       try {
         await Services.init();
         await dispatch(loadShoppingListsAction());
@@ -24,16 +24,20 @@ const AppLoader = () => {
         SystemEventsHandler.onError({err: 'AppLoader->init()->ERROR'});
       }
 
-      setReady(true);
+      setAppInitialized(true);
     };
 
     initFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const appStateChangeHandler = (nextAppState) => {
-      SystemEventsHandler.onInfo({info: 'AppState: ' + nextAppState});
+      // SystemEventsHandler.onInfo({info: 'AppState: ' + nextAppState});
+      if (nextAppState === 'active') {
+        setAppInForeground(true);
+      } else {
+        setAppInForeground(false);
+      }
     };
 
     AppState.addEventListener('change', appStateChangeHandler);
@@ -43,7 +47,23 @@ const AppLoader = () => {
     };
   }, []);
 
-  if (ready) {
+  useEffect(() => {
+    if (appInForeground && appInitialized) {
+      SystemEventsHandler.onInfo({
+        info: 'AppLoader->APP_IN_FOREGROUND_AND_INITIALIZED',
+      });
+
+      const initializeAppWidgetService = async () => {
+        const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);
+        const result = await appWidgetService.getWidgetRequests();
+        SystemEventsHandler.onInfo({info: 'RESULT: ' + JSON.stringify(result)});
+      };
+
+      initializeAppWidgetService();
+    }
+  }, [appInitialized, appInForeground]);
+
+  if (appInitialized) {
     return <AppNavigation />;
   } else {
     return <AppLoading />;

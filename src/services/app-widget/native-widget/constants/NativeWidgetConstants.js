@@ -7,6 +7,7 @@ const NativeWidgetConstants = () => {
       SET_SHOPPING_LIST,
       SET_MULTIPLE_SHOPPING_LISTS,
       REMOVE_SHOPPING_LIST,
+      GET_WIDGET_REQUESTS,
     },
   } = AppWidget.getConstants();
 
@@ -16,6 +17,7 @@ const NativeWidgetConstants = () => {
       SET_SHOPPING_LIST,
       SET_MULTIPLE_SHOPPING_LISTS,
       REMOVE_SHOPPING_LIST,
+      GET_WIDGET_REQUESTS,
     },
   };
 };
