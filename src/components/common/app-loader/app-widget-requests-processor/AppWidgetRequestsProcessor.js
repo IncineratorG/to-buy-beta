@@ -18,10 +18,14 @@ const AppWidgetRequestsProcessor = () => {
         'AppWidgetRequestsProcessor->process(): ' + JSON.stringify(requests),
     });
 
+    let shoppingListToOpen = '';
     requests.forEach((request) => {
       switch (request.type) {
         case OPEN_SHOPPING_LIST_REQUEST: {
-          openShoppingListRequestHandler.handle({request});
+          const {shoppingListId} = openShoppingListRequestHandler.handle({
+            request,
+          });
+          shoppingListToOpen = shoppingListId;
           break;
         }
 
@@ -32,7 +36,10 @@ const AppWidgetRequestsProcessor = () => {
       }
     });
 
-    return requests.length;
+    return {
+      shoppingListToOpen,
+      actions: [],
+    };
   };
 
   return {
