@@ -53,12 +53,21 @@ const AppWidgetService = () => {
     return await widget.getWidgetRequests();
   };
 
+  const getAndRemoveAllWidgetRequests = async () => {
+    SystemEventsHandler.onInfo({
+      info: 'AppWidgetService->getAndRemoveAllWidgetRequests()',
+    });
+
+    return await widget.getAndRemoveAllWidgetRequests();
+  };
+
   return {
     init,
     subscribe,
     setShoppingList,
     removeShoppingList,
     getWidgetRequests,
+    getAndRemoveAllWidgetRequests,
   };
 };
 

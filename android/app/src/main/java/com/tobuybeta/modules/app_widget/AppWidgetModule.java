@@ -15,7 +15,6 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.ReadableNativeArray;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
@@ -23,7 +22,6 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.tobuybeta.modules.app_widget.common.action.Action;
 import com.tobuybeta.modules.app_widget.common.error.Error;
-import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.AppWidgetActionPayloads;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.RemoveShoppingListPayload;
@@ -31,6 +29,7 @@ import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetShop
 import com.tobuybeta.modules.app_widget.module_actions.types.AppWidgetActionTypes;
 import com.tobuybeta.modules.app_widget.module_errors.AppWidgetErrors;
 import com.tobuybeta.modules.app_widget.module_requests.transformer.WidgetRequestTransformer;
+import com.tobuybeta.modules.app_widget.module_requests.types.WidgetRequestTypes;
 import com.tobuybeta.modules.app_widget.storage.Storage;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActions;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActionResults;
@@ -109,9 +108,16 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
         actionTypesConstants.putString(AppWidgetActionTypes.SET_SHOPPING_LIST, AppWidgetActionTypes.SET_SHOPPING_LIST);
         actionTypesConstants.putString(AppWidgetActionTypes.SET_MULTIPLE_SHOPPING_LISTS, AppWidgetActionTypes.SET_MULTIPLE_SHOPPING_LISTS);
         actionTypesConstants.putString(AppWidgetActionTypes.REMOVE_SHOPPING_LIST, AppWidgetActionTypes.REMOVE_SHOPPING_LIST);
-        actionTypesConstants.putString(AppWidgetActionTypes.GET_WIDGET_REQUESTS, AppWidgetActionTypes.GET_WIDGET_REQUESTS);
+        actionTypesConstants.putString(AppWidgetActionTypes.GET_ALL_WIDGET_REQUESTS, AppWidgetActionTypes.GET_ALL_WIDGET_REQUESTS);
+        actionTypesConstants.putString(AppWidgetActionTypes.GET_AND_REMOVE_ALL_WIDGET_REQUESTS, AppWidgetActionTypes.GET_AND_REMOVE_ALL_WIDGET_REQUESTS);
+
+        WritableMap widgetRequestsTypes = new WritableNativeMap();
+        widgetRequestsTypes.putString(WidgetRequestTypes.EMPTY_REQUEST, WidgetRequestTypes.EMPTY_REQUEST);
+        widgetRequestsTypes.putString(WidgetRequestTypes.OPEN_SHOPPING_LIST_REQUEST, WidgetRequestTypes.OPEN_SHOPPING_LIST_REQUEST);
+        widgetRequestsTypes.putString(WidgetRequestTypes.MARK_PRODUCT_AS_BOUGHT_REQUEST, WidgetRequestTypes.MARK_PRODUCT_AS_BOUGHT_REQUEST);
 
         constants.put("actionTypes", actionTypesConstants);
+        constants.put("widgetRequests", widgetRequestsTypes);
 
         return constants;
     }
@@ -170,7 +176,6 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                                 payload.productsList()
                         )
                 );
-                mStorage.execute(StorageActions.removeAllWidgetRequestsAction(mContext));
 
                 result.resolve(true);
                 break;
@@ -196,15 +201,11 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                     return;
                 }
 
-                mStorage.execute(StorageActions.removeShoppingListAction(mContext, payload.listId()));
-
                 result.resolve(true);
                 break;
             }
 
-            case (AppWidgetActionTypes.GET_WIDGET_REQUESTS): {
-                Toast.makeText(mContext, "GET_WIDGET_REQUESTS", Toast.LENGTH_SHORT).show();
-
+            case (AppWidgetActionTypes.GET_ALL_WIDGET_REQUESTS): {
                 Action getAllWidgetRequestsAction = StorageActions.getAllWidgetRequestsAction(mContext);
                 mStorage.execute(getAllWidgetRequestsAction);
                 List<WidgetRequest> allWidgetRequests = StorageActionResults
@@ -216,6 +217,25 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                     WritableMap jsObject = WidgetRequestTransformer.toJsObject(request);
                     jsObjectsArray.pushMap(jsObject);
                 }
+
+                result.resolve(jsObjectsArray);
+                break;
+            }
+
+            case (AppWidgetActionTypes.GET_AND_REMOVE_ALL_WIDGET_REQUESTS): {
+                Action getAllWidgetRequestsAction = StorageActions.getAllWidgetRequestsAction(mContext);
+                mStorage.execute(getAllWidgetRequestsAction);
+                List<WidgetRequest> allWidgetRequests = StorageActionResults
+                        .getAllWidgetRequestsActionResult(getAllWidgetRequestsAction.result().get());
+
+                WritableArray jsObjectsArray = new WritableNativeArray();
+                for (int i = 0; i < allWidgetRequests.size(); ++i) {
+                    WidgetRequest request = allWidgetRequests.get(i);
+                    WritableMap jsObject = WidgetRequestTransformer.toJsObject(request);
+                    jsObjectsArray.pushMap(jsObject);
+                }
+
+                mStorage.execute(StorageActions.removeAllWidgetRequestsAction(mContext));
 
                 result.resolve(jsObjectsArray);
                 break;

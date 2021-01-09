@@ -7,7 +7,8 @@ const NativeWidgetActions = () => {
       SET_SHOPPING_LIST,
       SET_MULTIPLE_SHOPPING_LISTS,
       REMOVE_SHOPPING_LIST,
-      GET_WIDGET_REQUESTS,
+      GET_ALL_WIDGET_REQUESTS,
+      GET_AND_REMOVE_ALL_WIDGET_REQUESTS,
     },
   } = NativeWidgetConstants;
 
@@ -48,7 +49,13 @@ const NativeWidgetActions = () => {
 
   const getWidgetRequestsAction = () => {
     return {
-      type: GET_WIDGET_REQUESTS,
+      type: GET_ALL_WIDGET_REQUESTS,
+    };
+  };
+
+  const getAndRemoveAllWidgetRequestsAction = () => {
+    return {
+      type: GET_AND_REMOVE_ALL_WIDGET_REQUESTS,
     };
   };
 
@@ -58,6 +65,7 @@ const NativeWidgetActions = () => {
     setMultipleShoppingListsAction,
     removeShoppingListAction,
     getWidgetRequestsAction,
+    getAndRemoveAllWidgetRequestsAction,
   };
 };
 

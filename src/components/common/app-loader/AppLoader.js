@@ -8,10 +8,13 @@ import wait from '../../../utils/common/service-utils/wait/wait';
 import {loadShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
 import {AppState} from 'react-native';
 import awaitAsyncGenerator from '@babel/runtime/helpers/esm/awaitAsyncGenerator';
+import NativeWidgetConstants from '../../../services/app-widget/native-widget/constants/NativeWidgetConstants';
+import AppWidgetRequestsProcessor from './app-widget-requests-processor/AppWidgetRequestsProcessor';
 
 const AppLoader = () => {
   const [appInitialized, setAppInitialized] = useState(false);
   const [appInForeground, setAppInForeground] = useState(false);
+  const [testData, setTestData] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -55,8 +58,10 @@ const AppLoader = () => {
 
       const initializeAppWidgetService = async () => {
         const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);
-        const result = await appWidgetService.getWidgetRequests();
-        SystemEventsHandler.onInfo({info: 'RESULT: ' + JSON.stringify(result)});
+        const result = await appWidgetService.getAndRemoveAllWidgetRequests();
+        const testData = AppWidgetRequestsProcessor.process({requests: result});
+        setTestData(testData);
+        // SystemEventsHandler.onInfo({info: 'RESULT: ' + JSON.stringify(result)});
       };
 
       initializeAppWidgetService();
@@ -64,7 +69,7 @@ const AppLoader = () => {
   }, [appInitialized, appInForeground]);
 
   if (appInitialized) {
-    return <AppNavigation />;
+    return <AppNavigation testData={testData} />;
   } else {
     return <AppLoading />;
   }

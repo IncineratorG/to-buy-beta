@@ -144,6 +144,40 @@ public class WidgetStorage {
         return editor.commit();
     }
 
+    public boolean removeWidgetRequests(Context context, List<String> requestIds) {
+        if (context == null) {
+            return false;
+        } else if (requestIds == null || requestIds.isEmpty()) {
+            return false;
+        }
+
+        Set<String> requestIdsSet = new HashSet<>(requestIds);
+
+        SharedPreferences sharedPreferences = context
+                .getSharedPreferences(WIDGET_DATA_FIELD, Context.MODE_PRIVATE);
+        Set<String> existedStringifiedRequestsSet = sharedPreferences
+                .getStringSet(WIDGET_REQUESTS_FIELD, new HashSet<>());
+
+        List<String> existedStringifiedRequestsList = new ArrayList<>(existedStringifiedRequestsSet);
+        for (int i = 0; i < existedStringifiedRequestsList.size(); ++i) {
+            String stringifiedRequest = existedStringifiedRequestsList.get(i);
+
+            WidgetRequest request = WidgetRequestTransformer.fromString(stringifiedRequest);
+            if (requestIdsSet.contains(request.id())) {
+                existedStringifiedRequestsSet.remove(stringifiedRequest);
+            }
+        }
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (existedStringifiedRequestsSet.size() > 0) {
+            editor.putStringSet(WIDGET_REQUESTS_FIELD, existedStringifiedRequestsSet);
+        } else {
+            editor.remove(WIDGET_REQUESTS_FIELD);
+        }
+
+        return editor.commit();
+    }
+
     public List<WidgetRequest> getAllWidgetRequests(Context context) {
         if (context == null) {
             return new ArrayList<>();
@@ -154,7 +188,7 @@ public class WidgetStorage {
         Set<String> existedStringifiedRequestsSet = sharedPreferences
                 .getStringSet(WIDGET_REQUESTS_FIELD, new HashSet<>());
 
-        List<WidgetRequest> widgetRequestList = new ArrayList<>();
+        List<WidgetRequest> widgetRequestList = new ArrayList<>(existedStringifiedRequestsSet.size());
         List<String> existedStringifiedRequestsList = new ArrayList<>(existedStringifiedRequestsSet);
         for (int i = 0; i < existedStringifiedRequestsList.size(); ++i) {
             String stringifiedRequest = existedStringifiedRequestsList.get(i);

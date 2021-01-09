@@ -7,7 +7,13 @@ const NativeWidgetConstants = () => {
       SET_SHOPPING_LIST,
       SET_MULTIPLE_SHOPPING_LISTS,
       REMOVE_SHOPPING_LIST,
-      GET_WIDGET_REQUESTS,
+      GET_ALL_WIDGET_REQUESTS,
+      GET_AND_REMOVE_ALL_WIDGET_REQUESTS,
+    },
+    widgetRequests: {
+      EMPTY_REQUEST,
+      OPEN_SHOPPING_LIST_REQUEST,
+      MARK_PRODUCT_AS_BOUGHT_REQUEST,
     },
   } = AppWidget.getConstants();
 
@@ -17,7 +23,13 @@ const NativeWidgetConstants = () => {
       SET_SHOPPING_LIST,
       SET_MULTIPLE_SHOPPING_LISTS,
       REMOVE_SHOPPING_LIST,
-      GET_WIDGET_REQUESTS,
+      GET_ALL_WIDGET_REQUESTS,
+      GET_AND_REMOVE_ALL_WIDGET_REQUESTS,
+    },
+    widgetRequests: {
+      EMPTY_REQUEST,
+      OPEN_SHOPPING_LIST_REQUEST,
+      MARK_PRODUCT_AS_BOUGHT_REQUEST,
     },
   };
 };
