@@ -14,7 +14,10 @@ import AppWidgetRequestsProcessor from './app-widget-requests-processor/AppWidge
 const AppLoader = () => {
   const [appInitialized, setAppInitialized] = useState(false);
   const [appInForeground, setAppInForeground] = useState(false);
-  const [shoppingListIdToOpen, setShoppingListIdToOpen] = useState('');
+  const [
+    requestedNavigationCommands,
+    setRequestedNavigationCommands,
+  ] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -59,11 +62,13 @@ const AppLoader = () => {
       const initializeAppWidgetService = async () => {
         const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);
         const result = await appWidgetService.getAndRemoveAllWidgetRequests();
-        const requestsData = AppWidgetRequestsProcessor.process({
-          requests: result,
-        });
 
-        setShoppingListIdToOpen(requestsData.shoppingListToOpen);
+        const {
+          navigationCommands,
+          shoppingListModificationCommands,
+        } = AppWidgetRequestsProcessor.process({requests: result});
+
+        setRequestedNavigationCommands(navigationCommands);
       };
 
       initializeAppWidgetService();
@@ -71,7 +76,7 @@ const AppLoader = () => {
   }, [appInitialized, appInForeground]);
 
   if (appInitialized) {
-    return <AppNavigation predeterminedListId={shoppingListIdToOpen} />;
+    return <AppNavigation navigationCommands={requestedNavigationCommands} />;
   } else {
     return <AppLoading />;
   }

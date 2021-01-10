@@ -18,28 +18,50 @@ const AppWidgetRequestsProcessor = () => {
         'AppWidgetRequestsProcessor->process(): ' + JSON.stringify(requests),
     });
 
-    let shoppingListToOpen = '';
+    const navigationCommands = [];
+    const shoppingListModificationCommands = [];
     requests.forEach((request) => {
       switch (request.type) {
         case OPEN_SHOPPING_LIST_REQUEST: {
-          const {shoppingListId} = openShoppingListRequestHandler.handle({
+          const {navigationCommand} = openShoppingListRequestHandler.handle({
             request,
           });
-          shoppingListToOpen = shoppingListId;
+          navigationCommands.push(navigationCommand);
           break;
         }
 
         case MARK_PRODUCT_AS_BOUGHT_REQUEST: {
-          markProductAsBoughtRequestHandler.handle({request});
           break;
         }
       }
     });
 
     return {
-      shoppingListToOpen,
-      actions: [],
+      navigationCommands,
+      shoppingListModificationCommands,
     };
+
+    // const navigationCommands = [];
+    // const shoppingListsModificationCommands = [];
+    //
+    // const {
+    //   navigationCommands: firstCommands,
+    // } = openShoppingListRequestHandler.handle({request: ''});
+    //
+    // navigationCommands.push(...firstCommands);
+    //
+    // // const command = firstCommands[0];
+    // // command.execute('');
+    // // SystemEventsHandler.onInfo({info: JSON.stringify(command)});
+    //
+    // // SystemEventsHandler.onInfo({info: firstCommands.length});
+    //
+    // // navigationCommands.push(openShoppingListRequestHandlerNavigationCommands);
+    //
+    // return {
+    //   navigationCommands,
+    //   shoppingListsModificationCommands,
+    // };
   };
 
   return {
@@ -48,3 +70,54 @@ const AppWidgetRequestsProcessor = () => {
 };
 
 export default AppWidgetRequestsProcessor();
+
+// import {SystemEventsHandler} from '../../../../utils/common/system-events-handler/SystemEventsHandler';
+// import NativeWidgetConstants from '../../../../services/app-widget/native-widget/constants/NativeWidgetConstants';
+// import MarkProductAsBoughtRequestHandler from './processors/MarkProductAsBoughtRequestHandler';
+// import OpenShoppingListRequestHandler from './processors/OpenShoppingListRequestHandler';
+//
+// const AppWidgetRequestsProcessor = () => {
+//   const {
+//     OPEN_SHOPPING_LIST_REQUEST,
+//     MARK_PRODUCT_AS_BOUGHT_REQUEST,
+//   } = NativeWidgetConstants.widgetRequests;
+//
+//   const openShoppingListRequestHandler = OpenShoppingListRequestHandler;
+//   const markProductAsBoughtRequestHandler = MarkProductAsBoughtRequestHandler;
+//
+//   const process = ({requests}) => {
+//     SystemEventsHandler.onInfo({
+//       info:
+//         'AppWidgetRequestsProcessor->process(): ' + JSON.stringify(requests),
+//     });
+//
+//     let shoppingListToOpen = '';
+//     requests.forEach((request) => {
+//       switch (request.type) {
+//         case OPEN_SHOPPING_LIST_REQUEST: {
+//           const {shoppingListId} = openShoppingListRequestHandler.handle({
+//             request,
+//           });
+//           shoppingListToOpen = shoppingListId;
+//           break;
+//         }
+//
+//         case MARK_PRODUCT_AS_BOUGHT_REQUEST: {
+//           markProductAsBoughtRequestHandler.handle({request});
+//           break;
+//         }
+//       }
+//     });
+//
+//     return {
+//       shoppingListToOpen,
+//       actions: [],
+//     };
+//   };
+//
+//   return {
+//     process,
+//   };
+// };
+//
+// export default AppWidgetRequestsProcessor();

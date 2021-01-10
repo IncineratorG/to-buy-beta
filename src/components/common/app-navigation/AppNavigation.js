@@ -18,7 +18,17 @@ import {CommonActions} from '@react-navigation/native';
 const MainStack = createStackNavigator();
 const ModalStack = createStackNavigator();
 
-const AppNavigation = ({predeterminedListId}) => {
+const AppNavigation = ({navigationCommands}) => {
+  // ===
+  SystemEventsHandler.onInfo({
+    info:
+      'AppNavigation->NAVIGATION_COMMANDS_LENGTH: ' + navigationCommands.length,
+  });
+  navigationCommands.forEach((command) => {
+    command.execute({navigation: {}, dispatch: {}});
+  });
+  // ===
+
   const dispatch = useDispatch();
 
   const navigationRef = React.useRef(null);
@@ -71,53 +81,50 @@ const AppNavigation = ({predeterminedListId}) => {
     </ModalStack.Navigator>
   );
 
-  useEffect(() => {
-    if (navigationReady) {
-      SystemEventsHandler.onInfo({info: 'NAVIGATION_READY'});
-
-      if (navigationRef.current) {
-        SystemEventsHandler.onInfo({info: 'HAS_NAVIGATION_REF'});
-        if (predeterminedListId) {
-          const listId = Number(predeterminedListId);
-
-          // SystemEventsHandler.onInfo({
-          //   info: 'WILL_GO_TO_SHOPPING_LIST: ' + (listId < 0),
-          // });
-
-          if (listId <= 0) {
-            // navigationRef.current.goBack();
-
-            // navigationRef.current.dispatch((state) => {
-            //   // Remove the home route from the stack
-            //   // const routes = state.routes.filter((r) => r.name !== 'Home');
-            //
-            //   return CommonActions.reset({
-            //     ...state,
-            //     index: 1,
-            //   });
-            // });
-
-            // navigationRef.current.dispatch(
-            //   CommonActions.reset({
-            //     index: 1,
-            //     routes: [{name: 'ShoppingLists'}],
-            //   }),
-            // );
-
-            dispatch(updateShoppingListsAction());
-          } else {
-            dispatch(loadCategoriesAction({shoppingListId: listId}));
-            dispatch(loadUnitsAction({shoppingListId: listId}));
-            dispatch(loadProductsListAction({shoppingListId: listId}));
-
-            navigationRef.current.navigate('ProductsList');
-          }
-        }
-      } else {
-        SystemEventsHandler.onInfo({info: 'NO_NAVIGATION_REF'});
-      }
-    }
-  }, [predeterminedListId, navigationReady, dispatch]);
+  // useEffect(() => {
+  //   if (navigationReady) {
+  //     SystemEventsHandler.onInfo({info: 'NAVIGATION_READY'});
+  //
+  //     if (navigationRef.current) {
+  //       SystemEventsHandler.onInfo({info: 'HAS_NAVIGATION_REF'});
+  //       if (predeterminedListId) {
+  //         const listId = Number(predeterminedListId);
+  //
+  //         // SystemEventsHandler.onInfo({
+  //         //   info: 'WILL_GO_TO_SHOPPING_LIST: ' + (listId < 0),
+  //         // });
+  //
+  //         if (listId <= 0) {
+  //           // navigationRef.current.goBack();
+  //           // navigationRef.current.dispatch((state) => {
+  //           //   // Remove the home route from the stack
+  //           //   // const routes = state.routes.filter((r) => r.name !== 'Home');
+  //           //
+  //           //   return CommonActions.reset({
+  //           //     ...state,
+  //           //     index: 1,
+  //           //   });
+  //           // });
+  //           // navigationRef.current.dispatch(
+  //           //   CommonActions.reset({
+  //           //     index: 1,
+  //           //     routes: [{name: 'ShoppingLists'}],
+  //           //   }),
+  //           // );
+  //           // dispatch(updateShoppingListsAction());
+  //         } else {
+  //           // dispatch(loadCategoriesAction({shoppingListId: listId}));
+  //           // dispatch(loadUnitsAction({shoppingListId: listId}));
+  //           // dispatch(loadProductsListAction({shoppingListId: listId}));
+  //           //
+  //           // navigationRef.current.navigate('ProductsList');
+  //         }
+  //       }
+  //     } else {
+  //       SystemEventsHandler.onInfo({info: 'NO_NAVIGATION_REF'});
+  //     }
+  //   }
+  // }, [predeterminedListId, navigationReady, dispatch]);
 
   return (
     <NavigationContainer
