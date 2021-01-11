@@ -7,26 +7,12 @@ import CreateShoppingList from '../../../screens/create-shopping-list/CreateShop
 import ProductsList from '../../../screens/products-list/ProductsList';
 import ProductsLocation from '../../../screens/products-location/ProductsLocation';
 import VoiceInputTest from '../../../screens/voice-input-test/VoiceInputTest';
-import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import {useDispatch} from 'react-redux';
-import {loadCategoriesAction} from '../../../store/actions/categories/categoriesActions';
-import {loadUnitsAction} from '../../../store/actions/units/unitsActions';
-import {loadProductsListAction} from '../../../store/actions/products-list/productsListActions';
-import {updateShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
-import {CommonActions} from '@react-navigation/native';
 
 const MainStack = createStackNavigator();
 const ModalStack = createStackNavigator();
 
 const AppNavigation = ({initialNavigationCommands}) => {
-  // ===
-  // SystemEventsHandler.onInfo({
-  //   info:
-  //     'AppNavigation->INITIAL_NAVIGATION_COMMANDS_LENGTH: ' +
-  //     initialNavigationCommands.length,
-  // });
-  // ===
-
   const dispatch = useDispatch();
 
   const navigationRef = React.useRef(null);

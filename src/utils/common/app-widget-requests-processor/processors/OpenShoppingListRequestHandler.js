@@ -3,6 +3,7 @@ import {SystemEventsHandler} from '../../system-events-handler/SystemEventsHandl
 import {loadCategoriesAction} from '../../../../store/actions/categories/categoriesActions';
 import {loadUnitsAction} from '../../../../store/actions/units/unitsActions';
 import {loadProductsListAction} from '../../../../store/actions/products-list/productsListActions';
+import {updateShoppingListsAction} from '../../../../store/actions/shopping-lists/shoppingListsActions';
 
 const OpenShoppingListRequestHandler = () => {
   const handle = ({request}) => {
@@ -32,23 +33,34 @@ const OpenShoppingListRequestHandler = () => {
 
       const listId = Number(listIdString);
       if (listId < 0) {
-        SystemEventsHandler.onInfo({
-          info:
-            'OpenShoppingListRequestHandler->navigationCommandExecutable->UNDER_ZERO: ' +
-            listId,
+        // SystemEventsHandler.onInfo({
+        //   info:
+        //     'OpenShoppingListRequestHandler->navigationCommandExecutable->UNDER_ZERO: ' +
+        //     listId,
+        // });
+
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'ShoppingLists'}],
         });
+
+        dispatch(updateShoppingListsAction());
       } else {
-        SystemEventsHandler.onInfo({
-          info:
-            'OpenShoppingListRequestHandler->navigationCommandExecutable->OVER_ZERO: ' +
-            listId,
+        // SystemEventsHandler.onInfo({
+        //   info:
+        //     'OpenShoppingListRequestHandler->navigationCommandExecutable->OVER_ZERO: ' +
+        //     listId,
+        // });
+
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'ShoppingLists'}],
         });
+        navigation.navigate('ProductsList');
 
         dispatch(loadCategoriesAction({shoppingListId: listId}));
         dispatch(loadUnitsAction({shoppingListId: listId}));
         dispatch(loadProductsListAction({shoppingListId: listId}));
-
-        navigation.navigate('ProductsList');
       }
     };
 
