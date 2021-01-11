@@ -21,7 +21,16 @@ const useInitializeAppHook = () => {
     initializeAppHookLocalState,
   );
 
-  const {appIsVisible, servicesIsReady, commandsIsReady} = state;
+  const {
+    appIsVisible,
+    servicesIsReady,
+    commandsIsReady,
+    loadingCommands: {commands: loadingCommands},
+    navigationCommands: {commands: navigationCommands},
+    shoppingListModificationCommands: {
+      commands: shoppingListModificationCommands,
+    },
+  } = state;
 
   const [initializationCommands, setInitializationCommands] = useState({
     loadingCommands: [],
@@ -73,18 +82,21 @@ const useInitializeAppHook = () => {
           );
           const appWidgetServiceRequests = await appWidgetService.getAndRemoveAllWidgetRequests();
           const {
-            navigationCommands,
-            shoppingListModificationCommands,
+            navigationCommands: requestedNavigationCommands,
+            shoppingListModificationCommands: requestedShoppingListModificationCommands,
           } = AppWidgetRequestsProcessor.process({
             requests: appWidgetServiceRequests,
           });
 
           localDispatch(
-            iahla_setNavigationCommands({navigationCommands, isReady: true}),
+            iahla_setNavigationCommands({
+              navigationCommands: requestedNavigationCommands,
+              isReady: true,
+            }),
           );
           localDispatch(
             iahla_setShoppingListModificationCommands({
-              shoppingListModificationCommands,
+              shoppingListModificationCommands: requestedShoppingListModificationCommands,
               isReady: true,
             }),
           );
@@ -116,11 +128,33 @@ const useInitializeAppHook = () => {
       };
 
       const loadingCommand = Command({executable: loadingCommandExecutable});
-      const loadingCommands = [loadingCommand];
+      const generatedLoadingCommands = [loadingCommand];
 
-      localDispatch(iahla_setLoadingCommands({loadingCommands, isReady: true}));
+      localDispatch(
+        iahla_setLoadingCommands({
+          loadingCommands: generatedLoadingCommands,
+          isReady: true,
+        }),
+      );
     }
   }, [servicesIsReady]);
+
+  useEffect(() => {
+    if (commandsIsReady) {
+      const initializationCommandsObject = {
+        loadingCommands,
+        navigationCommands,
+        shoppingListModificationCommands,
+      };
+
+      setInitializationCommands(initializationCommandsObject);
+    }
+  }, [
+    commandsIsReady,
+    loadingCommands,
+    navigationCommands,
+    shoppingListModificationCommands,
+  ]);
 
   return {initializationCommands, commandsIsReady};
 };
