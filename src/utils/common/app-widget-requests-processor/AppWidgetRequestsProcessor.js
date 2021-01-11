@@ -1,5 +1,5 @@
-import {SystemEventsHandler} from '../../../../utils/common/system-events-handler/SystemEventsHandler';
-import NativeWidgetConstants from '../../../../services/app-widget/native-widget/constants/NativeWidgetConstants';
+import {SystemEventsHandler} from '../system-events-handler/SystemEventsHandler';
+import NativeWidgetConstants from '../../../services/app-widget/native-widget/constants/NativeWidgetConstants';
 import MarkProductAsBoughtRequestHandler from './processors/MarkProductAsBoughtRequestHandler';
 import OpenShoppingListRequestHandler from './processors/OpenShoppingListRequestHandler';
 
@@ -40,28 +40,6 @@ const AppWidgetRequestsProcessor = () => {
       navigationCommands,
       shoppingListModificationCommands,
     };
-
-    // const navigationCommands = [];
-    // const shoppingListsModificationCommands = [];
-    //
-    // const {
-    //   navigationCommands: firstCommands,
-    // } = openShoppingListRequestHandler.handle({request: ''});
-    //
-    // navigationCommands.push(...firstCommands);
-    //
-    // // const command = firstCommands[0];
-    // // command.execute('');
-    // // SystemEventsHandler.onInfo({info: JSON.stringify(command)});
-    //
-    // // SystemEventsHandler.onInfo({info: firstCommands.length});
-    //
-    // // navigationCommands.push(openShoppingListRequestHandlerNavigationCommands);
-    //
-    // return {
-    //   navigationCommands,
-    //   shoppingListsModificationCommands,
-    // };
   };
 
   return {

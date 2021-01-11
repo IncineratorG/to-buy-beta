@@ -4,12 +4,9 @@ import AppNavigation from '../app-navigation/AppNavigation';
 import AppLoading from '../app-loading/AppLoading';
 import Services from '../../../services/Services';
 import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
-import wait from '../../../utils/common/service-utils/wait/wait';
 import {loadShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
 import {AppState} from 'react-native';
-import awaitAsyncGenerator from '@babel/runtime/helpers/esm/awaitAsyncGenerator';
-import NativeWidgetConstants from '../../../services/app-widget/native-widget/constants/NativeWidgetConstants';
-import AppWidgetRequestsProcessor from './app-widget-requests-processor/AppWidgetRequestsProcessor';
+import AppWidgetRequestsProcessor from '../../../utils/common/app-widget-requests-processor/AppWidgetRequestsProcessor';
 
 const AppLoader = () => {
   const [appInitialized, setAppInitialized] = useState(false);
@@ -76,7 +73,9 @@ const AppLoader = () => {
   }, [appInitialized, appInForeground]);
 
   if (appInitialized) {
-    return <AppNavigation navigationCommands={requestedNavigationCommands} />;
+    return (
+      <AppNavigation initialNavigationCommands={requestedNavigationCommands} />
+    );
   } else {
     return <AppLoading />;
   }
