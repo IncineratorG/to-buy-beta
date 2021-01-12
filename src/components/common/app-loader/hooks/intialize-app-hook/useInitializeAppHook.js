@@ -32,12 +32,6 @@ const useInitializeAppHook = () => {
     },
   } = state;
 
-  const [initializationCommands, setInitializationCommands] = useState({
-    loadingCommands: [],
-    navigationCommands: [],
-    shoppingListModificationCommands: [],
-  });
-
   useEffect(() => {
     const appStateChangeHandler = (nextAppState) => {
       if (nextAppState === 'active') {
@@ -73,8 +67,6 @@ const useInitializeAppHook = () => {
 
   useEffect(() => {
     if (appIsVisible && servicesIsReady) {
-      SystemEventsHandler.onInfo({info: '--HERE--'});
-
       const initializeAppServices = async () => {
         try {
           const appWidgetService = Services.get(
@@ -139,24 +131,16 @@ const useInitializeAppHook = () => {
     }
   }, [servicesIsReady]);
 
-  useEffect(() => {
-    if (commandsIsReady) {
-      const initializationCommandsObject = {
-        loadingCommands,
-        navigationCommands,
-        shoppingListModificationCommands,
-      };
-
-      setInitializationCommands(initializationCommandsObject);
-    }
-  }, [
+  return {
     commandsIsReady,
-    loadingCommands,
-    navigationCommands,
-    shoppingListModificationCommands,
-  ]);
+    initializationCommands: {
+      loadingCommands,
+      navigationCommands,
+      shoppingListModificationCommands,
+    },
+  };
 
-  return {initializationCommands, commandsIsReady};
+  // return {initializationCommands, commandsIsReady};
 };
 
 export default useInitializeAppHook;
