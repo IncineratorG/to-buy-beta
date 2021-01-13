@@ -25,6 +25,7 @@ import com.tobuybeta.modules.app_widget.common.error.Error;
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.AppWidgetActionPayloads;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.RemoveShoppingListPayload;
+import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetMultipleShoppingListsPayload;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetShoppingListPayload;
 import com.tobuybeta.modules.app_widget.module_actions.types.AppWidgetActionTypes;
 import com.tobuybeta.modules.app_widget.module_errors.AppWidgetErrors;
@@ -182,6 +183,27 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
             }
 
             case (AppWidgetActionTypes.SET_MULTIPLE_SHOPPING_LISTS): {
+                ReadableMap payloadMap = action.getMap(ACTION_PAYLOAD);
+                if (payloadMap == null) {
+                    Error error = AppWidgetErrors.badPayload();
+                    result.reject(error.code(), error.message());
+                    return;
+                }
+
+//                SetMultipleShoppingListsPayload payload = AppWidgetActionPayloads.setMultipleShoppingListsPayload(payloadMap);
+
+                ReadableArray shoppingLists = payloadMap.getArray("shoppingLists");
+                if (shoppingLists == null) {
+                    Toast.makeText(mContext, "SET_MULTIPLE_SHOPPING_LISTS->BAD_PAYLOAD", Toast.LENGTH_SHORT).show();
+                    result.resolve(true);
+                }
+
+                if (shoppingLists.size() > 0) {
+
+                }
+
+                Toast.makeText(mContext, "SET_MULTIPLE_SHOPPING_LISTS: " + String.valueOf(0), Toast.LENGTH_SHORT).show();
+
                 result.resolve(true);
                 break;
             }

@@ -37,6 +37,15 @@ const AppWidgetService = () => {
     return await widget.setShoppingList({listId, listName, productsList});
   };
 
+  const setMultipleShoppingLists = async ({shoppingLists}) => {
+    SystemEventsHandler.onInfo({
+      info:
+        'AppWidgetService->setMultipleShoppingLists(): ' + shoppingLists.length,
+    });
+
+    return await widget.setMultipleShoppingLists({shoppingLists});
+  };
+
   const removeShoppingList = async ({listId}) => {
     SystemEventsHandler.onInfo({
       info: 'AppWidgetService->removeShoppingList(): ' + listId,
@@ -65,6 +74,7 @@ const AppWidgetService = () => {
     init,
     subscribe,
     setShoppingList,
+    setMultipleShoppingLists,
     removeShoppingList,
     getWidgetRequests,
     getAndRemoveAllWidgetRequests,

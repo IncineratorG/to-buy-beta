@@ -31,6 +31,10 @@ const OpenShoppingListRequestHandler = () => {
         return;
       }
 
+      // ===
+      SystemEventsHandler.onInfo({info: JSON.stringify(request)});
+      // ===
+
       const listId = Number(listIdString);
       if (listId < 0) {
         // SystemEventsHandler.onInfo({

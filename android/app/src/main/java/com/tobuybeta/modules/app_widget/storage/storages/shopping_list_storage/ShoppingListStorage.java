@@ -7,6 +7,7 @@ import androidx.arch.core.util.Function;
 
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.common.product.Product;
+import com.tobuybeta.modules.app_widget.common.shopping_list.ShoppingList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -99,6 +100,10 @@ public class ShoppingListStorage {
         editor.putStringSet(SHOPPING_LISTS_FIELD, existedShoppingListDescriptionsSet);
 
         return editor.commit();
+    }
+
+    public boolean setMultipleShoppingLists(Context context, List<ShoppingList> shoppingLists) {
+        return false;
     }
 
     public boolean removeShoppingList(Context context, String listId) {

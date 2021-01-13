@@ -14,37 +14,39 @@ const AppLoader = () => {
 
   const dispatch = useDispatch();
 
-  const {initializationCommands, commandsIsReady} = useInitializeAppHook();
+  useInitializeAppHook();
 
-  useEffect(() => {
-    if (commandsIsReady) {
-      const {
-        loadingCommands,
-        navigationCommands,
-        shoppingListModificationCommands,
-      } = initializationCommands;
+  // const {initializationCommands, commandsIsReady} = useInitializeAppHook();
 
-      SystemEventsHandler.onInfo({
-        info:
-          'COMMANDS_SIZE: ' +
-          loadingCommands.length +
-          ' - ' +
-          navigationCommands.length +
-          ' - ' +
-          shoppingListModificationCommands.length,
-      });
-
-      loadingCommands.forEach((command) => {
-        command.execute({dispatch});
-      });
-      shoppingListModificationCommands.forEach((command) => {
-        command.execute({dispatch});
-      });
-
-      setRequestedNavigationCommands(navigationCommands);
-      setAppInitialized(true);
-    }
-  }, [commandsIsReady, initializationCommands, dispatch]);
+  // useEffect(() => {
+  //   if (commandsIsReady) {
+  //     const {
+  //       loadingCommands,
+  //       navigationCommands,
+  //       shoppingListModificationCommands,
+  //     } = initializationCommands;
+  //
+  //     SystemEventsHandler.onInfo({
+  //       info:
+  //         'COMMANDS_SIZE: ' +
+  //         loadingCommands.length +
+  //         ' - ' +
+  //         navigationCommands.length +
+  //         ' - ' +
+  //         shoppingListModificationCommands.length,
+  //     });
+  //
+  //     loadingCommands.forEach((command) => {
+  //       command.execute({dispatch});
+  //     });
+  //     shoppingListModificationCommands.forEach((command) => {
+  //       command.execute({dispatch});
+  //     });
+  //
+  //     setRequestedNavigationCommands(navigationCommands);
+  //     setAppInitialized(true);
+  //   }
+  // }, [commandsIsReady, initializationCommands, dispatch]);
 
   if (appInitialized) {
     return (
