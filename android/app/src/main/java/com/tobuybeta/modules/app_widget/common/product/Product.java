@@ -1,5 +1,7 @@
 package com.tobuybeta.modules.app_widget.common.product;
 
+import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
+
 /**
  * TODO: Add a class header comment
  */
@@ -10,8 +12,8 @@ public class Product {
     private String mName;
 
     public Product() {
-        mId = "-1";
-        mIntId = -1;
+        mId = AppWidgetModuleConstants.EMPTY_ID;
+        mIntId = Integer.parseInt(mId);
         mName = "";
     }
 

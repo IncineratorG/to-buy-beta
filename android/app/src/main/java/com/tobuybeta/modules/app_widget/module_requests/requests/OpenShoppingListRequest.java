@@ -1,5 +1,6 @@
 package com.tobuybeta.modules.app_widget.module_requests.requests;
 
+import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
 import com.tobuybeta.modules.app_widget.module_requests.types.WidgetRequestTypes;
 
@@ -16,7 +17,7 @@ public class OpenShoppingListRequest implements WidgetRequest {
         mTimestamp = String.valueOf(System.currentTimeMillis());
         mType = WidgetRequestTypes.OPEN_SHOPPING_LIST_REQUEST;
         if (listId.isEmpty()) {
-            mListId = "-1";
+            mListId = AppWidgetModuleConstants.EMPTY_ID;
         } else {
             mListId = listId;
         }
@@ -24,8 +25,8 @@ public class OpenShoppingListRequest implements WidgetRequest {
 
     public OpenShoppingListRequest(String id, String type, String timestamp, String listId) {
         mId = id;
-        this.mTimestamp = timestamp;
-        this.mType = type;
+        mTimestamp = timestamp;
+        mType = type;
         mListId = listId;
     }
 

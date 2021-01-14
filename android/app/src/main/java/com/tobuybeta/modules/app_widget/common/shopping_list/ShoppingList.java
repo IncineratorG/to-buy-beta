@@ -1,5 +1,6 @@
 package com.tobuybeta.modules.app_widget.common.shopping_list;
 
+import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.product.Product;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class ShoppingList {
     private List<Product> mProductsList;
 
     public ShoppingList() {
-        mListId = "-1";
+        mListId = AppWidgetModuleConstants.EMPTY_ID;
         mListName = "";
         mProductsList = new ArrayList<>();
     }

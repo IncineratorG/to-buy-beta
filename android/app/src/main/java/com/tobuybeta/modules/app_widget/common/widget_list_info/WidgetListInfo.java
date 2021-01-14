@@ -1,5 +1,6 @@
 package com.tobuybeta.modules.app_widget.common.widget_list_info;
 
+import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 
 /**
@@ -12,8 +13,8 @@ public class WidgetListInfo {
     private String mListType;
 
     public WidgetListInfo() {
-        mWidgetId = -1;
-        mListId = "-1";
+        mListId = AppWidgetModuleConstants.EMPTY_ID;
+        mWidgetId = Integer.parseInt(mListId);
         mListType = GeneralizedList.UNKNOWN;
     }
 
