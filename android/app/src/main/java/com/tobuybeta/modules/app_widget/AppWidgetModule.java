@@ -291,12 +291,16 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
             }
         }
 
-        Intent intent = new Intent(mContext, MyTestWidget.class);
-        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        int[] ids = AppWidgetManager.getInstance(mContext).
-                getAppWidgetIds(new ComponentName(mContext, MyTestWidget.class));
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-        mContext.sendBroadcast(intent);
+        MyTestWidget.update(
+                mContext,
+                AppWidgetManager.getInstance(mContext).getAppWidgetIds(new ComponentName(mContext, MyTestWidget.class))
+        );
+//        Intent intent = new Intent(mContext, MyTestWidget.class);
+//        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+//        int[] ids = AppWidgetManager.getInstance(mContext).
+//                getAppWidgetIds(new ComponentName(mContext, MyTestWidget.class));
+//        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+//        mContext.sendBroadcast(intent);
     }
 
     @ReactMethod

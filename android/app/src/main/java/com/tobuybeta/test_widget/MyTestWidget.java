@@ -24,11 +24,7 @@ import com.tobuybeta.modules.app_widget.storage.actions.StorageActionResults;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActions;
 import com.tobuybeta.modules.app_widget.widget_models.WidgetModels;
 import com.tobuybeta.modules.app_widget.widget_models.model.WidgetModel;
-import com.tobuybeta.modules.shared_storage.SharedStorageModule;
 
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.util.Base64;
 import java.util.List;
 
 /**
@@ -54,6 +50,13 @@ public class MyTestWidget extends AppWidgetProvider {
 
     public MyTestWidget() {
 
+    }
+
+    public static void update(Context context, int[] ids) {
+        Intent intent = new Intent(context, MyTestWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        context.sendBroadcast(intent);
     }
 
 //    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
@@ -231,13 +234,13 @@ public class MyTestWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         if (MyOnClick1.equals(intent.getAction())){
-            SharedStorageModule sharedStorage = SharedStorageModule.get(null);
-            if (sharedStorage == null) {
-                Toast.makeText(context, "NULL", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            sharedStorage.testSend();
+//            SharedStorageModule sharedStorage = SharedStorageModule.get(null);
+//            if (sharedStorage == null) {
+//                Toast.makeText(context, "NULL", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            sharedStorage.testSend();
         } else if (intent.getAction().equalsIgnoreCase(TITLE_CLICK)) {
             int widgetId = intent.getIntExtra(WIDGET_ID, -1);
             if (widgetId < 0) {
@@ -341,30 +344,30 @@ public class MyTestWidget extends AppWidgetProvider {
         } else if (intent.getAction().equalsIgnoreCase(RECOGNIZE_SPEECH_CLICK)) {
             Toast.makeText(context, "IN_RECOGNIZE_SPEECH_CLICK", Toast.LENGTH_SHORT).show();
 
-            SharedStorageModule sharedStorage = SharedStorageModule.get(null);
-            if (sharedStorage == null) {
-                return;
-            }
-            sharedStorage.testSend();
-
-            Bundle extras = intent.getExtras();
-            if (extras == null) {
-                Toast.makeText(context, "EXTRAS_IS_NULL", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            List<String> resultsList = extras.getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
-            if (resultsList == null) {
-                Toast.makeText(context, "RESULTS_LIST_IS_NULL", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            StringBuilder resultsString = new StringBuilder();
-            for (String result : resultsList) {
-                resultsString.append("\n ").append(result);
-            }
-
-            Toast.makeText(context, "RESULT: " + resultsString.toString(), Toast.LENGTH_SHORT).show();
+//            SharedStorageModule sharedStorage = SharedStorageModule.get(null);
+//            if (sharedStorage == null) {
+//                return;
+//            }
+//            sharedStorage.testSend();
+//
+//            Bundle extras = intent.getExtras();
+//            if (extras == null) {
+//                Toast.makeText(context, "EXTRAS_IS_NULL", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            List<String> resultsList = extras.getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
+//            if (resultsList == null) {
+//                Toast.makeText(context, "RESULTS_LIST_IS_NULL", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            StringBuilder resultsString = new StringBuilder();
+//            for (String result : resultsList) {
+//                resultsString.append("\n ").append(result);
+//            }
+//
+//            Toast.makeText(context, "RESULT: " + resultsString.toString(), Toast.LENGTH_SHORT).show();
         }
     };
 }

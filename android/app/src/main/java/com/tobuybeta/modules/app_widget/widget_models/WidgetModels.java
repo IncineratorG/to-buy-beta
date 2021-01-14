@@ -35,12 +35,16 @@ public class WidgetModels {
                 entry.getValue().update(context);
             }
 
-            Intent intent = new Intent(context, MyTestWidget.class);
-            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            int[] ids = AppWidgetManager.getInstance(context).
-                    getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-            context.sendBroadcast(intent);
+            MyTestWidget.update(
+                    context,
+                    AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyTestWidget.class))
+            );
+//            Intent intent = new Intent(context, MyTestWidget.class);
+//            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+//            int[] ids = AppWidgetManager.getInstance(context).
+//                    getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
+//            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+//            context.sendBroadcast(intent);
         });
         mStorage.subscribe(StorageEvents.SHOPPING_LIST_REMOVED, (value) -> {
             ShoppingListRemovedEventPayload payload = StorageEventPayloads.toShoppingListRemovedEventPayload(value);
@@ -50,12 +54,16 @@ public class WidgetModels {
                 entry.getValue().update(context);
             }
 
-            Intent intent = new Intent(context, MyTestWidget.class);
-            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            int[] ids = AppWidgetManager.getInstance(context).
-                    getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-            context.sendBroadcast(intent);
+            MyTestWidget.update(
+                    context,
+                    AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyTestWidget.class))
+            );
+//            Intent intent = new Intent(context, MyTestWidget.class);
+//            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+//            int[] ids = AppWidgetManager.getInstance(context).
+//                    getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
+//            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+//            context.sendBroadcast(intent);
         });
     }
 
