@@ -7,6 +7,13 @@ const NativeWidget = () => {
     return await AppWidget.execute(action);
   };
 
+  const setInitialShoppingLists = async ({shoppingLists}) => {
+    const action = NativeWidgetActions.setInitialShoppingListsAction({
+      shoppingLists,
+    });
+    return AppWidget.execute(action);
+  };
+
   const setShoppingList = async ({listId, listName, productsList}) => {
     const action = NativeWidgetActions.setShoppingListAction({
       listId,
@@ -40,6 +47,7 @@ const NativeWidget = () => {
 
   return {
     getWidgetStatus,
+    setInitialShoppingLists,
     setShoppingList,
     setMultipleShoppingLists,
     removeShoppingList,

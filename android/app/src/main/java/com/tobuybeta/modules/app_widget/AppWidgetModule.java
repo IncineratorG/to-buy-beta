@@ -25,6 +25,7 @@ import com.tobuybeta.modules.app_widget.common.error.Error;
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.AppWidgetActionPayloads;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.RemoveShoppingListPayload;
+import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetInitialShoppingListsPayload;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetMultipleShoppingListsPayload;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetShoppingListPayload;
 import com.tobuybeta.modules.app_widget.module_actions.types.AppWidgetActionTypes;
@@ -107,6 +108,7 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
         WritableMap actionTypesConstants = new WritableNativeMap();
         actionTypesConstants.putString(AppWidgetActionTypes.GET_WIDGET_STATUS, AppWidgetActionTypes.GET_WIDGET_STATUS);
         actionTypesConstants.putString(AppWidgetActionTypes.SET_SHOPPING_LIST, AppWidgetActionTypes.SET_SHOPPING_LIST);
+        actionTypesConstants.putString(AppWidgetActionTypes.SET_INITIAL_SHOPPING_LISTS, AppWidgetActionTypes.SET_INITIAL_SHOPPING_LISTS);
         actionTypesConstants.putString(AppWidgetActionTypes.SET_MULTIPLE_SHOPPING_LISTS, AppWidgetActionTypes.SET_MULTIPLE_SHOPPING_LISTS);
         actionTypesConstants.putString(AppWidgetActionTypes.REMOVE_SHOPPING_LIST, AppWidgetActionTypes.REMOVE_SHOPPING_LIST);
         actionTypesConstants.putString(AppWidgetActionTypes.GET_ALL_WIDGET_REQUESTS, AppWidgetActionTypes.GET_ALL_WIDGET_REQUESTS);
@@ -154,6 +156,29 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                 break;
             }
 
+            case (AppWidgetActionTypes.SET_INITIAL_SHOPPING_LISTS): {
+                ReadableMap payloadMap = action.getMap(ACTION_PAYLOAD);
+                if (payloadMap == null) {
+                    Error error = AppWidgetErrors.badPayload();
+                    result.reject(error.code(), error.message());
+                    return;
+                }
+
+                SetInitialShoppingListsPayload payload = AppWidgetActionPayloads.setInitialShoppingListsPayload(payloadMap);
+                if (!payload.isValid()) {
+                    Error error = AppWidgetErrors.badPayload();
+                    result.reject(error.code(), error.message());
+                    return;
+                }
+
+                mStorage.execute(
+                        StorageActions.setInitialShoppingListsAction(mContext, payload.shoppingLists())
+                );
+
+                result.resolve(true);
+                break;
+            }
+
             case (AppWidgetActionTypes.SET_SHOPPING_LIST): {
                 ReadableMap payloadMap = action.getMap(ACTION_PAYLOAD);
                 if (payloadMap == null) {
@@ -190,19 +215,16 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                     return;
                 }
 
-//                SetMultipleShoppingListsPayload payload = AppWidgetActionPayloads.setMultipleShoppingListsPayload(payloadMap);
-
-                ReadableArray shoppingLists = payloadMap.getArray("shoppingLists");
-                if (shoppingLists == null) {
-                    Toast.makeText(mContext, "SET_MULTIPLE_SHOPPING_LISTS->BAD_PAYLOAD", Toast.LENGTH_SHORT).show();
-                    result.resolve(true);
+                SetMultipleShoppingListsPayload payload = AppWidgetActionPayloads.setMultipleShoppingListsPayload(payloadMap);
+                if (!payload.isValid()) {
+                    Error error = AppWidgetErrors.badPayload();
+                    result.reject(error.code(), error.message());
+                    return;
                 }
 
-                if (shoppingLists.size() > 0) {
-
-                }
-
-                Toast.makeText(mContext, "SET_MULTIPLE_SHOPPING_LISTS: " + String.valueOf(0), Toast.LENGTH_SHORT).show();
+                mStorage.execute(
+                        StorageActions.setMultipleShoppingListsAction(mContext, payload.shoppingLists())
+                );
 
                 result.resolve(true);
                 break;

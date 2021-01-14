@@ -5,6 +5,7 @@ import android.content.Context;
 import com.tobuybeta.modules.app_widget.common.action.Action;
 import com.tobuybeta.modules.app_widget.common.action.ActionPayload;
 import com.tobuybeta.modules.app_widget.common.product.Product;
+import com.tobuybeta.modules.app_widget.common.shopping_list.ShoppingList;
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
 
 import java.util.List;
@@ -25,6 +26,15 @@ public class StorageActions {
         return new Action(StorageActionTypes.GET_WIDGET_ACTIVE, payload);
     }
 
+    public static Action setInitialShoppingListsAction(Context context,
+                                                       List<ShoppingList> shoppingLists) {
+        ActionPayload payload = new ActionPayload();
+        payload.set("context", context);
+        payload.set("shoppingLists", shoppingLists);
+
+        return new Action(StorageActionTypes.SET_INITIAL_SHOPPING_LISTS, payload);
+    }
+
     public static Action setShoppingListAction(Context context,
                                                String listId,
                                                String listName,
@@ -36,6 +46,15 @@ public class StorageActions {
         payload.set("productsList", productsList);
 
         return new Action(StorageActionTypes.SET_SHOPPING_LIST, payload);
+    }
+
+    public static Action setMultipleShoppingListsAction(Context context,
+                                                        List<ShoppingList> shoppingLists) {
+        ActionPayload payload = new ActionPayload();
+        payload.set("context", context);
+        payload.set("shoppingLists", shoppingLists);
+
+        return new Action(StorageActionTypes.SET_MULTIPLE_SHOPPING_LISTS, payload);
     }
 
     public static Action removeShoppingListAction(Context context, String listId) {

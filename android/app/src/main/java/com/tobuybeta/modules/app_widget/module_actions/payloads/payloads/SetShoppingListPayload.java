@@ -8,10 +8,6 @@ import com.tobuybeta.modules.app_widget.common.product.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TODO: Add a class header comment
- */
-
 public class SetShoppingListPayload implements JSPayload {
     private String LIST_ID_FIELD = "listId";
     private String LIST_NAME_FIELD = "listName";
@@ -37,9 +33,13 @@ public class SetShoppingListPayload implements JSPayload {
         for (int i = 0; i < productsList.size(); ++i) {
             ReadableMap productMap = productsList.getMap(i);
             if (productMap != null) {
-                int productIntId = productMap.getInt(PRODUCT_ID_FIELD);
+                long productIntId = (long) productMap.getDouble(PRODUCT_ID_FIELD);
                 String productId = String.valueOf(productIntId);
                 String productName = productMap.getString(PRODUCT_NAME_FIELD);
+
+                if (productId.isEmpty() || productName == null || productName.isEmpty()) {
+                    continue;
+                }
 
                 mProductsList.add(new Product(productId, productIntId, productName));
             }

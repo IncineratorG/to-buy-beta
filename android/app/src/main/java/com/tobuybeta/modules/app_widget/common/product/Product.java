@@ -8,22 +8,22 @@ import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstant
 
 public class Product {
     private String mId;
-    private int mIntId;
+    private long mIntId;
     private String mName;
 
     public Product() {
         mId = AppWidgetModuleConstants.EMPTY_ID;
-        mIntId = Integer.parseInt(mId);
+        mIntId = Long.parseLong(mId);
         mName = "";
     }
 
     public Product(String id, String name) {
         mId = id;
-        mIntId = Integer.parseInt(id);
+        mIntId = Long.parseLong(id);
         mName = name;
     }
 
-    public Product(String id, int intId, String name) {
+    public Product(String id, long intId, String name) {
         mId = id;
         mIntId = intId;
         mName = name;
@@ -33,7 +33,7 @@ public class Product {
         return mId;
     }
 
-    public int getIntId() {
+    public long getIntId() {
         return mIntId;
     }
 

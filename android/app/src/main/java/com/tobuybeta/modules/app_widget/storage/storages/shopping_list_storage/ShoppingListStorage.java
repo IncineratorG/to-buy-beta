@@ -2,6 +2,7 @@ package com.tobuybeta.modules.app_widget.storage.storages.shopping_list_storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import androidx.arch.core.util.Function;
 
@@ -13,8 +14,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ShoppingListStorage {
@@ -23,6 +26,48 @@ public class ShoppingListStorage {
 
     public ShoppingListStorage() {
 
+    }
+
+    public boolean initializeStorageWithShoppingLists(Context context, List<ShoppingList> shoppingLists) {
+        if (context == null) {
+            return false;
+        }
+
+        List<String> shoppingListsDescriptionsList = new ArrayList<>();
+        Map<String, Set<String>> shoppingListProductsDescriptions = new HashMap<>();
+        for (int i = 0; i < shoppingLists.size(); ++i) {
+            ShoppingList shoppingList = shoppingLists.get(i);
+            List<Product> productsList = shoppingList.productsList();
+
+            Set<String> productsDescriptionsSet = new HashSet<>();
+            for (int j = 0; j < productsList.size(); ++j) {
+                Product product = productsList.get(j);
+                String productId = product.getId();
+                String productName = product.getName();
+
+                String productDescription = productId + " " + productName;
+                productsDescriptionsSet.add(productDescription);
+            }
+            shoppingListProductsDescriptions.put(shoppingList.listId(), productsDescriptionsSet);
+
+            String currentShoppingListDescription = shoppingList.listId() + " " + shoppingList.listName();
+            shoppingListsDescriptionsList.add(currentShoppingListDescription);
+        }
+
+        SharedPreferences.Editor editor = context.getSharedPreferences(LIST_DATA_FIELD, Context.MODE_PRIVATE).edit();
+
+        editor.clear();
+        editor.putStringSet(SHOPPING_LISTS_FIELD, new HashSet<>(shoppingListsDescriptionsList));
+
+        List<String> shoppingListsIds = new ArrayList<>(shoppingListProductsDescriptions.keySet());
+        for (int i = 0; i < shoppingListsIds.size(); ++i) {
+            String listId = shoppingListsIds.get(i);
+            Set<String> productsDescriptionsSet = shoppingListProductsDescriptions.get(listId);
+
+            editor.putStringSet(listId, productsDescriptionsSet);
+        }
+
+        return editor.commit();
     }
 
     public boolean setShoppingList(Context context,
@@ -103,7 +148,22 @@ public class ShoppingListStorage {
     }
 
     public boolean setMultipleShoppingLists(Context context, List<ShoppingList> shoppingLists) {
-        return false;
+        if (context == null) {
+            return false;
+        }
+
+        for (int i = 0; i < shoppingLists.size(); ++i) {
+            ShoppingList shoppingList = shoppingLists.get(i);
+
+            setShoppingList(
+                    context,
+                    shoppingList.listId(),
+                    shoppingList.listName(),
+                    shoppingList.productsList()
+            );
+        }
+
+        return true;
     }
 
     public boolean removeShoppingList(Context context, String listId) {
@@ -117,8 +177,6 @@ public class ShoppingListStorage {
                 .getSharedPreferences(LIST_DATA_FIELD, Context.MODE_PRIVATE);
         Set<String> existedShoppingListDescriptionsSet = sharedPreferences
                 .getStringSet(SHOPPING_LISTS_FIELD, new HashSet<>());
-//        Set<String> productListDescriptionSet = sharedPreferences
-//                .getStringSet(listId, new HashSet<>());
 
         List<String> existedShoppingListDescriptionsList = new ArrayList<>(existedShoppingListDescriptionsSet);
         String removedShoppingListDescription = null;

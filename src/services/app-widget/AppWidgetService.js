@@ -23,6 +23,15 @@ const AppWidgetService = () => {
     return notifier.subscribe({event, handler});
   };
 
+  const setInitialShoppingLists = async ({shoppingLists}) => {
+    SystemEventsHandler.onInfo({
+      info:
+        'AppWidgetService->setInitialShoppingLists(): ' + shoppingLists.length,
+    });
+
+    return await widget.setInitialShoppingLists({shoppingLists});
+  };
+
   const setShoppingList = async ({listId, listName, productsList}) => {
     SystemEventsHandler.onInfo({
       info:
@@ -73,6 +82,7 @@ const AppWidgetService = () => {
   return {
     init,
     subscribe,
+    setInitialShoppingLists,
     setShoppingList,
     setMultipleShoppingLists,
     removeShoppingList,

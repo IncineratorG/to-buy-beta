@@ -64,12 +64,12 @@ const AppWidgetRequestsProcessor = () => {
     );
 
     // ===
-    const firstList = currentShoppingLists[0];
-    SystemEventsHandler.onInfo({info: JSON.stringify(firstList)});
+    // const firstList = currentShoppingLists[0];
+    // SystemEventsHandler.onInfo({info: JSON.stringify(firstList)});
     // ===
 
     const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);
-    await appWidgetService.setMultipleShoppingLists({
+    await appWidgetService.setInitialShoppingLists({
       shoppingLists: currentShoppingLists,
     });
     // ********************************

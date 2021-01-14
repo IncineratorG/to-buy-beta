@@ -9,6 +9,7 @@ import com.tobuybeta.modules.app_widget.common.notifier.Notifier;
 import com.tobuybeta.modules.app_widget.common.notifier.event_handler.EventHandler;
 import com.tobuybeta.modules.app_widget.common.notifier.unsubscribe_handler.UnsubscribeHandler;
 import com.tobuybeta.modules.app_widget.common.product.Product;
+import com.tobuybeta.modules.app_widget.common.shopping_list.ShoppingList;
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActionTypes;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEventPayloads;
@@ -16,6 +17,7 @@ import com.tobuybeta.modules.app_widget.storage.events.StorageEvents;
 import com.tobuybeta.modules.app_widget.storage.storages.shopping_list_storage.ShoppingListStorage;
 import com.tobuybeta.modules.app_widget.storage.storages.widget_storage.WidgetStorage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -76,6 +78,26 @@ public class Storage {
                 break;
             }
 
+            case (StorageActionTypes.SET_INITIAL_SHOPPING_LISTS): {
+                Context context = (Context) action.payload().get("context");
+                List<ShoppingList> shoppingLists = (List<ShoppingList>) action.payload().get("shoppingLists");
+
+                boolean success = mShoppingListStorage.initializeStorageWithShoppingLists(context, shoppingLists);
+
+                if (success) {
+                    List<String> listIds = new ArrayList<>(shoppingLists.size());
+                    for (int i = 0; i < shoppingLists.size(); ++i) {
+                        listIds.add(shoppingLists.get(i).listId());
+                    }
+
+                    mNotifier.notify(
+                            StorageEvents.INITIAL_SHOPPING_LISTS_SET,
+                            StorageEventPayloads.initialShoppingListSetEventPayload(context, listIds)
+                    );
+                }
+                break;
+            }
+
             case (StorageActionTypes.SET_SHOPPING_LIST): {
                 Context context = (Context) action.payload().get("context");
                 String listId = (String) action.payload().get("listId");
@@ -89,6 +111,26 @@ public class Storage {
                     mNotifier.notify(
                             StorageEvents.SHOPPING_LIST_SET,
                             StorageEventPayloads.shoppingListSetEventPayload(context, listId)
+                    );
+                }
+                break;
+            }
+
+            case (StorageActionTypes.SET_MULTIPLE_SHOPPING_LISTS): {
+                Context context = (Context) action.payload().get("context");
+                List<ShoppingList> shoppingLists = (List<ShoppingList>) action.payload().get("shoppingLists");
+
+                boolean success = mShoppingListStorage.setMultipleShoppingLists(context, shoppingLists);
+
+                if (success) {
+                    List<String> listIds = new ArrayList<>(shoppingLists.size());
+                    for (int i = 0; i < shoppingLists.size(); ++i) {
+                        listIds.add(shoppingLists.get(i).listId());
+                    }
+
+                    mNotifier.notify(
+                            StorageEvents.MULTIPLE_SHOPPING_LISTS_SET,
+                            StorageEventPayloads.multipleShoppingListsSetPayload(context, listIds)
                     );
                 }
                 break;

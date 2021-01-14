@@ -9,7 +9,7 @@ import com.tobuybeta.modules.app_widget.common.shopping_list.ShoppingList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetMultipleShoppingListsPayload implements JSPayload {
+public class SetInitialShoppingListsPayload implements JSPayload {
     private String SHOPPING_LISTS_FIELD = "shoppingLists";
     private String LIST_ID_FIELD = "id";
     private String LIST_NAME_FIELD = "name";
@@ -19,7 +19,7 @@ public class SetMultipleShoppingListsPayload implements JSPayload {
     private boolean mIsValid;
     private List<ShoppingList> mShoppingLists;
 
-    public SetMultipleShoppingListsPayload(ReadableMap readableMap) {
+    public SetInitialShoppingListsPayload(ReadableMap readableMap) {
         mShoppingLists = new ArrayList<>();
 
         ReadableArray shoppingLists = readableMap.getArray(SHOPPING_LISTS_FIELD);

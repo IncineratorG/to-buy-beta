@@ -5,6 +5,7 @@ const NativeWidgetConstants = () => {
     actionTypes: {
       GET_WIDGET_STATUS,
       SET_SHOPPING_LIST,
+      SET_INITIAL_SHOPPING_LISTS,
       SET_MULTIPLE_SHOPPING_LISTS,
       REMOVE_SHOPPING_LIST,
       GET_ALL_WIDGET_REQUESTS,
@@ -21,6 +22,7 @@ const NativeWidgetConstants = () => {
     actionTypes: {
       GET_WIDGET_STATUS,
       SET_SHOPPING_LIST,
+      SET_INITIAL_SHOPPING_LISTS,
       SET_MULTIPLE_SHOPPING_LISTS,
       REMOVE_SHOPPING_LIST,
       GET_ALL_WIDGET_REQUESTS,

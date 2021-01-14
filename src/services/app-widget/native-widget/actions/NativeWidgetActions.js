@@ -5,6 +5,7 @@ const NativeWidgetActions = () => {
     actionTypes: {
       GET_WIDGET_STATUS,
       SET_SHOPPING_LIST,
+      SET_INITIAL_SHOPPING_LISTS,
       SET_MULTIPLE_SHOPPING_LISTS,
       REMOVE_SHOPPING_LIST,
       GET_ALL_WIDGET_REQUESTS,
@@ -15,6 +16,13 @@ const NativeWidgetActions = () => {
   const getWidgetStatusAction = () => {
     return {
       type: GET_WIDGET_STATUS,
+    };
+  };
+
+  const setInitialShoppingListsAction = ({shoppingLists}) => {
+    return {
+      type: SET_INITIAL_SHOPPING_LISTS,
+      payload: {shoppingLists},
     };
   };
 
@@ -61,6 +69,7 @@ const NativeWidgetActions = () => {
 
   return {
     getWidgetStatusAction,
+    setInitialShoppingListsAction,
     setShoppingListAction,
     setMultipleShoppingListsAction,
     removeShoppingListAction,
