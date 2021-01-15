@@ -11,6 +11,7 @@ public class StorageActionTypes {
     public static final String SET_SHOPPING_LIST = "SAT_SET_SHOPPING_LIST";
     public static final String SET_MULTIPLE_SHOPPING_LISTS = "SAT_SET_MULTIPLE_SHOPPING_LISTS";
     public static final String REMOVE_SHOPPING_LIST = "SAT_REMOVE_SHOPPING_LIST";
+    public static final String REMOVE_PRODUCT = "SAT_REMOVE_PRODUCT";
     public static final String GET_SHOPPING_LISTS = "SAT_GET_SHOPPING_LISTS";
     public static final String GET_PRODUCTS_LIST = "SAT_GET_PRODUCTS_LIST";
     public static final String SET_WIDGET_LIST_INFO = "SAT_SET_WIDGET_LIST_INFO";

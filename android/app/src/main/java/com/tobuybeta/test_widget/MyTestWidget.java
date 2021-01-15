@@ -24,6 +24,8 @@ import com.tobuybeta.modules.app_widget.storage.actions.StorageActionResults;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActions;
 import com.tobuybeta.modules.app_widget.widget_models.WidgetModels;
 import com.tobuybeta.modules.app_widget.widget_models.model.WidgetModel;
+import com.tobuybeta.test_widget.widget_intents.handler.WidgetIntentsHandler;
+import com.tobuybeta.test_widget.widget_intents.intents.WidgetIntents;
 
 import java.util.List;
 
@@ -53,6 +55,8 @@ public class MyTestWidget extends AppWidgetProvider {
     }
 
     public static void update(Context context, int[] ids) {
+        WidgetModels.get().update(context);
+
         Intent intent = new Intent(context, MyTestWidget.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
@@ -113,29 +117,11 @@ public class MyTestWidget extends AppWidgetProvider {
         rv.setTextViewText(R.id.titleText, titleText);
         rv.setImageViewResource(R.id.imageView, imageId);
 
-        Intent backButtonIntent = new Intent(context, MyTestWidget.class);
-        backButtonIntent.setAction(BACK_BUTTON_CLICK);
-        backButtonIntent.putExtra(WIDGET_ID, appWidgetId);
-        backButtonIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
-        Uri backButtonIntentData = Uri.parse(backButtonIntent.toUri(Intent.URI_INTENT_SCHEME));
-        backButtonIntent.setData(backButtonIntentData);
+        PendingIntent backButtonPendingIntent = WidgetIntents.onBackButtonPressIntent(context, appWidgetId);
+        rv.setOnClickPendingIntent(R.id.imageView, backButtonPendingIntent);
 
-        PendingIntent backButtonPendingIntentIntent = PendingIntent
-                .getBroadcast(context, appWidgetId, backButtonIntent, 0);
-
-        rv.setOnClickPendingIntent(R.id.imageView, backButtonPendingIntentIntent);
-
-        Intent openAppIntent = new Intent(context, MyTestWidget.class);
-        openAppIntent.setAction(TITLE_CLICK);
-        openAppIntent.putExtra(WIDGET_ID, appWidgetId);
-        openAppIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
-        Uri openAppIntentData = Uri.parse(backButtonIntent.toUri(Intent.URI_INTENT_SCHEME));
-        backButtonIntent.setData(openAppIntentData);
-//        PendingIntent openAppPendingIntent = PendingIntent.getActivity(context, 0, openAppIntent, 0);
-
-        PendingIntent openAppPendingIntent = PendingIntent.getBroadcast(context, appWidgetId, openAppIntent, 0);
-
-        rv.setOnClickPendingIntent(R.id.titleText, openAppPendingIntent);
+        PendingIntent titlePressPendingIntent = WidgetIntents.onTitlePressIntent(context, appWidgetId);
+        rv.setOnClickPendingIntent(R.id.titleText, titlePressPendingIntent);
 
         // ===
         // =====
@@ -186,11 +172,15 @@ public class MyTestWidget extends AppWidgetProvider {
     }
 
     void setListClick(RemoteViews rv, Context context, int appWidgetId) {
-        Intent listClickIntent = new Intent(context, MyTestWidget.class);
-        listClickIntent.setAction(ACTION_ON_CLICK);
-        PendingIntent listClickPIntent = PendingIntent.getBroadcast(context, 0,
-                listClickIntent, 0);
-        rv.setPendingIntentTemplate(R.id.lvList, listClickPIntent);
+        PendingIntent listItemPressCoveringIntent = WidgetIntents
+                .onListItemPressCoveringIntent(context);
+        rv.setPendingIntentTemplate(R.id.lvList, listItemPressCoveringIntent);
+
+//        Intent listClickIntent = new Intent(context, MyTestWidget.class);
+//        listClickIntent.setAction(ACTION_ON_CLICK);
+//        PendingIntent listClickPIntent = PendingIntent.getBroadcast(context, 0,
+//                listClickIntent, 0);
+//        rv.setPendingIntentTemplate(R.id.lvList, listClickPIntent);
     }
 
     void setButtonClick(RemoteViews rv, Context context, int appWidgetId) {
@@ -233,123 +223,98 @@ public class MyTestWidget extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        if (MyOnClick1.equals(intent.getAction())){
-//            SharedStorageModule sharedStorage = SharedStorageModule.get(null);
-//            if (sharedStorage == null) {
-//                Toast.makeText(context, "NULL", Toast.LENGTH_SHORT).show();
+        boolean processed = WidgetIntentsHandler.handle(context, intent);
+
+//        if (MyOnClick1.equals(intent.getAction())){
+////            SharedStorageModule sharedStorage = SharedStorageModule.get(null);
+////            if (sharedStorage == null) {
+////                Toast.makeText(context, "NULL", Toast.LENGTH_SHORT).show();
+////                return;
+////            }
+////
+////            sharedStorage.testSend();
+//        } else if (intent.getAction().equalsIgnoreCase(TITLE_CLICK)) {
+//            int widgetId = intent.getIntExtra(WIDGET_ID, -1);
+//            if (widgetId < 0) {
+//                Toast.makeText(context, "BAD_TITLE_ID->" + String.valueOf(widgetId), Toast.LENGTH_SHORT).show();
 //                return;
 //            }
 //
-//            sharedStorage.testSend();
-        } else if (intent.getAction().equalsIgnoreCase(TITLE_CLICK)) {
-            int widgetId = intent.getIntExtra(WIDGET_ID, -1);
-            if (widgetId < 0) {
-                Toast.makeText(context, "BAD_TITLE_ID->" + String.valueOf(widgetId), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            WidgetModel model = WidgetModels.get().getOrCreate(context, widgetId);
-            String listId = model.list().listId();
-
-            OpenShoppingListRequest request = new OpenShoppingListRequest(listId);
-            Storage.get().execute(StorageActions.setWidgetRequestAction(context, request));
-
-//            Toast.makeText(context, "TITLE_CLICK->" + model.list().listId(), Toast.LENGTH_SHORT).show();
-
-            Intent openAppIntent = new Intent(context, MainActivity.class);
-            PendingIntent openAppPendingIntent = PendingIntent.getActivity(context, 0, openAppIntent, 0);
-            try {
-                openAppPendingIntent.send();
-            } catch (PendingIntent.CanceledException e) {
-                Toast.makeText(context, "TITLE_CLICK->ERROR", Toast.LENGTH_SHORT).show();
-            }
-
-        } else if (intent.getAction().equalsIgnoreCase(ACTION_ON_CLICK)) {
-            String clickedListId = intent.getStringExtra(CLICKED_LIST_ID);
-            int widgetId = intent.getIntExtra(WIDGET_ID, -1);
-
-            // ===
-            boolean itemImageClick = intent.getBooleanExtra(ITEM_IMAGE_CLICK, false);
-            Toast.makeText(context, "ITEM_IMAGE_CLICK->" + itemImageClick, Toast.LENGTH_SHORT).show();
-            // ===
-
-            // =====
-            String clickedListType = intent.getStringExtra(CLICKED_LIST_TYPE);
-//            Toast.makeText(context, "LIST_TYPE->" + clickedListType, Toast.LENGTH_SHORT).show();
-            // =====
-
-            WidgetModel model = mModels.getOrCreate(context, widgetId);
-            if (clickedListType == null) {
-                Toast.makeText(context, "LIST_TYPE_IS_NULL->DO_NOTHING", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (clickedListType.equalsIgnoreCase(GeneralizedList.PRODUCTS_LIST)) {
-                Toast.makeText(context, "PRODUCTS_LIST->DO_NOTHING", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            model.loadProductsList(context, clickedListId);
-
-//            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-//            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
-//            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lvList);
-
-            // ===
-            Intent updateListIntent = new Intent(context, MyTestWidget.class);
-            updateListIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            int[] ids = AppWidgetManager.getInstance(context).
-                    getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
-            updateListIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-            context.sendBroadcast(updateListIntent);
-            // ===
-        }  else if (intent.getAction().equalsIgnoreCase(BACK_BUTTON_CLICK)) {
-            int widgetId = intent.getIntExtra(WIDGET_ID, -1);
-
-            WidgetModel model = mModels.getOrCreate(context, widgetId);
-            if (model == null) {
-                Toast.makeText(context, "MODEL_IS_NULL->DO_NOTHING: " + String.valueOf(widgetId), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            model.loadAllShoppingLists(context);
-
-            Intent updateListIntent = new Intent(context, MyTestWidget.class);
-            updateListIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            int[] ids = AppWidgetManager.getInstance(context).
-                    getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
-            updateListIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-            context.sendBroadcast(updateListIntent);
-        } else if (intent.getAction().equalsIgnoreCase(BUTTON_CLICK)) {
-            Toast.makeText(context, "IN_BUTTON_CLICK", Toast.LENGTH_SHORT).show();
-
-//            intent.getExtras().getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
-            Bundle extras = intent.getExtras();
-            if (extras == null) {
-                Toast.makeText(context, "EXTRAS_IS_NULL", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            List<String> resultsList = extras.getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
-            if (resultsList == null) {
-                Toast.makeText(context, "RESULTS_LIST_IS_NULL", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            StringBuilder resultsString = new StringBuilder();
-            for (String result : resultsList) {
-                resultsString.append("\n ").append(result);
-            }
-
-            Toast.makeText(context, "RESULT: " + resultsString.toString(), Toast.LENGTH_SHORT).show();
-        } else if (intent.getAction().equalsIgnoreCase(RECOGNIZE_SPEECH_CLICK)) {
-            Toast.makeText(context, "IN_RECOGNIZE_SPEECH_CLICK", Toast.LENGTH_SHORT).show();
-
-//            SharedStorageModule sharedStorage = SharedStorageModule.get(null);
-//            if (sharedStorage == null) {
+//            WidgetModel model = WidgetModels.get().getOrCreate(context, widgetId);
+//            String listId = model.list().listId();
+//
+//            OpenShoppingListRequest request = new OpenShoppingListRequest(listId);
+//            Storage.get().execute(StorageActions.setWidgetRequestAction(context, request));
+//
+////            Toast.makeText(context, "TITLE_CLICK->" + model.list().listId(), Toast.LENGTH_SHORT).show();
+//
+//            Intent openAppIntent = new Intent(context, MainActivity.class);
+//            PendingIntent openAppPendingIntent = PendingIntent.getActivity(context, 0, openAppIntent, 0);
+//            try {
+//                openAppPendingIntent.send();
+//            } catch (PendingIntent.CanceledException e) {
+//                Toast.makeText(context, "TITLE_CLICK->ERROR", Toast.LENGTH_SHORT).show();
+//            }
+//
+//        } else if (intent.getAction().equalsIgnoreCase(ACTION_ON_CLICK)) {
+//            String clickedListId = intent.getStringExtra(CLICKED_LIST_ID);
+//            int widgetId = intent.getIntExtra(WIDGET_ID, -1);
+//
+//            // ===
+//            boolean itemImageClick = intent.getBooleanExtra(ITEM_IMAGE_CLICK, false);
+//            Toast.makeText(context, "ITEM_IMAGE_CLICK->" + itemImageClick, Toast.LENGTH_SHORT).show();
+//            // ===
+//
+//            // =====
+//            String clickedListType = intent.getStringExtra(CLICKED_LIST_TYPE);
+////            Toast.makeText(context, "LIST_TYPE->" + clickedListType, Toast.LENGTH_SHORT).show();
+//            // =====
+//
+//            WidgetModel model = mModels.getOrCreate(context, widgetId);
+//            if (clickedListType == null) {
+//                Toast.makeText(context, "LIST_TYPE_IS_NULL->DO_NOTHING", Toast.LENGTH_SHORT).show();
 //                return;
 //            }
-//            sharedStorage.testSend();
+//            if (clickedListType.equalsIgnoreCase(GeneralizedList.PRODUCTS_LIST)) {
+//                Toast.makeText(context, "PRODUCTS_LIST->DO_NOTHING", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
 //
+//            model.loadProductsList(context, clickedListId);
+//
+////            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+////            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
+////            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lvList);
+//
+//            // ===
+//            Intent updateListIntent = new Intent(context, MyTestWidget.class);
+//            updateListIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+//            int[] ids = AppWidgetManager.getInstance(context).
+//                    getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
+//            updateListIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+//            context.sendBroadcast(updateListIntent);
+//            // ===
+//        }  else if (intent.getAction().equalsIgnoreCase(BACK_BUTTON_CLICK)) {
+//            int widgetId = intent.getIntExtra(WIDGET_ID, -1);
+//
+//            WidgetModel model = mModels.getOrCreate(context, widgetId);
+//            if (model == null) {
+//                Toast.makeText(context, "MODEL_IS_NULL->DO_NOTHING: " + String.valueOf(widgetId), Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            model.loadAllShoppingLists(context);
+//
+//            Intent updateListIntent = new Intent(context, MyTestWidget.class);
+//            updateListIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+//            int[] ids = AppWidgetManager.getInstance(context).
+//                    getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
+//            updateListIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+//            context.sendBroadcast(updateListIntent);
+//        } else if (intent.getAction().equalsIgnoreCase(BUTTON_CLICK)) {
+//            Toast.makeText(context, "IN_BUTTON_CLICK", Toast.LENGTH_SHORT).show();
+//
+////            intent.getExtras().getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
 //            Bundle extras = intent.getExtras();
 //            if (extras == null) {
 //                Toast.makeText(context, "EXTRAS_IS_NULL", Toast.LENGTH_SHORT).show();
@@ -368,7 +333,34 @@ public class MyTestWidget extends AppWidgetProvider {
 //            }
 //
 //            Toast.makeText(context, "RESULT: " + resultsString.toString(), Toast.LENGTH_SHORT).show();
-        }
+//        } else if (intent.getAction().equalsIgnoreCase(RECOGNIZE_SPEECH_CLICK)) {
+//            Toast.makeText(context, "IN_RECOGNIZE_SPEECH_CLICK", Toast.LENGTH_SHORT).show();
+//
+////            SharedStorageModule sharedStorage = SharedStorageModule.get(null);
+////            if (sharedStorage == null) {
+////                return;
+////            }
+////            sharedStorage.testSend();
+////
+////            Bundle extras = intent.getExtras();
+////            if (extras == null) {
+////                Toast.makeText(context, "EXTRAS_IS_NULL", Toast.LENGTH_SHORT).show();
+////                return;
+////            }
+////
+////            List<String> resultsList = extras.getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
+////            if (resultsList == null) {
+////                Toast.makeText(context, "RESULTS_LIST_IS_NULL", Toast.LENGTH_SHORT).show();
+////                return;
+////            }
+////
+////            StringBuilder resultsString = new StringBuilder();
+////            for (String result : resultsList) {
+////                resultsString.append("\n ").append(result);
+////            }
+////
+////            Toast.makeText(context, "RESULT: " + resultsString.toString(), Toast.LENGTH_SHORT).show();
+//        }
     };
 }
 

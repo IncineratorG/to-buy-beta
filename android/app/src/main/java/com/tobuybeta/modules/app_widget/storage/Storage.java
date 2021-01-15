@@ -150,6 +150,21 @@ public class Storage {
                 break;
             }
 
+            case (StorageActionTypes.REMOVE_PRODUCT): {
+                Context context = (Context) action.payload().get("context");
+                String listId = (String) action.payload().get("listId");
+                String productId = (String) action.payload().get("productId");
+
+                boolean success = mShoppingListStorage.removeProduct(context, listId, productId);
+                if (success) {
+                    mNotifier.notify(
+                            StorageEvents.PRODUCT_REMOVED,
+                            StorageEventPayloads.productRemovedEventPayload(context, listId, productId)
+                    );
+                }
+                break;
+            }
+
             case (StorageActionTypes.GET_SHOPPING_LISTS): {
                 Context context = (Context) action.payload().get("context");
                 action.complete(mShoppingListStorage.getShoppingLists(context));

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.tobuybeta.modules.app_widget.storage.events.payloads.InitialShoppingListSetEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.MultipleShoppingListsSetEventPayload;
+import com.tobuybeta.modules.app_widget.storage.events.payloads.ProductRemovedEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.ShoppingListRemovedEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.ShoppingListSetEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.WidgetActiveChangedEventPayload;
@@ -53,5 +54,14 @@ public class StorageEventPayloads {
     }
     public static ShoppingListRemovedEventPayload toShoppingListRemovedEventPayload(Object value) {
         return (ShoppingListRemovedEventPayload) value;
+    }
+
+    public static ProductRemovedEventPayload productRemovedEventPayload(Context context,
+                                                                        String listId,
+                                                                        String productId) {
+        return new ProductRemovedEventPayload(context, listId, productId);
+    }
+    public static ProductRemovedEventPayload toProductRemovedEventPayload(Object value) {
+        return (ProductRemovedEventPayload) value;
     }
 }

@@ -206,6 +206,36 @@ public class ShoppingListStorage {
         return editor.commit();
     }
 
+    public boolean removeProduct(Context context, String listId, String productId) {
+        if (context == null) {
+            return false;
+        } else if (listId == null || listId.isEmpty()) {
+            return false;
+        } else if (productId == null || productId.isEmpty()) {
+            return false;
+        }
+
+        SharedPreferences sharedPreferences = context
+                .getSharedPreferences(LIST_DATA_FIELD, Context.MODE_PRIVATE);
+        Set<String> productsListDescriptionsSet = sharedPreferences
+                .getStringSet(listId, new HashSet<>());
+
+        List<String> productsListDescriptionsList = new ArrayList<>(productsListDescriptionsSet);
+        for (int i = 0; i < productsListDescriptionsList.size(); ++i) {
+            String currentProductDescription = productsListDescriptionsList.get(i);
+            String currentProductId = currentProductDescription.substring(0, currentProductDescription.indexOf(" "));
+            if (currentProductId.equalsIgnoreCase(productId)) {
+                productsListDescriptionsList.remove(i);
+                break;
+            }
+        }
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putStringSet(listId, new HashSet<>(productsListDescriptionsList));
+
+        return editor.commit();
+    }
+
     public GeneralizedList getShoppingLists(Context context) {
         if (context == null) {
             return new GeneralizedList();

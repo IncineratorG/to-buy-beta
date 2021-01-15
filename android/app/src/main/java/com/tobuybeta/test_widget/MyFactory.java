@@ -11,6 +11,7 @@ import com.tobuybeta.R;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.widget_models.WidgetModels;
 import com.tobuybeta.modules.app_widget.widget_models.model.WidgetModel;
+import com.tobuybeta.test_widget.widget_intents.intents.WidgetIntents;
 
 public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
     private Context context;
@@ -61,21 +62,27 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
             rView.setViewVisibility(R.id.itemImageView, View.GONE);
         }
 
-        Intent itemClickIntent = new Intent();
-        itemClickIntent.putExtra(MyTestWidget.WIDGET_ID, widgetID);
-        itemClickIntent.putExtra(MyTestWidget.CLICKED_LIST_ID, itemId);
-        itemClickIntent.putExtra(MyTestWidget.CLICKED_LIST_TYPE, currentListType);
-        itemClickIntent.putExtra(MyTestWidget.ITEM_IMAGE_CLICK, false);
+        Intent listItemPressIntent = WidgetIntents.onListItemPressFillInIntent(widgetID, itemId);
+        rView.setOnClickFillInIntent(R.id.tvItemText, listItemPressIntent);
 
-        rView.setOnClickFillInIntent(R.id.tvItemText, itemClickIntent);
+        Intent checkMarkPressIntent = WidgetIntents.onListItemCheckMarkPressFillInIntent(widgetID, itemId);
+        rView.setOnClickFillInIntent(R.id.itemImageView, checkMarkPressIntent);
 
-        Intent itemImageClickIntent = new Intent();
-        itemImageClickIntent.putExtra(MyTestWidget.WIDGET_ID, widgetID);
-        itemImageClickIntent.putExtra(MyTestWidget.CLICKED_LIST_ID, itemId);
-        itemImageClickIntent.putExtra(MyTestWidget.CLICKED_LIST_TYPE, currentListType);
-        itemImageClickIntent.putExtra(MyTestWidget.ITEM_IMAGE_CLICK, true);
-
-        rView.setOnClickFillInIntent(R.id.itemImageView, itemImageClickIntent);
+//        Intent itemClickIntent = new Intent();
+//        itemClickIntent.putExtra(MyTestWidget.WIDGET_ID, widgetID);
+//        itemClickIntent.putExtra(MyTestWidget.CLICKED_LIST_ID, itemId);
+//        itemClickIntent.putExtra(MyTestWidget.CLICKED_LIST_TYPE, currentListType);
+//        itemClickIntent.putExtra(MyTestWidget.ITEM_IMAGE_CLICK, false);
+//
+//        rView.setOnClickFillInIntent(R.id.tvItemText, itemClickIntent);
+//
+//        Intent itemImageClickIntent = new Intent();
+//        itemImageClickIntent.putExtra(MyTestWidget.WIDGET_ID, widgetID);
+//        itemImageClickIntent.putExtra(MyTestWidget.CLICKED_LIST_ID, itemId);
+//        itemImageClickIntent.putExtra(MyTestWidget.CLICKED_LIST_TYPE, currentListType);
+//        itemImageClickIntent.putExtra(MyTestWidget.ITEM_IMAGE_CLICK, true);
+//
+//        rView.setOnClickFillInIntent(R.id.itemImageView, itemImageClickIntent);
 
         return rView;
     }
