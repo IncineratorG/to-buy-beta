@@ -66,7 +66,7 @@ const OpenShoppingListRequestHandler = () => {
         dispatch(loadProductsListAction({shoppingListId: listId}));
 
         // ===
-        // SystemEventsHandler.onInfo({info: JSON.stringify(navigation)});
+        // SystemEventsHandler.onInfo({info: JSON.stringify(navigation.state())});
         // ===
       }
     };
