@@ -68,6 +68,12 @@ export const useShoppingListsModel = () => {
     dispatch(clearProductsListCachedData());
   }, []);
 
+  // ===
+  // useEffect(() => {
+  //   SystemEventsHandler.onInfo({info: 'HERE->>>'});
+  // }, []);
+  // ===
+
   return {
     data: {
       shareDialogVisible,

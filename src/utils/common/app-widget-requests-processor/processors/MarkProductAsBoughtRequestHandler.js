@@ -10,19 +10,29 @@ const MarkProductAsBoughtRequestHandler = () => {
     }
 
     const {listId, productId} = request;
+    const integerListId = Number(listId);
+    const integerProductId = Number(productId);
+
     SystemEventsHandler.onInfo({
-      info: 'MarkProductAsBoughtRequestHandler: ' + listId + ' - ' + productId,
+      info:
+        'MarkProductAsBoughtRequestHandler: ' +
+        integerListId +
+        ' - ' +
+        integerProductId,
     });
 
     let existedMarkedProductsIdsList = productToChangeStatusAccumulator.get(
-      listId,
+      integerListId,
     );
     if (!existedMarkedProductsIdsList) {
       existedMarkedProductsIdsList = [];
     }
-    existedMarkedProductsIdsList.push(productId);
+    existedMarkedProductsIdsList.push(integerProductId);
 
-    productToChangeStatusAccumulator.set(listId, existedMarkedProductsIdsList);
+    productToChangeStatusAccumulator.set(
+      integerListId,
+      existedMarkedProductsIdsList,
+    );
   };
 
   return {

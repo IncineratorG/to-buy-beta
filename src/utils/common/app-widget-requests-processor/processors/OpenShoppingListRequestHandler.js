@@ -55,15 +55,19 @@ const OpenShoppingListRequestHandler = () => {
         //     listId,
         // });
 
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'ShoppingLists'}],
-        });
+        // navigation.reset({
+        //   index: 0,
+        //   routes: [{name: 'ShoppingLists'}],
+        // });
         navigation.navigate('ProductsList');
 
         dispatch(loadCategoriesAction({shoppingListId: listId}));
         dispatch(loadUnitsAction({shoppingListId: listId}));
         dispatch(loadProductsListAction({shoppingListId: listId}));
+
+        // ===
+        // SystemEventsHandler.onInfo({info: JSON.stringify(navigation)});
+        // ===
       }
     };
 
