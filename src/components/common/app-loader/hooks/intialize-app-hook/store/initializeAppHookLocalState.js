@@ -1,4 +1,5 @@
 const initializeAppHookLocalState = {
+  appIsInitialized: false,
   appIsVisible: false,
   servicesIsReady: false,
   commandsIsReady: false,

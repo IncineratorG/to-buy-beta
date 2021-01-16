@@ -3,6 +3,13 @@ import InitializeAppHookLocalReducerHelper from './helpers/InitializeAppHookLoca
 
 function initializeAppHookLocalReducer(state, action) {
   switch (action.type) {
+    case InitializeAppHookLocalActionTypes.SET_APP_IS_INITIALIZED: {
+      return {
+        ...state,
+        appIsInitialized: action.payload.isInitialized,
+      };
+    }
+
     case InitializeAppHookLocalActionTypes.SET_APP_IS_VISIBLE: {
       return {
         ...state,

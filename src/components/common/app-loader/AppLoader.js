@@ -4,6 +4,7 @@ import AppNavigation from '../app-navigation/AppNavigation';
 import AppLoading from '../app-loading/AppLoading';
 import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import useInitializeAppHook from './hooks/intialize-app-hook/useInitializeAppHook';
+import {loadShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
 
 const AppLoader = () => {
   const [appInitialized, setAppInitialized] = useState(false);
@@ -14,39 +15,18 @@ const AppLoader = () => {
 
   const dispatch = useDispatch();
 
-  useInitializeAppHook();
+  const {appIsInitialized, navigationCommands} = useInitializeAppHook();
 
-  // const {initializationCommands, commandsIsReady} = useInitializeAppHook();
+  useEffect(() => {
+    setAppInitialized(appIsInitialized);
+    setRequestedNavigationCommands(navigationCommands);
+  }, [appIsInitialized, navigationCommands]);
 
-  // useEffect(() => {
-  //   if (commandsIsReady) {
-  //     const {
-  //       loadingCommands,
-  //       navigationCommands,
-  //       shoppingListModificationCommands,
-  //     } = initializationCommands;
-  //
-  //     SystemEventsHandler.onInfo({
-  //       info:
-  //         'COMMANDS_SIZE: ' +
-  //         loadingCommands.length +
-  //         ' - ' +
-  //         navigationCommands.length +
-  //         ' - ' +
-  //         shoppingListModificationCommands.length,
-  //     });
-  //
-  //     loadingCommands.forEach((command) => {
-  //       command.execute({dispatch});
-  //     });
-  //     shoppingListModificationCommands.forEach((command) => {
-  //       command.execute({dispatch});
-  //     });
-  //
-  //     setRequestedNavigationCommands(navigationCommands);
-  //     setAppInitialized(true);
-  //   }
-  // }, [commandsIsReady, initializationCommands, dispatch]);
+  useEffect(() => {
+    if (appInitialized) {
+      dispatch(loadShoppingListsAction());
+    }
+  }, [appInitialized, dispatch]);
 
   if (appInitialized) {
     return (

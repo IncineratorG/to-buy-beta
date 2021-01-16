@@ -15,10 +15,7 @@ const AppWidgetRequestsProcessor = () => {
   const markProductAsBoughtRequestHandler = MarkProductAsBoughtRequestHandler;
 
   const process = async ({requests}) => {
-    SystemEventsHandler.onInfo({
-      info:
-        'AppWidgetRequestsProcessor->process(): ' + JSON.stringify(requests),
-    });
+    SystemEventsHandler.onInfo({info: 'AppWidgetRequestsProcessor->process()'});
 
     // const navigationCommands = [];
 
@@ -32,9 +29,9 @@ const AppWidgetRequestsProcessor = () => {
     // =====
 
     // ================================
-    // 1.******************************
+    // 1. - 2. ************************
     const navigationCommands = [];
-    const productIdsToChangeStatus = [];
+    const productToChangeStatusAccumulator = new Map();
     requests.forEach((request) => {
       switch (request.type) {
         case OPEN_SHOPPING_LIST_REQUEST: {
@@ -46,27 +43,51 @@ const AppWidgetRequestsProcessor = () => {
         }
 
         case MARK_PRODUCT_AS_BOUGHT_REQUEST: {
-          const productDescription = markProductAsBoughtRequestHandler.handle({
+          markProductAsBoughtRequestHandler.handle({
             request,
+            productToChangeStatusAccumulator,
           });
-          productIdsToChangeStatus.push(productDescription);
           break;
         }
       }
     });
+
     // ********************************
-    // 4.******************************
+    // 3.******************************
+    const productToChangeStatusArray = Array.from(
+      productToChangeStatusAccumulator,
+    ).map(([key, value]) => ({key, value}));
+
     const shoppingListService = Services.get(
       Services.serviceTypes.SHOPPING_LIST,
     );
+    await Promise.all(
+      productToChangeStatusArray.map(async ({key, value}) => {
+        await shoppingListService.changeMultipleProductsStatus({
+          shoppingListId: key,
+          productsIdsArray: value,
+          status: ProductStatus.COMPLETED,
+        });
+      }),
+    );
+    // ********************************
+    // ********************************
+
+    // productToChangeStatusAccumulator.forEach((value, key) => {
+    //   const listId = key;
+    //   const listProducts = value;
+    //
+    //   SystemEventsHandler.onInfo({
+    //     info: 'RESULT: ' + listId + ' - ' + JSON.stringify(listProducts),
+    //   });
+    // });
+    // ===
+
+    // ********************************
+    // 4.******************************
     const currentShoppingLists = await shoppingListService.getShoppingListsWithProducts(
       {productsStatus: ProductStatus.NOT_COMPLETED},
     );
-
-    // ===
-    // const firstList = currentShoppingLists[0];
-    // SystemEventsHandler.onInfo({info: JSON.stringify(firstList)});
-    // ===
 
     const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);
     await appWidgetService.setInitialShoppingLists({

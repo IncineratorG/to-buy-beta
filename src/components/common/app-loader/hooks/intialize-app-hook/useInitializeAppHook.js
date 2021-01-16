@@ -6,14 +6,11 @@ import AppWidgetRequestsProcessor from '../../../../../utils/common/app-widget-r
 import initializeAppHookLocalReducer from './store/initializeAppHookLocalReducer';
 import initializeAppHookLocalState from './store/initializeAppHookLocalState';
 import {
+  iahla_setAppIsInitialized,
   iahla_setAppIsVisible,
-  iahla_setLoadingCommands,
   iahla_setNavigationCommands,
   iahla_setServicesIsReady,
-  iahla_setShoppingListModificationCommands,
 } from './store/initializeAppHookLocalActions';
-import Command from '../../../../../utils/common/command/Command';
-import {loadShoppingListsAction} from '../../../../../store/actions/shopping-lists/shoppingListsActions';
 
 const useInitializeAppHook = () => {
   const [state, localDispatch] = useReducer(
@@ -22,14 +19,10 @@ const useInitializeAppHook = () => {
   );
 
   const {
+    appIsInitialized,
     appIsVisible,
     servicesIsReady,
-    commandsIsReady,
-    loadingCommands: {commands: loadingCommands},
     navigationCommands: {commands: navigationCommands},
-    shoppingListModificationCommands: {
-      commands: shoppingListModificationCommands,
-    },
   } = state;
 
   useEffect(() => {
@@ -71,87 +64,25 @@ const useInitializeAppHook = () => {
         const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);
         const appWidgetServiceRequests = await appWidgetService.getAndRemoveAllWidgetRequests();
 
-        const {navigationCommands} = await AppWidgetRequestsProcessor.process({
+        const {
+          navigationCommands: generatedNavigationCommands,
+        } = await AppWidgetRequestsProcessor.process({
           requests: appWidgetServiceRequests,
         });
 
-        // const {
-        //   navigationCommands: requestedNavigationCommands,
-        //   shoppingListModificationCommands: requestedShoppingListModificationCommands,
-        // } = AppWidgetRequestsProcessor.process({
-        //   requests: appWidgetServiceRequests,
-        // });
+        localDispatch(
+          iahla_setNavigationCommands({
+            navigationCommands: generatedNavigationCommands,
+          }),
+        );
+        localDispatch(iahla_setAppIsInitialized({isInitialized: true}));
       };
 
       initializeAppWidget();
     }
   }, [appIsVisible, servicesIsReady]);
 
-  // useEffect(() => {
-  //   if (appIsVisible && servicesIsReady) {
-  //     const initializeAppServices = async () => {
-  //       try {
-  //         const appWidgetService = Services.get(
-  //           Services.serviceTypes.APP_WIDGET,
-  //         );
-  //         const appWidgetServiceRequests = await appWidgetService.getAndRemoveAllWidgetRequests();
-  //         const {
-  //           navigationCommands: requestedNavigationCommands,
-  //           shoppingListModificationCommands: requestedShoppingListModificationCommands,
-  //         } = AppWidgetRequestsProcessor.process({
-  //           requests: appWidgetServiceRequests,
-  //         });
-  //
-  //         localDispatch(
-  //           iahla_setNavigationCommands({
-  //             navigationCommands: requestedNavigationCommands,
-  //             isReady: true,
-  //           }),
-  //         );
-  //         localDispatch(
-  //           iahla_setShoppingListModificationCommands({
-  //             shoppingListModificationCommands: requestedShoppingListModificationCommands,
-  //             isReady: true,
-  //           }),
-  //         );
-  //       } catch (e) {
-  //         SystemEventsHandler.onError({
-  //           err:
-  //             'useInitializeAppHook()->initializeAppServices()->ERROR: ' +
-  //             e.toString(),
-  //         });
-  //       }
-  //     };
-  //
-  //     initializeAppServices();
-  //   }
-  // }, [appIsVisible, servicesIsReady]);
-
-  // useEffect(() => {
-  //   if (servicesIsReady) {
-  //     const loadingCommandExecutable = ({dispatch}) => {
-  //       if (!dispatch) {
-  //         SystemEventsHandler.onError({
-  //           err:
-  //             'useInitializeAppHook()->loadingCommandExecutable(): NO_DISPATCH',
-  //         });
-  //         return;
-  //       }
-  //
-  //       dispatch(loadShoppingListsAction());
-  //     };
-  //
-  //     const loadingCommand = Command({executable: loadingCommandExecutable});
-  //     const generatedLoadingCommands = [loadingCommand];
-  //
-  //     localDispatch(
-  //       iahla_setLoadingCommands({
-  //         loadingCommands: generatedLoadingCommands,
-  //         isReady: true,
-  //       }),
-  //     );
-  //   }
-  // }, [servicesIsReady]);
+  return {appIsInitialized, navigationCommands};
 };
 
 export default useInitializeAppHook;

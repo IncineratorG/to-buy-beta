@@ -38,3 +38,10 @@ export const iahla_setShoppingListModificationCommands = ({
     payload: {shoppingListModificationCommands, isReady},
   };
 };
+
+export const iahla_setAppIsInitialized = ({isInitialized}) => {
+  return {
+    type: InitializeAppHookLocalActionTypes.SET_APP_IS_INITIALIZED,
+    payload: {isInitialized},
+  };
+};

@@ -42,13 +42,12 @@ const OpenShoppingListRequestHandler = () => {
         //     'OpenShoppingListRequestHandler->navigationCommandExecutable->UNDER_ZERO: ' +
         //     listId,
         // });
-
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'ShoppingLists'}],
-        });
-
-        dispatch(updateShoppingListsAction());
+        // navigation.reset({
+        //   index: 0,
+        //   routes: [{name: 'ShoppingLists'}],
+        // });
+        //
+        // dispatch(updateShoppingListsAction());
       } else {
         // SystemEventsHandler.onInfo({
         //   info:
