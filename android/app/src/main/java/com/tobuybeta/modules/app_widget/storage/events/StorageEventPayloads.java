@@ -5,15 +5,12 @@ import android.content.Context;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.InitialShoppingListSetEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.MultipleShoppingListsSetEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.ProductRemovedEventPayload;
+import com.tobuybeta.modules.app_widget.storage.events.payloads.ProductStatusChangedEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.ShoppingListRemovedEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.ShoppingListSetEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.WidgetActiveChangedEventPayload;
 
 import java.util.List;
-
-/**
- * TODO: Add a class header comment
- */
 
 public class StorageEventPayloads {
     public static WidgetActiveChangedEventPayload widgetActiveChangedEventPayload(Context context,
@@ -63,5 +60,15 @@ public class StorageEventPayloads {
     }
     public static ProductRemovedEventPayload toProductRemovedEventPayload(Object value) {
         return (ProductRemovedEventPayload) value;
+    }
+
+    public static ProductStatusChangedEventPayload productStatusChangedEventPayload(Context context,
+                                                                                    String listId,
+                                                                                    String productId,
+                                                                                    String newProductStatus) {
+        return new ProductStatusChangedEventPayload(context, listId, productId, newProductStatus);
+    }
+    public static ProductStatusChangedEventPayload toProductStatusChangedEventPayload(Object value) {
+        return (ProductStatusChangedEventPayload) value;
     }
 }

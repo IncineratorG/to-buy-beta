@@ -10,6 +10,39 @@ public class Product {
     private String mName;
     private String mStatus;
     private static String SEPARATOR = "_-9495537_-";
+    private static Function<String, String> sIdExtractor = (serializedProduct) -> {
+        if (serializedProduct == null) {
+            return "";
+        }
+        String[] productDataArray = serializedProduct.split(SEPARATOR);
+        if (productDataArray.length < 1) {
+            return "";
+        } else {
+            return productDataArray[0];
+        }
+    };
+    private static Function<String, String> sNameExtractor = (serializedProduct) -> {
+        if (serializedProduct == null) {
+            return "";
+        }
+        String[] productDataArray = serializedProduct.split(SEPARATOR);
+        if (productDataArray.length < 2) {
+            return "";
+        } else {
+            return productDataArray[1];
+        }
+    };
+    private static Function<String, String> sStatusExtractor = (serializedProduct) -> {
+        if (serializedProduct == null) {
+            return "";
+        }
+        String[] productDataArray = serializedProduct.split(SEPARATOR);
+        if (productDataArray.length < 3) {
+            return "";
+        } else {
+            return productDataArray[2];
+        }
+    };
 
     public Product() {
         mId = AppWidgetModuleConstants.common.EMPTY_ID;
@@ -62,6 +95,18 @@ public class Product {
         return mStatus;
     }
 
+    public boolean setStatus(String status) {
+        if (status == null || status.isEmpty()) {
+            return false;
+        } else if (!status.equalsIgnoreCase(AppWidgetModuleConstants.productStatus.COMPLETED)
+                    && !status.equalsIgnoreCase(AppWidgetModuleConstants.productStatus.NOT_COMPLETED)) {
+            return false;
+        }
+
+        mStatus = status;
+        return true;
+    }
+
     public static String serialize(Product product) {
         if (product == null) {
             return "";
@@ -74,45 +119,27 @@ public class Product {
         return productId + SEPARATOR + productName + SEPARATOR + productStatus;
     }
 
+    public static Product deserialize(String serializedProduct) {
+        if (serializedProduct == null || serializedProduct.isEmpty()) {
+            return new Product();
+        }
+
+        String productId = sIdExtractor.apply(serializedProduct);
+        String productName = sNameExtractor.apply(serializedProduct);
+        String productStatus = sStatusExtractor.apply(serializedProduct);
+
+        return new Product(productId, Long.parseLong(productId), productName, productStatus);
+    }
+
     public static Function<String, String> serializedIdExtractor() {
-        return (serializedProduct) -> {
-            if (serializedProduct == null) {
-                return "";
-            }
-            String[] productDataArray = serializedProduct.split(SEPARATOR);
-            if (productDataArray.length < 1) {
-                return "";
-            } else {
-                return productDataArray[0];
-            }
-        };
+        return sIdExtractor;
     }
 
     public static Function<String, String> serializedNameExtractor() {
-        return (serializedProduct) -> {
-            if (serializedProduct == null) {
-                return "";
-            }
-            String[] productDataArray = serializedProduct.split(SEPARATOR);
-            if (productDataArray.length < 2) {
-                return "";
-            } else {
-                return productDataArray[1];
-            }
-        };
+        return sNameExtractor;
     }
 
     public static Function<String, String> serializedStatusExtractor() {
-        return (serializedProduct) -> {
-            if (serializedProduct == null) {
-                return "";
-            }
-            String[] productDataArray = serializedProduct.split(SEPARATOR);
-            if (productDataArray.length < 3) {
-                return "";
-            } else {
-                return productDataArray[2];
-            }
-        };
+        return sStatusExtractor;
     }
 }

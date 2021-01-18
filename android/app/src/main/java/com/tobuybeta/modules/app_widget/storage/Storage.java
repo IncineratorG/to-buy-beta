@@ -165,6 +165,22 @@ public class Storage {
                 break;
             }
 
+            case (StorageActionTypes.SET_PRODUCT_STATUS): {
+                Context context = (Context) action.payload().get("context");
+                String listId = (String) action.payload().get("listId");
+                String productId = (String) action.payload().get("productId");
+                String productStatus = (String) action.payload().get("productStatus");
+
+                boolean success = mShoppingListStorage.setProductStatus(context, listId, productId, productStatus);
+                if (success) {
+                    mNotifier.notify(
+                            StorageEvents.PRODUCT_STATUS_CHANGED,
+                            StorageEventPayloads.productStatusChangedEventPayload(context, listId, productId, productStatus)
+                    );
+                }
+                break;
+            }
+
             case (StorageActionTypes.GET_SHOPPING_LISTS): {
                 Context context = (Context) action.payload().get("context");
                 action.complete(mShoppingListStorage.getShoppingLists(context));

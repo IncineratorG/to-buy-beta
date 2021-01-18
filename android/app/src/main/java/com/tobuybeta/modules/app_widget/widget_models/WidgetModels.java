@@ -11,6 +11,7 @@ import com.tobuybeta.modules.app_widget.storage.Storage;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEventPayloads;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEvents;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.ProductRemovedEventPayload;
+import com.tobuybeta.modules.app_widget.storage.events.payloads.ProductStatusChangedEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.ShoppingListRemovedEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.ShoppingListSetEventPayload;
 import com.tobuybeta.modules.app_widget.widget_models.model.WidgetModel;
@@ -33,49 +34,39 @@ public class WidgetModels {
             Context context = payload.context();
 
             update(context);
-//            for (Map.Entry<Integer, WidgetModel> entry : mModels.entrySet()) {
-//                entry.getValue().update(context);
-//            }
 
             MyTestWidget.update(
                     context,
                     AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyTestWidget.class))
             );
-//            Intent intent = new Intent(context, MyTestWidget.class);
-//            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-//            int[] ids = AppWidgetManager.getInstance(context).
-//                    getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
-//            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-//            context.sendBroadcast(intent);
         });
         mStorage.subscribe(StorageEvents.SHOPPING_LIST_REMOVED, (value) -> {
             ShoppingListRemovedEventPayload payload = StorageEventPayloads.toShoppingListRemovedEventPayload(value);
             Context context = payload.context();
 
             update(context);
-//            for (Map.Entry<Integer, WidgetModel> entry : mModels.entrySet()) {
-//                entry.getValue().update(context);
-//            }
 
             MyTestWidget.update(
                     context,
                     AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyTestWidget.class))
             );
-//            Intent intent = new Intent(context, MyTestWidget.class);
-//            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-//            int[] ids = AppWidgetManager.getInstance(context).
-//                    getAppWidgetIds(new ComponentName(context, MyTestWidget.class));
-//            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-//            context.sendBroadcast(intent);
         });
         mStorage.subscribe(StorageEvents.PRODUCT_REMOVED, (value) -> {
             ProductRemovedEventPayload payload = StorageEventPayloads.toProductRemovedEventPayload(value);
             Context context = payload.context();
 
             update(context);
-//            for (Map.Entry<Integer, WidgetModel> entry : mModels.entrySet()) {
-//                entry.getValue().update(context);
-//            }
+
+            MyTestWidget.update(
+                    context,
+                    AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyTestWidget.class))
+            );
+        });
+        mStorage.subscribe(StorageEvents.PRODUCT_STATUS_CHANGED, (value) -> {
+            ProductStatusChangedEventPayload payload = StorageEventPayloads.toProductStatusChangedEventPayload(value);
+            Context context = payload.context();
+
+            update(context);
 
             MyTestWidget.update(
                     context,

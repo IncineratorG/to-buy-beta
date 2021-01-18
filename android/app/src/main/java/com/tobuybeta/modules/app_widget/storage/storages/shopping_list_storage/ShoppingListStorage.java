@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import androidx.arch.core.util.Function;
 
+import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.common.product.Product;
 import com.tobuybeta.modules.app_widget.common.shopping_list.ShoppingList;
@@ -200,6 +201,49 @@ public class ShoppingListStorage {
 
             if (currentProductId.equalsIgnoreCase(productId)) {
                 productsListDescriptionsList.remove(i);
+                break;
+            }
+        }
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putStringSet(listId, new HashSet<>(productsListDescriptionsList));
+
+        return editor.commit();
+    }
+
+    public boolean setProductStatus(Context context,
+                                    String listId,
+                                    String productId,
+                                    String productStatus) {
+        if (context == null) {
+            return false;
+        } else if (listId == null || listId.isEmpty()) {
+            return false;
+        } else if (productId == null || productId.isEmpty()) {
+            return false;
+        } else if (productStatus == null || productStatus.isEmpty()) {
+            return false;
+        } else if (!productStatus.equalsIgnoreCase(AppWidgetModuleConstants.productStatus.COMPLETED)
+                && !productStatus.equalsIgnoreCase(AppWidgetModuleConstants.productStatus.NOT_COMPLETED)) {
+            return false;
+        }
+
+        SharedPreferences sharedPreferences = context
+                .getSharedPreferences(LIST_DATA_FIELD, Context.MODE_PRIVATE);
+        Set<String> productsListDescriptionSet = sharedPreferences
+                .getStringSet(listId, new HashSet<>());
+
+        List<String> productsListDescriptionsList = new ArrayList<>(productsListDescriptionSet);
+        Function<String, String> productIdExtractor = Product.serializedIdExtractor();
+        for (int i = 0; i < productsListDescriptionsList.size(); ++i) {
+            String currentProductDescription = productsListDescriptionsList.get(i);
+            String currentProductId = productIdExtractor.apply(currentProductDescription);
+
+            if (currentProductId.equalsIgnoreCase(productId)) {
+                Product product = Product.deserialize(currentProductDescription);
+                product.setStatus(productStatus);
+                currentProductDescription = Product.serialize(product);
+                productsListDescriptionsList.set(i, currentProductDescription);
                 break;
             }
         }

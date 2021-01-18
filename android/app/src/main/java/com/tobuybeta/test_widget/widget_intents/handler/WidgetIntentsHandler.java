@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.tobuybeta.MainActivity;
+import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.module_requests.requests.MarkProductAsBoughtRequest;
 import com.tobuybeta.modules.app_widget.module_requests.requests.OpenShoppingListRequest;
@@ -173,10 +174,31 @@ public class WidgetIntentsHandler {
                 String productId = intent.getStringExtra(WidgetIntentFields.PRODUCT_ID_FIELD);
                 String productStatus = intent.getStringExtra(WidgetIntentFields.PRODUCT_STATUS_FIELD);
 
-                Toast.makeText(
+                if (listId.isEmpty()) {
+                    break;
+                }  else if (productId == null || productId.isEmpty()) {
+                    break;
+                } else if (productStatus == null || productStatus.isEmpty()) {
+                    break;
+                }
+
+                String newProductStatus = null;
+                if (productStatus.equalsIgnoreCase(AppWidgetModuleConstants.productStatus.NOT_COMPLETED)) {
+                    newProductStatus = AppWidgetModuleConstants.productStatus.COMPLETED;
+                } else {
+                    newProductStatus = AppWidgetModuleConstants.productStatus.NOT_COMPLETED;
+                }
+
+                Storage.get().execute(
+                        StorageActions.setProductStatus(context, listId, productId, newProductStatus)
+                );
+
+                MyTestWidget.update(
                         context,
-                        "ON_PRODUCT_LIST_ITEM_PRESS: " + listId + " - " + productId + " - " + productStatus,
-                        Toast.LENGTH_SHORT).show();
+                        AppWidgetManager.getInstance(context).getAppWidgetIds(
+                                new ComponentName(context, MyTestWidget.class)
+                        )
+                );
                 break;
             }
 
