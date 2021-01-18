@@ -2,8 +2,6 @@ package com.tobuybeta.modules.app_widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
-import android.content.Intent;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +21,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.tobuybeta.modules.app_widget.common.action.Action;
 import com.tobuybeta.modules.app_widget.common.error.Error;
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
-import com.tobuybeta.modules.app_widget.module_actions.payloads.AppWidgetActionPayloads;
+import com.tobuybeta.modules.app_widget.module_actions.payloads.AppWidgetJSActionPayloads;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.RemoveShoppingListPayload;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetInitialShoppingListsPayload;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetMultipleShoppingListsPayload;
@@ -164,7 +162,7 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                     return;
                 }
 
-                SetInitialShoppingListsPayload payload = AppWidgetActionPayloads.setInitialShoppingListsPayload(payloadMap);
+                SetInitialShoppingListsPayload payload = AppWidgetJSActionPayloads.setInitialShoppingListsPayload(payloadMap);
                 if (!payload.isValid()) {
                     Error error = AppWidgetErrors.badPayload();
                     result.reject(error.code(), error.message());
@@ -187,7 +185,7 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                     return;
                 }
 
-                SetShoppingListPayload payload = AppWidgetActionPayloads.setShoppingListPayload(payloadMap);
+                SetShoppingListPayload payload = AppWidgetJSActionPayloads.setShoppingListPayload(payloadMap);
                 if (!payload.isValid()) {
                     Error error = AppWidgetErrors.badPayload();
                     result.reject(error.code(), error.message());
@@ -215,7 +213,7 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                     return;
                 }
 
-                SetMultipleShoppingListsPayload payload = AppWidgetActionPayloads.setMultipleShoppingListsPayload(payloadMap);
+                SetMultipleShoppingListsPayload payload = AppWidgetJSActionPayloads.setMultipleShoppingListsPayload(payloadMap);
                 if (!payload.isValid()) {
                     Error error = AppWidgetErrors.badPayload();
                     result.reject(error.code(), error.message());
@@ -238,7 +236,7 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                     return;
                 }
 
-                RemoveShoppingListPayload payload = AppWidgetActionPayloads.removeShoppingListPayload(payloadMap);
+                RemoveShoppingListPayload payload = AppWidgetJSActionPayloads.removeShoppingListPayload(payloadMap);
                 if (!payload.isValid()) {
                     Error error = AppWidgetErrors.badPayload();
                     result.reject(error.code(), error.message());

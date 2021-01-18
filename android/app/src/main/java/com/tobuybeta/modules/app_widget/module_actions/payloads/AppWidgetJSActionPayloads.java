@@ -6,7 +6,7 @@ import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetInit
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetMultipleShoppingListsPayload;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetShoppingListPayload;
 
-public class AppWidgetActionPayloads {
+public class AppWidgetJSActionPayloads {
     public static SetInitialShoppingListsPayload setInitialShoppingListsPayload(ReadableMap payloadMap) {
         return new SetInitialShoppingListsPayload(payloadMap);
     }

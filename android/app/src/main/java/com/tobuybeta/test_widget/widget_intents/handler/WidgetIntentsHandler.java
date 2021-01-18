@@ -133,6 +133,53 @@ public class WidgetIntentsHandler {
                 break;
             }
 
+            case (WidgetIntentTypes.ON_SHOPPING_LIST_ITEM_PRESS): {
+                int widgetId = intent.getIntExtra(WidgetIntentFields.WIDGET_ID_FIELD, -1);
+                if (widgetId < 0) {
+                    break;
+                }
+
+                String listId = intent.getStringExtra(WidgetIntentFields.LIST_ID_FIELD);
+
+                WidgetModel model = WidgetModels.get().getOrCreate(context, widgetId);
+                if (model == null) {
+                    break;
+                } else if (model.list().listType().equalsIgnoreCase(GeneralizedList.PRODUCTS_LIST)) {
+                    break;
+                }
+                model.loadProductsList(context, listId);
+
+                MyTestWidget.update(
+                        context,
+                        AppWidgetManager.getInstance(context).getAppWidgetIds(
+                                new ComponentName(context, MyTestWidget.class)
+                        )
+                );
+                break;
+            }
+
+            case (WidgetIntentTypes.ON_PRODUCT_LIST_ITEM_PRESS): {
+                int widgetId = intent.getIntExtra(WidgetIntentFields.WIDGET_ID_FIELD, -1);
+                if (widgetId < 0) {
+                    break;
+                }
+
+                WidgetModel model = WidgetModels.get().getOrCreate(context, widgetId);
+                if (model == null) {
+                    break;
+                }
+
+                String listId = model.list().listId();
+                String productId = intent.getStringExtra(WidgetIntentFields.PRODUCT_ID_FIELD);
+                String productStatus = intent.getStringExtra(WidgetIntentFields.PRODUCT_STATUS_FIELD);
+
+                Toast.makeText(
+                        context,
+                        "ON_PRODUCT_LIST_ITEM_PRESS: " + listId + " - " + productId + " - " + productStatus,
+                        Toast.LENGTH_SHORT).show();
+                break;
+            }
+
             default: {
                 return false;
             }

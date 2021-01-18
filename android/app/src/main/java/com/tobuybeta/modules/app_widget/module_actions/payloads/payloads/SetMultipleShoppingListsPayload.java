@@ -16,6 +16,7 @@ public class SetMultipleShoppingListsPayload implements JSPayload {
     private String PRODUCTS_LIST_FIELD = "products";
     private String PRODUCT_ID_FIELD = "id";
     private String PRODUCT_NAME_FIELD = "name";
+    private String PRODUCT_STATUS_FIELD = "completionStatus";
     private boolean mIsValid;
     private List<ShoppingList> mShoppingLists;
 
@@ -56,12 +57,14 @@ public class SetMultipleShoppingListsPayload implements JSPayload {
                 long productIdLong = (long) productObject.getDouble(PRODUCT_ID_FIELD);
                 String productId = String.valueOf(productIdLong);
                 String productName = productObject.getString(PRODUCT_NAME_FIELD);
+                String productStatus = productObject.getString(PRODUCT_STATUS_FIELD);
 
                 if (productId.isEmpty() || productName == null || productName.isEmpty()) {
                     continue;
                 }
 
-                productsList.add(new Product(productId, productIdLong, productName));
+//                productsList.add(new Product(productId, productIdLong, productName));
+                productsList.add(new Product(productId, productIdLong, productName, productStatus));
             }
 
             mShoppingLists.add(new ShoppingList(shoppingListId, shoppingListName, productsList));

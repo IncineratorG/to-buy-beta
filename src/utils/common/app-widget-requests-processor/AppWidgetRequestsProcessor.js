@@ -85,8 +85,11 @@ const AppWidgetRequestsProcessor = () => {
 
     // ********************************
     // 4.******************************
+    // const currentShoppingLists = await shoppingListService.getShoppingListsWithProducts(
+    //   {productsStatus: ProductStatus.NOT_COMPLETED},
+    // );
     const currentShoppingLists = await shoppingListService.getShoppingListsWithProducts(
-      {productsStatus: ProductStatus.NOT_COMPLETED},
+      {},
     );
 
     const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);

@@ -4,11 +4,8 @@ import androidx.arch.core.util.Function;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-
-/**
- * TODO: Add a class header comment
- */
 
 public class GeneralizedList {
     public static final String UNKNOWN = "UNKNOWN";
@@ -21,6 +18,7 @@ public class GeneralizedList {
     private List<String> mList;
     private Function<String, String> mItemIdExtractor;
     private Function<String, String> mItemNameExtractor;
+    private Function<String, String> mItemStatusExtractor;
     private boolean mIsEmpty;
 
     public GeneralizedList() {
@@ -28,6 +26,7 @@ public class GeneralizedList {
         mList = new ArrayList<>();
         mItemIdExtractor = (description) -> "";
         mItemNameExtractor = (description) -> "";
+        mItemStatusExtractor = (description) -> "";
         mIsEmpty = true;
         mListType = UNKNOWN;
     }
@@ -37,20 +36,34 @@ public class GeneralizedList {
                            List<String> list,
                            String listType,
                            Function<String, String> itemIdExtractor,
-                           Function<String, String> itemNameExtractor) {
+                           Function<String, String> itemNameExtractor,
+                           Function<String, String> itemStatusExtractor) {
         mListId = listId;
         mTitle = title;
         mList = list;
-        Collections.sort(mList);
-        Collections.reverse(mList);
         mItemIdExtractor = itemIdExtractor;
         mItemNameExtractor = itemNameExtractor;
+        mItemStatusExtractor = itemStatusExtractor;
         mIsEmpty = false;
         if (listType.equalsIgnoreCase(ALL_SHOPPING_LISTS) || listType.equalsIgnoreCase(PRODUCTS_LIST)) {
             mListType = listType;
         } else {
             mListType = UNKNOWN;
         }
+
+        Collections.sort(mList, (str1, str2) -> {
+            String str1Name = mItemNameExtractor.apply(str1);
+            String str2Name = mItemNameExtractor.apply(str2);
+
+            String str1Status = mItemStatusExtractor.apply(str1);
+            String str2Status = mItemStatusExtractor.apply(str2);
+
+            if (str1Status.equalsIgnoreCase(str2Status)) {
+                return str1Name.compareTo(str2Name);
+            }
+
+            return str2Status.compareTo(str1Status);
+        });
     }
 
     public boolean isEmpty() {
@@ -79,5 +92,9 @@ public class GeneralizedList {
 
     public String name(int index) {
         return mItemNameExtractor.apply(mList.get(index));
+    }
+
+    public String status(int index) {
+        return mItemStatusExtractor.apply(mList.get(index));
     }
 }

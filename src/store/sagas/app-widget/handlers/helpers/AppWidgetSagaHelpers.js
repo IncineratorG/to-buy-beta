@@ -10,7 +10,6 @@ const AppWidgetSagaHelpers = () => {
 
     const shoppingListData = await shoppingListService.getProductsList({
       id: shoppingListId,
-      productStatus: ProductStatus.NOT_COMPLETED,
     });
     if (!shoppingListData || !shoppingListData.id) {
       SystemEventsHandler.onError({
@@ -18,6 +17,11 @@ const AppWidgetSagaHelpers = () => {
           'AppWidgetSagaHelpers->getShoppingListData(): BAD_SHOPPING_LIST_DATA',
       });
       return null;
+    }
+
+    if (shoppingListData.products && shoppingListData.products.length > 0) {
+      const product = shoppingListData.products[0];
+      SystemEventsHandler.onInfo({info: 'PRODUCT: ' + JSON.stringify(product)});
     }
 
     // ===

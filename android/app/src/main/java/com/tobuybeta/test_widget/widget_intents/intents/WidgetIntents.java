@@ -47,6 +47,29 @@ public class WidgetIntents {
         return PendingIntent.getBroadcast(context, 0, coveringIntent, 0);
     }
 
+    // ===
+    public static Intent onShoppingListItemPressFillInIntent(int widgetId, String listId) {
+        Intent shoppingListItemPressIntent = new Intent();
+
+        shoppingListItemPressIntent.putExtra(WidgetIntentFields.TYPE_FIELD, WidgetIntentTypes.ON_SHOPPING_LIST_ITEM_PRESS);
+        shoppingListItemPressIntent.putExtra(WidgetIntentFields.WIDGET_ID_FIELD, widgetId);
+        shoppingListItemPressIntent.putExtra(WidgetIntentFields.LIST_ID_FIELD, listId);
+
+        return shoppingListItemPressIntent;
+    }
+
+    public static Intent onProductListItemPressFillInIntent(int widgetId, String productId, String productStatus) {
+        Intent productListItemPressIntent = new Intent();
+
+        productListItemPressIntent.putExtra(WidgetIntentFields.TYPE_FIELD, WidgetIntentTypes.ON_PRODUCT_LIST_ITEM_PRESS);
+        productListItemPressIntent.putExtra(WidgetIntentFields.WIDGET_ID_FIELD, widgetId);
+        productListItemPressIntent.putExtra(WidgetIntentFields.PRODUCT_ID_FIELD, productId);
+        productListItemPressIntent.putExtra(WidgetIntentFields.PRODUCT_STATUS_FIELD, productStatus);
+
+        return productListItemPressIntent;
+    }
+    // ===
+
     public static Intent onListItemPressFillInIntent(int widgetId, String listId) {
         Intent listItemPressIntent = new Intent();
 
