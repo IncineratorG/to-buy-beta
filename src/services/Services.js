@@ -4,6 +4,7 @@ import ProductSuggestionService from './product-suggestion/ProductSuggestionServ
 import SystemService from './system/SystemService';
 import ProductsLocationService from './products-location/ProductsLocationService';
 import AppWidgetService from './app-widget/AppWidgetService';
+import ProductStatus from './shopping-list/data/product-status/ProductStatus';
 
 class ServicesInstance {
   serviceTypes = {
@@ -38,6 +39,13 @@ class ServicesInstance {
     await this.#shareService.init();
     await this.#productSuggestionService.init();
     await this.#productsLocationService.init();
+
+    // ===
+    // const shoppingListsWithProducts = await this.#shoppingListService.getShoppingListsWithProducts(
+    //   {productsStatus: ProductStatus.NOT_COMPLETED},
+    // );
+    // ===
+    // const shoppingListsNoProducts = await this.#shoppingListService.getShoppingLists();
     await this.#appWidgetService.init();
   }
 

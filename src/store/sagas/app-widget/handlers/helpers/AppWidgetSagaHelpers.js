@@ -20,6 +20,12 @@ const AppWidgetSagaHelpers = () => {
       return null;
     }
 
+    // ===
+    // shoppingListData.products.forEach((product) => {
+    //   SystemEventsHandler.onInfo({info: JSON.stringify(product)});
+    // });
+    // ===
+
     return {
       listId: shoppingListData.id,
       listName: shoppingListData.name,

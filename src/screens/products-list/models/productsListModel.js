@@ -104,6 +104,20 @@ export const useProductsListModel = () => {
   }, [listLoading, unitsLoading, categoriesLoading]);
 
   // ===
+  // =======
+  // useEffect(() => {
+  //   SystemEventsHandler.onInfo({info: ''});
+  //   SystemEventsHandler.onInfo({info: '======='});
+  //   products.forEach((product) => {
+  //     SystemEventsHandler.onInfo({info: JSON.stringify(product)});
+  //   });
+  //   SystemEventsHandler.onInfo({info: '======='});
+  //   SystemEventsHandler.onInfo({info: ''});
+  // }, [products]);
+  // =======
+  // ===
+
+  // ===
   useEffect(() => {
     if (categoriesLoading || listLoading) {
       return;

@@ -3,6 +3,7 @@ package com.tobuybeta.modules.app_widget.common.generalized_list;
 import androidx.arch.core.util.Function;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,6 +41,8 @@ public class GeneralizedList {
         mListId = listId;
         mTitle = title;
         mList = list;
+        Collections.sort(mList);
+        Collections.reverse(mList);
         mItemIdExtractor = itemIdExtractor;
         mItemNameExtractor = itemNameExtractor;
         mIsEmpty = false;

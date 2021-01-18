@@ -506,7 +506,19 @@ export const productsListReducer = (state = initialState, action) => {
     }
 
     case CHANGE_MULTIPLE_PRODUCTS_STATUS_CONFIRMED: {
+      // SystemEventsHandler.onInfo({
+      //   info: '=== (0) CHANGE_MULTIPLE_PRODUCTS_STATUS_CONFIRMED ===',
+      // });
+
       if (action.payload.shoppingListId !== state.productsList.id) {
+        // SystemEventsHandler.onInfo({
+        //   info:
+        //     '=== (1) CHANGE_MULTIPLE_PRODUCTS_STATUS_CONFIRMED === ' +
+        //     action.payload.shoppingListId +
+        //     ' - ' +
+        //     state.productsList.id,
+        // });
+
         return state;
       }
 
@@ -530,6 +542,10 @@ export const productsListReducer = (state = initialState, action) => {
         }
         return product;
       });
+
+      // SystemEventsHandler.onInfo({
+      //   info: '=== (2) CHANGE_MULTIPLE_PRODUCTS_STATUS_CONFIRMED ===',
+      // });
 
       return {
         ...state,

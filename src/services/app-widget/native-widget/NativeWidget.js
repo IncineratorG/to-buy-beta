@@ -7,6 +7,13 @@ const NativeWidget = () => {
     return await AppWidget.execute(action);
   };
 
+  const setInitialShoppingLists = async ({shoppingLists}) => {
+    const action = NativeWidgetActions.setInitialShoppingListsAction({
+      shoppingLists,
+    });
+    return AppWidget.execute(action);
+  };
+
   const setShoppingList = async ({listId, listName, productsList}) => {
     const action = NativeWidgetActions.setShoppingListAction({
       listId,
@@ -16,15 +23,36 @@ const NativeWidget = () => {
     return await AppWidget.execute(action);
   };
 
+  const setMultipleShoppingLists = async ({shoppingLists}) => {
+    const action = NativeWidgetActions.setMultipleShoppingListsAction({
+      shoppingLists,
+    });
+    return await AppWidget.execute(action);
+  };
+
   const removeShoppingList = async ({listId}) => {
     const action = NativeWidgetActions.removeShoppingListAction({listId});
     return await AppWidget.execute(action);
   };
 
+  const getWidgetRequests = async () => {
+    const action = NativeWidgetActions.getWidgetRequestsAction();
+    return await AppWidget.execute(action);
+  };
+
+  const getAndRemoveAllWidgetRequests = async () => {
+    const action = NativeWidgetActions.getAndRemoveAllWidgetRequestsAction();
+    return await AppWidget.execute(action);
+  };
+
   return {
     getWidgetStatus,
+    setInitialShoppingLists,
     setShoppingList,
+    setMultipleShoppingLists,
     removeShoppingList,
+    getWidgetRequests,
+    getAndRemoveAllWidgetRequests,
   };
 };
 

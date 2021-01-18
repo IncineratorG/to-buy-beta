@@ -15,11 +15,13 @@ import productsLocationSaga from './products-location/productsLocationSaga';
 import productsLocationEventsSaga from './products-location/productsLocationEventsSaga';
 import appWidgetSaga from './app-widget/appWidgetSaga';
 import appWidgetEventsSaga from './app-widget/appWidgetEventsSaga';
+import shoppingListsEventsSaga from './shopping-lists/shoppingListsEventsSaga';
 
 function* rootSaga() {
   const sagas = [
     testSaga,
     shoppingListsSaga,
+    shoppingListsEventsSaga,
     productsListSaga,
     productEventsSaga,
     unitsSaga,

@@ -2,10 +2,6 @@ package com.tobuybeta.modules.app_widget.storage.events.payloads;
 
 import android.content.Context;
 
-/**
- * TODO: Add a class header comment
- */
-
 public class ShoppingListRemovedEventPayload {
     private Context mContext;
     private String mListId;

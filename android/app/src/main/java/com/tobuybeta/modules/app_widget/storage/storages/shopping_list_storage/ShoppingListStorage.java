@@ -2,15 +2,22 @@ package com.tobuybeta.modules.app_widget.storage.storages.shopping_list_storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import androidx.arch.core.util.Function;
 
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.common.product.Product;
+import com.tobuybeta.modules.app_widget.common.shopping_list.ShoppingList;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ShoppingListStorage {
@@ -21,10 +28,69 @@ public class ShoppingListStorage {
 
     }
 
+    public boolean initializeStorageWithShoppingLists(Context context, List<ShoppingList> shoppingLists) {
+        if (context == null) {
+            return false;
+        }
+
+        List<String> shoppingListsDescriptionsList = new ArrayList<>();
+        Map<String, Set<String>> shoppingListProductsDescriptions = new HashMap<>();
+        for (int i = 0; i < shoppingLists.size(); ++i) {
+            ShoppingList shoppingList = shoppingLists.get(i);
+            List<Product> productsList = shoppingList.productsList();
+
+            Set<String> productsDescriptionsSet = new HashSet<>();
+            for (int j = 0; j < productsList.size(); ++j) {
+                Product product = productsList.get(j);
+                String productId = product.getId();
+                String productName = product.getName();
+
+                String productDescription = productId + " " + productName;
+                productsDescriptionsSet.add(productDescription);
+            }
+            shoppingListProductsDescriptions.put(shoppingList.listId(), productsDescriptionsSet);
+
+            String currentShoppingListDescription = shoppingList.listId() + " " + shoppingList.listName();
+            shoppingListsDescriptionsList.add(currentShoppingListDescription);
+        }
+
+        SharedPreferences.Editor editor = context.getSharedPreferences(LIST_DATA_FIELD, Context.MODE_PRIVATE).edit();
+
+        editor.clear();
+        editor.putStringSet(SHOPPING_LISTS_FIELD, new HashSet<>(shoppingListsDescriptionsList));
+
+        List<String> shoppingListsIds = new ArrayList<>(shoppingListProductsDescriptions.keySet());
+        for (int i = 0; i < shoppingListsIds.size(); ++i) {
+            String listId = shoppingListsIds.get(i);
+            Set<String> productsDescriptionsSet = shoppingListProductsDescriptions.get(listId);
+
+            editor.putStringSet(listId, productsDescriptionsSet);
+        }
+
+        return editor.commit();
+    }
+
     public boolean setShoppingList(Context context,
                                    String listId,
                                    String listName,
                                    List<Product> productsList) {
+//        Collections.sort(productsList, new Comparator<Product>() {
+//            @Override
+//            public int compare(Product product1, Product product2) {
+//                return product2.getIntId() - product1.getIntId();
+//            }
+//        });
+
+        // ===
+//        int[] data = new int[] { 5, 4, 2, 1, 3 };
+//        Arrays.sort(data, new Comparator<Integer>() {
+//            public int compare(Integer o1, Integer o2) {
+//                // Intentional: Reverse order for this demo
+//                return o2.compareTo(o1);
+//            }
+//        });
+        // ===
+
         if (context == null) {
             return false;
         } else if (listId == null || listId.isEmpty()) {
@@ -78,7 +144,24 @@ public class ShoppingListStorage {
         editor.putStringSet(listId, productDescriptionsSet);
         editor.putStringSet(SHOPPING_LISTS_FIELD, existedShoppingListDescriptionsSet);
 
-        editor.commit();
+        return editor.commit();
+    }
+
+    public boolean setMultipleShoppingLists(Context context, List<ShoppingList> shoppingLists) {
+        if (context == null) {
+            return false;
+        }
+
+        for (int i = 0; i < shoppingLists.size(); ++i) {
+            ShoppingList shoppingList = shoppingLists.get(i);
+
+            setShoppingList(
+                    context,
+                    shoppingList.listId(),
+                    shoppingList.listName(),
+                    shoppingList.productsList()
+            );
+        }
 
         return true;
     }
@@ -94,8 +177,6 @@ public class ShoppingListStorage {
                 .getSharedPreferences(LIST_DATA_FIELD, Context.MODE_PRIVATE);
         Set<String> existedShoppingListDescriptionsSet = sharedPreferences
                 .getStringSet(SHOPPING_LISTS_FIELD, new HashSet<>());
-//        Set<String> productListDescriptionSet = sharedPreferences
-//                .getStringSet(listId, new HashSet<>());
 
         List<String> existedShoppingListDescriptionsList = new ArrayList<>(existedShoppingListDescriptionsSet);
         String removedShoppingListDescription = null;
@@ -122,9 +203,37 @@ public class ShoppingListStorage {
         editor.putStringSet(SHOPPING_LISTS_FIELD, existedShoppingListDescriptionsSet);
         editor.remove(listId);
 
-        editor.commit();
+        return editor.commit();
+    }
 
-        return true;
+    public boolean removeProduct(Context context, String listId, String productId) {
+        if (context == null) {
+            return false;
+        } else if (listId == null || listId.isEmpty()) {
+            return false;
+        } else if (productId == null || productId.isEmpty()) {
+            return false;
+        }
+
+        SharedPreferences sharedPreferences = context
+                .getSharedPreferences(LIST_DATA_FIELD, Context.MODE_PRIVATE);
+        Set<String> productsListDescriptionsSet = sharedPreferences
+                .getStringSet(listId, new HashSet<>());
+
+        List<String> productsListDescriptionsList = new ArrayList<>(productsListDescriptionsSet);
+        for (int i = 0; i < productsListDescriptionsList.size(); ++i) {
+            String currentProductDescription = productsListDescriptionsList.get(i);
+            String currentProductId = currentProductDescription.substring(0, currentProductDescription.indexOf(" "));
+            if (currentProductId.equalsIgnoreCase(productId)) {
+                productsListDescriptionsList.remove(i);
+                break;
+            }
+        }
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putStringSet(listId, new HashSet<>(productsListDescriptionsList));
+
+        return editor.commit();
     }
 
     public GeneralizedList getShoppingLists(Context context) {

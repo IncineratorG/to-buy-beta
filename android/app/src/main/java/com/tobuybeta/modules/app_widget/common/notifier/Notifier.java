@@ -35,7 +35,7 @@ public class Notifier {
 
     public void notify(String eventType, Object data) {
         for (Subscription s : mSubscriptions) {
-            if (s.getEventType().equals(eventType)) {
+            if (s != null && s.getEventType().equals(eventType)) {
                 s.handleEvent(data);
             }
         }

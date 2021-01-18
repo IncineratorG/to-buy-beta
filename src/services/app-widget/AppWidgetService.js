@@ -13,10 +13,23 @@ const AppWidgetService = () => {
     SystemEventsHandler.onInfo({
       info: 'WIDGET_ACTIVE: ' + JSON.stringify(result),
     });
+
+    // shoppingLists.forEach((shoppingList) => {
+    //   SystemEventsHandler.onInfo({info: JSON.stringify(shoppingList)});
+    // });
   };
 
   const subscribe = ({event, handler}) => {
     return notifier.subscribe({event, handler});
+  };
+
+  const setInitialShoppingLists = async ({shoppingLists}) => {
+    SystemEventsHandler.onInfo({
+      info:
+        'AppWidgetService->setInitialShoppingLists(): ' + shoppingLists.length,
+    });
+
+    return await widget.setInitialShoppingLists({shoppingLists});
   };
 
   const setShoppingList = async ({listId, listName, productsList}) => {
@@ -33,6 +46,15 @@ const AppWidgetService = () => {
     return await widget.setShoppingList({listId, listName, productsList});
   };
 
+  const setMultipleShoppingLists = async ({shoppingLists}) => {
+    SystemEventsHandler.onInfo({
+      info:
+        'AppWidgetService->setMultipleShoppingLists(): ' + shoppingLists.length,
+    });
+
+    return await widget.setMultipleShoppingLists({shoppingLists});
+  };
+
   const removeShoppingList = async ({listId}) => {
     SystemEventsHandler.onInfo({
       info: 'AppWidgetService->removeShoppingList(): ' + listId,
@@ -41,11 +63,31 @@ const AppWidgetService = () => {
     return await widget.removeShoppingList({listId});
   };
 
+  const getWidgetRequests = async () => {
+    SystemEventsHandler.onInfo({
+      info: 'AppWidgetService->getWidgetRequests()',
+    });
+
+    return await widget.getWidgetRequests();
+  };
+
+  const getAndRemoveAllWidgetRequests = async () => {
+    SystemEventsHandler.onInfo({
+      info: 'AppWidgetService->getAndRemoveAllWidgetRequests()',
+    });
+
+    return await widget.getAndRemoveAllWidgetRequests();
+  };
+
   return {
     init,
     subscribe,
+    setInitialShoppingLists,
     setShoppingList,
+    setMultipleShoppingLists,
     removeShoppingList,
+    getWidgetRequests,
+    getAndRemoveAllWidgetRequests,
   };
 };
 

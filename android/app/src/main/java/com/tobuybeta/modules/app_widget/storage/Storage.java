@@ -1,6 +1,7 @@
 package com.tobuybeta.modules.app_widget.storage;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.tobuybeta.modules.app_widget.common.action.Action;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
@@ -8,12 +9,15 @@ import com.tobuybeta.modules.app_widget.common.notifier.Notifier;
 import com.tobuybeta.modules.app_widget.common.notifier.event_handler.EventHandler;
 import com.tobuybeta.modules.app_widget.common.notifier.unsubscribe_handler.UnsubscribeHandler;
 import com.tobuybeta.modules.app_widget.common.product.Product;
+import com.tobuybeta.modules.app_widget.common.shopping_list.ShoppingList;
+import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActionTypes;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEventPayloads;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEvents;
 import com.tobuybeta.modules.app_widget.storage.storages.shopping_list_storage.ShoppingListStorage;
 import com.tobuybeta.modules.app_widget.storage.storages.widget_storage.WidgetStorage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,6 +78,26 @@ public class Storage {
                 break;
             }
 
+            case (StorageActionTypes.SET_INITIAL_SHOPPING_LISTS): {
+                Context context = (Context) action.payload().get("context");
+                List<ShoppingList> shoppingLists = (List<ShoppingList>) action.payload().get("shoppingLists");
+
+                boolean success = mShoppingListStorage.initializeStorageWithShoppingLists(context, shoppingLists);
+
+                if (success) {
+                    List<String> listIds = new ArrayList<>(shoppingLists.size());
+                    for (int i = 0; i < shoppingLists.size(); ++i) {
+                        listIds.add(shoppingLists.get(i).listId());
+                    }
+
+                    mNotifier.notify(
+                            StorageEvents.INITIAL_SHOPPING_LISTS_SET,
+                            StorageEventPayloads.initialShoppingListSetEventPayload(context, listIds)
+                    );
+                }
+                break;
+            }
+
             case (StorageActionTypes.SET_SHOPPING_LIST): {
                 Context context = (Context) action.payload().get("context");
                 String listId = (String) action.payload().get("listId");
@@ -87,6 +111,26 @@ public class Storage {
                     mNotifier.notify(
                             StorageEvents.SHOPPING_LIST_SET,
                             StorageEventPayloads.shoppingListSetEventPayload(context, listId)
+                    );
+                }
+                break;
+            }
+
+            case (StorageActionTypes.SET_MULTIPLE_SHOPPING_LISTS): {
+                Context context = (Context) action.payload().get("context");
+                List<ShoppingList> shoppingLists = (List<ShoppingList>) action.payload().get("shoppingLists");
+
+                boolean success = mShoppingListStorage.setMultipleShoppingLists(context, shoppingLists);
+
+                if (success) {
+                    List<String> listIds = new ArrayList<>(shoppingLists.size());
+                    for (int i = 0; i < shoppingLists.size(); ++i) {
+                        listIds.add(shoppingLists.get(i).listId());
+                    }
+
+                    mNotifier.notify(
+                            StorageEvents.MULTIPLE_SHOPPING_LISTS_SET,
+                            StorageEventPayloads.multipleShoppingListsSetPayload(context, listIds)
                     );
                 }
                 break;
@@ -106,6 +150,21 @@ public class Storage {
                 break;
             }
 
+            case (StorageActionTypes.REMOVE_PRODUCT): {
+                Context context = (Context) action.payload().get("context");
+                String listId = (String) action.payload().get("listId");
+                String productId = (String) action.payload().get("productId");
+
+                boolean success = mShoppingListStorage.removeProduct(context, listId, productId);
+                if (success) {
+                    mNotifier.notify(
+                            StorageEvents.PRODUCT_REMOVED,
+                            StorageEventPayloads.productRemovedEventPayload(context, listId, productId)
+                    );
+                }
+                break;
+            }
+
             case (StorageActionTypes.GET_SHOPPING_LISTS): {
                 Context context = (Context) action.payload().get("context");
                 action.complete(mShoppingListStorage.getShoppingLists(context));
@@ -117,6 +176,54 @@ public class Storage {
                 String listId = (String) action.payload().get("listId");
 
                 action.complete(mShoppingListStorage.getProductsList(context, listId));
+                break;
+            }
+
+            case (StorageActionTypes.SET_WIDGET_LIST_INFO): {
+                Context context = (Context) action.payload().get("context");
+                int widgetId = (int) action.payload().get("widgetId");
+                String listId = (String) action.payload().get("listId");
+                String listType = (String) action.payload().get("listType");
+
+                mWidgetStorage.setWidgetListInfo(context, widgetId, listId, listType);
+                break;
+            }
+
+            case (StorageActionTypes.REMOVE_WIDGET_LIST_INFO): {
+                Context context = (Context) action.payload().get("context");
+                int widgetId = (int) action.payload().get("widgetId");
+
+                mWidgetStorage.removeWidgetListInfo(context, widgetId);
+                break;
+            }
+
+            case (StorageActionTypes.GET_WIDGET_LIST_INFO): {
+                Context context = (Context) action.payload().get("context");
+                int widgetId = (int) action.payload().get("widgetId");
+
+                action.complete(mWidgetStorage.getWidgetListInfo(context, widgetId));
+                break;
+            }
+
+            case (StorageActionTypes.SET_WIDGET_REQUEST): {
+                Context context = (Context) action.payload().get("context");
+                WidgetRequest widgetRequest = (WidgetRequest) action.payload().get("widgetRequest");
+
+                mWidgetStorage.setWidgetRequest(context, widgetRequest);
+                break;
+            }
+
+            case (StorageActionTypes.REMOVE_ALL_WIDGET_REQUESTS): {
+                Context context = (Context) action.payload().get("context");
+
+                mWidgetStorage.removeAllWidgetRequests(context);
+                break;
+            }
+
+            case (StorageActionTypes.GET_ALL_WIDGET_REQUESTS): {
+                Context context = (Context) action.payload().get("context");
+
+                action.complete(mWidgetStorage.getAllWidgetRequests(context));
                 break;
             }
 
