@@ -8,19 +8,24 @@ import com.tobuybeta.modules.app_widget.module_requests.types.WidgetRequestTypes
 import java.util.UUID;
 
 public class OpenShoppingListRequest implements WidgetRequest {
+    public String LIST_ID_PAYLOAD_FIELD = "listId";
+
     private String mId;
     private String mTimestamp;
     private String mType;
     private String mListId;
+    private WidgetRequestPayload mPayload;
 
     public OpenShoppingListRequest(String listId) {
         mId = UUID.randomUUID().toString();
         mTimestamp = String.valueOf(System.currentTimeMillis());
         mType = WidgetRequestTypes.OPEN_SHOPPING_LIST_REQUEST;
+
+        mPayload = new WidgetRequestPayload();
         if (listId.isEmpty()) {
-            mListId = AppWidgetModuleConstants.common.EMPTY_ID;
+            mPayload.set(LIST_ID_PAYLOAD_FIELD, AppWidgetModuleConstants.common.EMPTY_ID);
         } else {
-            mListId = listId;
+            mPayload.set(LIST_ID_PAYLOAD_FIELD, listId);
         }
     }
 
@@ -28,7 +33,9 @@ public class OpenShoppingListRequest implements WidgetRequest {
         mId = id;
         mTimestamp = timestamp;
         mType = type;
-        mListId = listId;
+
+        mPayload = new WidgetRequestPayload();
+        mPayload.set(LIST_ID_PAYLOAD_FIELD, listId);
     }
 
     @Override
@@ -48,10 +55,6 @@ public class OpenShoppingListRequest implements WidgetRequest {
 
     @Override
     public WidgetRequestPayload payload() {
-        return null;
-    }
-
-    public String listId() {
-        return mListId;
+        return mPayload;
     }
 }

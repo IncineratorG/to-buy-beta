@@ -7,18 +7,22 @@ import com.tobuybeta.modules.app_widget.module_requests.types.WidgetRequestTypes
 import java.util.UUID;
 
 public class MarkProductAsBoughtRequest implements WidgetRequest {
+    public String LIST_ID_PAYLOAD_FIELD = "listId";
+    public String PRODUCT_ID_PAYLOAD_FIELD = "productId";
+
     private String mId;
     private String mTimestamp;
     private String mType;
-    private String mListId;
-    private String mProductId;
+    private WidgetRequestPayload mPayload;
 
     public MarkProductAsBoughtRequest(String listId, String productId) {
         mId = UUID.randomUUID().toString();
         mTimestamp = String.valueOf(System.currentTimeMillis());
         mType = WidgetRequestTypes.MARK_PRODUCT_AS_BOUGHT_REQUEST;
-        mListId = listId;
-        mProductId = productId;
+
+        mPayload = new WidgetRequestPayload();
+        mPayload.set(LIST_ID_PAYLOAD_FIELD, listId);
+        mPayload.set(PRODUCT_ID_PAYLOAD_FIELD, productId);
     }
 
     public MarkProductAsBoughtRequest(String id,
@@ -29,8 +33,10 @@ public class MarkProductAsBoughtRequest implements WidgetRequest {
         mId = id;
         mTimestamp = timestamp;
         mType = type;
-        mListId = listId;
-        mProductId = productId;
+
+        mPayload = new WidgetRequestPayload();
+        mPayload.set(LIST_ID_PAYLOAD_FIELD, listId);
+        mPayload.set(PRODUCT_ID_PAYLOAD_FIELD, productId);
     }
 
     @Override
@@ -50,14 +56,6 @@ public class MarkProductAsBoughtRequest implements WidgetRequest {
 
     @Override
     public WidgetRequestPayload payload() {
-        return null;
-    }
-
-    public String listId() {
-        return mListId;
-    }
-
-    public String productId() {
-        return mProductId;
+        return mPayload;
     }
 }

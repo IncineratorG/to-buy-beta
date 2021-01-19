@@ -25,15 +25,22 @@ public class MarkProductAsBoughtRequestConverter implements WidgetRequestConvert
 
         MarkProductAsBoughtRequest markProductAsBoughtRequest = (MarkProductAsBoughtRequest) request;
 
+        String listId = (String) markProductAsBoughtRequest
+                .payload()
+                .get(markProductAsBoughtRequest.LIST_ID_PAYLOAD_FIELD);
+        String productId = (String) markProductAsBoughtRequest
+                .payload()
+                .get(markProductAsBoughtRequest.PRODUCT_ID_PAYLOAD_FIELD);
+
         return markProductAsBoughtRequest.id()
                 + SEPARATOR
                 + markProductAsBoughtRequest.timestamp()
                 + SEPARATOR
                 + markProductAsBoughtRequest.type()
                 + SEPARATOR
-                + markProductAsBoughtRequest.listId()
+                + listId
                 + SEPARATOR
-                + markProductAsBoughtRequest.productId();
+                + productId;
     }
 
     @Override
@@ -75,8 +82,12 @@ public class MarkProductAsBoughtRequestConverter implements WidgetRequestConvert
         String id = markProductAsBoughtRequest.id();
         String type = markProductAsBoughtRequest.type();
         String timestamp = markProductAsBoughtRequest.timestamp();
-        String listId = markProductAsBoughtRequest.listId();
-        String productId = markProductAsBoughtRequest.productId();
+        String listId = (String) markProductAsBoughtRequest
+                .payload()
+                .get(markProductAsBoughtRequest.LIST_ID_PAYLOAD_FIELD);
+        String productId = (String) markProductAsBoughtRequest
+                .payload()
+                .get(markProductAsBoughtRequest.PRODUCT_ID_PAYLOAD_FIELD);
 
         WritableMap jsObjectMap = new WritableNativeMap();
         jsObjectMap.putString(WidgetRequestFields.ID, id);
