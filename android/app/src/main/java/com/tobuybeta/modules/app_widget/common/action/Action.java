@@ -2,10 +2,6 @@ package com.tobuybeta.modules.app_widget.common.action;
 
 import java.util.UUID;
 
-/**
- * TODO: Add a class header comment
- */
-
 public class Action {
     private UUID mUuid;
     private String mType;

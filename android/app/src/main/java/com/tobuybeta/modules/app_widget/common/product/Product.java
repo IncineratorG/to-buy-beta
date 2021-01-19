@@ -9,7 +9,7 @@ public class Product {
     private long mIntId;
     private String mName;
     private String mStatus;
-    private static String SEPARATOR = "_-9495537_-";
+    private static String SEPARATOR = AppWidgetModuleConstants.common.SEPARATOR;
     private static Function<String, String> sIdExtractor = (serializedProduct) -> {
         if (serializedProduct == null) {
             return "";

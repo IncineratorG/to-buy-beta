@@ -35,10 +35,16 @@ const AppWidgetRequestsProcessor = () => {
     requests.forEach((request) => {
       switch (request.type) {
         case OPEN_SHOPPING_LIST_REQUEST: {
-          const {navigationCommand} = openShoppingListRequestHandler.handle({
+          openShoppingListRequestHandler.handle({
             request,
           });
-          navigationCommands.push(navigationCommand);
+
+          // const {navigationCommand} = openShoppingListRequestHandler.handle({
+          //   request,
+          // });
+          // if (navigationCommand) {
+          //   navigationCommands.push(navigationCommand);
+          // }
           break;
         }
 

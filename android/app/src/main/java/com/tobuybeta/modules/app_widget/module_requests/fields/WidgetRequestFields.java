@@ -1,9 +1,5 @@
 package com.tobuybeta.modules.app_widget.module_requests.fields;
 
-/**
- * TODO: Add a class header comment
- */
-
 public class WidgetRequestFields {
     public static final String ID = "id";
     public static final String TYPE = "type";

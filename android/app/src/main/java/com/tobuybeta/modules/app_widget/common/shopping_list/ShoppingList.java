@@ -12,7 +12,7 @@ public class ShoppingList {
     private String mListId;
     private String mListName;
     private List<Product> mProductsList;
-    private static String SEPARATOR = "_-9495537_-";;
+    private static String SEPARATOR = AppWidgetModuleConstants.common.SEPARATOR;;
 
     public ShoppingList() {
         mListId = AppWidgetModuleConstants.common.EMPTY_ID;
