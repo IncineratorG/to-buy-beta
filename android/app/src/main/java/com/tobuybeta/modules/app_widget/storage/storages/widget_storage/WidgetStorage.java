@@ -2,14 +2,20 @@ package com.tobuybeta.modules.app_widget.storage.storages.widget_storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.Toast;
+
+import androidx.arch.core.util.Function;
+import androidx.core.util.Supplier;
 
 import com.tobuybeta.modules.app_widget.common.widget_list_info.WidgetListInfo;
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
+import com.tobuybeta.modules.app_widget.module_requests.requests.ChangeProductStatusRequest;
 import com.tobuybeta.modules.app_widget.module_requests.transformer.WidgetRequestTransformer;
 import com.tobuybeta.modules.app_widget.module_requests.types.WidgetRequestTypes;
+import com.tobuybeta.modules.app_widget.storage.storages.widget_storage.commands.StorageWidgetRequestCommands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -110,95 +116,171 @@ public class WidgetStorage {
     }
 
     public boolean setWidgetRequest(Context context, WidgetRequest request) {
-        if (context == null) {
-            return false;
+        if (!request.type().equalsIgnoreCase(WidgetRequestTypes.CHANGE_PRODUCT_STATUS_REQUEST)) {
+            Supplier<Boolean> saveRequestCommand = StorageWidgetRequestCommands
+                    .saveRequestCommand(context, request, WIDGET_DATA_FIELD, WIDGET_REQUESTS_FIELD);
+
+            return saveRequestCommand.get();
         }
 
-        String stringifiedRequest = WidgetRequestTransformer.toString(request);
-        if (stringifiedRequest.isEmpty()) {
-            return false;
-        }
+        ChangeProductStatusRequest changeProductStatusRequest = (ChangeProductStatusRequest) request;
+
+        String listId = changeProductStatusRequest.listId();
+        String productId = changeProductStatusRequest.productId();
 
         SharedPreferences sharedPreferences = context
                 .getSharedPreferences(WIDGET_DATA_FIELD, Context.MODE_PRIVATE);
         Set<String> existedStringifiedRequestsSet = sharedPreferences
                 .getStringSet(WIDGET_REQUESTS_FIELD, new HashSet<>());
 
-        existedStringifiedRequestsSet.add(stringifiedRequest);
+        List<String> existedStringifiedRequestsList = new ArrayList<>(existedStringifiedRequestsSet);
+        String requestToRemoveId = null;
+        for (int i = 0; i < existedStringifiedRequestsList.size(); ++i) {
+            String existedStringifiedRequest = existedStringifiedRequestsList.get(i);
+            WidgetRequest existedRequest = WidgetRequestTransformer.fromString(existedStringifiedRequest);
+            if (existedRequest.type().equalsIgnoreCase(WidgetRequestTypes.CHANGE_PRODUCT_STATUS_REQUEST)) {
+                ChangeProductStatusRequest existedChangeProductStatusRequest = (ChangeProductStatusRequest) existedRequest;
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putStringSet(WIDGET_REQUESTS_FIELD, existedStringifiedRequestsSet);
-        return editor.commit();
-    }
+                String existedRequestListId = existedChangeProductStatusRequest.listId();
+                String existedRequestProductId = existedChangeProductStatusRequest.productId();
 
-    public boolean removeAllWidgetRequests(Context context) {
-        if (context == null) {
-            return false;
+                if (existedRequestListId.equalsIgnoreCase(listId) && existedRequestProductId.equalsIgnoreCase(productId)) {
+                    requestToRemoveId = existedChangeProductStatusRequest.id();
+                    break;
+                }
+            }
         }
 
-        SharedPreferences sharedPreferences = context
-                .getSharedPreferences(WIDGET_DATA_FIELD, Context.MODE_PRIVATE);
+        Supplier<Boolean> command = null;
+        if (requestToRemoveId != null) {
+            command = StorageWidgetRequestCommands.removeRequestCommand(
+                    context,
+                    Collections.singletonList(requestToRemoveId),
+                    WIDGET_DATA_FIELD,
+                    WIDGET_REQUESTS_FIELD
+            );
+        } else {
+            command = StorageWidgetRequestCommands
+                    .saveRequestCommand(context, request, WIDGET_DATA_FIELD, WIDGET_REQUESTS_FIELD);
+        }
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(WIDGET_REQUESTS_FIELD);
-        return editor.commit();
+        return command.get();
+
+//        Supplier<Boolean> saveRequestCommand = StorageWidgetRequestCommands
+//                .saveRequestCommand(context, request, WIDGET_DATA_FIELD, WIDGET_REQUESTS_FIELD);
+//
+//        return saveRequestCommand.get();
+    }
+//    public boolean setWidgetRequest(Context context, WidgetRequest request) {
+//        if (context == null) {
+//            return false;
+//        }
+//
+//        String stringifiedRequest = WidgetRequestTransformer.toString(request);
+//        if (stringifiedRequest.isEmpty()) {
+//            return false;
+//        }
+//
+//        SharedPreferences sharedPreferences = context
+//                .getSharedPreferences(WIDGET_DATA_FIELD, Context.MODE_PRIVATE);
+//        Set<String> existedStringifiedRequestsSet = sharedPreferences
+//                .getStringSet(WIDGET_REQUESTS_FIELD, new HashSet<>());
+//
+//        existedStringifiedRequestsSet.add(stringifiedRequest);
+//
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putStringSet(WIDGET_REQUESTS_FIELD, existedStringifiedRequestsSet);
+//        return editor.commit();
+//    }
+
+    public boolean removeAllWidgetRequests(Context context) {
+        Supplier<Boolean> removeAllWidgetRequestsCommand = StorageWidgetRequestCommands
+                .removeAllRequestsCommand(context, WIDGET_DATA_FIELD, WIDGET_REQUESTS_FIELD);
+
+        return removeAllWidgetRequestsCommand.get();
     }
 
     public boolean removeWidgetRequests(Context context, List<String> requestIds) {
-        if (context == null) {
-            return false;
-        } else if (requestIds == null || requestIds.isEmpty()) {
-            return false;
-        }
+        Supplier<Boolean> removeWidgetRequestsCommand = StorageWidgetRequestCommands
+                .removeRequestCommand(context, requestIds, WIDGET_DATA_FIELD, WIDGET_REQUESTS_FIELD);
 
-        Set<String> requestIdsSet = new HashSet<>(requestIds);
-
-        SharedPreferences sharedPreferences = context
-                .getSharedPreferences(WIDGET_DATA_FIELD, Context.MODE_PRIVATE);
-        Set<String> existedStringifiedRequestsSet = sharedPreferences
-                .getStringSet(WIDGET_REQUESTS_FIELD, new HashSet<>());
-
-        List<String> existedStringifiedRequestsList = new ArrayList<>(existedStringifiedRequestsSet);
-        for (int i = 0; i < existedStringifiedRequestsList.size(); ++i) {
-            String stringifiedRequest = existedStringifiedRequestsList.get(i);
-
-            WidgetRequest request = WidgetRequestTransformer.fromString(stringifiedRequest);
-            if (requestIdsSet.contains(request.id())) {
-                existedStringifiedRequestsSet.remove(stringifiedRequest);
-            }
-        }
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        if (existedStringifiedRequestsSet.size() > 0) {
-            editor.putStringSet(WIDGET_REQUESTS_FIELD, existedStringifiedRequestsSet);
-        } else {
-            editor.remove(WIDGET_REQUESTS_FIELD);
-        }
-
-        return editor.commit();
+        return removeWidgetRequestsCommand.get();
     }
 
     public List<WidgetRequest> getAllWidgetRequests(Context context) {
-        if (context == null) {
-            return new ArrayList<>();
+        Supplier<List<WidgetRequest>> getAllWidgetRequestsCommand = StorageWidgetRequestCommands
+                .getAllWidgetRequestsCommand(context, WIDGET_DATA_FIELD, WIDGET_REQUESTS_FIELD);
+
+        return getAllWidgetRequestsCommand.get();
+    }
+
+    public Function<Context, Boolean> getSaveRequestCommand(Context context, WidgetRequest request) {
+        Function<Context, Boolean> emptySaveRequestCommand = (Context commandContext) -> false;
+        Function<Context, Boolean> defaultSaveRequestCommand = (Context commandContext) -> {
+            if (commandContext == null) {
+                return false;
+            }
+
+            String stringifiedRequest = WidgetRequestTransformer.toString(request);
+            if (stringifiedRequest.isEmpty()) {
+                return false;
+            }
+
+            SharedPreferences sharedPreferences = commandContext
+                    .getSharedPreferences(WIDGET_DATA_FIELD, Context.MODE_PRIVATE);
+            Set<String> existedStringifiedRequestsSet = sharedPreferences
+                    .getStringSet(WIDGET_REQUESTS_FIELD, new HashSet<>());
+
+            existedStringifiedRequestsSet.add(stringifiedRequest);
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putStringSet(WIDGET_REQUESTS_FIELD, existedStringifiedRequestsSet);
+            return editor.commit();
+        };
+        Function<Context, Boolean> removeMutuallyExclusiveRequestCommand = (Context commandContext) -> {
+            if (commandContext == null) {
+                return false;
+            }
+
+            return false;
+        };
+
+        if (!request.type().equalsIgnoreCase(WidgetRequestTypes.CHANGE_PRODUCT_STATUS_REQUEST)) {
+            return defaultSaveRequestCommand;
         }
+
+        ChangeProductStatusRequest changeProductStatusRequest = (ChangeProductStatusRequest) request;
+
+        String listId = changeProductStatusRequest.listId();
+        String productId = changeProductStatusRequest.productId();
 
         SharedPreferences sharedPreferences = context
                 .getSharedPreferences(WIDGET_DATA_FIELD, Context.MODE_PRIVATE);
         Set<String> existedStringifiedRequestsSet = sharedPreferences
                 .getStringSet(WIDGET_REQUESTS_FIELD, new HashSet<>());
 
-        List<WidgetRequest> widgetRequestList = new ArrayList<>(existedStringifiedRequestsSet.size());
         List<String> existedStringifiedRequestsList = new ArrayList<>(existedStringifiedRequestsSet);
+        String requestToRemoveId = null;
         for (int i = 0; i < existedStringifiedRequestsList.size(); ++i) {
-            String stringifiedRequest = existedStringifiedRequestsList.get(i);
+            String existedStringifiedRequest = existedStringifiedRequestsList.get(i);
+            WidgetRequest existedRequest = WidgetRequestTransformer.fromString(existedStringifiedRequest);
+            if (existedRequest.type().equalsIgnoreCase(WidgetRequestTypes.CHANGE_PRODUCT_STATUS_REQUEST)) {
+                ChangeProductStatusRequest existedChangeProductStatusRequest = (ChangeProductStatusRequest) existedRequest;
 
-            WidgetRequest request = WidgetRequestTransformer.fromString(stringifiedRequest);
-            if (!request.type().equalsIgnoreCase(WidgetRequestTypes.EMPTY_REQUEST)) {
-                widgetRequestList.add(request);
+                String existedRequestListId = existedChangeProductStatusRequest.listId();
+                String existedRequestProductId = existedChangeProductStatusRequest.productId();
+
+                if (existedRequestListId.equalsIgnoreCase(listId) && existedRequestProductId.equalsIgnoreCase(productId)) {
+                    requestToRemoveId = existedChangeProductStatusRequest.id();
+                    break;
+                }
             }
         }
 
-        return widgetRequestList;
+        if (requestToRemoveId != null) {
+            return removeMutuallyExclusiveRequestCommand;
+        } else {
+            return defaultSaveRequestCommand;
+        }
     }
 }

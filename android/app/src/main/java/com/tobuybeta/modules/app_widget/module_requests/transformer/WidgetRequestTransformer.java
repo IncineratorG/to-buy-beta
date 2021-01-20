@@ -4,28 +4,30 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
+import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequestConverter;
 import com.tobuybeta.modules.app_widget.module_requests.requests.EmptyRequest;
-import com.tobuybeta.modules.app_widget.module_requests.requests.MarkProductAsBoughtRequest;
-import com.tobuybeta.modules.app_widget.module_requests.requests.OpenShoppingListRequest;
+import com.tobuybeta.modules.app_widget.module_requests.transformer.converters.ChangeProductStatusRequestConverter;
 import com.tobuybeta.modules.app_widget.module_requests.transformer.converters.MarkProductAsBoughtRequestConverter;
 import com.tobuybeta.modules.app_widget.module_requests.transformer.converters.OpenShoppingListRequestConverter;
-import com.tobuybeta.modules.app_widget.module_requests.types.WidgetRequestTypes;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class WidgetRequestTransformer {
-    private static final String SEPARATOR = AppWidgetModuleConstants.common.SEPARATOR;
-    private static int TYPE_FIELD_INDEX = AppWidgetModuleConstants.widgetRequest.TYPE_FIELD_INDEX;
-
-    private static OpenShoppingListRequestConverter sOpenShoppingListRequestConverter = new OpenShoppingListRequestConverter();
-    private static MarkProductAsBoughtRequestConverter sMarkProductAsBoughtRequestConverter = new MarkProductAsBoughtRequestConverter();
+    private static List<WidgetRequestConverter> sConverters = Arrays.asList(
+            new OpenShoppingListRequestConverter(),
+            new MarkProductAsBoughtRequestConverter(),
+            new ChangeProductStatusRequestConverter()
+    );
 
     public static String toString(WidgetRequest request) {
         String stringifiedRequest = "";
-        if (request instanceof OpenShoppingListRequest) {
-            stringifiedRequest = sOpenShoppingListRequestConverter.toString(request);
-        } else if (request instanceof MarkProductAsBoughtRequest) {
-            stringifiedRequest = sMarkProductAsBoughtRequestConverter.toString(request);
+        for (int i = 0; i < sConverters.size(); ++i) {
+            stringifiedRequest = sConverters.get(i).toString(request);
+            if (stringifiedRequest != null) {
+                break;
+            }
         }
-
         if (stringifiedRequest == null) {
             stringifiedRequest = "";
         }
@@ -34,24 +36,13 @@ public class WidgetRequestTransformer {
     }
 
     public static WidgetRequest fromString(String stringifiedRequest) {
-        if (stringifiedRequest.isEmpty()) {
-            return new EmptyRequest();
-        }
-
-        String[] requestDataArray = stringifiedRequest.split(SEPARATOR);
-        if (requestDataArray.length < TYPE_FIELD_INDEX + 1) {
-            return new EmptyRequest();
-        }
-
-        String requestType = requestDataArray[TYPE_FIELD_INDEX];
-
         WidgetRequest request = null;
-        if (requestType.equalsIgnoreCase(WidgetRequestTypes.OPEN_SHOPPING_LIST_REQUEST)) {
-            request = sOpenShoppingListRequestConverter.fromString(stringifiedRequest);
-        } else if (requestType.equalsIgnoreCase(WidgetRequestTypes.MARK_PRODUCT_AS_BOUGHT_REQUEST)) {
-            request = sMarkProductAsBoughtRequestConverter.fromString(stringifiedRequest);
+        for (int i = 0; i < sConverters.size(); ++i) {
+            request = sConverters.get(i).fromString(stringifiedRequest);
+            if (request != null) {
+                break;
+            }
         }
-
         if (request == null) {
             request = new EmptyRequest();
         }
@@ -61,12 +52,12 @@ public class WidgetRequestTransformer {
 
     public static WritableMap toJsObject(WidgetRequest request) {
         WritableMap jsObjectMap = null;
-        if (request instanceof OpenShoppingListRequest) {
-            jsObjectMap = sOpenShoppingListRequestConverter.toJsObject(request);
-        } else if (request instanceof MarkProductAsBoughtRequest) {
-            jsObjectMap = sMarkProductAsBoughtRequestConverter.toJsObject(request);
+        for (int i = 0; i < sConverters.size(); ++i) {
+            jsObjectMap = sConverters.get(i).toJsObject(request);
+            if (jsObjectMap != null) {
+                break;
+            }
         }
-
         if (jsObjectMap == null) {
             jsObjectMap = new WritableNativeMap();
         }
@@ -74,6 +65,84 @@ public class WidgetRequestTransformer {
         return jsObjectMap;
     }
 }
+
+
+//package com.tobuybeta.modules.app_widget.module_requests.transformer;
+//
+//import com.facebook.react.bridge.WritableMap;
+//import com.facebook.react.bridge.WritableNativeMap;
+//import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
+//import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
+//import com.tobuybeta.modules.app_widget.module_requests.requests.EmptyRequest;
+//import com.tobuybeta.modules.app_widget.module_requests.requests.MarkProductAsBoughtRequest;
+//import com.tobuybeta.modules.app_widget.module_requests.requests.OpenShoppingListRequest;
+//import com.tobuybeta.modules.app_widget.module_requests.transformer.converters.MarkProductAsBoughtRequestConverter;
+//import com.tobuybeta.modules.app_widget.module_requests.transformer.converters.OpenShoppingListRequestConverter;
+//import com.tobuybeta.modules.app_widget.module_requests.types.WidgetRequestTypes;
+//
+//public class WidgetRequestTransformer {
+//    private static final String SEPARATOR = AppWidgetModuleConstants.common.SEPARATOR;
+//    private static int TYPE_FIELD_INDEX = AppWidgetModuleConstants.widgetRequest.TYPE_FIELD_INDEX;
+//
+//    private static OpenShoppingListRequestConverter sOpenShoppingListRequestConverter = new OpenShoppingListRequestConverter();
+//    private static MarkProductAsBoughtRequestConverter sMarkProductAsBoughtRequestConverter = new MarkProductAsBoughtRequestConverter();
+//
+//    public static String toString(WidgetRequest request) {
+//        String stringifiedRequest = "";
+//        if (request instanceof OpenShoppingListRequest) {
+//            stringifiedRequest = sOpenShoppingListRequestConverter.toString(request);
+//        } else if (request instanceof MarkProductAsBoughtRequest) {
+//            stringifiedRequest = sMarkProductAsBoughtRequestConverter.toString(request);
+//        }
+//
+//        if (stringifiedRequest == null) {
+//            stringifiedRequest = "";
+//        }
+//
+//        return stringifiedRequest;
+//    }
+//
+//    public static WidgetRequest fromString(String stringifiedRequest) {
+//        if (stringifiedRequest.isEmpty()) {
+//            return new EmptyRequest();
+//        }
+//
+//        String[] requestDataArray = stringifiedRequest.split(SEPARATOR);
+//        if (requestDataArray.length < TYPE_FIELD_INDEX + 1) {
+//            return new EmptyRequest();
+//        }
+//
+//        String requestType = requestDataArray[TYPE_FIELD_INDEX];
+//
+//        WidgetRequest request = null;
+//        if (requestType.equalsIgnoreCase(WidgetRequestTypes.OPEN_SHOPPING_LIST_REQUEST)) {
+//            request = sOpenShoppingListRequestConverter.fromString(stringifiedRequest);
+//        } else if (requestType.equalsIgnoreCase(WidgetRequestTypes.MARK_PRODUCT_AS_BOUGHT_REQUEST)) {
+//            request = sMarkProductAsBoughtRequestConverter.fromString(stringifiedRequest);
+//        }
+//
+//        if (request == null) {
+//            request = new EmptyRequest();
+//        }
+//
+//        return request;
+//    }
+//
+//    public static WritableMap toJsObject(WidgetRequest request) {
+//        WritableMap jsObjectMap = null;
+//        if (request instanceof OpenShoppingListRequest) {
+//            jsObjectMap = sOpenShoppingListRequestConverter.toJsObject(request);
+//        } else if (request instanceof MarkProductAsBoughtRequest) {
+//            jsObjectMap = sMarkProductAsBoughtRequestConverter.toJsObject(request);
+//        }
+//
+//        if (jsObjectMap == null) {
+//            jsObjectMap = new WritableNativeMap();
+//        }
+//
+//        return jsObjectMap;
+//    }
+//}
 
 
 //package com.tobuybeta.modules.app_widget.module_requests.transformer;

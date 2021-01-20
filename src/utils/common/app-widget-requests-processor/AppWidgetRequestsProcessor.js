@@ -1,18 +1,21 @@
 import {SystemEventsHandler} from '../system-events-handler/SystemEventsHandler';
 import NativeWidgetConstants from '../../../services/app-widget/native-widget/constants/NativeWidgetConstants';
-import MarkProductAsBoughtRequestHandler from './processors/MarkProductAsBoughtRequestHandler';
-import OpenShoppingListRequestHandler from './processors/OpenShoppingListRequestHandler';
+import MarkProductAsBoughtRequestHandler from './handlers/MarkProductAsBoughtRequestHandler';
+import OpenShoppingListRequestHandler from './handlers/OpenShoppingListRequestHandler';
 import Services from '../../../services/Services';
 import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
+import ChangeProductStatusRequestHandler from './handlers/ChangeProductStatusRequestHandler';
 
 const AppWidgetRequestsProcessor = () => {
   const {
     OPEN_SHOPPING_LIST_REQUEST,
     MARK_PRODUCT_AS_BOUGHT_REQUEST,
+    CHANGE_PRODUCT_STATUS_REQUEST,
   } = NativeWidgetConstants.widgetRequests;
 
   const openShoppingListRequestHandler = OpenShoppingListRequestHandler;
   const markProductAsBoughtRequestHandler = MarkProductAsBoughtRequestHandler;
+  const changeProductStatusRequestHandler = ChangeProductStatusRequestHandler;
 
   const process = async ({requests}) => {
     SystemEventsHandler.onInfo({info: 'AppWidgetRequestsProcessor->process()'});
@@ -48,10 +51,23 @@ const AppWidgetRequestsProcessor = () => {
           break;
         }
 
-        case MARK_PRODUCT_AS_BOUGHT_REQUEST: {
-          markProductAsBoughtRequestHandler.handle({
-            request,
-            productToChangeStatusAccumulator,
+        // case MARK_PRODUCT_AS_BOUGHT_REQUEST: {
+        //   markProductAsBoughtRequestHandler.handle({
+        //     request,
+        //     productToChangeStatusAccumulator,
+        //   });
+        //   break;
+        // }
+
+        case CHANGE_PRODUCT_STATUS_REQUEST: {
+          const {
+            listId,
+            productId,
+            productStatus,
+          } = changeProductStatusRequestHandler.handle({request});
+
+          SystemEventsHandler.onInfo({
+            info: listId + ' - ' + productId + ' - ' + productStatus,
           });
           break;
         }
@@ -186,8 +202,8 @@ export default AppWidgetRequestsProcessor();
 
 // import {SystemEventsHandler} from '../../../../utils/common/system-events-handler/SystemEventsHandler';
 // import NativeWidgetConstants from '../../../../services/app-widget/native-widget/constants/NativeWidgetConstants';
-// import MarkProductAsBoughtRequestHandler from './processors/MarkProductAsBoughtRequestHandler';
-// import OpenShoppingListRequestHandler from './processors/OpenShoppingListRequestHandler';
+// import MarkProductAsBoughtRequestHandler from './handlers/MarkProductAsBoughtRequestHandler';
+// import OpenShoppingListRequestHandler from './handlers/OpenShoppingListRequestHandler';
 //
 // const AppWidgetRequestsProcessor = () => {
 //   const {

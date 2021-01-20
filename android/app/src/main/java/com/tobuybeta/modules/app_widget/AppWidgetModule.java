@@ -116,6 +116,7 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
         widgetRequestsTypes.putString(WidgetRequestTypes.EMPTY_REQUEST, WidgetRequestTypes.EMPTY_REQUEST);
         widgetRequestsTypes.putString(WidgetRequestTypes.OPEN_SHOPPING_LIST_REQUEST, WidgetRequestTypes.OPEN_SHOPPING_LIST_REQUEST);
         widgetRequestsTypes.putString(WidgetRequestTypes.MARK_PRODUCT_AS_BOUGHT_REQUEST, WidgetRequestTypes.MARK_PRODUCT_AS_BOUGHT_REQUEST);
+        widgetRequestsTypes.putString(WidgetRequestTypes.CHANGE_PRODUCT_STATUS_REQUEST, WidgetRequestTypes.CHANGE_PRODUCT_STATUS_REQUEST);
 
         constants.put("actionTypes", actionTypesConstants);
         constants.put("widgetRequests", widgetRequestsTypes);

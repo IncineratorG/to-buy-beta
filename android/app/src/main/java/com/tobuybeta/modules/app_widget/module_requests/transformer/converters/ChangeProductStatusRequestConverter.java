@@ -6,37 +6,41 @@ import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstant
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequestConverter;
 import com.tobuybeta.modules.app_widget.module_requests.fields.WidgetRequestFields;
-import com.tobuybeta.modules.app_widget.module_requests.requests.MarkProductAsBoughtRequest;
+import com.tobuybeta.modules.app_widget.module_requests.requests.ChangeProductStatusRequest;
 import com.tobuybeta.modules.app_widget.module_requests.types.WidgetRequestTypes;
 
-public class MarkProductAsBoughtRequestConverter implements WidgetRequestConverter {
+public class ChangeProductStatusRequestConverter implements WidgetRequestConverter {
     private String SEPARATOR = AppWidgetModuleConstants.common.SEPARATOR;
     private int ID_FIELD_INDEX = AppWidgetModuleConstants.widgetRequest.ID_FIELD_INDEX;
     private int TIMESTAMP_FIELD_INDEX = AppWidgetModuleConstants.widgetRequest.TIMESTAMP_FIELD_INDEX;
     private int TYPE_FIELD_INDEX = AppWidgetModuleConstants.widgetRequest.TYPE_FIELD_INDEX;
     private int LIST_ID_FIELD_INDEX = 3;
     private int PRODUCT_ID_FIELD_INDEX = 4;
+    private int PRODUCT_STATUS_FIELD_INDEX = 5;
 
     @Override
     public String toString(WidgetRequest request) {
-        if (!(request instanceof MarkProductAsBoughtRequest)) {
+        if (!(request instanceof ChangeProductStatusRequest)) {
             return null;
         }
 
-        MarkProductAsBoughtRequest markProductAsBoughtRequest = (MarkProductAsBoughtRequest) request;
+        ChangeProductStatusRequest changeProductStatusRequest = (ChangeProductStatusRequest) request;
 
-        String listId = markProductAsBoughtRequest.listId();
-        String productId = markProductAsBoughtRequest.productId();
+        String listId = changeProductStatusRequest.listId();
+        String productId = changeProductStatusRequest.productId();
+        String productStatus = changeProductStatusRequest.productStatus();
 
-        return markProductAsBoughtRequest.id()
+        return changeProductStatusRequest.id()
                 + SEPARATOR
-                + markProductAsBoughtRequest.timestamp()
+                + changeProductStatusRequest.timestamp()
                 + SEPARATOR
-                + markProductAsBoughtRequest.type()
+                + changeProductStatusRequest.type()
                 + SEPARATOR
                 + listId
                 + SEPARATOR
-                + productId;
+                + productId
+                + SEPARATOR
+                + productStatus;
     }
 
     @Override
@@ -54,32 +58,41 @@ public class MarkProductAsBoughtRequestConverter implements WidgetRequestConvert
         String requestType = requestDataArray[TYPE_FIELD_INDEX];
         String requestTimestamp = requestDataArray[TIMESTAMP_FIELD_INDEX];
 
-        if (!requestType.equalsIgnoreCase(WidgetRequestTypes.MARK_PRODUCT_AS_BOUGHT_REQUEST)) {
+        if (!requestType.equalsIgnoreCase(WidgetRequestTypes.CHANGE_PRODUCT_STATUS_REQUEST)) {
             return null;
         }
 
-        if (requestDataArray.length < 5) {
+        if (requestDataArray.length < 6) {
             return null;
         }
 
         String listId = requestDataArray[LIST_ID_FIELD_INDEX];
         String productId = requestDataArray[PRODUCT_ID_FIELD_INDEX];
+        String productStatus = requestDataArray[PRODUCT_STATUS_FIELD_INDEX];
 
-        return new MarkProductAsBoughtRequest(requestId, requestType, requestTimestamp, listId, productId);
+        return new ChangeProductStatusRequest(
+                requestId,
+                requestType,
+                requestTimestamp,
+                listId,
+                productId,
+                productStatus
+        );
     }
 
     @Override
     public WritableMap toJsObject(WidgetRequest request) {
-        if (!(request instanceof MarkProductAsBoughtRequest)) {
+        if (!(request instanceof ChangeProductStatusRequest)) {
             return null;
         }
 
-        MarkProductAsBoughtRequest markProductAsBoughtRequest = (MarkProductAsBoughtRequest) request;
-        String id = markProductAsBoughtRequest.id();
-        String type = markProductAsBoughtRequest.type();
-        String timestamp = markProductAsBoughtRequest.timestamp();
-        String listId = markProductAsBoughtRequest.listId();
-        String productId = markProductAsBoughtRequest.productId();
+        ChangeProductStatusRequest changeProductStatusRequest = (ChangeProductStatusRequest) request;
+        String id = changeProductStatusRequest.id();
+        String type = changeProductStatusRequest.type();
+        String timestamp = changeProductStatusRequest.timestamp();
+        String listId = changeProductStatusRequest.listId();
+        String productId = changeProductStatusRequest.productId();
+        String productStatus = changeProductStatusRequest.productStatus();
 
         WritableMap jsObjectMap = new WritableNativeMap();
         jsObjectMap.putString(WidgetRequestFields.ID, id);
@@ -87,6 +100,7 @@ public class MarkProductAsBoughtRequestConverter implements WidgetRequestConvert
         jsObjectMap.putString(WidgetRequestFields.TIMESTAMP, timestamp);
         jsObjectMap.putString(WidgetRequestFields.LIST_ID, listId);
         jsObjectMap.putString(WidgetRequestFields.PRODUCT_ID, productId);
+        jsObjectMap.putString(WidgetRequestFields.PRODUCT_STATUS, productStatus);
 
         return jsObjectMap;
     }

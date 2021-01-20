@@ -24,9 +24,7 @@ public class OpenShoppingListRequestConverter implements WidgetRequestConverter 
 
         OpenShoppingListRequest openShoppingListRequest = (OpenShoppingListRequest) request;
 
-        String listId = (String) openShoppingListRequest
-                .payload()
-                .get(openShoppingListRequest.LIST_ID_PAYLOAD_FIELD);
+        String listId = openShoppingListRequest.listId();
 
         return openShoppingListRequest.id()
                 + SEPARATOR
@@ -75,9 +73,7 @@ public class OpenShoppingListRequestConverter implements WidgetRequestConverter 
         String id = openShoppingListRequest.id();
         String type = openShoppingListRequest.type();
         String timestamp = openShoppingListRequest.timestamp();
-        String listId = (String) openShoppingListRequest
-                .payload()
-                .get(openShoppingListRequest.LIST_ID_PAYLOAD_FIELD);
+        String listId = openShoppingListRequest.listId();
 
         WritableMap jsObjectMap = new WritableNativeMap();
         jsObjectMap.putString(WidgetRequestFields.ID, id);

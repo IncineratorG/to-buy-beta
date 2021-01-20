@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.tobuybeta.MainActivity;
 import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
+import com.tobuybeta.modules.app_widget.module_requests.requests.ChangeProductStatusRequest;
 import com.tobuybeta.modules.app_widget.module_requests.requests.MarkProductAsBoughtRequest;
 import com.tobuybeta.modules.app_widget.module_requests.requests.OpenShoppingListRequest;
 import com.tobuybeta.modules.app_widget.storage.Storage;
@@ -192,6 +193,9 @@ public class WidgetIntentsHandler {
                 Storage.get().execute(
                         StorageActions.setProductStatus(context, listId, productId, newProductStatus)
                 );
+
+                ChangeProductStatusRequest request = new ChangeProductStatusRequest(listId, productId, newProductStatus);
+                Storage.get().execute(StorageActions.setWidgetRequestAction(context, request));
 
                 MyTestWidget.update(
                         context,

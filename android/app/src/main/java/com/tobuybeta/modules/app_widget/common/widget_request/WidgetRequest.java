@@ -4,5 +4,4 @@ public interface WidgetRequest {
     String id();
     String timestamp();
     String type();
-    WidgetRequestPayload payload();
 }

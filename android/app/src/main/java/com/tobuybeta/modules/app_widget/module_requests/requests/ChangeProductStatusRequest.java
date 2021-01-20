@@ -5,33 +5,37 @@ import com.tobuybeta.modules.app_widget.module_requests.types.WidgetRequestTypes
 
 import java.util.UUID;
 
-public class MarkProductAsBoughtRequest implements WidgetRequest {
+public class ChangeProductStatusRequest implements WidgetRequest {
     private String mId;
     private String mTimestamp;
     private String mType;
     private String mListId;
     private String mProductId;
+    private String mProductStatus;
 
-    public MarkProductAsBoughtRequest(String listId, String productId) {
+    public ChangeProductStatusRequest(String listId, String productId, String productStatus) {
         mId = UUID.randomUUID().toString();
         mTimestamp = String.valueOf(System.currentTimeMillis());
-        mType = WidgetRequestTypes.MARK_PRODUCT_AS_BOUGHT_REQUEST;
+        mType = WidgetRequestTypes.CHANGE_PRODUCT_STATUS_REQUEST;
 
         mListId = listId;
         mProductId = productId;
+        mProductStatus = productStatus;
     }
 
-    public MarkProductAsBoughtRequest(String id,
+    public ChangeProductStatusRequest(String id,
                                       String type,
                                       String timestamp,
                                       String listId,
-                                      String productId) {
+                                      String productId,
+                                      String productStatus) {
         mId = id;
         mTimestamp = timestamp;
         mType = type;
 
         mListId = listId;
         mProductId = productId;
+        mProductStatus = productStatus;
     }
 
     @Override
@@ -55,5 +59,9 @@ public class MarkProductAsBoughtRequest implements WidgetRequest {
 
     public String productId() {
         return mProductId;
+    }
+
+    public String productStatus() {
+        return mProductStatus;
     }
 }

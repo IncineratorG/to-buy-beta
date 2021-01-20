@@ -15,6 +15,7 @@ const NativeWidgetConstants = () => {
       EMPTY_REQUEST,
       OPEN_SHOPPING_LIST_REQUEST,
       MARK_PRODUCT_AS_BOUGHT_REQUEST,
+      CHANGE_PRODUCT_STATUS_REQUEST,
     },
   } = AppWidget.getConstants();
 
@@ -32,6 +33,7 @@ const NativeWidgetConstants = () => {
       EMPTY_REQUEST,
       OPEN_SHOPPING_LIST_REQUEST,
       MARK_PRODUCT_AS_BOUGHT_REQUEST,
+      CHANGE_PRODUCT_STATUS_REQUEST,
     },
   };
 };

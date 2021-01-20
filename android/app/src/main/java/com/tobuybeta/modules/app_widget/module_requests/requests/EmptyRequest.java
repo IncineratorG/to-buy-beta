@@ -1,7 +1,6 @@
 package com.tobuybeta.modules.app_widget.module_requests.requests;
 
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
-import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequestPayload;
 import com.tobuybeta.modules.app_widget.module_requests.types.WidgetRequestTypes;
 
 import java.util.UUID;
@@ -30,10 +29,5 @@ public class EmptyRequest implements WidgetRequest {
     @Override
     public String type() {
         return mType;
-    }
-
-    @Override
-    public WidgetRequestPayload payload() {
-        return null;
     }
 }
