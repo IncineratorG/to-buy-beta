@@ -76,22 +76,23 @@ const AppWidgetRequestsProcessor = () => {
 
     // ********************************
     // 3.******************************
-    const productToChangeStatusArray = Array.from(
-      productToChangeStatusAccumulator,
-    ).map(([key, value]) => ({key, value}));
 
+    // const productToChangeStatusArray = Array.from(
+    //   productToChangeStatusAccumulator,
+    // ).map(([key, value]) => ({key, value}));
+    //
     const shoppingListService = Services.get(
       Services.serviceTypes.SHOPPING_LIST,
     );
-    await Promise.all(
-      productToChangeStatusArray.map(async ({key, value}) => {
-        await shoppingListService.changeMultipleProductsStatus({
-          shoppingListId: key,
-          productsIdsArray: value,
-          status: ProductStatus.COMPLETED,
-        });
-      }),
-    );
+    // await Promise.all(
+    //   productToChangeStatusArray.map(async ({key, value}) => {
+    //     await shoppingListService.changeMultipleProductsStatus({
+    //       shoppingListId: key,
+    //       productsIdsArray: value,
+    //       status: ProductStatus.COMPLETED,
+    //     });
+    //   }),
+    // );
     // ********************************
     // ********************************
 

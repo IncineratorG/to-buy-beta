@@ -5,32 +5,56 @@ import AppLoading from '../app-loading/AppLoading';
 import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import useInitializeAppHook from './hooks/intialize-app-hook/useInitializeAppHook';
 import {loadShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
+import useStartAppServices from './hooks/useStartAppServices';
+import useAppState from './hooks/useAppState';
+import useWidgetRequests from './hooks/useWidgetRequests';
+import Services from '../../../services/Services';
+import useNavigationRequestCommands from './hooks/useNavigationRequestCommands';
 
 const AppLoader = () => {
-  const [appInitialized, setAppInitialized] = useState(false);
+  const [appServicesStarted, setAppServicesStarted] = useState(false);
+  const [appWidgetService, setAppWidgetService] = useState(null);
+  const [appWidgetRequests, setAppWidgetRequests] = useState(null);
   const [
-    requestedNavigationCommands,
-    setRequestedNavigationCommands,
+    appWidgetNavigationCommands,
+    setAppWidgetNavigationCommands,
   ] = useState([]);
 
   const dispatch = useDispatch();
 
-  const {appIsInitialized, navigationCommands} = useInitializeAppHook();
+  const {servicesStarted} = useStartAppServices();
+  const {appInForeground} = useAppState();
+  const {widgetRequests} = useWidgetRequests({appWidgetService});
+  const {navigationCommands} = useNavigationRequestCommands({
+    widgetRequests: appWidgetRequests,
+  });
 
   useEffect(() => {
-    setAppInitialized(appIsInitialized);
-    setRequestedNavigationCommands(navigationCommands);
-  }, [appIsInitialized, navigationCommands]);
+    dispatch(loadShoppingListsAction());
+  }, [servicesStarted, dispatch]);
 
   useEffect(() => {
-    if (appInitialized) {
-      dispatch(loadShoppingListsAction());
+    if (servicesStarted) {
+      let widgetService = null;
+      if (appInForeground) {
+        widgetService = Services.get(Services.serviceTypes.APP_WIDGET);
+      }
+      setAppWidgetService(widgetService);
     }
-  }, [appInitialized, dispatch]);
+    setAppServicesStarted(servicesStarted);
+  }, [servicesStarted, appInForeground]);
 
-  if (appInitialized) {
+  useEffect(() => {
+    setAppWidgetRequests(widgetRequests);
+  }, [widgetRequests]);
+
+  useEffect(() => {
+    setAppWidgetNavigationCommands(navigationCommands);
+  }, [navigationCommands]);
+
+  if (appServicesStarted) {
     return (
-      <AppNavigation initialNavigationCommands={requestedNavigationCommands} />
+      <AppNavigation initialNavigationCommands={appWidgetNavigationCommands} />
     );
   } else {
     return <AppLoading />;
@@ -38,6 +62,47 @@ const AppLoader = () => {
 };
 
 export default AppLoader;
+
+// import React, {useState, useEffect} from 'react';
+// import {useDispatch} from 'react-redux';
+// import AppNavigation from '../app-navigation/AppNavigation';
+// import AppLoading from '../app-loading/AppLoading';
+// import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
+// import useInitializeAppHook from './hooks/intialize-app-hook/useInitializeAppHook';
+// import {loadShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
+//
+// const AppLoader = () => {
+//   const [appInitialized, setAppInitialized] = useState(false);
+//   const [
+//     requestedNavigationCommands,
+//     setRequestedNavigationCommands,
+//   ] = useState([]);
+//
+//   const dispatch = useDispatch();
+//
+//   const {appIsInitialized, navigationCommands} = useInitializeAppHook();
+//
+//   useEffect(() => {
+//     setAppInitialized(appIsInitialized);
+//     setRequestedNavigationCommands(navigationCommands);
+//   }, [appIsInitialized, navigationCommands]);
+//
+//   useEffect(() => {
+//     if (appInitialized) {
+//       dispatch(loadShoppingListsAction());
+//     }
+//   }, [appInitialized, dispatch]);
+//
+//   if (appInitialized) {
+//     return (
+//       <AppNavigation initialNavigationCommands={requestedNavigationCommands} />
+//     );
+//   } else {
+//     return <AppLoading />;
+//   }
+// };
+//
+// export default AppLoader;
 
 // import React, {useState, useEffect} from 'react';
 // import {useDispatch} from 'react-redux';
