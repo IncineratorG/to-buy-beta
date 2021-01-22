@@ -27,6 +27,8 @@ import {
   REMOVE_MULTIPLE_PRODUCTS_REMOVED,
   REMOVE_MULTIPLE_PRODUCTS_CONFIRMED,
   REMOVE_MULTIPLE_PRODUCTS_ERROR,
+  CHANGE_MULTIPLE_SHOPPING_LISTS_PRODUCTS_STATUS_CHANGED,
+  CHANGE_MULTIPLE_SHOPPING_LISTS_PRODUCTS_STATUS_CONFIRMED,
 } from '../../types/products-list/productsListTypes';
 import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import productsComparator from './helpers/productsComparator';
@@ -578,6 +580,77 @@ export const productsListReducer = (state = initialState, action) => {
             hasError: true,
             description: action.payload.error.description,
           },
+        },
+      };
+    }
+
+    case CHANGE_MULTIPLE_SHOPPING_LISTS_PRODUCTS_STATUS_CHANGED: {
+      const shoppingListsProductsChangeStatusMap =
+        action.payload.shoppingListsProductsChangeStatusMap;
+
+      if (!shoppingListsProductsChangeStatusMap) {
+        return state;
+      } else if (
+        !shoppingListsProductsChangeStatusMap.has(state.productsList.id)
+      ) {
+        return state;
+      }
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          updating: true,
+          updatingError: {
+            hasError: false,
+            description: '',
+          },
+        },
+      };
+    }
+
+    case CHANGE_MULTIPLE_SHOPPING_LISTS_PRODUCTS_STATUS_CONFIRMED: {
+      // const confirmed = action.payload.confirmed;
+      const shoppingListsProductsChangeStatusMap =
+        action.payload.shoppingListsProductsChangeStatusMap;
+
+      if (!shoppingListsProductsChangeStatusMap) {
+        return state;
+      } else if (
+        !shoppingListsProductsChangeStatusMap.has(state.productsList.id)
+      ) {
+        return state;
+      }
+
+      const changedStatusProductsMap = new Map();
+      shoppingListsProductsChangeStatusMap
+        .get(state.productsList.id)
+        .forEach((product) => {
+          const {productId, productStatus} = product;
+          changedStatusProductsMap.set(productId, productStatus);
+        });
+
+      const products = state.productsList.products.map((product) => {
+        if (changedStatusProductsMap.has(product.id)) {
+          return {
+            ...product,
+            completionStatus: changedStatusProductsMap.get(product.id),
+          };
+        } else {
+          return product;
+        }
+      });
+
+      return {
+        ...state,
+        productsList: {
+          ...state.productsList,
+          updating: false,
+          updatingError: {
+            hasError: false,
+            description: '',
+          },
+          products,
         },
       };
     }

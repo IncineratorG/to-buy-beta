@@ -54,20 +54,20 @@ const AppWidgetRequestsHandler = () => {
     const shoppingListService = Services.get(
       Services.serviceTypes.SHOPPING_LIST,
     );
-    shoppingListService.changeMultipleShoppingListsProductsStatus({
-      shoppingListsProductsChangeStatusMap,
-    });
+    if (shoppingListsProductsChangeStatusMap.size > 0) {
+      await shoppingListService.changeMultipleShoppingListsProductsStatus({
+        shoppingListsProductsChangeStatusMap,
+      });
+    }
 
-    // const array = Array.from(shoppingListsProductsChangeStatusMap).map(
-    //   ([key, value]) => ({
-    //     key,
-    //     value,
-    //   }),
-    // );
-    //
-    // SystemEventsHandler.onInfo({
-    //   info: 'SIZE: ' + array.length,
-    // });
+    const currentShoppingLists = await shoppingListService.getShoppingListsWithProducts(
+      {},
+    );
+
+    const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);
+    appWidgetService.setInitialShoppingLists({
+      shoppingLists: currentShoppingLists,
+    });
   };
 
   return {

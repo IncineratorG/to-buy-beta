@@ -5,6 +5,7 @@ import {UnitsTableOperations} from './operations/units-table/UnitsTableOperation
 import {ShoppingListsTableOperations} from './operations/shopping-lists-table/ShoppingListsTableOperations';
 import {ProductsTableOperations} from './operations/products-table/ProductsTableOperations';
 import ProductStatus from '../../data/product-status/ProductStatus';
+import {not} from 'react-native-reanimated';
 
 const DB_NAME = 'tobuy_shopping_list.db';
 
@@ -653,7 +654,9 @@ const slSqliteFunctionsService = () => {
     return true;
   };
 
-  const changeMultipleShoppingListsProductsStatus = ({
+  // =====
+  // =======
+  const changeMultipleShoppingListsProductsStatus = async ({
     shoppingListsIdsWithProductsIdsAndNewStatusesMap,
     onChanged,
     onConfirmed,
@@ -665,17 +668,106 @@ const slSqliteFunctionsService = () => {
         shoppingListsIdsWithProductsIdsAndNewStatusesMap.size,
     });
 
-    const array = Array.from(
-      shoppingListsIdsWithProductsIdsAndNewStatusesMap,
-    ).map(([key, value]) => ({
-      listId: key,
-      listProducts: value,
-    }));
+    const shoppingListsIds = [];
+    const completedProductsIds = [];
+    const notCompletedProductsIds = [];
 
-    SystemEventsHandler.onInfo({
-      info: JSON.stringify(array),
+    const shoppingListsIdsWithProductsIdsAndNewStatusesArray = Array.from(
+      shoppingListsIdsWithProductsIdsAndNewStatusesMap,
+    ).map(([key, value]) => {
+      value.forEach((product) => {
+        shoppingListsIds.push(key);
+
+        const {productId, productStatus} = product;
+        if (productStatus === ProductStatus.COMPLETED) {
+          completedProductsIds.push(productId);
+        } else if (productStatus === ProductStatus.NOT_COMPLETED) {
+          notCompletedProductsIds.push(productId);
+        }
+      });
+
+      return {
+        listId: key,
+        listProducts: value,
+      };
     });
+
+    if (completedProductsIds.length > 0) {
+      const {
+        hasError: changeCompletedProductStatusError,
+      } = await ProductsTableOperations.changeMultipleProductsStatus({
+        db,
+        productsIds: completedProductsIds,
+        status: ProductStatus.COMPLETED,
+      });
+      if (changeCompletedProductStatusError) {
+        SystemEventsHandler.onError({
+          err:
+            'slSqliteFunctionsService->changeMultipleShoppingListsProductsStatus()->changeCompletedProductStatusError',
+        });
+      }
+    }
+    if (notCompletedProductsIds.length > 0) {
+      const {
+        hasError: changeNotCompletedProductStatusError,
+      } = await ProductsTableOperations.changeMultipleProductsStatus({
+        db,
+        productsIds: notCompletedProductsIds,
+        status: ProductStatus.NOT_COMPLETED,
+      });
+      if (changeNotCompletedProductStatusError) {
+        SystemEventsHandler.onError({
+          err:
+            'slSqliteFunctionsService->changeMultipleShoppingListsProductsStatus()->changeNotCompletedProductStatusError',
+        });
+      }
+    }
+
+    if (onChanged) {
+      onChanged();
+    }
+
+    await Promise.all(
+      shoppingListsIds.map(async (listId) => {
+        const {
+          products: completedProducts,
+        } = await ProductsTableOperations.getListProductsWithStatus({
+          db,
+          shoppingListId: listId,
+          status: ProductStatus.COMPLETED,
+        });
+
+        const {
+          products: notCompletedProducts,
+        } = await ProductsTableOperations.getListProductsWithStatus({
+          db,
+          shoppingListId: listId,
+          status: ProductStatus.NOT_COMPLETED,
+        });
+
+        const completedProductsCount = completedProducts.length;
+        const totalProductsCount =
+          completedProducts.length + notCompletedProducts.length;
+
+        const {
+          hasError: updateShoppingListError,
+        } = await ShoppingListsTableOperations.updateShoppingListProductsCount({
+          db: db,
+          id: listId,
+          totalProductsCount,
+          completedProductsCount,
+        });
+      }),
+    );
+
+    if (onConfirmed) {
+      onConfirmed({confirmed: true});
+    }
+
+    return true;
   };
+  // =======
+  // =====
 
   const removeProduct = async ({
     shoppingListId,

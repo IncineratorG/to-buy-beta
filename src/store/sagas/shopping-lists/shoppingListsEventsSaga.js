@@ -7,11 +7,7 @@ import {updateShoppingListsAction} from '../../actions/shopping-lists/shoppingLi
 
 function createProductEventsChannel() {
   return eventChannel((emit) => {
-    const confirmChangeMultipleProductsStatusHandler = ({
-      shoppingListId,
-      productsArray,
-      confirmed,
-    }) => {
+    const confirmChangeMultipleProductsStatusHandler = () => {
       emit(updateShoppingListsAction());
     };
 
@@ -26,9 +22,17 @@ function createProductEventsChannel() {
         handler: confirmChangeMultipleProductsStatusHandler,
       },
     );
+    const changeMultipleShoppingListsProductsStatusConfirmedUnsubscribe = shoppingListService.subscribe(
+      {
+        event:
+          ShoppingListServiceEvents.MULTIPLE_SHOPPING_LISTS_PRODUCTS_STATUS_CHANGE_CONFIRMED,
+        handler: confirmChangeMultipleProductsStatusHandler,
+      },
+    );
 
     return () => {
       changeMultipleProductsStatusConfirmedUnsubscribe();
+      changeMultipleShoppingListsProductsStatusConfirmedUnsubscribe();
     };
   });
 }

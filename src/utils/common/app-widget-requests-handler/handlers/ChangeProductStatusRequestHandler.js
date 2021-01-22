@@ -5,8 +5,8 @@ const ChangeProductStatusRequestHandler = () => {
     const {listId, productId, productStatus} = request;
 
     return {
-      listId,
-      productId,
+      listId: Number(listId),
+      productId: Number(productId),
       productStatus,
     };
   };

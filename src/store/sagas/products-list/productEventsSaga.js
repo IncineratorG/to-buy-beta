@@ -7,6 +7,7 @@ import {
   addProductCreatedAction,
   changeMultipleProductsStatusChangedAction,
   changeMultipleProductsStatusConfirmedAction,
+  changeMultipleShoppingListsProductsStatusChangedAction, changeMultipleShoppingListsProductsStatusConfirmedAction,
   changeProductStatusChangedAction,
   changeProductStatusConfirmedAction,
   removeMultipleProductsConfirmedAction,
@@ -119,6 +120,27 @@ function createProductEventsChannel() {
       );
     };
 
+    const changeMultipleShoppingListsProductsStatusHandler = ({
+      shoppingListsProductsChangeStatusMap,
+    }) => {
+      emit(
+        changeMultipleShoppingListsProductsStatusChangedAction({
+          shoppingListsProductsChangeStatusMap,
+        }),
+      );
+    };
+    const changeMultipleShoppingListsProductsStatusConfirmedHandler = ({
+      shoppingListsProductsChangeStatusMap,
+      confirmed,
+    }) => {
+      emit(
+        changeMultipleShoppingListsProductsStatusConfirmedAction({
+          shoppingListsProductsChangeStatusMap,
+          confirmed,
+        }),
+      );
+    };
+
     const shoppingListService = Services.get(
       Services.serviceTypes.SHOPPING_LIST,
     );
@@ -184,6 +206,21 @@ function createProductEventsChannel() {
       },
     );
 
+    const changeMultipleShoppingListsProductsStatusUnsubscribe = shoppingListService.subscribe(
+      {
+        event:
+          ShoppingListServiceEvents.MULTIPLE_SHOPPING_LISTS_PRODUCTS_STATUS_CHANGED,
+        handler: changeMultipleShoppingListsProductsStatusHandler,
+      },
+    );
+    const changeMultipleShoppingListsProductsStatusConfirmedUnsubscribe = shoppingListService.subscribe(
+      {
+        event:
+          ShoppingListServiceEvents.MULTIPLE_SHOPPING_LISTS_PRODUCTS_STATUS_CHANGE_CONFIRMED,
+        handler: changeMultipleShoppingListsProductsStatusConfirmedHandler,
+      },
+    );
+
     return () => {
       createUnsubscribe();
       createConfirmUnsubscribe();
@@ -197,6 +234,8 @@ function createProductEventsChannel() {
       removeMultipleProductsConfirmedUnsubscribe();
       changeMultipleProductsStatusUnsubscribe();
       changeMultipleProductsStatusConfirmedUnsubscribe();
+      changeMultipleShoppingListsProductsStatusUnsubscribe();
+      changeMultipleShoppingListsProductsStatusConfirmedUnsubscribe();
     };
   });
 }

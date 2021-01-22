@@ -50,12 +50,16 @@ const AppLoader = () => {
 
   useEffect(() => {
     setAppWidgetRequests(widgetRequests);
-    AppWidgetRequestsHandler.handle({requests: widgetRequests});
+    // AppWidgetRequestsHandler.handle({requests: widgetRequests});
   }, [widgetRequests]);
 
   useEffect(() => {
     setAppWidgetNavigationCommands(navigationCommands);
   }, [navigationCommands]);
+
+  useEffect(() => {
+    AppWidgetRequestsHandler.handle({requests: appWidgetRequests});
+  }, [appWidgetRequests]);
 
   if (appServicesStarted) {
     return (
