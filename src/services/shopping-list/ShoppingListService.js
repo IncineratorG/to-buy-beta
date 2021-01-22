@@ -287,6 +287,56 @@ export class ShoppingListService {
     });
   }
 
+  static async changeMultipleShoppingListsProductsStatus({
+    shoppingListsProductsChangeStatusMap,
+  }) {
+    const onChanged = () => {
+      ShoppingListService.#notifier.notify({
+        event:
+          ShoppingListServiceEvents.MULTIPLE_SHOPPING_LISTS_PRODUCTS_STATUS_CHANGED,
+        data: {shoppingListsProductsChangeStatusMap},
+      });
+    };
+    const onConfirmed = ({confirmed}) => {
+      ShoppingListService.#notifier.notify({
+        event:
+          ShoppingListServiceEvents.MULTIPLE_SHOPPING_LISTS_PRODUCTS_STATUS_CHANGE_CONFIRMED,
+        data: {
+          shoppingListsProductsChangeStatusMap,
+          confirmed,
+        },
+      });
+    };
+    const onError = ({error}) => {
+      SystemEventsHandler.onError({
+        err:
+          'ShoppingListService->changeMultipleShoppingListsProductsStatus()->ERROR: ' +
+          error,
+      });
+      ShoppingListService.#notifier.notify({
+        event:
+          ShoppingListServiceEvents.MULTIPLE_SHOPPING_LISTS_PRODUCTS_STATUS_CHANGE_ERROR,
+        data: {shoppingListsProductsChangeStatusMap, error},
+      });
+    };
+
+    if (
+      !shoppingListsProductsChangeStatusMap ||
+      !shoppingListsProductsChangeStatusMap.size
+    ) {
+      return;
+    }
+
+    await ShoppingListService.#serviceImpl.changeMultipleShoppingListsProductsStatus(
+      {
+        shoppingListsIdsWithProductsIdsAndNewStatusesMap: shoppingListsProductsChangeStatusMap,
+        onChanged,
+        onConfirmed,
+        onError,
+      },
+    );
+  }
+
   static async removeProduct({shoppingListId, productId}) {
     const onRemoved = ({productId}) => {
       ShoppingListService.#notifier.notify({

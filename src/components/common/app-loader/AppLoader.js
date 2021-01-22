@@ -10,6 +10,8 @@ import useAppState from './hooks/useAppState';
 import useWidgetRequests from './hooks/useWidgetRequests';
 import Services from '../../../services/Services';
 import useNavigationRequestCommands from './hooks/useNavigationRequestCommands';
+import AppWidgetRequestsProcessor from '../../../utils/common/app-widget-requests-processor/AppWidgetRequestsProcessor';
+import AppWidgetRequestsHandler from '../../../utils/common/app-widget-requests-handler/AppWidgetRequestsHandler';
 
 const AppLoader = () => {
   const [appServicesStarted, setAppServicesStarted] = useState(false);
@@ -30,7 +32,9 @@ const AppLoader = () => {
   });
 
   useEffect(() => {
-    dispatch(loadShoppingListsAction());
+    if (servicesStarted) {
+      dispatch(loadShoppingListsAction());
+    }
   }, [servicesStarted, dispatch]);
 
   useEffect(() => {
@@ -46,6 +50,7 @@ const AppLoader = () => {
 
   useEffect(() => {
     setAppWidgetRequests(widgetRequests);
+    AppWidgetRequestsHandler.handle({requests: widgetRequests});
   }, [widgetRequests]);
 
   useEffect(() => {

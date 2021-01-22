@@ -653,6 +653,30 @@ const slSqliteFunctionsService = () => {
     return true;
   };
 
+  const changeMultipleShoppingListsProductsStatus = ({
+    shoppingListsIdsWithProductsIdsAndNewStatusesMap,
+    onChanged,
+    onConfirmed,
+    onError,
+  }) => {
+    SystemEventsHandler.onInfo({
+      info:
+        'slSqliteFunctionsService->changeMultipleShoppingListsProductsStatus(): ' +
+        shoppingListsIdsWithProductsIdsAndNewStatusesMap.size,
+    });
+
+    const array = Array.from(
+      shoppingListsIdsWithProductsIdsAndNewStatusesMap,
+    ).map(([key, value]) => ({
+      listId: key,
+      listProducts: value,
+    }));
+
+    SystemEventsHandler.onInfo({
+      info: JSON.stringify(array),
+    });
+  };
+
   const removeProduct = async ({
     shoppingListId,
     productId,
@@ -816,6 +840,7 @@ const slSqliteFunctionsService = () => {
     updateProduct,
     changeProductStatus,
     changeMultipleProductsStatus,
+    changeMultipleShoppingListsProductsStatus,
     removeProduct,
     removeMultipleProducts,
   };

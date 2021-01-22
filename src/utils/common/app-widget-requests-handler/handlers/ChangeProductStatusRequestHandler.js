@@ -2,10 +2,6 @@ import {SystemEventsHandler} from '../../system-events-handler/SystemEventsHandl
 
 const ChangeProductStatusRequestHandler = () => {
   const handle = ({request}) => {
-    SystemEventsHandler.onInfo({
-      info: 'ChangeProductStatusRequestHandler: ' + JSON.stringify(request),
-    });
-
     const {listId, productId, productStatus} = request;
 
     return {

@@ -1,10 +1,10 @@
 import {SystemEventsHandler} from '../system-events-handler/SystemEventsHandler';
 import NativeWidgetConstants from '../../../services/app-widget/native-widget/constants/NativeWidgetConstants';
-import MarkProductAsBoughtRequestHandler from './handlers/MarkProductAsBoughtRequestHandler';
-import OpenShoppingListRequestHandler from './handlers/OpenShoppingListRequestHandler';
+import MarkProductAsBoughtRequestHandler from '../app-widget-requests-handler/handlers/MarkProductAsBoughtRequestHandler';
+import OpenShoppingListRequestHandler from '../app-widget-requests-handler/handlers/OpenShoppingListRequestHandler';
 import Services from '../../../services/Services';
 import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
-import ChangeProductStatusRequestHandler from './handlers/ChangeProductStatusRequestHandler';
+import ChangeProductStatusRequestHandler from '../app-widget-requests-handler/handlers/ChangeProductStatusRequestHandler';
 
 const AppWidgetRequestsProcessor = () => {
   const {

@@ -53,7 +53,9 @@ const OpenShoppingListRequestHandler = () => {
       }
 
       // ===
-      SystemEventsHandler.onInfo({info: JSON.stringify(request)});
+      SystemEventsHandler.onInfo({
+        info: 'NAVIGATION_REQUEST: ' + JSON.stringify(request),
+      });
       // ===
 
       const listId = Number(listIdString);

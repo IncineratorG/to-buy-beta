@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import NativeWidgetConstants from '../../../../services/app-widget/native-widget/constants/NativeWidgetConstants';
-import OpenShoppingListRequestHandler from '../../../../utils/common/app-widget-requests-processor/handlers/OpenShoppingListRequestHandler';
+import OpenShoppingListRequestHandler from '../../../../utils/common/app-widget-requests-handler/handlers/OpenShoppingListRequestHandler';
 
 const useNavigationRequestCommands = ({widgetRequests}) => {
   const [navigationCommands, setNavigationCommands] = useState([]);
