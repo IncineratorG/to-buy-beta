@@ -17,6 +17,7 @@ const NativeWidgetConstants = () => {
       MARK_PRODUCT_AS_BOUGHT_REQUEST,
       CHANGE_PRODUCT_STATUS_REQUEST,
     },
+    widgetEvents: {OPEN_SHOPPING_LIST_REQUEST_EVENT},
   } = AppWidget.getConstants();
 
   return {
@@ -34,6 +35,9 @@ const NativeWidgetConstants = () => {
       OPEN_SHOPPING_LIST_REQUEST,
       MARK_PRODUCT_AS_BOUGHT_REQUEST,
       CHANGE_PRODUCT_STATUS_REQUEST,
+    },
+    widgetEvents: {
+      OPEN_SHOPPING_LIST_REQUEST_EVENT,
     },
   };
 };

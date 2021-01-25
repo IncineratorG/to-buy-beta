@@ -2,6 +2,7 @@ package com.tobuybeta.modules.app_widget.storage.events;
 
 import android.content.Context;
 
+import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.InitialShoppingListSetEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.MultipleShoppingListsSetEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.ProductRemovedEventPayload;
@@ -9,6 +10,7 @@ import com.tobuybeta.modules.app_widget.storage.events.payloads.ProductStatusCha
 import com.tobuybeta.modules.app_widget.storage.events.payloads.ShoppingListRemovedEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.ShoppingListSetEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.WidgetActiveChangedEventPayload;
+import com.tobuybeta.modules.app_widget.storage.events.payloads.WidgetRequestSetEventPayload;
 
 import java.util.List;
 
@@ -70,5 +72,13 @@ public class StorageEventPayloads {
     }
     public static ProductStatusChangedEventPayload toProductStatusChangedEventPayload(Object value) {
         return (ProductStatusChangedEventPayload) value;
+    }
+
+    public static WidgetRequestSetEventPayload widgetRequestSetEventPayload(Context context,
+                                                                            WidgetRequest widgetRequest) {
+        return new WidgetRequestSetEventPayload(context, widgetRequest);
+    }
+    public static WidgetRequestSetEventPayload toWidgetRequestSetEventPayload(Object value) {
+        return (WidgetRequestSetEventPayload) value;
     }
 }

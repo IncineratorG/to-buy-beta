@@ -225,7 +225,13 @@ public class Storage {
                 Context context = (Context) action.payload().get("context");
                 WidgetRequest widgetRequest = (WidgetRequest) action.payload().get("widgetRequest");
 
-                mWidgetStorage.setWidgetRequest(context, widgetRequest);
+                boolean success = mWidgetStorage.setWidgetRequest(context, widgetRequest);
+                if (success) {
+                    mNotifier.notify(
+                            StorageEvents.WIDGET_REQUEST_SET,
+                            StorageEventPayloads.widgetRequestSetEventPayload(context, widgetRequest)
+                    );
+                }
                 break;
             }
 

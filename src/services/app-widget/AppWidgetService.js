@@ -8,14 +8,9 @@ const AppWidgetService = () => {
   const widget = NativeWidget;
 
   const init = async () => {
-    // SystemEventsHandler.onInfo({info: 'AppWidgetService->init()'});
-    const result = await widget.getWidgetStatus();
-    SystemEventsHandler.onInfo({
-      info: 'WIDGET_ACTIVE: ' + JSON.stringify(result),
-    });
-
-    // shoppingLists.forEach((shoppingList) => {
-    //   SystemEventsHandler.onInfo({info: JSON.stringify(shoppingList)});
+    // const result = await widget.getWidgetStatus();
+    // SystemEventsHandler.onInfo({
+    //   info: 'WIDGET_ACTIVE: ' + JSON.stringify(result),
     // });
   };
 

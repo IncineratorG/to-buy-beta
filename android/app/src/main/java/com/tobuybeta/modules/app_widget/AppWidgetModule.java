@@ -2,6 +2,7 @@ package com.tobuybeta.modules.app_widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,20 +29,22 @@ import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetMult
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetShoppingListPayload;
 import com.tobuybeta.modules.app_widget.module_actions.types.AppWidgetActionTypes;
 import com.tobuybeta.modules.app_widget.module_errors.AppWidgetErrors;
+import com.tobuybeta.modules.app_widget.module_events.AppWidgetEventJSPayloads;
+import com.tobuybeta.modules.app_widget.module_events.AppWidgetEventTypes;
+import com.tobuybeta.modules.app_widget.module_requests.requests.OpenShoppingListRequest;
 import com.tobuybeta.modules.app_widget.module_requests.transformer.WidgetRequestTransformer;
 import com.tobuybeta.modules.app_widget.module_requests.types.WidgetRequestTypes;
 import com.tobuybeta.modules.app_widget.storage.Storage;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActions;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActionResults;
+import com.tobuybeta.modules.app_widget.storage.events.StorageEventPayloads;
+import com.tobuybeta.modules.app_widget.storage.events.StorageEvents;
+import com.tobuybeta.modules.app_widget.storage.events.payloads.WidgetRequestSetEventPayload;
 import com.tobuybeta.test_widget.MyTestWidget;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-/**
- * TODO: Add a class header comment
- */
 
 public class AppWidgetModule extends ReactContextBaseJavaModule {
     private ReactApplicationContext mContext;
@@ -58,25 +61,21 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
         mContext = reactContext;
         mStorage = Storage.get();
 
-//        Storage storage = Storage.get();
-//
-//        storage.subscribe(StorageEvents.WIDGET_ACTIVE_CHANGED, (value) -> {
-//            boolean isActive = StorageEventsResultValues.widgetActiveChangedEventResult(value);
-//
-//            WritableMap params = new WritableNativeMap();
-//            params.putBoolean(IS_WIDGET_ACTIVE_FIELD, isActive);
-//
-//            emitEvent(mContext, StorageEvents.WIDGET_ACTIVE_CHANGED, params);
-//        });
-//
-//        storage.subscribe(StorageEvents.SHOPPING_LIST_SET, (value) -> {
-//            String shoppingListId = StorageEventsResultValues.shoppingListSetEventResult(value);
-//
-//            WritableMap params = new WritableNativeMap();
-//            params.putString(SHOPPING_LIST_ID_FIELD, shoppingListId);
-//
-//            emitEvent(mContext, StorageEvents.SHOPPING_LIST_SET, params);
-//        });
+        mStorage.subscribe(StorageEvents.WIDGET_REQUEST_SET, (value) -> {
+            WidgetRequestSetEventPayload payload = StorageEventPayloads.toWidgetRequestSetEventPayload(value);
+
+            WidgetRequest request = payload.request();
+            if (request.type().equalsIgnoreCase(WidgetRequestTypes.OPEN_SHOPPING_LIST_REQUEST)) {
+                OpenShoppingListRequest openShoppingListRequest = (OpenShoppingListRequest) request;
+                emitEvent(
+                        mContext,
+                        AppWidgetEventTypes.OPEN_SHOPPING_LIST_REQUEST_EVENT,
+                        AppWidgetEventJSPayloads.openShoppingListRequestEventPayload(
+                                openShoppingListRequest.listId()
+                        )
+                );
+            }
+        });
     }
 
     @NonNull
@@ -89,19 +88,6 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
     @Override
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
-//        constants.put(StorageEvents.WIDGET_ACTIVE_CHANGED, StorageEvents.WIDGET_ACTIVE_CHANGED);
-//        constants.put(StorageEvents.SHOPPING_LIST_SET, StorageEvents.SHOPPING_LIST_SET);
-//
-//        WritableMap map = new WritableNativeMap();
-//        map.putString("ONE", "one");
-//        map.putString("TWO", "two");
-//
-//        constants.put("MAP", map);
-
-//        WritableMap eventConstants = new WritableNativeMap();
-//        eventConstants.putString(StorageEvents.WIDGET_ACTIVE_CHANGED, StorageEvents.WIDGET_ACTIVE_CHANGED);
-//
-//        constants.put("events", eventConstants);
 
         WritableMap actionTypesConstants = new WritableNativeMap();
         actionTypesConstants.putString(AppWidgetActionTypes.GET_WIDGET_STATUS, AppWidgetActionTypes.GET_WIDGET_STATUS);
@@ -118,8 +104,12 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
         widgetRequestsTypes.putString(WidgetRequestTypes.MARK_PRODUCT_AS_BOUGHT_REQUEST, WidgetRequestTypes.MARK_PRODUCT_AS_BOUGHT_REQUEST);
         widgetRequestsTypes.putString(WidgetRequestTypes.CHANGE_PRODUCT_STATUS_REQUEST, WidgetRequestTypes.CHANGE_PRODUCT_STATUS_REQUEST);
 
+        WritableMap widgetEventTypes = new WritableNativeMap();
+        widgetEventTypes.putString(AppWidgetEventTypes.OPEN_SHOPPING_LIST_REQUEST_EVENT, AppWidgetEventTypes.OPEN_SHOPPING_LIST_REQUEST_EVENT);
+
         constants.put("actionTypes", actionTypesConstants);
         constants.put("widgetRequests", widgetRequestsTypes);
+        constants.put("widgetEvents", widgetEventTypes);
 
         return constants;
     }
