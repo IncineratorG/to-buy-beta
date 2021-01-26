@@ -1,17 +1,22 @@
 import {Notifier} from '../../utils/common/service-utils/notifier/Notifier';
 import {SystemEventsHandler} from '../../utils/common/system-events-handler/SystemEventsHandler';
-import AppWidgetServiceEventTypes from './data/event-types/AppWidgetServiceEventTypes';
 import NativeWidget from './native-widget/NativeWidget';
+import NativeWidgetEvents from './native-widget/events/NativeWidgetEvents';
 
 const AppWidgetService = () => {
   const notifier = new Notifier();
   const widget = NativeWidget;
 
   const init = async () => {
-    // const result = await widget.getWidgetStatus();
-    // SystemEventsHandler.onInfo({
-    //   info: 'WIDGET_ACTIVE: ' + JSON.stringify(result),
-    // });
+    widget.subscribe({
+      event: NativeWidgetEvents.types.OPEN_SHOPPING_LIST_REQUEST_EVENT,
+      handler: (data) => {
+        notifier.notify({
+          event: NativeWidgetEvents.types.OPEN_SHOPPING_LIST_REQUEST_EVENT,
+          data,
+        });
+      },
+    });
   };
 
   const subscribe = ({event, handler}) => {

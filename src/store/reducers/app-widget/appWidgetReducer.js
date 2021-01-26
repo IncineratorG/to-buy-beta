@@ -1,57 +1,29 @@
-import {
-  SET_WIDGET_INITIAL_STATE,
-  SET_WIDGET_IS_ACTIVE_STATUS,
-  WIDGET_SHOPPING_LIST_SET,
-} from '../../types/app-widget/appWidgetTypes';
+import AppWidgetActionTypes from '../../types/app-widget/appWidgetTypes';
 
 const initialState = {
   appWidget: {
-    isActive: false,
-    shoppingListId: -1,
+    requestedToOpenShoppingListId: -1,
   },
 };
 
 export const appWidgetReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_WIDGET_INITIAL_STATE: {
-      const {
-        payload: {isActive, shoppingListId},
-      } = action;
-
+    case AppWidgetActionTypes.SET_REQUESTED_TO_OPEN_SHOPPING_LIST_ID: {
       return {
         ...state,
         appWidget: {
           ...state.appWidget,
-          isActive,
-          shoppingListId,
+          requestedToOpenShoppingListId: action.payload.listId,
         },
       };
     }
 
-    case SET_WIDGET_IS_ACTIVE_STATUS: {
-      const {
-        payload: {isActive},
-      } = action;
-
+    case AppWidgetActionTypes.RESET_REQUESTED_TO_OPEN_SHOPPING_LIST_ID: {
       return {
         ...state,
         appWidget: {
           ...state.appWidget,
-          isActive,
-        },
-      };
-    }
-
-    case WIDGET_SHOPPING_LIST_SET: {
-      const {
-        payload: {shoppingListId},
-      } = action;
-
-      return {
-        ...state,
-        appWidget: {
-          ...state.appWidget,
-          shoppingListId,
+          requestedToOpenShoppingListId: -1,
         },
       };
     }

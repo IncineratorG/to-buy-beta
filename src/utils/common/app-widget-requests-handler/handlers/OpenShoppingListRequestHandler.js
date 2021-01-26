@@ -25,6 +25,7 @@ import {loadCategoriesAction} from '../../../../store/actions/categories/categor
 import {loadUnitsAction} from '../../../../store/actions/units/unitsActions';
 import {loadProductsListAction} from '../../../../store/actions/products-list/productsListActions';
 import {updateShoppingListsAction} from '../../../../store/actions/shopping-lists/shoppingListsActions';
+import appWidgetActions from '../../../../store/actions/app-widget/appWidgetActions';
 
 const OpenShoppingListRequestHandler = () => {
   const handle = ({request}) => {
@@ -87,6 +88,7 @@ const OpenShoppingListRequestHandler = () => {
         dispatch(loadCategoriesAction({shoppingListId: listId}));
         dispatch(loadUnitsAction({shoppingListId: listId}));
         dispatch(loadProductsListAction({shoppingListId: listId}));
+        dispatch(appWidgetActions.resetRequestedToOpenShoppingListId());
 
         // ===
         // SystemEventsHandler.onInfo({info: JSON.stringify(navigation.state())});

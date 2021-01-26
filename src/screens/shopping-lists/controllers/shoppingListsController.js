@@ -10,7 +10,6 @@ import {loadCategoriesAction} from '../../../store/actions/categories/categories
 import {loadUnitsAction} from '../../../store/actions/units/unitsActions';
 import {shareProductsListViaAppAction} from '../../../store/actions/share/shareActions';
 import {setSystemLanguageAction} from '../../../store/actions/system/systemActions';
-import {setWidgetShoppingListAction} from '../../../store/actions/app-widget/appWidgetActions';
 
 export const useShoppingListsController = (model) => {
   const listItemPressHandler = (listItemId) => {
@@ -37,7 +36,10 @@ export const useShoppingListsController = (model) => {
   };
 
   const listItemSendToWidgetPressHandler = (listItem) => {
-    model.dispatch(setWidgetShoppingListAction({shoppingListId: listItem.id}));
+    SystemEventsHandler.onError({
+      err: 'listItemSendToWidgetPressHandler->NOT_IMPLEMENTED',
+    });
+    // model.dispatch(setWidgetShoppingListAction({shoppingListId: listItem.id}));
   };
 
   const addButtonHandler = () => {

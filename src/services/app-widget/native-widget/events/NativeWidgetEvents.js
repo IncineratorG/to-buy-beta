@@ -1,11 +1,11 @@
 import NativeWidgetConstants from '../constants/NativeWidgetConstants';
 
 const NativeWidgetEvents = () => {
-  const openShoppingListRequestEventPayload = (event) => {
-    const {listId} = event;
+  const openShoppingListRequestEventPayload = (data) => {
+    const {listId} = data;
 
     return {
-      listId,
+      listId: Number(listId),
     };
   };
 

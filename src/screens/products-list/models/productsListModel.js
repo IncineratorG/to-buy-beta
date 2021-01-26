@@ -87,6 +87,19 @@ export const useProductsListModel = () => {
       storeState.share.share.availability.shareServiceAvailabilityMap,
   );
 
+  // ===
+  // =====
+  const requestedToOpenShoppingListId = useSelector(
+    (storeState) =>
+      storeState.appWidget.appWidget.requestedToOpenShoppingListId,
+  );
+  SystemEventsHandler.onInfo({
+    info:
+      'REQUESTED_TO_OPEN_SHOPPING_LIST_ID: ' + requestedToOpenShoppingListId,
+  });
+  // =====
+  // ===
+
   useEffect(() => {
     dispatch(checkShareAvailabilityAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps
