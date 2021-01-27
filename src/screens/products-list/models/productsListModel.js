@@ -105,16 +105,47 @@ export const useProductsListModel = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // ===
   useEffect(() => {
-    navigation.setOptions({title: listName});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [listName]);
-
-  useEffect(() => {
-    if (!listLoading && !unitsLoading && !categoriesLoading) {
-      localDispatch(pla_setDataLoading({dataLoading: false}));
+    if (
+      requestedToOpenShoppingListId > 0 &&
+      shoppingListId !== requestedToOpenShoppingListId
+    ) {
+      navigation.setOptions({title: ''});
+    } else {
+      navigation.setOptions({title: listName});
     }
-  }, [listLoading, unitsLoading, categoriesLoading]);
+  }, [listName, requestedToOpenShoppingListId, shoppingListId, navigation]);
+  // ===
+  // useEffect(() => {
+  //   navigation.setOptions({title: listName});
+  // }, [listName, navigation]);
+
+  // ===
+  useEffect(() => {
+    if (
+      requestedToOpenShoppingListId > 0 &&
+      shoppingListId !== requestedToOpenShoppingListId
+    ) {
+      localDispatch(pla_setDataLoading({dataLoading: true}));
+    } else if (!listLoading && !unitsLoading && !categoriesLoading) {
+      localDispatch(pla_setDataLoading({dataLoading: false}));
+    } else {
+      localDispatch(pla_setDataLoading({dataLoading: true}));
+    }
+  }, [
+    listLoading,
+    unitsLoading,
+    categoriesLoading,
+    shoppingListId,
+    requestedToOpenShoppingListId,
+  ]);
+  // ===
+  // useEffect(() => {
+  //   if (!listLoading && !unitsLoading && !categoriesLoading) {
+  //     localDispatch(pla_setDataLoading({dataLoading: false}));
+  //   }
+  // }, [listLoading, unitsLoading, categoriesLoading]);
 
   // ===
   // =======

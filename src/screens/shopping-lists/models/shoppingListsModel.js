@@ -24,8 +24,11 @@ export const useShoppingListsModel = () => {
   const [listToRename, setListToRename] = useState(null);
   const [copyDialogVisible, setCopyDialogVisible] = useState(false);
   const [listToCopy, setListToCopy] = useState(null);
+  // ===
+  const [listsLoading, setListsLoading] = useState(true);
+  // ===
 
-  const listsLoading = useSelector(
+  const shoppingListLoading = useSelector(
     (state) => state.shoppingLists.shoppingLists.loading,
   );
   const allShoppingLists = useSelector(
@@ -40,6 +43,11 @@ export const useShoppingListsModel = () => {
   const shareServicesAvailabilityMap = useSelector(
     (state) => state.share.share.availability.shareServiceAvailabilityMap,
   );
+  // ===
+  const requestedToOpenShoppingListId = useSelector(
+    (state) => state.appWidget.appWidget.requestedToOpenShoppingListId,
+  );
+  // ===
 
   // =====
   // const widgetIsActive = useSelector(
@@ -72,6 +80,18 @@ export const useShoppingListsModel = () => {
   // useEffect(() => {
   //   SystemEventsHandler.onInfo({info: 'HERE->>>'});
   // }, []);
+  // ===
+
+  // ===
+  useEffect(() => {
+    if (shoppingListLoading) {
+      setListsLoading(true);
+    } else if (requestedToOpenShoppingListId > 0) {
+      setListsLoading(true);
+    } else {
+      setListsLoading(false);
+    }
+  }, [shoppingListLoading, requestedToOpenShoppingListId]);
   // ===
 
   return {
