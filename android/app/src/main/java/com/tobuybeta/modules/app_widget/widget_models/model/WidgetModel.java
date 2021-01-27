@@ -123,6 +123,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.tobuybeta.modules.app_widget.common.action.Action;
+import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.common.widget_list_info.WidgetListInfo;
 import com.tobuybeta.modules.app_widget.storage.Storage;
@@ -149,8 +150,6 @@ public class WidgetModel {
         } else {
             loadAllShoppingLists(context);
         }
-
-//        loadAllShoppingLists(context);
     }
 
     public void update(Context context) {
@@ -186,6 +185,13 @@ public class WidgetModel {
         mStorage.execute(getProductsListAction);
         mCurrentList = StorageActionResults
                 .getProductsListActionResult(getProductsListAction.result().get());
+
+        // ===
+        Toast.makeText(context, "LOADED_LIST_ID->|" + mCurrentList.listId() + "|", Toast.LENGTH_SHORT).show();
+        if (mCurrentList.listId().equalsIgnoreCase(AppWidgetModuleConstants.common.EMPTY_ID)) {
+            return loadAllShoppingLists(context);
+        }
+        // ===
 
         return true;
     }

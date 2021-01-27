@@ -290,18 +290,20 @@ public class ShoppingListStorage {
                 .getStringSet(id, new HashSet<>());
 
         String title = "Unknown";
+        String listId = AppWidgetModuleConstants.common.EMPTY_ID;
         Function<String, String> listIdExtractor = ShoppingList.serializedIdExtractor();
         Function<String, String> listNameExtractor = ShoppingList.serializedNameExtractor();
         for (String shoppingListDescription : existedShoppingListDescriptionsSet) {
-            String listId = listIdExtractor.apply(shoppingListDescription);
-            if (listId.equalsIgnoreCase(id)) {
+            String currentListId = listIdExtractor.apply(shoppingListDescription);
+            if (currentListId.equalsIgnoreCase(id)) {
                 title = listNameExtractor.apply(shoppingListDescription);
+                listId = currentListId;
                 break;
             }
         }
 
         return new GeneralizedList(
-                id,
+                listId,
                 title,
                 new ArrayList<>(productListDescriptionSet),
                 GeneralizedList.PRODUCTS_LIST,

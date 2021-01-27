@@ -100,16 +100,4 @@ public class WidgetModels {
             entry.getValue().update(context);
         }
     }
-
-    public WidgetModel getOrNull(int appWidgetId) {
-        if (mModels.containsKey(appWidgetId)) {
-            return mModels.get(appWidgetId);
-        }
-
-        return null;
-    }
-
-    public void clear() {
-        mModels.clear();
-    }
 }
