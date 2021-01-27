@@ -234,6 +234,10 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                     return;
                 }
 
+                mStorage.execute(
+                        StorageActions.removeShoppingListAction(mContext, payload.listId())
+                );
+
                 result.resolve(true);
                 break;
             }

@@ -1,7 +1,5 @@
 import {takeLatest, takeEvery} from '@redux-saga/core/effects';
 import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
-import {SET_WIDGET_SHOPPING_LIST} from '../../types/app-widget/appWidgetTypes';
-import aws_setWidgetShoppingListHandler from './handlers/aws_setWidgetShoppingListHandler';
 import {
   ADD_PRODUCT_CREATED,
   CHANGE_MULTIPLE_PRODUCTS_STATUS,
@@ -39,7 +37,7 @@ import aws_renameShoppingListHandler from './handlers/aws_renameShoppingListHand
 function* appWidgetSaga() {
   SystemEventsHandler.onInfo({info: 'appWidgetSaga()'});
 
-  yield takeLatest(SET_WIDGET_SHOPPING_LIST, aws_setWidgetShoppingListHandler);
+  // yield takeLatest(SET_WIDGET_SHOPPING_LIST, aws_setWidgetShoppingListHandler);
 
   yield takeEvery(CREATE_SHOPPING_LIST_FINISHED, aws_createShoppingListHandler);
   yield takeEvery(REMOVE_SHOPPING_LIST_FINISHED, aws_removeShoppingListHandler);

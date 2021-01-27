@@ -93,10 +93,10 @@ export const useProductsListModel = () => {
     (storeState) =>
       storeState.appWidget.appWidget.requestedToOpenShoppingListId,
   );
-  SystemEventsHandler.onInfo({
-    info:
-      'REQUESTED_TO_OPEN_SHOPPING_LIST_ID: ' + requestedToOpenShoppingListId,
-  });
+  // SystemEventsHandler.onInfo({
+  //   info:
+  //     'REQUESTED_TO_OPEN_SHOPPING_LIST_ID: ' + requestedToOpenShoppingListId,
+  // });
   // =====
   // ===
 
