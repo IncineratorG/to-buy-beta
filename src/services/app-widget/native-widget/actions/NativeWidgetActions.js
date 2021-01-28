@@ -10,6 +10,7 @@ const NativeWidgetActions = () => {
       REMOVE_SHOPPING_LIST,
       GET_ALL_WIDGET_REQUESTS,
       GET_AND_REMOVE_ALL_WIDGET_REQUESTS,
+      REMOVE_MULTIPLE_WIDGET_REQUESTS,
     },
   } = NativeWidgetConstants;
 
@@ -67,6 +68,15 @@ const NativeWidgetActions = () => {
     };
   };
 
+  const removeMultipleWidgetRequests = ({widgetRequestIdsArray}) => {
+    return {
+      type: REMOVE_MULTIPLE_WIDGET_REQUESTS,
+      payload: {
+        widgetRequestIdsArray,
+      },
+    };
+  };
+
   return {
     getWidgetStatusAction,
     setInitialShoppingListsAction,
@@ -75,6 +85,7 @@ const NativeWidgetActions = () => {
     removeShoppingListAction,
     getWidgetRequestsAction,
     getAndRemoveAllWidgetRequestsAction,
+    removeMultipleWidgetRequests,
   };
 };
 

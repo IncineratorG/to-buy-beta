@@ -21,84 +21,44 @@ const AppWidgetEvents = () => {
     };
   };
 
-  return {
-    openShoppingListRequestEvent,
+  const changeProductStatusRequestEvent = (emit) => {
+    const changeProductStatusRequestEventHandler = ({
+      listId,
+      productId,
+      productStatus,
+      requestId,
+    }) => {
+      SystemEventsHandler.onInfo({
+        info:
+          'changeProductStatusRequestEventHandler(): ' +
+          listId +
+          ' - ' +
+          productId +
+          ' - ' +
+          productStatus +
+          ' - ' +
+          requestId,
+      });
+    };
+
+    const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);
+
+    const changeProductStatusRequestEventUnsubscribe = appWidgetService.subscribe(
+      {
+        event: NativeWidgetEvents.types.CHANGE_PRODUCT_STATUS_REQUEST_EVENT,
+        handler: changeProductStatusRequestEventHandler,
+      },
+    );
+
+    return () => {
+      changeProductStatusRequestEventUnsubscribe();
+    };
   };
 
-  // const widgetInitialStatusChangedEvent = (emit) => {
-  //   const widgetInitialStatusChangedHandler = ({isActive, shoppingListId}) => {
-  //     SystemEventsHandler.onInfo({
-  //       info:
-  //         'AppWidgetEvents->widgetInitialStatusChanged(): ' +
-  //         isActive +
-  //         ' - ' +
-  //         shoppingListId,
-  //     });
-  //
-  //     emit(setWidgetInitialStateAction({isActive, shoppingListId}));
-  //   };
-  //
-  //   const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);
-  //
-  //   const widgetInitialStatusChangedUnsubscribe = appWidgetService.subscribe({
-  //     event: AppWidgetServiceEventTypes.WIDGET_INITIAL_STATUS_CHANGED,
-  //     handler: widgetInitialStatusChangedHandler,
-  //   });
-  //
-  //   return () => {
-  //     widgetInitialStatusChangedUnsubscribe();
-  //   };
-  // };
-  //
-  // const widgetActiveStatusChangedEvent = (emit) => {
-  //   const widgetActiveStatusChangedHandler = ({isActive}) => {
-  //     // SystemEventsHandler.onInfo({
-  //     //   info:
-  //     //     'AppWidgetEvents->widgetActiveStatusChangedHandler(): ' + isActive,
-  //     // });
-  //
-  //     emit(setWidgetIsActiveStatusAction({isActive}));
-  //   };
-  //
-  //   const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);
-  //
-  //   const widgetActiveStatusChangedUnsubscribe = appWidgetService.subscribe({
-  //     event: AppWidgetServiceEventTypes.WIDGET_ACTIVE_CHANGED,
-  //     handler: widgetActiveStatusChangedHandler,
-  //   });
-  //
-  //   return () => {
-  //     widgetActiveStatusChangedUnsubscribe();
-  //   };
-  // };
-  //
-  // const shoppingListChangedEvent = (emit) => {
-  //   const shoppingListChangedHandler = ({shoppingListId}) => {
-  //     // SystemEventsHandler.onInfo({
-  //     //   info:
-  //     //     'AppWidgetEvents->shoppingListChangedHandler(): ' + shoppingListId,
-  //     // });
-  //
-  //     emit(widgetShoppingListSetAction({shoppingListId}));
-  //   };
-  //
-  //   const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);
-  //
-  //   const shoppingListChangedUnsubscribe = appWidgetService.subscribe({
-  //     event: AppWidgetServiceEventTypes.CURRENT_WIDGET_SHOPPING_LIST_CHANGED,
-  //     handler: shoppingListChangedHandler,
-  //   });
-  //
-  //   return () => {
-  //     shoppingListChangedUnsubscribe();
-  //   };
-  // };
-  //
-  // return {
-  //   widgetInitialStatusChangedEvent,
-  //   widgetActiveStatusChangedEvent,
-  //   shoppingListChangedEvent,
-  // };
+  return {
+    openShoppingListRequestEvent,
+    changeProductStatusRequestEvent,
+  };
 };
 
 export default AppWidgetEvents();

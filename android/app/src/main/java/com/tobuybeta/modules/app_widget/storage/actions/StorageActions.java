@@ -152,4 +152,12 @@ public class StorageActions {
 
         return new Action(StorageActionTypes.GET_ALL_WIDGET_REQUESTS, payload);
     }
+
+    public static Action removeWidgetRequests(Context context, List<String> requestIds) {
+        ActionPayload payload = new ActionPayload();
+        payload.set("context", context);
+        payload.set("requestIds", requestIds);
+
+        return new Action(StorageActionTypes.REMOVE_WIDGET_REQUESTS, payload);
+    }
 }

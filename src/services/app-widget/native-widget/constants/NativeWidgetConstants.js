@@ -10,6 +10,7 @@ const NativeWidgetConstants = () => {
       REMOVE_SHOPPING_LIST,
       GET_ALL_WIDGET_REQUESTS,
       GET_AND_REMOVE_ALL_WIDGET_REQUESTS,
+      REMOVE_MULTIPLE_WIDGET_REQUESTS,
     },
     widgetRequests: {
       EMPTY_REQUEST,
@@ -17,7 +18,10 @@ const NativeWidgetConstants = () => {
       MARK_PRODUCT_AS_BOUGHT_REQUEST,
       CHANGE_PRODUCT_STATUS_REQUEST,
     },
-    widgetEvents: {OPEN_SHOPPING_LIST_REQUEST_EVENT},
+    widgetEvents: {
+      OPEN_SHOPPING_LIST_REQUEST_EVENT,
+      CHANGE_PRODUCT_STATUS_REQUEST_EVENT,
+    },
   } = AppWidget.getConstants();
 
   return {
@@ -29,6 +33,7 @@ const NativeWidgetConstants = () => {
       REMOVE_SHOPPING_LIST,
       GET_ALL_WIDGET_REQUESTS,
       GET_AND_REMOVE_ALL_WIDGET_REQUESTS,
+      REMOVE_MULTIPLE_WIDGET_REQUESTS,
     },
     widgetRequests: {
       EMPTY_REQUEST,
@@ -38,6 +43,7 @@ const NativeWidgetConstants = () => {
     },
     widgetEvents: {
       OPEN_SHOPPING_LIST_REQUEST_EVENT,
+      CHANGE_PRODUCT_STATUS_REQUEST_EVENT,
     },
   };
 };

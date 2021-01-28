@@ -24,10 +24,14 @@ public class SetInitialShoppingListsPayload implements JSPayload {
         mShoppingLists = new ArrayList<>();
 
         ReadableArray shoppingLists = readableMap.getArray(SHOPPING_LISTS_FIELD);
-        if (shoppingLists == null || shoppingLists.size() <= 0) {
+        if (shoppingLists == null) {
             mIsValid = false;
             return;
         }
+//        if (shoppingLists == null || shoppingLists.size() <= 0) {
+//            mIsValid = false;
+//            return;
+//        }
 
         for (int i = 0; i < shoppingLists.size(); ++i) {
             ReadableMap shoppingListObject = shoppingLists.getMap(i);
@@ -63,7 +67,6 @@ public class SetInitialShoppingListsPayload implements JSPayload {
                     continue;
                 }
 
-//                productsList.add(new Product(productId, productIdLong, productName));
                 productsList.add(new Product(productId, productIdLong, productName, productStatus));
             }
 

@@ -8,4 +8,5 @@ public class AppWidgetActionTypes {
     public static final String REMOVE_SHOPPING_LIST = "REMOVE_SHOPPING_LIST";
     public static final String GET_ALL_WIDGET_REQUESTS = "GET_ALL_WIDGET_REQUESTS";
     public static final String GET_AND_REMOVE_ALL_WIDGET_REQUESTS = "GET_AND_REMOVE_ALL_WIDGET_REQUESTS";
+    public static final String REMOVE_MULTIPLE_WIDGET_REQUESTS = "REMOVE_MULTIPLE_WIDGET_REQUESTS";
 }

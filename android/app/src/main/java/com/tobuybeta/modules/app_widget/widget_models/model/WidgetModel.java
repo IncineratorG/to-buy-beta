@@ -186,12 +186,9 @@ public class WidgetModel {
         mCurrentList = StorageActionResults
                 .getProductsListActionResult(getProductsListAction.result().get());
 
-        // ===
-        Toast.makeText(context, "LOADED_LIST_ID->|" + mCurrentList.listId() + "|", Toast.LENGTH_SHORT).show();
         if (mCurrentList.listId().equalsIgnoreCase(AppWidgetModuleConstants.common.EMPTY_ID)) {
             return loadAllShoppingLists(context);
         }
-        // ===
 
         return true;
     }

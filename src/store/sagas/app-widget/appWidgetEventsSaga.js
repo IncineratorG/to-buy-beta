@@ -9,24 +9,13 @@ function createAppWidgetEventsChannel() {
       emit,
     );
 
-    // const widgetInitialStatusChangedUnsubscribe = AppWidgetEvents.widgetInitialStatusChangedEvent(
-    //   emit,
-    // );
-    //
-    // const widgetStatusChangedUnsubscribe = AppWidgetEvents.widgetActiveStatusChangedEvent(
-    //   emit,
-    // );
-    //
-    // const shoppingListChangedUnsubscribe = AppWidgetEvents.shoppingListChangedEvent(
-    //   emit,
-    // );
+    const changeProductStatusRequestEventUnsubscribe = AppWidgetEvents.changeProductStatusRequestEvent(
+      emit,
+    );
 
     return () => {
       openShoppingListRequestEventUnsubscribe();
-
-      // widgetInitialStatusChangedUnsubscribe();
-      // widgetStatusChangedUnsubscribe();
-      // shoppingListChangedUnsubscribe();
+      changeProductStatusRequestEventUnsubscribe();
     };
   });
 }

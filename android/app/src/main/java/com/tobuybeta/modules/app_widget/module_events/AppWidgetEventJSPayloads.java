@@ -10,4 +10,17 @@ public class AppWidgetEventJSPayloads {
 
         return jsPayload;
     }
+
+    public static WritableMap changeProductStatusEventPayload(String requestId,
+                                                              String listId,
+                                                              String productId,
+                                                              String productStatus) {
+        WritableMap jsPayload = new WritableNativeMap();
+        jsPayload.putString("listId", listId);
+        jsPayload.putString("productId", productId);
+        jsPayload.putString("productStatus", productStatus);
+        jsPayload.putString("requestId", requestId);
+
+        return jsPayload;
+    }
 }

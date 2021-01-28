@@ -249,6 +249,14 @@ public class Storage {
                 break;
             }
 
+            case (StorageActionTypes.REMOVE_WIDGET_REQUESTS): {
+                Context context = (Context) action.payload().get("context");
+                List<String> requestIds = (List<String>) action.payload().get("requestIds");
+
+                mWidgetStorage.removeWidgetRequests(context, requestIds);
+                break;
+            }
+
             default: {
 
             }

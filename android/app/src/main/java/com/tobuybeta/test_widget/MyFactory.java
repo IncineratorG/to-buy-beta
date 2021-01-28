@@ -63,7 +63,7 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
         if (currentListType.equalsIgnoreCase(GeneralizedList.PRODUCTS_LIST)) {
             if (itemStatus.equalsIgnoreCase(AppWidgetModuleConstants.productStatus.NOT_COMPLETED)) {
                 rView.setTextColor(R.id.tvItemText, Color.GRAY);
-                rView.setViewVisibility(R.id.itemImageView, View.VISIBLE);
+                rView.setViewVisibility(R.id.itemImageView, View.GONE);
             } else {
                 rView.setTextColor(R.id.tvItemText, Color.parseColor("#80b4b4b4"));
                 rView.setViewVisibility(R.id.itemImageView, View.GONE);

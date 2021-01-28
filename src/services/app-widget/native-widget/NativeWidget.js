@@ -10,12 +10,23 @@ const NativeWidget = () => {
   const nativeEventsHandler = () => {
     const eventEmitter = new NativeEventEmitter(AppWidget);
 
-    const eventListener = eventEmitter.addListener(
+    const openShoppingListRequestEventListener = eventEmitter.addListener(
       NativeWidgetConstants.widgetEvents.OPEN_SHOPPING_LIST_REQUEST_EVENT,
       (event) => {
         notifier.notify({
           event:
             NativeWidgetConstants.widgetEvents.OPEN_SHOPPING_LIST_REQUEST_EVENT,
+          data: event,
+        });
+      },
+    );
+    const changeProductStatusRequestEventListener = eventEmitter.addListener(
+      NativeWidgetConstants.widgetEvents.CHANGE_PRODUCT_STATUS_REQUEST_EVENT,
+      (event) => {
+        notifier.notify({
+          event:
+            NativeWidgetConstants.widgetEvents
+              .CHANGE_PRODUCT_STATUS_REQUEST_EVENT,
           data: event,
         });
       },
@@ -70,6 +81,13 @@ const NativeWidget = () => {
     return await AppWidget.execute(action);
   };
 
+  const removeMultipleWidgetRequests = async ({widgetRequestIdsArray}) => {
+    const action = NativeWidgetActions.removeMultipleWidgetRequests({
+      widgetRequestIdsArray,
+    });
+    return await AppWidget.execute(action);
+  };
+
   return {
     subscribe,
     getWidgetStatus,
@@ -79,6 +97,7 @@ const NativeWidget = () => {
     removeShoppingList,
     getWidgetRequests,
     getAndRemoveAllWidgetRequests,
+    removeMultipleWidgetRequests,
   };
 };
 

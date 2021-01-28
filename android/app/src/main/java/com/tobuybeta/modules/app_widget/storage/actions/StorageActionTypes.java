@@ -17,4 +17,5 @@ public class StorageActionTypes {
     public static final String SET_WIDGET_REQUEST = "SAT_SET_WIDGET_REQUEST";
     public static final String REMOVE_ALL_WIDGET_REQUESTS = "SAT_REMOVE_ALL_WIDGET_REQUESTS";
     public static final String GET_ALL_WIDGET_REQUESTS = "SAT_GET_ALL_WIDGET_REQUESTS";
+    public static final String REMOVE_WIDGET_REQUESTS = "SAT_REMOVE_WIDGET_REQUESTS";
 }
