@@ -24,7 +24,6 @@ import {SystemEventsHandler} from '../../system-events-handler/SystemEventsHandl
 import {loadCategoriesAction} from '../../../../store/actions/categories/categoriesActions';
 import {loadUnitsAction} from '../../../../store/actions/units/unitsActions';
 import {loadProductsListAction} from '../../../../store/actions/products-list/productsListActions';
-import {updateShoppingListsAction} from '../../../../store/actions/shopping-lists/shoppingListsActions';
 import appWidgetActions from '../../../../store/actions/app-widget/appWidgetActions';
 
 const OpenShoppingListRequestHandler = () => {
@@ -54,9 +53,9 @@ const OpenShoppingListRequestHandler = () => {
       }
 
       // ===
-      SystemEventsHandler.onInfo({
-        info: 'NAVIGATION_REQUEST: ' + JSON.stringify(request),
-      });
+      // SystemEventsHandler.onInfo({
+      //   info: 'NAVIGATION_REQUEST: ' + JSON.stringify(request),
+      // });
       // ===
 
       const listId = Number(listIdString);
@@ -89,10 +88,6 @@ const OpenShoppingListRequestHandler = () => {
         dispatch(loadUnitsAction({shoppingListId: listId}));
         dispatch(loadProductsListAction({shoppingListId: listId}));
         dispatch(appWidgetActions.resetRequestedToOpenShoppingListId());
-
-        // ===
-        // SystemEventsHandler.onInfo({info: JSON.stringify(navigation.state())});
-        // ===
       }
     };
 

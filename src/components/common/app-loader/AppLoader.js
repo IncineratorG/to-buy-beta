@@ -2,21 +2,22 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import AppNavigation from '../app-navigation/AppNavigation';
 import AppLoading from '../app-loading/AppLoading';
-import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
-import useInitializeAppHook from './hooks/intialize-app-hook/useInitializeAppHook';
 import {loadShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
 import useStartAppServices from './hooks/useStartAppServices';
 import useAppState from './hooks/useAppState';
 import useWidgetRequests from './hooks/useWidgetRequests';
 import Services from '../../../services/Services';
 import useNavigationRequestCommands from './hooks/useNavigationRequestCommands';
-import AppWidgetRequestsProcessor from '../../../utils/common/app-widget-requests-processor/AppWidgetRequestsProcessor';
-import AppWidgetRequestsHandler from '../../../utils/common/app-widget-requests-handler/AppWidgetRequestsHandler';
+import useUpdateWidgetData from './hooks/useUpdateWidgetData';
+import useWidgetRequestsHandler from './hooks/useWidgetRequestsHandler';
 
 const AppLoader = () => {
   const [appServicesStarted, setAppServicesStarted] = useState(false);
   const [appWidgetService, setAppWidgetService] = useState(null);
   const [appWidgetRequests, setAppWidgetRequests] = useState(null);
+  const [appWidgetRequestsHandled, setAppWidgetRequestsHandled] = useState(
+    false,
+  );
   const [
     appWidgetNavigationCommands,
     setAppWidgetNavigationCommands,
@@ -29,6 +30,13 @@ const AppLoader = () => {
   const {widgetRequests} = useWidgetRequests({appWidgetService});
   const {navigationCommands} = useNavigationRequestCommands({
     widgetRequests: appWidgetRequests,
+  });
+  const {widgetRequestsHandled} = useWidgetRequestsHandler({
+    requests: appWidgetRequests,
+  });
+  const {widgetDataUpdated} = useUpdateWidgetData({
+    servicesStarted: appServicesStarted,
+    requestsHandled: appWidgetRequestsHandled,
   });
 
   useEffect(() => {
@@ -50,7 +58,6 @@ const AppLoader = () => {
 
   useEffect(() => {
     setAppWidgetRequests(widgetRequests);
-    // AppWidgetRequestsHandler.handle({requests: widgetRequests});
   }, [widgetRequests]);
 
   useEffect(() => {
@@ -58,8 +65,8 @@ const AppLoader = () => {
   }, [navigationCommands]);
 
   useEffect(() => {
-    AppWidgetRequestsHandler.handle({requests: appWidgetRequests});
-  }, [appWidgetRequests]);
+    setAppWidgetRequestsHandled(widgetRequestsHandled);
+  }, [widgetRequestsHandled]);
 
   if (appServicesStarted) {
     return (

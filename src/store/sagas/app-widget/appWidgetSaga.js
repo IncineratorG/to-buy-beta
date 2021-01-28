@@ -1,16 +1,11 @@
-import {takeLatest, takeEvery} from '@redux-saga/core/effects';
+import {takeEvery} from '@redux-saga/core/effects';
 import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import {
   ADD_PRODUCT_CREATED,
-  CHANGE_MULTIPLE_PRODUCTS_STATUS,
   CHANGE_MULTIPLE_PRODUCTS_STATUS_CHANGED,
-  CHANGE_PRODUCT_STATUS,
   CHANGE_PRODUCT_STATUS_CHANGED,
-  REMOVE_MULTIPLE_PRODUCTS,
   REMOVE_MULTIPLE_PRODUCTS_REMOVED,
-  REMOVE_PRODUCT,
   REMOVE_PRODUCT_REMOVED,
-  UPDATE_PRODUCT,
   UPDATE_PRODUCT_UPDATED,
 } from '../../types/products-list/productsListTypes';
 import aws_addProductHandler from './handlers/aws_addProductHandler';
@@ -20,13 +15,9 @@ import aws_removeProductHandler from './handlers/aws_removeProductHandler';
 import aws_changeMultipleProductsStatusHandler from './handlers/aws_changeMultipleProductsStatusHandler';
 import aws_removeMultipleProductsHandler from './handlers/aws_removeMultipleProductsHandler';
 import {
-  COPY_SHOPPING_LIST,
   COPY_SHOPPING_LIST_FINISHED,
-  CREATE_SHOPPING_LIST,
   CREATE_SHOPPING_LIST_FINISHED,
-  REMOVE_SHOPPING_LIST,
   REMOVE_SHOPPING_LIST_FINISHED,
-  RENAME_SHOPPING_LIST,
   RENAME_SHOPPING_LIST_FINISHED,
 } from '../../types/shopping-lists/shoppingListsTypes';
 import aws_createShoppingListHandler from './handlers/aws_createShoppingListHandler';
@@ -36,8 +27,6 @@ import aws_renameShoppingListHandler from './handlers/aws_renameShoppingListHand
 
 function* appWidgetSaga() {
   SystemEventsHandler.onInfo({info: 'appWidgetSaga()'});
-
-  // yield takeLatest(SET_WIDGET_SHOPPING_LIST, aws_setWidgetShoppingListHandler);
 
   yield takeEvery(CREATE_SHOPPING_LIST_FINISHED, aws_createShoppingListHandler);
   yield takeEvery(REMOVE_SHOPPING_LIST_FINISHED, aws_removeShoppingListHandler);
