@@ -14,6 +14,7 @@ public class SetShoppingListPayload implements JSPayload {
     private String PRODUCTS_LIST_FIELD = "productsList";
     private String PRODUCT_ID_FIELD = "id";
     private String PRODUCT_NAME_FIELD = "name";
+    private String PRODUCT_STATUS_FIELD = "completionStatus";
     private boolean mIsValid;
     private String mListId;
     private String mListName;
@@ -36,12 +37,14 @@ public class SetShoppingListPayload implements JSPayload {
                 long productIntId = (long) productMap.getDouble(PRODUCT_ID_FIELD);
                 String productId = String.valueOf(productIntId);
                 String productName = productMap.getString(PRODUCT_NAME_FIELD);
+                String productStatus = productMap.getString(PRODUCT_STATUS_FIELD);
 
                 if (productId.isEmpty() || productName == null || productName.isEmpty()) {
                     continue;
                 }
 
-                mProductsList.add(new Product(productId, productIntId, productName));
+//                mProductsList.add(new Product(productId, productIntId, productName));
+                mProductsList.add(new Product(productId, productIntId, productName, productStatus));
             }
         }
 

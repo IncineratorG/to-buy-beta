@@ -1,12 +1,13 @@
 package com.tobuybeta.modules.app_widget.module_actions.payloads;
 
 import com.facebook.react.bridge.ReadableMap;
+import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.RemoveMultipleWidgetRequestsPayload;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.RemoveShoppingListPayload;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetInitialShoppingListsPayload;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetMultipleShoppingListsPayload;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.SetShoppingListPayload;
 
-public class AppWidgetActionPayloads {
+public class AppWidgetJSActionPayloads {
     public static SetInitialShoppingListsPayload setInitialShoppingListsPayload(ReadableMap payloadMap) {
         return new SetInitialShoppingListsPayload(payloadMap);
     }
@@ -21,5 +22,9 @@ public class AppWidgetActionPayloads {
 
     public static RemoveShoppingListPayload removeShoppingListPayload(ReadableMap payloadMap) {
         return new RemoveShoppingListPayload(payloadMap);
+    }
+
+    public static RemoveMultipleWidgetRequestsPayload removeMultipleWidgetRequestsPayload(ReadableMap payloadMap) {
+        return new RemoveMultipleWidgetRequestsPayload(payloadMap);
     }
 }

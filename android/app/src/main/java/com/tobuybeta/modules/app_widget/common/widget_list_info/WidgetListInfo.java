@@ -13,7 +13,7 @@ public class WidgetListInfo {
     private String mListType;
 
     public WidgetListInfo() {
-        mListId = AppWidgetModuleConstants.EMPTY_ID;
+        mListId = AppWidgetModuleConstants.common.EMPTY_ID;
         mWidgetId = Integer.parseInt(mListId);
         mListType = GeneralizedList.UNKNOWN;
     }

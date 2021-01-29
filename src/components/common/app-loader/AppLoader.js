@@ -2,35 +2,75 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import AppNavigation from '../app-navigation/AppNavigation';
 import AppLoading from '../app-loading/AppLoading';
-import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
-import useInitializeAppHook from './hooks/intialize-app-hook/useInitializeAppHook';
 import {loadShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
+import useStartAppServices from './hooks/useStartAppServices';
+import useAppState from './hooks/useAppState';
+import useWidgetRequests from './hooks/useWidgetRequests';
+import Services from '../../../services/Services';
+import useNavigationRequestCommands from './hooks/useNavigationRequestCommands';
+import useUpdateWidgetData from './hooks/useUpdateWidgetData';
+import useWidgetRequestsHandler from './hooks/useWidgetRequestsHandler';
 
 const AppLoader = () => {
-  const [appInitialized, setAppInitialized] = useState(false);
+  const [appServicesStarted, setAppServicesStarted] = useState(false);
+  const [appWidgetService, setAppWidgetService] = useState(null);
+  const [appWidgetRequests, setAppWidgetRequests] = useState(null);
+  const [appWidgetRequestsHandled, setAppWidgetRequestsHandled] = useState(
+    false,
+  );
   const [
-    requestedNavigationCommands,
-    setRequestedNavigationCommands,
+    appWidgetNavigationCommands,
+    setAppWidgetNavigationCommands,
   ] = useState([]);
 
   const dispatch = useDispatch();
 
-  const {appIsInitialized, navigationCommands} = useInitializeAppHook();
+  const {servicesStarted} = useStartAppServices();
+  const {appInForeground} = useAppState();
+  const {widgetRequests} = useWidgetRequests({appWidgetService});
+  const {navigationCommands} = useNavigationRequestCommands({
+    widgetRequests: appWidgetRequests,
+  });
+  const {widgetRequestsHandled} = useWidgetRequestsHandler({
+    requests: appWidgetRequests,
+  });
+  const {widgetDataUpdated} = useUpdateWidgetData({
+    servicesStarted: appServicesStarted,
+    requestsHandled: appWidgetRequestsHandled,
+  });
 
   useEffect(() => {
-    setAppInitialized(appIsInitialized);
-    setRequestedNavigationCommands(navigationCommands);
-  }, [appIsInitialized, navigationCommands]);
-
-  useEffect(() => {
-    if (appInitialized) {
+    if (servicesStarted) {
       dispatch(loadShoppingListsAction());
     }
-  }, [appInitialized, dispatch]);
+  }, [servicesStarted, dispatch]);
 
-  if (appInitialized) {
+  useEffect(() => {
+    if (servicesStarted) {
+      let widgetService = null;
+      if (appInForeground) {
+        widgetService = Services.get(Services.serviceTypes.APP_WIDGET);
+      }
+      setAppWidgetService(widgetService);
+    }
+    setAppServicesStarted(servicesStarted);
+  }, [servicesStarted, appInForeground]);
+
+  useEffect(() => {
+    setAppWidgetRequests(widgetRequests);
+  }, [widgetRequests]);
+
+  useEffect(() => {
+    setAppWidgetNavigationCommands(navigationCommands);
+  }, [navigationCommands]);
+
+  useEffect(() => {
+    setAppWidgetRequestsHandled(widgetRequestsHandled);
+  }, [widgetRequestsHandled]);
+
+  if (appServicesStarted) {
     return (
-      <AppNavigation initialNavigationCommands={requestedNavigationCommands} />
+      <AppNavigation initialNavigationCommands={appWidgetNavigationCommands} />
     );
   } else {
     return <AppLoading />;
@@ -38,6 +78,47 @@ const AppLoader = () => {
 };
 
 export default AppLoader;
+
+// import React, {useState, useEffect} from 'react';
+// import {useDispatch} from 'react-redux';
+// import AppNavigation from '../app-navigation/AppNavigation';
+// import AppLoading from '../app-loading/AppLoading';
+// import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
+// import useInitializeAppHook from './hooks/intialize-app-hook/useInitializeAppHook';
+// import {loadShoppingListsAction} from '../../../store/actions/shopping-lists/shoppingListsActions';
+//
+// const AppLoader = () => {
+//   const [appInitialized, setAppInitialized] = useState(false);
+//   const [
+//     requestedNavigationCommands,
+//     setRequestedNavigationCommands,
+//   ] = useState([]);
+//
+//   const dispatch = useDispatch();
+//
+//   const {appIsInitialized, navigationCommands} = useInitializeAppHook();
+//
+//   useEffect(() => {
+//     setAppInitialized(appIsInitialized);
+//     setRequestedNavigationCommands(navigationCommands);
+//   }, [appIsInitialized, navigationCommands]);
+//
+//   useEffect(() => {
+//     if (appInitialized) {
+//       dispatch(loadShoppingListsAction());
+//     }
+//   }, [appInitialized, dispatch]);
+//
+//   if (appInitialized) {
+//     return (
+//       <AppNavigation initialNavigationCommands={requestedNavigationCommands} />
+//     );
+//   } else {
+//     return <AppLoading />;
+//   }
+// };
+//
+// export default AppLoader;
 
 // import React, {useState, useEffect} from 'react';
 // import {useDispatch} from 'react-redux';

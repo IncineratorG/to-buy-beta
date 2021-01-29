@@ -3,10 +3,6 @@ package com.tobuybeta.modules.app_widget.common.action;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * TODO: Add a class header comment
- */
-
 public class ActionPayload {
     private Object mDefaultValue;
     private Map<String, Object> mValues;

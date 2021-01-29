@@ -66,6 +66,19 @@ public class StorageActions {
         return new Action(StorageActionTypes.REMOVE_PRODUCT, payload);
     }
 
+    public static Action setProductStatus(Context context,
+                                          String listId,
+                                          String productId,
+                                          String productStatus) {
+        ActionPayload payload = new ActionPayload();
+        payload.set("context", context);
+        payload.set("listId", listId);
+        payload.set("productId", productId);
+        payload.set("productStatus", productStatus);
+
+        return new Action(StorageActionTypes.SET_PRODUCT_STATUS, payload);
+    }
+
     public static Action removeShoppingListAction(Context context, String listId) {
         ActionPayload payload = new ActionPayload();
         payload.set("context", context);
@@ -138,5 +151,13 @@ public class StorageActions {
         payload.set("context", context);
 
         return new Action(StorageActionTypes.GET_ALL_WIDGET_REQUESTS, payload);
+    }
+
+    public static Action removeWidgetRequests(Context context, List<String> requestIds) {
+        ActionPayload payload = new ActionPayload();
+        payload.set("context", context);
+        payload.set("requestIds", requestIds);
+
+        return new Action(StorageActionTypes.REMOVE_WIDGET_REQUESTS, payload);
     }
 }

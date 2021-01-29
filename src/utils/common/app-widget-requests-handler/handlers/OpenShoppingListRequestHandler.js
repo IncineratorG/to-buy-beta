@@ -1,12 +1,33 @@
+// import Command from '../../command/Command';
+// import {SystemEventsHandler} from '../../system-events-handler/SystemEventsHandler';
+// import {loadCategoriesAction} from '../../../../store/actions/categories/categoriesActions';
+// import {loadUnitsAction} from '../../../../store/actions/units/unitsActions';
+// import {loadProductsListAction} from '../../../../store/actions/products-list/productsListActions';
+// import {updateShoppingListsAction} from '../../../../store/actions/shopping-lists/shoppingListsActions';
+//
+// const OpenShoppingListRequestHandler = () => {
+//   const handle = ({request}) => {
+//     SystemEventsHandler.onInfo({
+//       info: 'OpenShoppingListRequestHandler: ' + JSON.stringify(request),
+//     });
+//   };
+//
+//   return {
+//     handle,
+//   };
+// };
+//
+// export default OpenShoppingListRequestHandler();
+
 import Command from '../../command/Command';
 import {SystemEventsHandler} from '../../system-events-handler/SystemEventsHandler';
 import {loadCategoriesAction} from '../../../../store/actions/categories/categoriesActions';
 import {loadUnitsAction} from '../../../../store/actions/units/unitsActions';
 import {loadProductsListAction} from '../../../../store/actions/products-list/productsListActions';
-import {updateShoppingListsAction} from '../../../../store/actions/shopping-lists/shoppingListsActions';
+import appWidgetActions from '../../../../store/actions/app-widget/appWidgetActions';
 
 const OpenShoppingListRequestHandler = () => {
-  const handle = ({request}) => {
+  const handle = ({request, currentShoppingListId}) => {
     const navigationCommandExecutable = ({navigation, dispatch}) => {
       if (!navigation) {
         SystemEventsHandler.onError({
@@ -32,11 +53,15 @@ const OpenShoppingListRequestHandler = () => {
       }
 
       // ===
-      SystemEventsHandler.onInfo({info: JSON.stringify(request)});
+      // SystemEventsHandler.onInfo({
+      //   info:
+      //     'NAVIGATION_REQUEST->CURRENT_SHOPPING_LIST_ID: ' +
+      //     currentShoppingListId,
+      // });
       // ===
 
       const listId = Number(listIdString);
-      if (listId < 0) {
+      if (listId < 0 || listId === currentShoppingListId) {
         // SystemEventsHandler.onInfo({
         //   info:
         //     'OpenShoppingListRequestHandler->navigationCommandExecutable->UNDER_ZERO: ' +
@@ -48,6 +73,8 @@ const OpenShoppingListRequestHandler = () => {
         // });
         //
         // dispatch(updateShoppingListsAction());
+
+        dispatch(appWidgetActions.resetRequestedToOpenShoppingListId());
       } else {
         // SystemEventsHandler.onInfo({
         //   info:
@@ -64,10 +91,7 @@ const OpenShoppingListRequestHandler = () => {
         dispatch(loadCategoriesAction({shoppingListId: listId}));
         dispatch(loadUnitsAction({shoppingListId: listId}));
         dispatch(loadProductsListAction({shoppingListId: listId}));
-
-        // ===
-        // SystemEventsHandler.onInfo({info: JSON.stringify(navigation.state())});
-        // ===
+        dispatch(appWidgetActions.resetRequestedToOpenShoppingListId());
       }
     };
 
@@ -86,23 +110,3 @@ const OpenShoppingListRequestHandler = () => {
 };
 
 export default OpenShoppingListRequestHandler();
-
-// import NativeWidgetConstants from '../../../../../services/app-widget/native-widget/constants/NativeWidgetConstants';
-//
-// const OpenShoppingListRequestHandler = () => {
-//   const {OPEN_SHOPPING_LIST_REQUEST} = NativeWidgetConstants.widgetRequests;
-//
-//   const handle = ({request}) => {
-//     if (request.type === OPEN_SHOPPING_LIST_REQUEST) {
-//       return {
-//         shoppingListId: request.listId,
-//       };
-//     }
-//   };
-//
-//   return {
-//     handle,
-//   };
-// };
-//
-// export default OpenShoppingListRequestHandler();

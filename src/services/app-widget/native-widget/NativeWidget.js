@@ -1,7 +1,43 @@
 import AppWidget from '../libs/app-widget/AppWidget';
+import {NativeEventEmitter} from 'react-native';
 import NativeWidgetActions from './actions/NativeWidgetActions';
+import NativeWidgetConstants from './constants/NativeWidgetConstants';
+import {Notifier} from '../../../utils/common/service-utils/notifier/Notifier';
 
 const NativeWidget = () => {
+  const notifier = new Notifier();
+
+  const nativeEventsHandler = () => {
+    const eventEmitter = new NativeEventEmitter(AppWidget);
+
+    const openShoppingListRequestEventListener = eventEmitter.addListener(
+      NativeWidgetConstants.widgetEvents.OPEN_SHOPPING_LIST_REQUEST_EVENT,
+      (event) => {
+        notifier.notify({
+          event:
+            NativeWidgetConstants.widgetEvents.OPEN_SHOPPING_LIST_REQUEST_EVENT,
+          data: event,
+        });
+      },
+    );
+    const changeProductStatusRequestEventListener = eventEmitter.addListener(
+      NativeWidgetConstants.widgetEvents.CHANGE_PRODUCT_STATUS_REQUEST_EVENT,
+      (event) => {
+        notifier.notify({
+          event:
+            NativeWidgetConstants.widgetEvents
+              .CHANGE_PRODUCT_STATUS_REQUEST_EVENT,
+          data: event,
+        });
+      },
+    );
+  };
+  nativeEventsHandler();
+
+  const subscribe = ({event, handler}) => {
+    notifier.subscribe({event, handler});
+  };
+
   const getWidgetStatus = async () => {
     const action = NativeWidgetActions.getWidgetStatusAction();
     return await AppWidget.execute(action);
@@ -45,7 +81,15 @@ const NativeWidget = () => {
     return await AppWidget.execute(action);
   };
 
+  const removeMultipleWidgetRequests = async ({widgetRequestIdsArray}) => {
+    const action = NativeWidgetActions.removeMultipleWidgetRequests({
+      widgetRequestIdsArray,
+    });
+    return await AppWidget.execute(action);
+  };
+
   return {
+    subscribe,
     getWidgetStatus,
     setInitialShoppingLists,
     setShoppingList,
@@ -53,6 +97,7 @@ const NativeWidget = () => {
     removeShoppingList,
     getWidgetRequests,
     getAndRemoveAllWidgetRequests,
+    removeMultipleWidgetRequests,
   };
 };
 

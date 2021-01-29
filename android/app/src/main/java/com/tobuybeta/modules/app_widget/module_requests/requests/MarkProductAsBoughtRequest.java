@@ -16,6 +16,7 @@ public class MarkProductAsBoughtRequest implements WidgetRequest {
         mId = UUID.randomUUID().toString();
         mTimestamp = String.valueOf(System.currentTimeMillis());
         mType = WidgetRequestTypes.MARK_PRODUCT_AS_BOUGHT_REQUEST;
+
         mListId = listId;
         mProductId = productId;
     }
@@ -28,6 +29,7 @@ public class MarkProductAsBoughtRequest implements WidgetRequest {
         mId = id;
         mTimestamp = timestamp;
         mType = type;
+
         mListId = listId;
         mProductId = productId;
     }

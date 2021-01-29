@@ -16,8 +16,9 @@ public class OpenShoppingListRequest implements WidgetRequest {
         mId = UUID.randomUUID().toString();
         mTimestamp = String.valueOf(System.currentTimeMillis());
         mType = WidgetRequestTypes.OPEN_SHOPPING_LIST_REQUEST;
+
         if (listId.isEmpty()) {
-            mListId = AppWidgetModuleConstants.EMPTY_ID;
+            mListId = AppWidgetModuleConstants.common.EMPTY_ID;
         } else {
             mListId = listId;
         }
@@ -27,6 +28,7 @@ public class OpenShoppingListRequest implements WidgetRequest {
         mId = id;
         mTimestamp = timestamp;
         mType = type;
+
         mListId = listId;
     }
 

@@ -10,6 +10,21 @@ function* aws_changeProductStatusHandler(action) {
     info: 'aws_changeProductStatusHandler(): ' + JSON.stringify(payload),
   });
 
+  if (
+    payload &&
+    payload.notifyWidget !== undefined &&
+    payload.notifyWidget === false
+  ) {
+    // SystemEventsHandler.onInfo({
+    //   info: 'aws_changeProductStatusHandler()->WILL_NOT_UPDATE_WIDGET',
+    // });
+    return;
+  }
+
+  // SystemEventsHandler.onInfo({
+  //   info: 'aws_changeProductStatusHandler()->WILL_UPDATE_WIDGET',
+  // });
+
   let shoppingListId;
   if (payload) {
     shoppingListId = payload.shoppingListId;

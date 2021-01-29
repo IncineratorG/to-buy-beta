@@ -1,18 +1,21 @@
 import {SystemEventsHandler} from '../system-events-handler/SystemEventsHandler';
 import NativeWidgetConstants from '../../../services/app-widget/native-widget/constants/NativeWidgetConstants';
-import MarkProductAsBoughtRequestHandler from './processors/MarkProductAsBoughtRequestHandler';
-import OpenShoppingListRequestHandler from './processors/OpenShoppingListRequestHandler';
+import MarkProductAsBoughtRequestHandler from '../app-widget-requests-handler/handlers/MarkProductAsBoughtRequestHandler';
+import OpenShoppingListRequestHandler from '../app-widget-requests-handler/handlers/OpenShoppingListRequestHandler';
 import Services from '../../../services/Services';
 import ProductStatus from '../../../services/shopping-list/data/product-status/ProductStatus';
+import ChangeProductStatusRequestHandler from '../app-widget-requests-handler/handlers/ChangeProductStatusRequestHandler';
 
 const AppWidgetRequestsProcessor = () => {
   const {
     OPEN_SHOPPING_LIST_REQUEST,
     MARK_PRODUCT_AS_BOUGHT_REQUEST,
+    CHANGE_PRODUCT_STATUS_REQUEST,
   } = NativeWidgetConstants.widgetRequests;
 
   const openShoppingListRequestHandler = OpenShoppingListRequestHandler;
   const markProductAsBoughtRequestHandler = MarkProductAsBoughtRequestHandler;
+  const changeProductStatusRequestHandler = ChangeProductStatusRequestHandler;
 
   const process = async ({requests}) => {
     SystemEventsHandler.onInfo({info: 'AppWidgetRequestsProcessor->process()'});
@@ -35,17 +38,36 @@ const AppWidgetRequestsProcessor = () => {
     requests.forEach((request) => {
       switch (request.type) {
         case OPEN_SHOPPING_LIST_REQUEST: {
-          const {navigationCommand} = openShoppingListRequestHandler.handle({
+          openShoppingListRequestHandler.handle({
             request,
           });
-          navigationCommands.push(navigationCommand);
+
+          // const {navigationCommand} = openShoppingListRequestHandler.handle({
+          //   request,
+          // });
+          // if (navigationCommand) {
+          //   navigationCommands.push(navigationCommand);
+          // }
           break;
         }
 
-        case MARK_PRODUCT_AS_BOUGHT_REQUEST: {
-          markProductAsBoughtRequestHandler.handle({
-            request,
-            productToChangeStatusAccumulator,
+        // case MARK_PRODUCT_AS_BOUGHT_REQUEST: {
+        //   markProductAsBoughtRequestHandler.handle({
+        //     request,
+        //     productToChangeStatusAccumulator,
+        //   });
+        //   break;
+        // }
+
+        case CHANGE_PRODUCT_STATUS_REQUEST: {
+          const {
+            listId,
+            productId,
+            productStatus,
+          } = changeProductStatusRequestHandler.handle({request});
+
+          SystemEventsHandler.onInfo({
+            info: listId + ' - ' + productId + ' - ' + productStatus,
           });
           break;
         }
@@ -54,22 +76,23 @@ const AppWidgetRequestsProcessor = () => {
 
     // ********************************
     // 3.******************************
-    const productToChangeStatusArray = Array.from(
-      productToChangeStatusAccumulator,
-    ).map(([key, value]) => ({key, value}));
 
+    // const productToChangeStatusArray = Array.from(
+    //   productToChangeStatusAccumulator,
+    // ).map(([key, value]) => ({key, value}));
+    //
     const shoppingListService = Services.get(
       Services.serviceTypes.SHOPPING_LIST,
     );
-    await Promise.all(
-      productToChangeStatusArray.map(async ({key, value}) => {
-        await shoppingListService.changeMultipleProductsStatus({
-          shoppingListId: key,
-          productsIdsArray: value,
-          status: ProductStatus.COMPLETED,
-        });
-      }),
-    );
+    // await Promise.all(
+    //   productToChangeStatusArray.map(async ({key, value}) => {
+    //     await shoppingListService.changeMultipleProductsStatus({
+    //       shoppingListId: key,
+    //       productsIdsArray: value,
+    //       status: ProductStatus.COMPLETED,
+    //     });
+    //   }),
+    // );
     // ********************************
     // ********************************
 
@@ -85,8 +108,11 @@ const AppWidgetRequestsProcessor = () => {
 
     // ********************************
     // 4.******************************
+    // const currentShoppingLists = await shoppingListService.getShoppingListsWithProducts(
+    //   {productsStatus: ProductStatus.NOT_COMPLETED},
+    // );
     const currentShoppingLists = await shoppingListService.getShoppingListsWithProducts(
-      {productsStatus: ProductStatus.NOT_COMPLETED},
+      {},
     );
 
     const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);
@@ -177,8 +203,8 @@ export default AppWidgetRequestsProcessor();
 
 // import {SystemEventsHandler} from '../../../../utils/common/system-events-handler/SystemEventsHandler';
 // import NativeWidgetConstants from '../../../../services/app-widget/native-widget/constants/NativeWidgetConstants';
-// import MarkProductAsBoughtRequestHandler from './processors/MarkProductAsBoughtRequestHandler';
-// import OpenShoppingListRequestHandler from './processors/OpenShoppingListRequestHandler';
+// import MarkProductAsBoughtRequestHandler from './handlers/MarkProductAsBoughtRequestHandler';
+// import OpenShoppingListRequestHandler from './handlers/OpenShoppingListRequestHandler';
 //
 // const AppWidgetRequestsProcessor = () => {
 //   const {

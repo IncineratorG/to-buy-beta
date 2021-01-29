@@ -1,25 +1,21 @@
 import {call, put, take} from '@redux-saga/core/effects';
 import {eventChannel} from 'redux-saga';
 import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
+import AppWidgetEvents from './events/AppWidgetEvents';
 
 function createAppWidgetEventsChannel() {
   return eventChannel((emit) => {
-    // const widgetInitialStatusChangedUnsubscribe = AppWidgetEvents.widgetInitialStatusChangedEvent(
-    //   emit,
-    // );
-    //
-    // const widgetStatusChangedUnsubscribe = AppWidgetEvents.widgetActiveStatusChangedEvent(
-    //   emit,
-    // );
-    //
-    // const shoppingListChangedUnsubscribe = AppWidgetEvents.shoppingListChangedEvent(
-    //   emit,
-    // );
+    const openShoppingListRequestEventUnsubscribe = AppWidgetEvents.openShoppingListRequestEvent(
+      emit,
+    );
+
+    const changeProductStatusRequestEventUnsubscribe = AppWidgetEvents.changeProductStatusRequestEvent(
+      emit,
+    );
 
     return () => {
-      // widgetInitialStatusChangedUnsubscribe();
-      // widgetStatusChangedUnsubscribe();
-      // shoppingListChangedUnsubscribe();
+      openShoppingListRequestEventUnsubscribe();
+      changeProductStatusRequestEventUnsubscribe();
     };
   });
 }
