@@ -214,17 +214,22 @@ export class ShoppingListService {
     });
   }
 
-  static async changeProductStatus({shoppingListId, productId, status}) {
+  static async changeProductStatus({
+    shoppingListId,
+    productId,
+    status,
+    notifyWidget = true,
+  }) {
     const onChanged = ({product}) => {
       ShoppingListService.#notifier.notify({
         event: ShoppingListServiceEvents.PRODUCT_STATUS_CHANGED,
-        data: {shoppingListId, product},
+        data: {shoppingListId, product, notifyWidget},
       });
     };
     const onConfirmed = ({product, confirmed}) => {
       ShoppingListService.#notifier.notify({
         event: ShoppingListServiceEvents.PRODUCT_STATUS_CHANGE_CONFIRMED,
-        data: {shoppingListId, product, confirmed},
+        data: {shoppingListId, product, confirmed, notifyWidget},
       });
     };
     const onError = ({error}) => {

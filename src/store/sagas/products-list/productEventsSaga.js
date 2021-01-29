@@ -7,7 +7,8 @@ import {
   addProductCreatedAction,
   changeMultipleProductsStatusChangedAction,
   changeMultipleProductsStatusConfirmedAction,
-  changeMultipleShoppingListsProductsStatusChangedAction, changeMultipleShoppingListsProductsStatusConfirmedAction,
+  changeMultipleShoppingListsProductsStatusChangedAction,
+  changeMultipleShoppingListsProductsStatusConfirmedAction,
   changeProductStatusChangedAction,
   changeProductStatusConfirmedAction,
   removeMultipleProductsConfirmedAction,
@@ -43,19 +44,31 @@ function createProductEventsChannel() {
       emit(updateProductConfirmedAction({shoppingListId, product, confirmed}));
     };
 
-    const changeProductStatusHandler = ({shoppingListId, product}) => {
-      emit(changeProductStatusChangedAction({shoppingListId, product}));
+    const changeProductStatusHandler = ({
+      shoppingListId,
+      product,
+      notifyWidget,
+    }) => {
+      emit(
+        changeProductStatusChangedAction({
+          shoppingListId,
+          product,
+          notifyWidget,
+        }),
+      );
     };
     const confirmChangeProductStatusHandler = ({
       shoppingListId,
       product,
       confirmed,
+      notifyWidget,
     }) => {
       emit(
         changeProductStatusConfirmedAction({
           shoppingListId,
           product,
           confirmed,
+          notifyWidget,
         }),
       );
     };

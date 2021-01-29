@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+import android.widget.Toast;
 
 import com.tobuybeta.R;
 import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
@@ -74,6 +75,8 @@ public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
         }
 
         // =======
+//        System.out.println("->HERE<-" + itemId + " - " + itemName + " - " + itemStatus + " - " + currentListType);
+
         Intent listItemPressIntent = null;
         if (currentListType.equalsIgnoreCase(GeneralizedList.PRODUCTS_LIST)) {
             listItemPressIntent = WidgetIntents.onProductListItemPressFillInIntent(widgetID, itemId, itemStatus);

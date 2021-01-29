@@ -157,6 +157,7 @@ public class WidgetIntentsHandler {
                                 new ComponentName(context, MyTestWidget.class)
                         )
                 );
+
                 break;
             }
 

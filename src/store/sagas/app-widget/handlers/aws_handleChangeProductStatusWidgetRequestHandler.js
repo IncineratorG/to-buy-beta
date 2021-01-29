@@ -1,6 +1,7 @@
 import {SystemEventsHandler} from '../../../../utils/common/system-events-handler/SystemEventsHandler';
 import Services from '../../../../services/Services';
 import {call, put} from '@redux-saga/core/effects';
+import {changeProductStatusBeginAction} from '../../../actions/products-list/productsListActions';
 
 function* aws_handleChangeProductStatusWidgetRequestHandler(action) {
   const {payload} = action;
@@ -19,6 +20,10 @@ function* aws_handleChangeProductStatusWidgetRequestHandler(action) {
       JSON.stringify(payload),
   });
 
+  yield put(
+    changeProductStatusBeginAction({shoppingListId: listId, productId}),
+  );
+
   try {
     const shoppingListService = Services.get(
       Services.serviceTypes.SHOPPING_LIST,
@@ -27,9 +32,8 @@ function* aws_handleChangeProductStatusWidgetRequestHandler(action) {
       shoppingListId: listId,
       productId,
       status: productStatus,
+      notifyWidget: false,
     });
-
-    // const widgetRequestIdsArray = [requestId];
 
     const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);
     yield call(appWidgetService.removeMultipleWidgetRequests, {

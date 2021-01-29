@@ -1,11 +1,16 @@
 import {useState, useEffect} from 'react';
 import NativeWidgetConstants from '../../../../services/app-widget/native-widget/constants/NativeWidgetConstants';
 import OpenShoppingListRequestHandler from '../../../../utils/common/app-widget-requests-handler/handlers/OpenShoppingListRequestHandler';
+import {useSelector} from 'react-redux';
 
 const useNavigationRequestCommands = ({widgetRequests}) => {
   const [navigationCommands, setNavigationCommands] = useState([]);
 
   const {OPEN_SHOPPING_LIST_REQUEST} = NativeWidgetConstants.widgetRequests;
+
+  const currentShoppingListId = useSelector(
+    (storeState) => storeState.productsList.productsList.id,
+  );
 
   useEffect(() => {
     if (widgetRequests && widgetRequests.length) {
@@ -21,6 +26,7 @@ const useNavigationRequestCommands = ({widgetRequests}) => {
 
         const {navigationCommand} = OpenShoppingListRequestHandler.handle({
           request: lastNavigationRequest,
+          currentShoppingListId,
         });
 
         const navigationCommandsArray = navigationCommand
@@ -33,6 +39,7 @@ const useNavigationRequestCommands = ({widgetRequests}) => {
     } else {
       setNavigationCommands([]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [widgetRequests, OPEN_SHOPPING_LIST_REQUEST]);
 
   return {

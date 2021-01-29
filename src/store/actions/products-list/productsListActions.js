@@ -244,10 +244,14 @@ export const changeProductStatusBeginAction = ({shoppingListId, productId}) => {
   };
 };
 
-export const changeProductStatusChangedAction = ({shoppingListId, product}) => {
+export const changeProductStatusChangedAction = ({
+  shoppingListId,
+  product,
+  notifyWidget,
+}) => {
   return {
     type: CHANGE_PRODUCT_STATUS_CHANGED,
-    payload: {shoppingListId, product},
+    payload: {shoppingListId, product, notifyWidget},
   };
 };
 
@@ -255,10 +259,11 @@ export const changeProductStatusConfirmedAction = ({
   shoppingListId,
   product,
   confirmed,
+  notifyWidget,
 }) => {
   return {
     type: CHANGE_PRODUCT_STATUS_CONFIRMED,
-    payload: {shoppingListId, product, confirmed},
+    payload: {shoppingListId, product, confirmed, notifyWidget},
   };
 };
 
