@@ -29,10 +29,17 @@ function createProductEventsChannel() {
         handler: confirmChangeMultipleProductsStatusHandler,
       },
     );
+    const changeProductStatusConfirmedUnsubscribe = shoppingListService.subscribe(
+      {
+        event: ShoppingListServiceEvents.PRODUCT_STATUS_CHANGE_CONFIRMED,
+        handler: confirmChangeMultipleProductsStatusHandler,
+      },
+    );
 
     return () => {
       changeMultipleProductsStatusConfirmedUnsubscribe();
       changeMultipleShoppingListsProductsStatusConfirmedUnsubscribe();
+      changeProductStatusConfirmedUnsubscribe();
     };
   });
 }

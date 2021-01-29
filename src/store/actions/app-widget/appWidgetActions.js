@@ -14,9 +14,22 @@ const appWidgetActions = () => {
     };
   };
 
+  const handleChangeProductStatusWidgetRequest = ({
+    listId,
+    productId,
+    productStatus,
+    requestId,
+  }) => {
+    return {
+      type: AppWidgetActionTypes.HANDLE_CHANGE_PRODUCT_STATUS_WIDGET_REQUEST,
+      payload: {listId, productId, productStatus, requestId},
+    };
+  };
+
   return {
     setRequestedToOpenShoppingListId,
     resetRequestedToOpenShoppingListId,
+    handleChangeProductStatusWidgetRequest,
   };
 };
 

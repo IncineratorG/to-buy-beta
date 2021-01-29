@@ -288,9 +288,7 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
                     return;
                 }
 
-
-                Toast.makeText(mContext, "REQUEST_IDS_SIZE: " + String.valueOf(payload.requestIds().size()), Toast.LENGTH_SHORT).show();
-//                mStorage.execute(StorageActions.removeWidgetRequests(mContext, payload.requestIds()));
+                mStorage.execute(StorageActions.removeWidgetRequests(mContext, payload.requestIds()));
 
                 result.resolve(true);
                 break;

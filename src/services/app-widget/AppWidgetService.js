@@ -90,10 +90,12 @@ const AppWidgetService = () => {
 
   const removeMultipleWidgetRequests = async ({widgetRequestIdsArray}) => {
     SystemEventsHandler.onInfo({
-      info: 'AppWidgetService->removeMultipleWidgetRequests()',
+      info:
+        'AppWidgetService->removeMultipleWidgetRequests(): ' +
+        JSON.stringify(widgetRequestIdsArray),
     });
 
-    return await widget.removeMultipleWidgetRequests();
+    return await widget.removeMultipleWidgetRequests({widgetRequestIdsArray});
   };
 
   return {

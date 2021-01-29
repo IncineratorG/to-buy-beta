@@ -22,7 +22,7 @@ public class RemoveMultipleWidgetRequestsPayload implements JSPayload {
         }
 
         for (int i = 0; i < widgetRequestsIdsArray.size(); ++i) {
-            String requestId = String.valueOf(widgetRequestsIdsArray.getInt(i));
+            String requestId = widgetRequestsIdsArray.getString(i);
             mRequestIds.add(requestId);
         }
 

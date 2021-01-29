@@ -24,6 +24,8 @@ import aws_createShoppingListHandler from './handlers/aws_createShoppingListHand
 import aws_removeShoppingListHandler from './handlers/aws_removeShoppingListHandler';
 import aws_copyShoppingListHandler from './handlers/aws_copyShoppingListHandler';
 import aws_renameShoppingListHandler from './handlers/aws_renameShoppingListHandler';
+import AppWidgetActionTypes from '../../types/app-widget/appWidgetTypes';
+import aws_handleChangeProductStatusWidgetRequestHandler from './handlers/aws_handleChangeProductStatusWidgetRequestHandler';
 
 function* appWidgetSaga() {
   SystemEventsHandler.onInfo({info: 'appWidgetSaga()'});
@@ -47,6 +49,11 @@ function* appWidgetSaga() {
   yield takeEvery(
     REMOVE_MULTIPLE_PRODUCTS_REMOVED,
     aws_removeMultipleProductsHandler,
+  );
+
+  yield takeEvery(
+    AppWidgetActionTypes.HANDLE_CHANGE_PRODUCT_STATUS_WIDGET_REQUEST,
+    aws_handleChangeProductStatusWidgetRequestHandler,
   );
 }
 

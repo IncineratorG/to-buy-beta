@@ -28,17 +28,25 @@ const AppWidgetEvents = () => {
       productStatus,
       requestId,
     }) => {
-      SystemEventsHandler.onInfo({
-        info:
-          'changeProductStatusRequestEventHandler(): ' +
-          listId +
-          ' - ' +
-          productId +
-          ' - ' +
-          productStatus +
-          ' - ' +
+      // SystemEventsHandler.onInfo({
+      //   info:
+      //     'changeProductStatusRequestEventHandler(): ' +
+      //     listId +
+      //     ' - ' +
+      //     productId +
+      //     ' - ' +
+      //     productStatus +
+      //     ' - ' +
+      //     requestId,
+      // });
+      emit(
+        appWidgetActions.handleChangeProductStatusWidgetRequest({
+          listId,
+          productId,
+          productStatus,
           requestId,
-      });
+        }),
+      );
     };
 
     const appWidgetService = Services.get(Services.serviceTypes.APP_WIDGET);
