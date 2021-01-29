@@ -87,14 +87,26 @@ public class GeneralizedList {
     }
 
     public String id(int index) {
+        if (index >= mList.size()) {
+            return "";
+        }
+
         return mItemIdExtractor.apply(mList.get(index));
     }
 
     public String name(int index) {
+        if (index >= mList.size()) {
+            return "";
+        }
+
         return mItemNameExtractor.apply(mList.get(index));
     }
 
     public String status(int index) {
+        if (index >= mList.size()) {
+            return "";
+        }
+
         return mItemStatusExtractor.apply(mList.get(index));
     }
 }
