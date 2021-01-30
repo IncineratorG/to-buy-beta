@@ -1,4 +1,4 @@
-package com.tobuybeta.test_widget.widget_intents.handler;
+package com.tobuybeta.modules.app_widget.widget.widget_intents.handler;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -17,9 +17,9 @@ import com.tobuybeta.modules.app_widget.storage.Storage;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActions;
 import com.tobuybeta.modules.app_widget.widget_models.WidgetModels;
 import com.tobuybeta.modules.app_widget.widget_models.model.WidgetModel;
-import com.tobuybeta.test_widget.MyTestWidget;
-import com.tobuybeta.test_widget.widget_intents.fields.WidgetIntentFields;
-import com.tobuybeta.test_widget.widget_intents.types.WidgetIntentTypes;
+import com.tobuybeta.modules.app_widget.widget.Widget;
+import com.tobuybeta.modules.app_widget.widget.widget_intents.fields.WidgetIntentFields;
+import com.tobuybeta.modules.app_widget.widget.widget_intents.types.WidgetIntentTypes;
 
 public class WidgetIntentsHandler {
     public static boolean handle(Context context, Intent intent) {
@@ -71,10 +71,10 @@ public class WidgetIntentsHandler {
                 }
                 model.loadAllShoppingLists(context);
 
-                MyTestWidget.update(
+                Widget.update(
                         context,
                         AppWidgetManager.getInstance(context).getAppWidgetIds(
-                                new ComponentName(context, MyTestWidget.class)
+                                new ComponentName(context, Widget.class)
                         )
                 );
                 break;
@@ -96,10 +96,10 @@ public class WidgetIntentsHandler {
                 }
                 model.loadProductsList(context, listId);
 
-                MyTestWidget.update(
+                Widget.update(
                         context,
                         AppWidgetManager.getInstance(context).getAppWidgetIds(
-                                new ComponentName(context, MyTestWidget.class)
+                                new ComponentName(context, Widget.class)
                         )
                 );
                 break;
@@ -126,10 +126,10 @@ public class WidgetIntentsHandler {
                 MarkProductAsBoughtRequest request = new MarkProductAsBoughtRequest(listId, productId);
                 Storage.get().execute(StorageActions.setWidgetRequestAction(context, request));
 
-                MyTestWidget.update(
+                Widget.update(
                         context,
                         AppWidgetManager.getInstance(context).getAppWidgetIds(
-                                new ComponentName(context, MyTestWidget.class)
+                                new ComponentName(context, Widget.class)
                         )
                 );
                 break;
@@ -151,10 +151,10 @@ public class WidgetIntentsHandler {
                 }
                 model.loadProductsList(context, listId);
 
-                MyTestWidget.update(
+                Widget.update(
                         context,
                         AppWidgetManager.getInstance(context).getAppWidgetIds(
-                                new ComponentName(context, MyTestWidget.class)
+                                new ComponentName(context, Widget.class)
                         )
                 );
 
@@ -198,10 +198,10 @@ public class WidgetIntentsHandler {
                 ChangeProductStatusRequest request = new ChangeProductStatusRequest(listId, productId, newProductStatus);
                 Storage.get().execute(StorageActions.setWidgetRequestAction(context, request));
 
-                MyTestWidget.update(
+                Widget.update(
                         context,
                         AppWidgetManager.getInstance(context).getAppWidgetIds(
-                                new ComponentName(context, MyTestWidget.class)
+                                new ComponentName(context, Widget.class)
                         )
                 );
                 break;

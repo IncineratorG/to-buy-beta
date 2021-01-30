@@ -1,4 +1,4 @@
-package com.tobuybeta.test_widget;
+package com.tobuybeta.modules.app_widget.widget;
 
 import android.content.Intent;
 import android.widget.RemoteViewsService;
@@ -7,9 +7,9 @@ import android.widget.RemoteViewsService;
  * TODO: Add a class header comment
  */
 
-public class MyService extends RemoteViewsService {
+public class WidgetService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new MyFactory(getApplicationContext(), intent);
+        return new WidgetFactory(getApplicationContext(), intent);
     }
 }

@@ -1,38 +1,27 @@
-package com.tobuybeta.test_widget;
+package com.tobuybeta.modules.app_widget.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
-import com.tobuybeta.MainActivity;
-import com.tobuybeta.MainApplication;
 import com.tobuybeta.R;
-import com.tobuybeta.modules.app_widget.common.action.Action;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
-import com.tobuybeta.modules.app_widget.common.widget_list_info.WidgetListInfo;
-import com.tobuybeta.modules.app_widget.module_requests.requests.OpenShoppingListRequest;
 import com.tobuybeta.modules.app_widget.storage.Storage;
-import com.tobuybeta.modules.app_widget.storage.actions.StorageActionResults;
 import com.tobuybeta.modules.app_widget.storage.actions.StorageActions;
 import com.tobuybeta.modules.app_widget.widget_models.WidgetModels;
 import com.tobuybeta.modules.app_widget.widget_models.model.WidgetModel;
-import com.tobuybeta.test_widget.widget_intents.handler.WidgetIntentsHandler;
-import com.tobuybeta.test_widget.widget_intents.intents.WidgetIntents;
-
-import java.util.List;
+import com.tobuybeta.modules.app_widget.widget.widget_intents.handler.WidgetIntentsHandler;
+import com.tobuybeta.modules.app_widget.widget.widget_intents.intents.WidgetIntents;
 
 /**
  * Implementation of App Widget functionality.
  */
-public class MyTestWidget extends AppWidgetProvider {
+public class Widget extends AppWidgetProvider {
     private static final String MyOnClick1 = "myOnClickTag1";
 
     final String ACTION_ON_CLICK = "ru.startandroid.develop.p1211listwidget.itemonclick";
@@ -50,14 +39,14 @@ public class MyTestWidget extends AppWidgetProvider {
 
     private WidgetModels mModels = WidgetModels.get();
 
-    public MyTestWidget() {
+    public Widget() {
 
     }
 
     public static void update(Context context, int[] ids) {
         WidgetModels.get().update(context);
 
-        Intent intent = new Intent(context, MyTestWidget.class);
+        Intent intent = new Intent(context, Widget.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         context.sendBroadcast(intent);
@@ -164,7 +153,7 @@ public class MyTestWidget extends AppWidgetProvider {
 //    }
 
     void setList(RemoteViews rv, Context context, int appWidgetId) {
-        Intent adapter = new Intent(context, MyService.class);
+        Intent adapter = new Intent(context, WidgetService.class);
         adapter.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         Uri data = Uri.parse(adapter.toUri(Intent.URI_INTENT_SCHEME));
         adapter.setData(data);
@@ -184,7 +173,7 @@ public class MyTestWidget extends AppWidgetProvider {
     }
 
     void setButtonClick(RemoteViews rv, Context context, int appWidgetId) {
-        Intent activityIntent = new Intent(context, MyTestWidget.class);
+        Intent activityIntent = new Intent(context, Widget.class);
         activityIntent.setAction(RECOGNIZE_SPEECH_CLICK);
         PendingIntent resultsPendingIntent = PendingIntent.getBroadcast(context, 0, activityIntent, 0);
 

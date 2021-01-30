@@ -1,4 +1,4 @@
-package com.tobuybeta.test_widget;
+package com.tobuybeta.modules.app_widget.widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -7,20 +7,19 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-import android.widget.Toast;
 
 import com.tobuybeta.R;
 import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.widget_models.WidgetModels;
 import com.tobuybeta.modules.app_widget.widget_models.model.WidgetModel;
-import com.tobuybeta.test_widget.widget_intents.intents.WidgetIntents;
+import com.tobuybeta.modules.app_widget.widget.widget_intents.intents.WidgetIntents;
 
-public class MyFactory implements RemoteViewsService.RemoteViewsFactory {
+public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private Context context;
     private int widgetID;
 
-    MyFactory(Context ctx, Intent intent) {
+    WidgetFactory(Context ctx, Intent intent) {
         context = ctx;
         widgetID = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);

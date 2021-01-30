@@ -1,4 +1,4 @@
-package com.tobuybeta.test_widget.widget_intents.fields;
+package com.tobuybeta.modules.app_widget.widget.widget_intents.fields;
 
 public class WidgetIntentFields {
     public static final String INTENT_ACTION = "WIDGET_ELEMENT_PRESS";
