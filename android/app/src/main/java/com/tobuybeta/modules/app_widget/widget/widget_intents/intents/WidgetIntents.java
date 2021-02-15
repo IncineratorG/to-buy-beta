@@ -1,4 +1,4 @@
-package com.tobuybeta.test_widget.widget_intents.intents;
+package com.tobuybeta.modules.app_widget.widget.widget_intents.intents;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -6,13 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.tobuybeta.test_widget.MyTestWidget;
-import com.tobuybeta.test_widget.widget_intents.fields.WidgetIntentFields;
-import com.tobuybeta.test_widget.widget_intents.types.WidgetIntentTypes;
+import com.tobuybeta.modules.app_widget.widget.Widget;
+import com.tobuybeta.modules.app_widget.widget.widget_intents.fields.WidgetIntentFields;
+import com.tobuybeta.modules.app_widget.widget.widget_intents.types.WidgetIntentTypes;
 
 public class WidgetIntents {
     public static PendingIntent onTitlePressIntent(Context context, int widgetId) {
-        Intent openAppIntent = new Intent(context, MyTestWidget.class);
+        Intent openAppIntent = new Intent(context, Widget.class);
         openAppIntent.setAction(WidgetIntentFields.INTENT_ACTION);
 
         openAppIntent.putExtra(WidgetIntentFields.TYPE_FIELD, WidgetIntentTypes.ON_TITLE_PRESS);
@@ -26,7 +26,7 @@ public class WidgetIntents {
     }
 
     public static PendingIntent onBackButtonPressIntent(Context context, int widgetId) {
-        Intent backButtonIntent = new Intent(context, MyTestWidget.class);
+        Intent backButtonIntent = new Intent(context, Widget.class);
         backButtonIntent.setAction(WidgetIntentFields.INTENT_ACTION);
 
         backButtonIntent.putExtra(WidgetIntentFields.TYPE_FIELD, WidgetIntentTypes.ON_BACK_PRESS);
@@ -40,7 +40,7 @@ public class WidgetIntents {
     }
 
     public static PendingIntent onListItemPressCoveringIntent(Context context) {
-        Intent coveringIntent = new Intent(context, MyTestWidget.class);
+        Intent coveringIntent = new Intent(context, Widget.class);
 
         coveringIntent.setAction(WidgetIntentFields.INTENT_ACTION);
 

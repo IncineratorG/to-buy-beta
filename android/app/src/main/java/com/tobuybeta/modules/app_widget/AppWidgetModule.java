@@ -2,7 +2,6 @@ package com.tobuybeta.modules.app_widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,7 +11,6 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
@@ -42,7 +40,7 @@ import com.tobuybeta.modules.app_widget.storage.actions.StorageActionResults;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEventPayloads;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEvents;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.WidgetRequestSetEventPayload;
-import com.tobuybeta.test_widget.MyTestWidget;
+import com.tobuybeta.modules.app_widget.widget.Widget;
 
 import java.util.HashMap;
 import java.util.List;
@@ -319,9 +317,9 @@ public class AppWidgetModule extends ReactContextBaseJavaModule {
             }
         }
 
-        MyTestWidget.update(
+        Widget.update(
                 mContext,
-                AppWidgetManager.getInstance(mContext).getAppWidgetIds(new ComponentName(mContext, MyTestWidget.class))
+                AppWidgetManager.getInstance(mContext).getAppWidgetIds(new ComponentName(mContext, Widget.class))
         );
     }
 

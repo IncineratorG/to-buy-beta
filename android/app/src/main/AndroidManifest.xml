@@ -15,10 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
         <service
-            android:name=".test_widget.MyService"
+            android:name=".modules.app_widget.widget.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS">
         </service>
-        <receiver android:name=".test_widget.MyTestWidget">
+        <receiver android:name=".modules.app_widget.widget.Widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

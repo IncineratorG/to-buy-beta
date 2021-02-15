@@ -4,8 +4,6 @@ import ProductSuggestionService from './product-suggestion/ProductSuggestionServ
 import SystemService from './system/SystemService';
 import ProductsLocationService from './products-location/ProductsLocationService';
 import AppWidgetService from './app-widget/AppWidgetService';
-import ProductStatus from './shopping-list/data/product-status/ProductStatus';
-import {SystemEventsHandler} from '../utils/common/system-events-handler/SystemEventsHandler';
 
 class ServicesInstance {
   serviceTypes = {

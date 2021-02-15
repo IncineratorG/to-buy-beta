@@ -3,10 +3,7 @@ package com.tobuybeta.modules.app_widget.widget_models;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.widget.Toast;
 
-import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.storage.Storage;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEventPayloads;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEvents;
@@ -15,7 +12,7 @@ import com.tobuybeta.modules.app_widget.storage.events.payloads.ProductStatusCha
 import com.tobuybeta.modules.app_widget.storage.events.payloads.ShoppingListRemovedEventPayload;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.ShoppingListSetEventPayload;
 import com.tobuybeta.modules.app_widget.widget_models.model.WidgetModel;
-import com.tobuybeta.test_widget.MyTestWidget;
+import com.tobuybeta.modules.app_widget.widget.Widget;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,9 +32,9 @@ public class WidgetModels {
 
             update(context);
 
-            MyTestWidget.update(
+            Widget.update(
                     context,
-                    AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyTestWidget.class))
+                    AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, Widget.class))
             );
         });
         mStorage.subscribe(StorageEvents.SHOPPING_LIST_REMOVED, (value) -> {
@@ -46,9 +43,9 @@ public class WidgetModels {
 
             update(context);
 
-            MyTestWidget.update(
+            Widget.update(
                     context,
-                    AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyTestWidget.class))
+                    AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, Widget.class))
             );
         });
         mStorage.subscribe(StorageEvents.PRODUCT_REMOVED, (value) -> {
@@ -57,9 +54,9 @@ public class WidgetModels {
 
             update(context);
 
-            MyTestWidget.update(
+            Widget.update(
                     context,
-                    AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyTestWidget.class))
+                    AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, Widget.class))
             );
         });
         mStorage.subscribe(StorageEvents.PRODUCT_STATUS_CHANGED, (value) -> {
@@ -68,9 +65,9 @@ public class WidgetModels {
 
             update(context);
 
-            MyTestWidget.update(
+            Widget.update(
                     context,
-                    AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyTestWidget.class))
+                    AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, Widget.class))
             );
         });
     }
