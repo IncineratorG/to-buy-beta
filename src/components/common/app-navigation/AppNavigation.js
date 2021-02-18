@@ -8,6 +8,7 @@ import ProductsList from '../../../screens/products-list/ProductsList';
 import ProductsLocation from '../../../screens/products-location/ProductsLocation';
 import VoiceInputTest from '../../../screens/voice-input-test/VoiceInputTest';
 import {useDispatch} from 'react-redux';
+import Authentication from '../../../screens/authentication/Authentication';
 
 const MainStack = createStackNavigator();
 const ModalStack = createStackNavigator();
@@ -43,6 +44,11 @@ const AppNavigation = ({initialNavigationCommands}) => {
           name={'VoiceInputTest'}
           component={VoiceInputTest}
           options={{title: 'Voice Input Test', headerShown: true}}
+        />
+        <MainStack.Screen
+          name={'Authentication'}
+          component={Authentication}
+          options={{title: 'Authentication', headerShown: true}}
         />
       </MainStack.Navigator>
     );

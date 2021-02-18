@@ -150,7 +150,9 @@ public class ShoppingListStorage {
         Set<String> existedShoppingListDescriptionsSet = sharedPreferences
                 .getStringSet(SHOPPING_LISTS_FIELD, new HashSet<>());
 
-        List<String> existedShoppingListDescriptionsList = new ArrayList<>(existedShoppingListDescriptionsSet);
+        Set<String> modifiableStringifiedRequestsSet = new HashSet<>(existedShoppingListDescriptionsSet);
+
+        List<String> existedShoppingListDescriptionsList = new ArrayList<>(modifiableStringifiedRequestsSet);
         String removedShoppingListDescription = null;
         Function<String, String> listIdExtractor = ShoppingList.serializedIdExtractor();
         for (int i = 0; i < existedShoppingListDescriptionsList.size(); ++i) {
@@ -169,11 +171,11 @@ public class ShoppingListStorage {
             return false;
         }
 
-        existedShoppingListDescriptionsSet.remove(removedShoppingListDescription);
+        modifiableStringifiedRequestsSet.remove(removedShoppingListDescription);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putStringSet(SHOPPING_LISTS_FIELD, existedShoppingListDescriptionsSet);
+        editor.putStringSet(SHOPPING_LISTS_FIELD, modifiableStringifiedRequestsSet);
         editor.remove(listId);
 
         return editor.commit();

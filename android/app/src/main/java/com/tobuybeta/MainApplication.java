@@ -2,6 +2,7 @@ package com.tobuybeta;
 
 import android.app.Application;
 import android.content.Context;
+import androidx.multidex.MultiDexApplication;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
@@ -14,7 +15,7 @@ import com.tobuybeta.modules.phonemessaging.PhoneMessagingPackage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
@@ -49,7 +50,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-    initializeFlipper(this); // Remove this line if you don't want Flipper enabled
+//    initializeFlipper(this); // Remove this line if you don't want Flipper enabled
   }
 
   /**

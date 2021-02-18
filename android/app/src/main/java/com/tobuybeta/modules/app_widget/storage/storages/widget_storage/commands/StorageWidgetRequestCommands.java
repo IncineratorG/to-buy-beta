@@ -39,10 +39,11 @@ public class StorageWidgetRequestCommands {
             Set<String> existedStringifiedRequestsSet = sharedPreferences
                     .getStringSet(sharedPreferencesRequestsField, new HashSet<>());
 
-            existedStringifiedRequestsSet.add(stringifiedRequest);
+            Set<String> modifiableStringifiedRequestsSet = new HashSet<>(existedStringifiedRequestsSet);
+            modifiableStringifiedRequestsSet.add(stringifiedRequest);
 
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putStringSet(sharedPreferencesRequestsField, existedStringifiedRequestsSet);
+            editor.putStringSet(sharedPreferencesRequestsField, modifiableStringifiedRequestsSet);
             return editor.commit();
         };
     }
@@ -65,19 +66,21 @@ public class StorageWidgetRequestCommands {
             Set<String> existedStringifiedRequestsSet = sharedPreferences
                     .getStringSet(sharedPreferencesRequestsField, new HashSet<>());
 
-            List<String> existedStringifiedRequestsList = new ArrayList<>(existedStringifiedRequestsSet);
+            Set<String> modifiableStringifiedRequestsSet = new HashSet<>(existedStringifiedRequestsSet);
+
+            List<String> existedStringifiedRequestsList = new ArrayList<>(modifiableStringifiedRequestsSet);
             for (int i = 0; i < existedStringifiedRequestsList.size(); ++i) {
                 String stringifiedRequest = existedStringifiedRequestsList.get(i);
 
                 WidgetRequest request = WidgetRequestTransformer.fromString(stringifiedRequest);
                 if (requestIdsSet.contains(request.id())) {
-                    existedStringifiedRequestsSet.remove(stringifiedRequest);
+                    modifiableStringifiedRequestsSet.remove(stringifiedRequest);
                 }
             }
 
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            if (existedStringifiedRequestsSet.size() > 0) {
-                editor.putStringSet(sharedPreferencesRequestsField, existedStringifiedRequestsSet);
+            if (modifiableStringifiedRequestsSet.size() > 0) {
+                editor.putStringSet(sharedPreferencesRequestsField, modifiableStringifiedRequestsSet);
             } else {
                 editor.remove(sharedPreferencesRequestsField);
             }

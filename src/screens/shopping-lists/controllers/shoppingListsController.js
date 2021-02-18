@@ -46,7 +46,8 @@ export const useShoppingListsController = (model) => {
     // model.navigation.navigate('VoiceInputTest');
 
     model.dispatch(resetCreateShoppingListStatusAction());
-    model.navigation.navigate('CreateShoppingList');
+    // model.navigation.navigate('CreateShoppingList');
+    model.navigation.navigate('Authentication');
   };
 
   const removeConfirmationDialogTouchOutsideHandler = () => {
