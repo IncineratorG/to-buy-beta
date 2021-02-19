@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from '../../../utils/common/localization';
 import {SystemEventsHandler} from '../../../utils/common/system-events-handler/SystemEventsHandler';
 import {PermissionsAndroid} from 'react-native';
-import Geolocation from 'react-native-geolocation-service';
+// import Geolocation from 'react-native-geolocation-service';
 import productsLocationComponentReducer from '../stores/productsLocationComponentReducer';
 import productsLocationComponentState from '../stores/productsLocationComponentState';
 import {
@@ -88,18 +88,18 @@ export const useProductsLocationModel = () => {
       return;
     }
 
-    Geolocation.getCurrentPosition(
-      (position) => {
-        const {coords} = position;
-        const {longitude, latitude} = coords;
-
-        localDispatch(ploc_setCurrentCoordinates({latitude, longitude}));
-      },
-      (error) => {
-        SystemEventsHandler.onError({err: error.code + ' - ' + error.message});
-      },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-    );
+    // Geolocation.getCurrentPosition(
+    //   (position) => {
+    //     const {coords} = position;
+    //     const {longitude, latitude} = coords;
+    //
+    //     localDispatch(ploc_setCurrentCoordinates({latitude, longitude}));
+    //   },
+    //   (error) => {
+    //     SystemEventsHandler.onError({err: error.code + ' - ' + error.message});
+    //   },
+    //   {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+    // );
   }, [state.locationPermissionsGranted]);
 
   return {

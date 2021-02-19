@@ -4,6 +4,8 @@ import ProductSuggestionService from './product-suggestion/ProductSuggestionServ
 import SystemService from './system/SystemService';
 import ProductsLocationService from './products-location/ProductsLocationService';
 import AppWidgetService from './app-widget/AppWidgetService';
+import AuthenticationService from './authentication/AuthenticationService';
+import {SystemEventsHandler} from '../utils/common/system-events-handler/SystemEventsHandler';
 
 class ServicesInstance {
   serviceTypes = {
@@ -13,6 +15,7 @@ class ServicesInstance {
     SYSTEM: 'SYSTEM',
     PRODUCTS_LOCATION: 'PRODUCTS_LOCATION',
     APP_WIDGET: 'APP_WIDGET',
+    AUTHENTICATION: 'AUTHENTICATION',
   };
 
   #shoppingListService;
@@ -21,6 +24,7 @@ class ServicesInstance {
   #systemService;
   #productsLocationService;
   #appWidgetService;
+  #authenticationsService;
   #className = 'ServicesInstance';
 
   constructor() {
@@ -30,6 +34,7 @@ class ServicesInstance {
     this.#systemService = SystemService;
     this.#productsLocationService = ProductsLocationService;
     this.#appWidgetService = AppWidgetService();
+    this.#authenticationsService = AuthenticationService();
   }
 
   async init() {
@@ -46,6 +51,7 @@ class ServicesInstance {
     // ===
     // const shoppingListsNoProducts = await this.#shoppingListService.getShoppingLists();
     await this.#appWidgetService.init();
+    await this.#authenticationsService.init();
   }
 
   get(serviceType) {
@@ -74,7 +80,14 @@ class ServicesInstance {
         return this.#appWidgetService;
       }
 
+      case this.serviceTypes.AUTHENTICATION: {
+        return this.#authenticationsService;
+      }
+
       default: {
+        SystemEventsHandler.onError({
+          err: 'Services->UNKNOWN_SERVICE_TYPE: ' + serviceType,
+        });
         return undefined;
       }
     }
