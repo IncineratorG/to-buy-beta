@@ -5,8 +5,8 @@ import {SystemEventsHandler} from '../../../utils/common/system-events-handler/S
 import Services from '../../../services/Services';
 
 const AuthenticationView = () => {
-  const buttonClickHandler = async () => {
-    SystemEventsHandler.onInfo({info: 'BUTTON_CLICKED'});
+  const signInButtonClickHandler = async () => {
+    SystemEventsHandler.onInfo({info: 'signInButtonClickHandler()'});
 
     const authenticationService = Services.get(
       Services.serviceTypes.AUTHENTICATION,
@@ -17,18 +17,18 @@ const AuthenticationView = () => {
       result = await authenticationService.signIn();
     } catch (e) {
       SystemEventsHandler.onError({
-        err: 'buttonClickHandler()->ERROR: ' + JSON.stringify(e),
+        err: 'signInButtonClickHandler()->ERROR: ' + JSON.stringify(e),
       });
     }
     SystemEventsHandler.onInfo({
-      info: 'buttonClickHandler(): ' + JSON.stringify(result),
+      info: 'signInButtonClickHandler(): ' + JSON.stringify(result),
     });
   };
 
   return (
     <View style={styles.mainContainer}>
       <View>
-        <AddButton visible={true} onClick={buttonClickHandler} />
+        <AddButton visible={true} onClick={signInButtonClickHandler} />
       </View>
     </View>
   );
