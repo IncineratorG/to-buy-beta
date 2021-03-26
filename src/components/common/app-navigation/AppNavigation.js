@@ -9,6 +9,7 @@ import ProductsLocation from '../../../screens/products-location/ProductsLocatio
 import VoiceInputTest from '../../../screens/voice-input-test/VoiceInputTest';
 import {useDispatch} from 'react-redux';
 import Authentication from '../../../screens/authentication/Authentication';
+import ReadListFromMessage from '../../../screens/read-list-from-message/ReadListFromMessage';
 
 const MainStack = createStackNavigator();
 const ModalStack = createStackNavigator();
@@ -49,6 +50,11 @@ const AppNavigation = ({initialNavigationCommands}) => {
           name={'Authentication'}
           component={Authentication}
           options={{title: 'Authentication', headerShown: true}}
+        />
+        <MainStack.Screen
+          name={'ReadListFromMessage'}
+          component={ReadListFromMessage}
+          options={{title: 'Read list from message', headerShown: true}}
         />
       </MainStack.Navigator>
     );
