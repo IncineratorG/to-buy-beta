@@ -2,7 +2,7 @@ package com.tobuybeta.modules.app_widget.common.shopping_list;
 
 import androidx.arch.core.util.Function;
 
-import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
+import com.tobuybeta.modules.app_widget.module_constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.product.Product;
 
 import java.util.ArrayList;

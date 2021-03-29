@@ -1,4 +1,4 @@
-package com.tobuybeta.modules.app_widget.common.constants.product;
+package com.tobuybeta.modules.app_widget.module_constants.product;
 
 public class ProductStatus {
     public final String COMPLETED = "COMPLETED_PRODUCT";

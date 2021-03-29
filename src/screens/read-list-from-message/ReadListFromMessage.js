@@ -1,8 +1,11 @@
 import React from 'react';
 import ReadListFromMessageView from './views/ReadListFromMessageView';
+import {useReadListFromMessageController} from './controllers/readListFromMessageController';
 
 const ReadListFromMessage = () => {
-  return <ReadListFromMessageView />;
+  const controller = useReadListFromMessageController(null);
+
+  return <ReadListFromMessageView controller={controller} />;
 };
 
 export default ReadListFromMessage;

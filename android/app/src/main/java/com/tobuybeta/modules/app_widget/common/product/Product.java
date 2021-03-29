@@ -2,7 +2,7 @@ package com.tobuybeta.modules.app_widget.common.product;
 
 import androidx.arch.core.util.Function;
 
-import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
+import com.tobuybeta.modules.app_widget.module_constants.AppWidgetModuleConstants;
 
 public class Product {
     private String mId;

@@ -2,7 +2,7 @@ package com.tobuybeta.modules.app_widget.module_requests.transformer.converters;
 
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
-import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
+import com.tobuybeta.modules.app_widget.module_constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequestConverter;
 import com.tobuybeta.modules.app_widget.module_requests.fields.WidgetRequestFields;

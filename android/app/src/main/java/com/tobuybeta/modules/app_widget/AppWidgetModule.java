@@ -17,8 +17,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.tobuybeta.modules.app_widget.common.action.Action;
-import com.tobuybeta.modules.app_widget.common.error.Error;
+import com.tobuybeta.modules.modules_common.action.Action;
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.AppWidgetJSActionPayloads;
 import com.tobuybeta.modules.app_widget.module_actions.payloads.payloads.RemoveMultipleWidgetRequestsPayload;
@@ -41,6 +40,7 @@ import com.tobuybeta.modules.app_widget.storage.events.StorageEventPayloads;
 import com.tobuybeta.modules.app_widget.storage.events.StorageEvents;
 import com.tobuybeta.modules.app_widget.storage.events.payloads.WidgetRequestSetEventPayload;
 import com.tobuybeta.modules.app_widget.widget.Widget;
+import com.tobuybeta.modules.modules_common.error.Error;
 
 import java.util.HashMap;
 import java.util.List;

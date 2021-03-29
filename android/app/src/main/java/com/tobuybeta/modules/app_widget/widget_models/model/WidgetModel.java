@@ -3,7 +3,7 @@
 //import android.content.Context;
 //import android.widget.Toast;
 //
-//import com.tobuybeta.modules.app_widget.common.action.Action;
+//import com.tobuybeta.modules.modules_common.action.Action;
 //import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 //import com.tobuybeta.modules.app_widget.common.widget_list_info.WidgetListInfo;
 //import com.tobuybeta.modules.app_widget.storage.Storage;
@@ -120,10 +120,9 @@
 package com.tobuybeta.modules.app_widget.widget_models.model;
 
 import android.content.Context;
-import android.widget.Toast;
 
-import com.tobuybeta.modules.app_widget.common.action.Action;
-import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
+import com.tobuybeta.modules.modules_common.action.Action;
+import com.tobuybeta.modules.app_widget.module_constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.common.widget_list_info.WidgetListInfo;
 import com.tobuybeta.modules.app_widget.storage.Storage;

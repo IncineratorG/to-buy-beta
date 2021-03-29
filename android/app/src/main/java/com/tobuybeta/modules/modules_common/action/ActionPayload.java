@@ -1,4 +1,4 @@
-package com.tobuybeta.modules.app_widget.common.action;
+package com.tobuybeta.modules.modules_common.action;
 
 import java.util.HashMap;
 import java.util.Map;

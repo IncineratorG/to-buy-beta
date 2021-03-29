@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.tobuybeta.MainActivity;
-import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
+import com.tobuybeta.modules.app_widget.module_constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.module_requests.requests.ChangeProductStatusRequest;
 import com.tobuybeta.modules.app_widget.module_requests.requests.MarkProductAsBoughtRequest;

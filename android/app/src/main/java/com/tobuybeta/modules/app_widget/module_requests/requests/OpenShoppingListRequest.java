@@ -1,6 +1,6 @@
 package com.tobuybeta.modules.app_widget.module_requests.requests;
 
-import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
+import com.tobuybeta.modules.app_widget.module_constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;
 import com.tobuybeta.modules.app_widget.module_requests.types.WidgetRequestTypes;
 

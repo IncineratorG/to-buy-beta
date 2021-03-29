@@ -1,7 +1,7 @@
 package com.tobuybeta.modules.app_widget.module_actions.payloads.payloads;
 
 import com.facebook.react.bridge.ReadableMap;
-import com.tobuybeta.modules.app_widget.common.js_payload.JSPayload;
+import com.tobuybeta.modules.modules_common.js_payload.JSPayload;
 
 public class RemoveShoppingListPayload implements JSPayload {
     private String LIST_ID_FIELD = "listId";

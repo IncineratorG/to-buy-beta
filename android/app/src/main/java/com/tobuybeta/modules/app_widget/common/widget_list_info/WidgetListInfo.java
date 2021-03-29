@@ -1,6 +1,6 @@
 package com.tobuybeta.modules.app_widget.common.widget_list_info;
 
-import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
+import com.tobuybeta.modules.app_widget.module_constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 
 /**

@@ -1,17 +1,26 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, Button, StyleSheet} from 'react-native';
 
-const ReadListFromMessageView = () => {
-  return <View style={styles.mainContainer} />;
+const ReadListFromMessageView = ({controller}) => {
+  const {testButtonHandler} = controller;
+
+  return (
+    <View style={styles.mainContainer}>
+      <View style={styles.testButtonContainer}>
+        <Button title={'Test Button'} onPress={testButtonHandler} />
+      </View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: 'blue',
+    backgroundColor: 'cyan',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  testButtonContainer: {},
 });
 
 export default ReadListFromMessageView;

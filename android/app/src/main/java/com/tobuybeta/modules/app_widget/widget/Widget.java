@@ -370,7 +370,7 @@ public class Widget extends AppWidgetProvider {
 //import com.tobuybeta.MainActivity;
 //import com.tobuybeta.MainApplication;
 //import com.tobuybeta.R;
-//import com.tobuybeta.modules.app_widget.common.action.Action;
+//import com.tobuybeta.modules.modules_common.action.Action;
 //import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 //import com.tobuybeta.modules.app_widget.common.widget_list_info.WidgetListInfo;
 //import com.tobuybeta.modules.app_widget.module_requests.requests.OpenShoppingListRequest;

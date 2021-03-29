@@ -1,8 +1,4 @@
-package com.tobuybeta.modules.app_widget.common.error;
-
-/**
- * TODO: Add a class header comment
- */
+package com.tobuybeta.modules.modules_common.error;
 
 public class Error {
     private String mCode;

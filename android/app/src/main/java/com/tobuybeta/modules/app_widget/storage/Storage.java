@@ -1,10 +1,8 @@
 package com.tobuybeta.modules.app_widget.storage;
 
 import android.content.Context;
-import android.widget.Toast;
 
-import com.tobuybeta.modules.app_widget.common.action.Action;
-import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
+import com.tobuybeta.modules.modules_common.action.Action;
 import com.tobuybeta.modules.app_widget.common.notifier.Notifier;
 import com.tobuybeta.modules.app_widget.common.notifier.event_handler.EventHandler;
 import com.tobuybeta.modules.app_widget.common.notifier.unsubscribe_handler.UnsubscribeHandler;

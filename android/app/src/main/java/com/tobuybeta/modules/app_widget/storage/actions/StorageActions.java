@@ -2,8 +2,8 @@ package com.tobuybeta.modules.app_widget.storage.actions;
 
 import android.content.Context;
 
-import com.tobuybeta.modules.app_widget.common.action.Action;
-import com.tobuybeta.modules.app_widget.common.action.ActionPayload;
+import com.tobuybeta.modules.modules_common.action.Action;
+import com.tobuybeta.modules.modules_common.action.ActionPayload;
 import com.tobuybeta.modules.app_widget.common.product.Product;
 import com.tobuybeta.modules.app_widget.common.shopping_list.ShoppingList;
 import com.tobuybeta.modules.app_widget.common.widget_request.WidgetRequest;

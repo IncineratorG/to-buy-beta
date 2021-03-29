@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import androidx.arch.core.util.Function;
 
-import com.tobuybeta.modules.app_widget.common.constants.AppWidgetModuleConstants;
+import com.tobuybeta.modules.app_widget.module_constants.AppWidgetModuleConstants;
 import com.tobuybeta.modules.app_widget.common.generalized_list.GeneralizedList;
 import com.tobuybeta.modules.app_widget.common.product.Product;
 import com.tobuybeta.modules.app_widget.common.shopping_list.ShoppingList;

@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * TODO: Add a class header comment
- */
 public class PhoneMessagingPackage implements ReactPackage {
     @NonNull
     @Override

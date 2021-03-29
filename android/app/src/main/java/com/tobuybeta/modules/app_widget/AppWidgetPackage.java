@@ -11,10 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * TODO: Add a class header comment
- */
-
 public class AppWidgetPackage implements ReactPackage {
     @NonNull
     @Override

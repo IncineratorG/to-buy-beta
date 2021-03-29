@@ -1,4 +1,4 @@
-package com.tobuybeta.modules.app_widget.common.constants.widget_request;
+package com.tobuybeta.modules.app_widget.module_constants.widget_request;
 
 public class WidgetRequestConstants {
     public final int ID_FIELD_INDEX = 0;
