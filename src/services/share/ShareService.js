@@ -124,6 +124,12 @@ export class ShareService {
       }
     }
   }
+
+  // ===
+  static async getSmsInbox() {
+    await NativeShareService.getSmsInbox();
+  }
+  // ===
 }
 
 // import {Notifier} from '../../utils/common/service-utils/notifier/Notifier';

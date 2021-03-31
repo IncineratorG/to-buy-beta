@@ -22,11 +22,17 @@ const NativeShareService = () => {
     return await PhoneMessaging.execute(action);
   };
 
+  const getSmsInbox = async () => {
+    const action = NativeShareServiceActions.getSmsInboxAction();
+    return await PhoneMessaging.execute(action);
+  };
+
   return {
     checkServicesAvailability,
     sendSmsMessage,
     sendWhatsAppMessage,
     sendTelegramMessage,
+    getSmsInbox,
   };
 };
 

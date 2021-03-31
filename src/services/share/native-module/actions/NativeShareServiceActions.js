@@ -7,6 +7,7 @@ const NativeShareServiceActions = () => {
       SEND_SMS_MESSAGE,
       SEND_WHATS_APP_MESSAGE,
       SEND_TELEGRAM_MESSAGE,
+      GET_SMS_INBOX,
     },
   } = NativeShareServiceConstants;
 
@@ -37,11 +38,18 @@ const NativeShareServiceActions = () => {
     };
   };
 
+  const getSmsInboxAction = () => {
+    return {
+      type: GET_SMS_INBOX,
+    };
+  };
+
   return {
     checkMessagingServicesAvailabilityAction,
     sendSmsMessageAction,
     sendWhatsAppMessageAction,
     sendTelegramMessageAction,
+    getSmsInboxAction,
   };
 };
 

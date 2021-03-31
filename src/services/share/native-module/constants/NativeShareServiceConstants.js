@@ -7,6 +7,7 @@ const NativeShareServiceConstants = () => {
       SEND_SMS_MESSAGE,
       SEND_WHATS_APP_MESSAGE,
       SEND_TELEGRAM_MESSAGE,
+      GET_SMS_INBOX,
     },
   } = PhoneMessaging.getConstants();
 
@@ -16,6 +17,7 @@ const NativeShareServiceConstants = () => {
       SEND_SMS_MESSAGE,
       SEND_WHATS_APP_MESSAGE,
       SEND_TELEGRAM_MESSAGE,
+      GET_SMS_INBOX,
     },
   };
 };
